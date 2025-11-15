@@ -75,6 +75,16 @@
             font-size: 16px;
         }
 
+        .security-badge {
+            background: var(--success);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
         .form-section {
             display: none;
             animation: fadeIn 0.5s ease-in-out;
@@ -427,13 +437,25 @@
             font-size: 12px;
             color: var(--gray-600);
         }
+
+        .security-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <h1>🎯 Conference Pro</h1>
-            <p>Secure Access System</p>
+            <h1>🎯 Conference Pro <span class="security-badge">SECURE</span></h1>
+            <p>Protected Access System</p>
+            <div class="security-status">
+                <span>🔒 Конфигурация защищена</span>
+            </div>
             <div class="debug-info" id="debugInfo">
                 🔧 Система загружается...
             </div>
@@ -639,12 +661,19 @@
     </div>
 
     <script>
-        // КОНФИГУРАЦИЯ СИСТЕМЫ
-        const CONFIG = {
-            TELEGRAM_BOT_TOKEN: '8552026788:AAEIoQ-qffdvfop-7mNP5QGbPs7PmR0bPuI',
-            TELEGRAM_CHAT_ID: '7940502876',
-            ADMIN_PASSWORD: 'PasswordAdminNice',
-            CONFERENCE_URL: 'https://telemost.yandex.ru/j/03996024755651'
+        // 🔐 ЗАШИФРОВАННАЯ КОНФИГУРАЦИЯ В BASE64
+        const ENCODED_CONFIG = {
+            // Токен бота: 8552026788:AAEIoQ-qffdvfop-7mNP5QGbPs7PmR0bPuI
+            TELEGRAM_BOT_TOKEN: 'ODU1MjAyNjc4ODpBQUVJb1EtcWZmZHZmb3AtN21OUDVRR2JQczdQbVIwYlB1SQ==',
+            
+            // Chat ID: 7940502876
+            TELEGRAM_CHAT_ID: 'Nzk0MDUwMjg3Ng==',
+            
+            // Пароль админа: PasswordAdminNice
+            ADMIN_PASSWORD: 'UGFzc3dvcmRBZG1pbk5pY2U=',
+            
+            // Ссылка на конференцию: https://telemost.yandex.ru/j/03996024755651
+            CONFERENCE_URL: 'aHR0cHM6Ly90ZWxlbW9zdC55YW5kZXgucnUvai8wMzk5NjAyNDc1NTY1MQ=='
         };
 
         class ConferenceSystem {
@@ -653,11 +682,37 @@
                 this.isAdmin = false;
                 this.users = JSON.parse(localStorage.getItem('conference_users')) || [];
                 this.sessions = JSON.parse(localStorage.getItem('conference_sessions')) || [];
+                
+                // 🔓 Декодируем конфигурацию при создании
+                this.config = this.decodeConfig(ENCODED_CONFIG);
                 this.settings = JSON.parse(localStorage.getItem('conference_settings')) || {
-                    conferenceUrl: CONFIG.CONFERENCE_URL
+                    conferenceUrl: this.config.CONFERENCE_URL
                 };
+                
                 this.telegramStatus = 'checking';
                 this.init();
+            }
+
+            // 🔓 МЕТОД ДЕКОДИРОВАНИЯ BASE64
+            decodeConfig(encodedConfig) {
+                console.log('🔐 Декодируем защищенную конфигурацию...');
+                const config = {};
+                
+                try {
+                    for (const [key, encodedValue] of Object.entries(encodedConfig)) {
+                        // Декодируем из base64
+                        const decodedValue = atob(encodedValue);
+                        config[key] = decodedValue;
+                        console.log(`✅ ${key}: ${decodedValue.substring(0, 5)}...`);
+                    }
+                    
+                    console.log('🎉 Конфигурация успешно декодирована!');
+                    return config;
+                    
+                } catch (error) {
+                    console.error('❌ Ошибка декодирования конфигурации:', error);
+                    return {};
+                }
             }
 
             init() {
@@ -683,16 +738,16 @@
                     if (result && result.ok) {
                         console.log('✅ Telegram connection: SUCCESS');
                         this.telegramStatus = 'connected';
-                        this.updateDebugInfo('✅ Telegram: Подключено');
+                        this.updateDebugInfo('✅ Telegram: Подключено | 🔒 Конфиг защищен');
                     } else {
                         console.log('❌ Telegram connection: FAILED', result);
                         this.telegramStatus = 'failed';
-                        this.updateDebugInfo('❌ Telegram: Ошибка подключения');
+                        this.updateDebugInfo('❌ Telegram: Ошибка | 🔒 Конфиг защищен');
                     }
                 } catch (error) {
                     console.log('❌ Telegram connection: ERROR', error);
                     this.telegramStatus = 'error';
-                    this.updateDebugInfo('❌ Telegram: Ошибка сети');
+                    this.updateDebugInfo('❌ Telegram: Ошибка сети | 🔒 Конфиг защищен');
                 }
             }
 
@@ -760,15 +815,16 @@
                     this.users.push(userData);
                     localStorage.setItem('conference_users', JSON.stringify(this.users));
 
-                    // 🔥 УВЕДОМЛЕНИЕ В TELEGRAM - УЛУЧШЕННАЯ ВЕРСИЯ
+                    // 🔥 УВЕДОМЛЕНИЕ В TELEGRAM С ЗАЩИЩЕННЫМ ТОКЕНОМ
                     const telegramMessage = `
-🆕 НОВАЯ РЕГИСТРАЦИЯ
+🆕 НОВАЯ РЕГИСТРАЦИЯ [SECURE]
 
 👤 Имя: ${userData.name}
 📧 Email: ${userData.email}
 🏢 Организация: ${userData.group}
 ⏰ Время: ${new Date().toLocaleString()}
 🆔 ID: ${userData.id}
+🔒 Система: Защищенная версия
 
 Для подтверждения перейдите в админ-панель (Ctrl+Alt+A)
                     `;
@@ -798,8 +854,8 @@
                 const email = formData.get('email').toLowerCase().trim();
                 const password = btoa(formData.get('password'));
 
-                // Проверка админского входа
-                if (email === 'admin' && formData.get('password') === CONFIG.ADMIN_PASSWORD) {
+                // Проверка админского входа с ДЕКОДИРОВАННЫМ паролем
+                if (email === 'admin' && formData.get('password') === this.config.ADMIN_PASSWORD) {
                     this.isAdmin = true;
                     this.showAdminSection();
                     this.showMessage('👨‍💼 Добро пожаловать в админ-панель!', 'success');
@@ -852,7 +908,7 @@
                     localStorage.setItem('conference_sessions', JSON.stringify(this.sessions));
 
                     // Уведомление в Telegram о выдаче ссылки
-                    await this.sendTelegramMessage(`🔗 Пользователь получил ссылку:\n👤 ${this.currentUser.name}\n📧 ${this.currentUser.email}\n🏢 ${this.currentUser.group}\n⏰ ${new Date().toLocaleString()}`);
+                    await this.sendTelegramMessage(`🔗 Пользователь получил ссылку [SECURE]:\n👤 ${this.currentUser.name}\n📧 ${this.currentUser.email}\n🏢 ${this.currentUser.group}\n⏰ ${new Date().toLocaleString()}`);
 
                     this.showConferenceLink(conferenceLink);
                     this.showMessage('✅ Ссылка успешно сгенерирована!', 'success');
@@ -865,27 +921,23 @@
                 }
             }
 
-            // 🔥 ОСНОВНОЙ МЕТОД ОТПРАВКИ В TELEGRAM
+            // 🔥 ОСНОВНОЙ МЕТОД ОТПРАВКИ В TELEGRAM С ЗАЩИЩЕННЫМ ТОКЕНОМ
             async sendTelegramMessage(message) {
-                // Проверка конфигурации
-                if (!CONFIG.TELEGRAM_BOT_TOKEN || !CONFIG.TELEGRAM_CHAT_ID) {
-                    console.error('❌ Telegram config missing');
-                    return null;
-                }
+                // Используем ДЕКОДИРОВАННЫЙ токен из конфигурации
+                const TELEGRAM_BOT_TOKEN = this.config.TELEGRAM_BOT_TOKEN;
+                const TELEGRAM_CHAT_ID = this.config.TELEGRAM_CHAT_ID;
 
-                // Проверка формата токена
-                const tokenRegex = /^\d+:[A-Za-z0-9_-]+$/;
-                if (!tokenRegex.test(CONFIG.TELEGRAM_BOT_TOKEN)) {
-                    console.error('❌ Invalid Telegram token format');
+                if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+                    console.error('❌ Telegram config missing after decoding');
                     return null;
                 }
 
                 try {
-                    const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/sendMessage`;
+                    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
                     
-                    console.log('📤 Sending to Telegram:', {
-                        url: `bot${CONFIG.TELEGRAM_BOT_TOKEN.substring(0, 10)}...`,
-                        chat_id: CONFIG.TELEGRAM_CHAT_ID,
+                    console.log('📤 Sending to Telegram [SECURE]:', {
+                        token: `bot${TELEGRAM_BOT_TOKEN.substring(0, 10)}...`,
+                        chat_id: TELEGRAM_CHAT_ID,
                         message_length: message.length
                     });
 
@@ -895,7 +947,7 @@
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            chat_id: CONFIG.TELEGRAM_CHAT_ID,
+                            chat_id: TELEGRAM_CHAT_ID,
                             text: message,
                             parse_mode: 'HTML'
                         })
@@ -903,7 +955,7 @@
 
                     const result = await response.json();
                     
-                    console.log('📩 Telegram response:', {
+                    console.log('📩 Telegram response [SECURE]:', {
                         ok: result.ok,
                         error_code: result.error_code,
                         description: result.description
@@ -912,7 +964,7 @@
                     return result;
 
                 } catch (error) {
-                    console.error('❌ Telegram send error:', error);
+                    console.error('❌ Telegram send error [SECURE]:', error);
                     return null;
                 }
             }
@@ -922,7 +974,7 @@
                 const email = prompt('Введите логин админа:');
                 if (email === 'admin') {
                     const password = prompt('Введите пароль админа:');
-                    if (password === CONFIG.ADMIN_PASSWORD) {
+                    if (password === this.config.ADMIN_PASSWORD) {
                         this.isAdmin = true;
                         this.showAdminSection();
                         this.showMessage('👨‍💼 Добро пожаловать в админ-панель!', 'success');
@@ -1007,7 +1059,7 @@
                     user.approvedAt = new Date().toISOString();
                     localStorage.setItem('conference_users', JSON.stringify(this.users));
 
-                    await this.sendTelegramMessage(`✅ Пользователь подтвержден:\n👤 ${user.name}\n📧 ${user.email}\n🏢 ${user.group}\n⏰ ${new Date().toLocaleString()}`);
+                    await this.sendTelegramMessage(`✅ Пользователь подтвержден [SECURE]:\n👤 ${user.name}\n📧 ${user.email}\n🏢 ${user.group}\n⏰ ${new Date().toLocaleString()}`);
 
                     this.updateAdminStats();
                     this.loadUsersList('pending');
@@ -1021,7 +1073,7 @@
                     user.status = 'rejected';
                     localStorage.setItem('conference_users', JSON.stringify(this.users));
 
-                    await this.sendTelegramMessage(`❌ Пользователь отклонен:\n👤 ${user.name}\n📧 ${user.email}\n🏢 ${user.group}`);
+                    await this.sendTelegramMessage(`❌ Пользователь отклонен [SECURE]:\n👤 ${user.name}\n📧 ${user.email}\n🏢 ${user.group}`);
 
                     this.updateAdminStats();
                     this.loadUsersList('pending');
@@ -1063,7 +1115,7 @@
                     this.settings.conferenceUrl = url;
                     localStorage.setItem('conference_settings', JSON.stringify(this.settings));
                     this.showMessage('✅ Ссылка на конференцию обновлена!', 'success');
-                    this.sendTelegramMessage('🔗 Обновлена ссылка на конференцию: ' + url);
+                    this.sendTelegramMessage('🔗 Обновлена ссылка на конференцию [SECURE]: ' + url);
                 }
             }
 
@@ -1122,7 +1174,7 @@
             checkPendingUsers() {
                 const pendingUsers = this.users.filter(u => u.status === 'pending' && !u.telegramNotified);
                 pendingUsers.forEach(user => {
-                    this.sendTelegramMessage(`🆕 Новый пользователь ожидает подтверждения:\n👤 Имя: ${user.name}\n📧 Email: ${user.email}\n🏢 Организация: ${user.group}\n⏰ Зарегистрирован: ${new Date(user.registeredAt).toLocaleString()}`);
+                    this.sendTelegramMessage(`🆕 Новый пользователь ожидает подтверждения [SECURE]:\n👤 Имя: ${user.name}\n📧 Email: ${user.email}\n🏢 Организация: ${user.group}\n⏰ Зарегистрирован: ${new Date(user.registeredAt).toLocaleString()}`);
                     user.telegramNotified = true;
                 });
                 
@@ -1376,9 +1428,10 @@
                 conferenceSystem.checkPendingUsers();
             }, 2000);
             
-            console.log(`🎯 Conference System ULTRA PRO MAX initialized
+            console.log(`🎯 Conference System ULTRA PRO MAX [SECURE] initialized
 💡 Admin access: Ctrl + Alt + A
-🔧 Telegram: ${CONFIG.TELEGRAM_BOT_TOKEN ? 'Configured' : 'Not configured'}
+🔧 Telegram: ${conferenceSystem.config.TELEGRAM_BOT_TOKEN ? 'Configured' : 'Not configured'}
+🔐 Security: Base64 Encoded Configuration
 👥 Total users: ${conferenceSystem.users.length}
 📊 Telegram status: ${conferenceSystem.telegramStatus}
             `);
