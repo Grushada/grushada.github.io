@@ -663,16 +663,16 @@
     <script>
         // 🔐 ЗАШИФРОВАННАЯ КОНФИГУРАЦИЯ В BASE64
         const ENCODED_CONFIG = {
-            // Токен бота: 8552026788:AAEIoQ-qffdvfop-7mNP5QGbPs7PmR0bPuI
+            // Токен бота: 
             TELEGRAM_BOT_TOKEN: 'ODU1MjAyNjc4ODpBQUVJb1EtcWZmZHZmb3AtN21OUDVRR2JQczdQbVIwYlB1SQ==',
             
-            // Chat ID: 7940502876
+            // Chat ID:
             TELEGRAM_CHAT_ID: 'Nzk0MDUwMjg3Ng==',
             
-            // Пароль админа: PasswordAdminNice
+            // Пароль админа: 
             ADMIN_PASSWORD: 'UGFzc3dvcmRBZG1pbk5pY2U=',
             
-            // Ссылка на конференцию: https://telemost.yandex.ru/j/03996024755651
+            // Ссылка на конференцию:
             CONFERENCE_URL: 'aHR0cHM6Ly90ZWxlbW9zdC55YW5kZXgucnUvai8wMzk5NjAyNDc1NTY1MQ=='
         };
 
