@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#060610">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
     <title>PieSenia — Авторские песни</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -34,49 +31,31 @@
             --font-body: 'Montserrat', sans-serif;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-        
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
         .bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.35; }
         .bg-orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(139,92,246,0.45) 0%, transparent 70%); top: -300px; left: -200px; animation: orbFloat 18s ease-in-out infinite; }
         .bg-orb-2 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(212,168,83,0.35) 0%, transparent 70%); bottom: -250px; right: -150px; animation: orbFloat 22s ease-in-out infinite reverse; }
         @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(60px,-80px) scale(1.2)} 66%{transform:translate(-40px,40px) scale(0.85)} }
         .bg-grid { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03; background-image: linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 80px 80px; }
-        
         .app { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 20px 100px; }
-        
         .header { text-align: center; padding: 40px 20px 10px; }
         .logo { font-size: 60px; display: inline-block; animation: logoFloat 3s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(212,168,83,0.3)); }
         @keyframes logoFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-        h1 { font-family: var(--font-head); font-size: clamp(1.8rem,5vw,3rem); font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 10px 0 4px; }
+        h1 { font-family: var(--font-head); font-size: clamp(1.8rem,5vw,3rem); font-weight: 800; background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 10px 0 4px; }
         .subtitle { color: var(--text-dim); font-size: 0.95rem; max-width: 500px; margin: 0 auto; }
-        
-        .top-bar { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 16px 0; }
+        .top-bar { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 16px 0; }
         .btn-sm { padding: 9px 18px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); backdrop-filter: var(--glass); color: var(--text); cursor: pointer; font-size: 0.82rem; font-family: inherit; font-weight: 600; transition: all 0.3s; }
         .btn-sm:hover { border-color: var(--accent); background: rgba(139,92,246,0.12); }
         .guest-badge { background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.3); padding: 9px 16px; border-radius: 22px; font-size: 0.78rem; color: var(--accent-light); font-weight: 700; cursor: pointer; backdrop-filter: var(--glass); }
-        
         .tabs { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin: 16px 0; padding: 5px; background: rgba(18,18,36,0.5); backdrop-filter: var(--glass); border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); }
         .tab { padding: 9px 18px; border: none; background: transparent; color: var(--text-dim); border-radius: 22px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.8rem; transition: all 0.3s; white-space: nowrap; }
         .tab.active { background: rgba(139,92,246,0.3); color: #fff; box-shadow: 0 0 20px rgba(139,92,246,0.25); }
-        
         .section-title { font-family: var(--font-head); font-size: 1.2rem; font-weight: 600; margin: 24px 0 16px; display: flex; align-items: center; gap: 8px; }
         .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(212,168,83,0.2), transparent); }
         .catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
-        
-        .card { background: var(--card); backdrop-filter: var(--glass); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 22px 18px; cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
+        .card { background: var(--card); backdrop-filter: var(--glass); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 22px 18px; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; }
         .card:hover { border-color: rgba(212,168,83,0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .card.selected { border-color: var(--gold-light) !important; box-shadow: 0 0 0 3px rgba(212,168,83,0.2); background: rgba(30,22,14,0.5); }
-        .card .check { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; background: linear-gradient(135deg, var(--gold-light), var(--gold)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 0.9rem; opacity: 0; transform: scale(0.4); transition: all 0.35s; z-index: 2; }
-        .card.selected .check { opacity: 1; transform: scale(1); }
         .card .emoji { font-size: 36px; margin-bottom: 8px; position: relative; z-index: 1; }
         .card .title { font-weight: 700; font-size: 1rem; position: relative; z-index: 1; }
         .card .price { font-size: 1.2rem; font-weight: 800; font-family: var(--font-head); background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; z-index: 1; }
@@ -84,22 +63,17 @@
         .card .tags { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
         .card .tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 12px; background: rgba(139,92,246,0.2); color: var(--accent-light); font-weight: 600; }
         .copyright { font-size: 0.6rem; background: rgba(248,113,113,0.15); color: var(--danger); padding: 3px 8px; border-radius: 4px; margin-top: 8px; display: inline-block; position: relative; z-index: 1; }
-        
         .media-wrap { margin-top: 12px; position: relative; z-index: 1; }
         .media-wrap audio, .media-wrap video { width: 100%; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
         .media-wrap video { max-height: 200px; object-fit: cover; }
         .watermark { font-size: 0.6rem; background: rgba(248,113,113,0.15); color: var(--danger); padding: 3px 8px; border-radius: 8px; margin-top: 4px; display: inline-block; }
-        
         .custom-card { background: var(--card); backdrop-filter: var(--glass); border: 2px dashed rgba(139,92,246,0.3); border-radius: var(--radius-xl); padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.4s; margin-top: 18px; }
         .custom-card:hover { border-color: var(--accent-light); background: rgba(139,92,246,0.06); }
-        .custom-card.selected { border-color: var(--accent-light) !important; border-style: solid; }
-        
         .details-page { display: none; animation: slideUp 0.5s ease; }
         .details-page.active { display: block; }
         @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
         .details-card { background: var(--card); backdrop-filter: var(--glass); border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: 30px 24px; }
         .details-card video { width: 100%; max-height: 400px; border-radius: 16px; margin: 16px 0; }
-        
         .form { background: var(--card); backdrop-filter: var(--glass); border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: 28px 22px; margin-top: 20px; display: none; animation: slideUp 0.5s ease; }
         .form.active { display: block; }
         .form-group { margin-bottom: 16px; }
@@ -110,7 +84,6 @@
         .form-input[readonly] { background: rgba(255,255,255,0.02); cursor: default; color: var(--text-dim); }
         .contact-row { display: flex; gap: 8px; }
         .contact-row .form-input { flex: 1; }
-        
         .payment-box { background: rgba(212,168,83,0.04); border: 1px solid rgba(212,168,83,0.15); border-radius: var(--radius-lg); padding: 20px; text-align: center; margin: 18px 0; }
         .payment-phone { font-size: 1.4rem; font-weight: 800; font-family: var(--font-head); color: var(--gold-light); cursor: pointer; user-select: all; }
         .payment-methods { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
@@ -119,38 +92,34 @@
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,168,83,0.3); }
         .btn-accent { background: var(--accent); color: #fff; }
         .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(139,92,246,0.3); }
+        .btn-tg { background: #2aabee; color: #fff; }
+        .btn-tg:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(42,171,238,0.3); }
+        .btn-ym { background: #8e44ad; color: #fff; }
+        .btn-ym:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(142,68,173,0.3); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        
         .dropzone { border: 2px dashed rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 28px 16px; text-align: center; cursor: pointer; transition: all 0.3s; }
         .dropzone:hover { border-color: var(--accent); background: rgba(139,92,246,0.04); }
         .dropzone.has-file { border-color: var(--success); border-style: solid; background: rgba(74,222,128,0.04); }
         .file-name { color: var(--success); font-weight: 600; margin-top: 8px; font-size: 0.85rem; }
-        
         .orders-panel { background: var(--card); backdrop-filter: var(--glass); border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: 24px 20px; margin-top: 20px; display: none; }
         .orders-panel.active { display: block; animation: slideUp 0.5s ease; }
         .order-row { display: flex; justify-content: space-between; padding: 12px 14px; margin-bottom: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: var(--radius-md); font-size: 0.85rem; gap: 10px; flex-wrap: wrap; }
         .status-badge { padding: 4px 12px; border-radius: 16px; font-size: 0.7rem; font-weight: 700; }
         .status-badge.pending { background: rgba(251,191,36,0.2); color: #fbbf24; }
         .status-badge.paid { background: rgba(74,222,128,0.2); color: #4ade80; }
-        
         .modal { display: none; position: fixed; inset: 0; background: rgba(6,6,16,0.85); backdrop-filter: blur(10px); z-index: 999; justify-content: center; align-items: center; padding: 16px; }
         .modal.active { display: flex; }
-        .modal-box { background: rgba(20,20,40,0.8); backdrop-filter: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-2xl); padding: 32px 24px; max-width: 420px; width: 100%; text-align: center; animation: modalIn 0.4s ease; }
+        .modal-box { background: rgba(20,20,40,0.8); backdrop-filter: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-2xl); padding: 32px 24px; max-width: 440px; width: 100%; text-align: center; animation: modalIn 0.4s ease; }
         @keyframes modalIn { from{opacity:0;transform:scale(0.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
         .modal-box h2 { font-family: var(--font-head); margin-bottom: 8px; }
         .modal-box input { width: 100%; padding: 12px; margin: 8px 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); color: #fff; text-align: center; font-size: 1rem; letter-spacing: 0.06em; outline: none; }
-        
-        .widget-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(10px); }
-        .widget-box { background: #1a1a30; border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; position: relative; }
-        .widget-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-        
         .error { color: var(--danger); font-size: 0.75rem; display: none; margin-top: 4px; }
         .hidden { display: none !important; }
         .spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: spin 0.7s linear infinite; }
         @keyframes spin { to{transform:rotate(360deg)} }
         .empty { text-align: center; padding: 24px; color: var(--text-dim); }
         .back-btn { display: inline-block; margin-bottom: 16px; color: var(--accent-light); cursor: pointer; font-weight: 600; font-size: 0.9rem; }
-        
+        .payment-note { font-size: 0.75rem; color: var(--text-dim); margin-top: 8px; text-align: center; }
         @media (max-width: 600px) {
             .catalog { grid-template-columns: 1fr; }
             .contact-row { flex-direction: column; }
@@ -205,9 +174,11 @@
             <div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg" placeholder="Telegram: @user"><input class="form-input" id="contactVk" placeholder="ВКонтакте: ссылка"></div><span class="error" id="contactErr">Укажи контакт</span></div>
             
             <div class="payment-methods">
-                <button class="btn btn-accent" id="btnCard" onclick="openLavaWidget()">💳 Оплатить картой</button>
-                <button class="btn btn-gold" id="btnTransfer" onclick="showTransferPayment()">📱 Переводом</button>
+                <button class="btn btn-tg" onclick="payByTelegram()">💬 Telegram</button>
+                <button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button>
+                <button class="btn btn-gold" onclick="showTransferPayment()">📱 Перевод</button>
             </div>
+            <p class="payment-note">Выбери удобный способ оплаты</p>
             
             <div id="transferSection" class="hidden">
                 <div class="payment-box">
@@ -216,7 +187,7 @@
                     <p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p>
                 </div>
                 <div class="form-group"><label class="form-label">Скриншот оплаты *</label><div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">📎<br>Нажми или перетащи<br><small style="color:var(--text-dim)">PNG, JPG до 10 МБ</small><div class="file-name" id="fileName"></div></div><input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)"><span class="error" id="fileErr">Прикрепи скриншот</span></div>
-                <button class="btn btn-gold" id="submitTransferBtn" onclick="submitOrder()">✅ Я оплатил — отправить</button>
+                <button class="btn btn-gold" id="submitTransferBtn" onclick="submitTransfer()">✅ Я оплатил — отправить</button>
             </div>
         </div>
         
@@ -247,11 +218,14 @@
     </div>
 
     <script>
+        // ==================== НАСТРОЙКИ ====================
         const BOT_TOKEN = '8903727159:AAFVN3lQhHW2ljToZ-_s1J-1mjiEaVMtEPY';
         const ADMIN_CHAT_ID = '5378877938';
         const WATERMARK = 'Rettero';
-        const LAVA_WIDGET_ID = '406b80d7-e568-44aa-a3e3-1c10e2c89ea3';
+        const TG_PAY_BOT = 'https://t.me/send?start=IVxiLD9qyv8K';
+        const YOOMONEY_LINK = 'https://yoomoney.ru/to/4100118654321'; // ЗАМЕНИ НА СВОЮ ССЫЛКУ
         
+        // ==================== КАТАЛОГ ====================
         const catalog = [
             { id:1, emoji:"💔", title:"Разбитое сердце", price:3000, desc:"Лирическая баллада о любви", tags:["поп","баллада"], category:"sad", media:"media/demo1.mp3", type:"audio" },
             { id:2, emoji:"🔥", title:"На максимум", price:4000, desc:"Энергичный трек", tags:["хип-хоп"], category:"happy", media:"media/demo2.mp4", type:"video" },
@@ -263,6 +237,7 @@
             { id:8, emoji:"😢", title:"Прощание", price:3200, desc:"Грустная баллада", tags:["баллада"], category:"sad", media:"media/demo8.mp4", type:"video" },
         ];
         
+        // ==================== ГОСТЕВОЙ КОД ====================
         function getGuestCode() {
             let c = localStorage.getItem('px_code');
             if (!c) { c = 'PX' + Math.random().toString(36).substring(2,8).toUpperCase(); localStorage.setItem('px_code', c); }
@@ -278,11 +253,11 @@
         
         let currentTab = 'all', selectedProduct = null, isCustom = false, uploadedFile = null;
         
+        // ==================== РЕНДЕР ====================
         function render() {
             const filtered = currentTab === 'all' ? catalog : catalog.filter(p => p.category === currentTab);
             document.getElementById('catalog').innerHTML = filtered.map(p => `
-                <div class="card" id="card${p.id}" onclick="showDetails(${p.id})">
-                    <div class="check">✓</div>
+                <div class="card" onclick="showDetails(${p.id})">
                     <div class="emoji">${p.emoji}</div>
                     <div class="title">${p.title}</div>
                     <div class="price">${p.price.toLocaleString()} ₽</div>
@@ -301,6 +276,7 @@
             document.getElementById('guestCodeDisplay').textContent = getGuestCode();
         }
         
+        // ==================== ТАБЫ ====================
         document.getElementById('tabs').addEventListener('click', e => {
             const tab = e.target.closest('.tab'); if (!tab) return;
             document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -311,19 +287,19 @@
             render();
         });
         
+        // ==================== ДЕТАЛИ ПЕСНИ ====================
         function showDetails(id) {
             const p = catalog.find(x=>x.id===id); if (!p) return;
             selectedProduct = p; isCustom = false;
             document.getElementById('catalog').style.display = 'none';
             document.getElementById('customCard').classList.add('hidden');
-            document.getElementById('orderForm').classList.remove('active');
             document.getElementById('detailsPage').classList.add('active');
             document.getElementById('detailsPage').innerHTML = `
                 <span class="back-btn" onclick="goBack()">← Назад к каталогу</span>
                 <div class="details-card">
-                    <div class="emoji" style="font-size:48px;">${p.emoji}</div>
+                    <div style="font-size:48px;">${p.emoji}</div>
                     <h2 style="font-family:var(--font-head);">${p.title}</h2>
-                    <div class="price" style="font-size:1.6rem;">${p.price.toLocaleString()} ₽</div>
+                    <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-head);background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div>
                     <p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>
                     ${p.type==='video' 
                         ? `<video src="${p.media}" controls controlsList="nodownload" style="width:100%;max-height:350px;border-radius:16px;"></video>`
@@ -331,9 +307,11 @@
                     }
                     <div class="watermark">🔊 Водяной знак «${WATERMARK}»</div>
                     <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
-                        <button class="btn btn-accent" onclick="openLavaWidget()">💳 Оплатить картой</button>
-                        <button class="btn btn-gold" onclick="showTransferFromDetails()">📱 Переводом</button>
+                        <button class="btn btn-tg" onclick="payByTelegram()">💬 Telegram</button>
+                        <button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button>
+                        <button class="btn btn-gold" onclick="showTransferFromDetails()">📱 Перевод</button>
                     </div>
+                    <p class="payment-note">Выбери способ оплаты</p>
                     <div id="transferFromDetails" class="hidden" style="margin-top:16px;">
                         <div class="payment-box">
                             <div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div>
@@ -354,71 +332,34 @@
             document.getElementById('customCard').classList.remove('hidden');
         }
         
-        async function openLavaWidget() {
-			if (!selectedProduct && !isCustom) return alert('Выбери песню!');
-			const price = isCustom ? 0 : selectedProduct.price;
-			const title = isCustom ? 'Песня под заказ' : selectedProduct.title;
-			const guest = getGuestCode();
-			
-			// Показываем загрузку
-			const w = document.createElement('div');
-			w.className = 'widget-modal';
-			w.innerHTML = `<div class="widget-box" style="text-align:center;">
-				<button class="widget-close" onclick="this.parentElement.parentElement.remove()">✕</button>
-				<h3>💳 Оплата картой</h3>
-				<p style="color:#8a84a0;">${title} — ${price.toLocaleString()} ₽</p>
-				<div class="spinner" style="margin:20px auto;"></div>
-				<p style="color:#8a84a0;font-size:0.85rem;">Создаю платёж...</p>
-			</div>`;
-			document.body.appendChild(w);
-			w.addEventListener('click', function(e){ if(e.target===w) w.remove(); });
-			
-			try {
-				// Запрашиваем PythonAnywhere создать платёж с ФИКСИРОВАННОЙ суммой
-				const API_BASE = 'https://Rettero.pythonanywhere.com';
-				const resp = await fetch(`${API_BASE}/api/create-payment`, {
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify({
-						amount: price,
-						product: title,
-						guest: guest,
-						email: ''
-					})
-				});
-				const data = await resp.json();
-				
-				if (data.ok && data.url) {
-					// Открываем платёжную ссылку в том же окне
-					window.location.href = data.url;
-				} else {
-					w.innerHTML = `<div class="widget-box" style="text-align:center;">
-						<button class="widget-close" onclick="this.parentElement.parentElement.remove()">✕</button>
-						<h3>❌ Ошибка</h3>
-						<p style="color:#8a84a0;">Не удалось создать платёж. Попробуй позже.</p>
-						<button class="btn btn-accent" onclick="this.parentElement.parentElement.remove()">Закрыть</button>
-					</div>`;
-				}
-			} catch (e) {
-				// Fallback: прямой виджет LavaTop
-				w.innerHTML = `<div class="widget-box">
-					<button class="widget-close" onclick="this.parentElement.parentElement.remove()">✕</button>
-					<h3 style="text-align:center;margin-bottom:16px;">💳 Оплата картой</h3>
-					<p style="text-align:center;color:#8a84a0;margin-bottom:16px;">${title} — ${price.toLocaleString()} ₽</p>
-					<iframe title="lava.top" style="border:none;width:100%;height:400px;border-radius:16px;" src="https://widget.lava.top/406b80d7-e568-44aa-a3e3-1c10e2c89ea3?amount=${price}&comment=${encodeURIComponent(title + ' | ' + guest)}"></iframe>
-				</div>`;
-			}
-		}
+        // ==================== ОПЛАТА ====================
+        function payByTelegram() {
+            if (!selectedProduct && !isCustom) return alert('Выбери песню!');
+            const price = isCustom ? 0 : selectedProduct.price;
+            const url = `${TG_PAY_BOT}_${price}`;
+            window.open(url, '_blank');
+        }
+        
+        function payByYooMoney() {
+            if (!selectedProduct && !isCustom) return alert('Выбери песню!');
+            const price = isCustom ? 0 : selectedProduct.price;
+            const url = `${YOOMONEY_LINK}?sum=${price}`;
+            window.open(url, '_blank');
+        }
         
         function showTransferPayment() {
             document.getElementById('transferSection').classList.remove('hidden');
-            document.getElementById('btnCard').classList.add('hidden');
-            document.getElementById('btnTransfer').classList.add('hidden');
         }
+        
         function showTransferFromDetails() {
             document.getElementById('transferFromDetails').classList.remove('hidden');
         }
         
+        function copyPhone() {
+            navigator.clipboard.writeText('+7 904 862 83 27').then(()=>alert('✅ Скопировано!'));
+        }
+        
+        // ==================== ЗАГРУЗКА ФАЙЛОВ ====================
         function handleFile(e) { processFile(e.target.files[0], 'dropzone', 'fileName', 'fileErr'); }
         function handleFile2(e) { processFile(e.target.files[0], 'dropzone2', 'fileName2', null); }
         function processFile(file, zoneId, nameId, errId) {
@@ -430,35 +371,25 @@
             if (errId) document.getElementById(errId).style.display = 'none';
         }
         
-        function copyPhone() {
-            navigator.clipboard.writeText('+7 904 862 83 27').then(()=>alert('✅ Скопировано!'));
-        }
+        ['dropzone','dropzone2'].forEach(id => {
+            const el = document.getElementById(id); if (!el) return;
+            el.addEventListener('dragover', e=>{e.preventDefault();el.style.borderColor='var(--accent)';});
+            el.addEventListener('dragleave', ()=>el.style.borderColor='rgba(255,255,255,0.1)');
+            el.addEventListener('drop', e=>{
+                e.preventDefault(); el.style.borderColor='rgba(255,255,255,0.1)';
+                const f = e.dataTransfer.files[0]; if (f) { 
+                    const dt = new DataTransfer(); dt.items.add(f);
+                    const inputId = id === 'dropzone' ? 'fileInput' : 'fileInput2';
+                    document.getElementById(inputId).files = dt.files;
+                    if (id === 'dropzone') handleFile({target:{files:dt.files}});
+                    else handleFile2({target:{files:dt.files}});
+                }
+            });
+        });
         
-        async function submitOrder() {
-            document.querySelectorAll('.error').forEach(e=>e.style.display='none');
-            let err = false;
-            if (isCustom && !document.getElementById('customDesc').value.trim()) { document.getElementById('customErr').style.display='block'; err=true; }
-            if (!document.getElementById('contactTg').value.trim() && !document.getElementById('contactVk').value.trim()) { document.getElementById('contactErr').style.display='block'; err=true; }
-            if (!uploadedFile) { document.getElementById('fileErr').style.display='block'; err=true; }
-            if (err) return;
-            
-            const btn = document.getElementById('submitTransferBtn'); btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Отправляю...';
-            
-            const title = isCustom ? '🎤 Песня под заказ' : (selectedProduct?.title || '');
-            const order = { id: Date.now(), product: title, tg: document.getElementById('contactTg').value.trim(), vk: document.getElementById('contactVk').value.trim(), status: 'pending', time: new Date().toLocaleString('ru-RU'), code: getGuestCode() };
-            saveOrder(order);
-            
-            const caption = `🛎 *ЗАКАЗ* #${order.id}\n📀 ${title}\n👤 TG: ${order.tg||'—'} | VK: ${order.vk||'—'}\n🆔 ${getGuestCode()}\n🕐 ${order.time}`;
-            const fd = new FormData();
-            fd.append('chat_id', ADMIN_CHAT_ID); fd.append('caption', caption); fd.append('parse_mode', 'Markdown'); fd.append('photo', uploadedFile);
-            
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {method:'POST',body:fd});
-                document.getElementById('successModal').classList.add('active');
-                resetForm();
-            } catch(e) { alert('Ошибка: ' + e.message); }
-            finally { btn.disabled = false; btn.innerHTML = '✅ Я оплатил — отправить'; }
+        // ==================== ОТПРАВКА ЗАКАЗА ====================
+        async function submitTransfer() {
+            return submitOrderCommon('contactTg', 'contactVk', 'customDesc', 'dropzone', 'fileName', 'fileErr');
         }
         
         async function submitTransferFromDetails() {
@@ -483,6 +414,33 @@
             } catch(e) { alert('Ошибка: ' + e.message); }
         }
         
+        async function submitOrderCommon(tgId, vkId, descId, zoneId, nameId, errId) {
+            document.querySelectorAll('.error').forEach(e=>e.style.display='none');
+            let err = false;
+            if (isCustom && !document.getElementById(descId).value.trim()) { document.getElementById('customErr').style.display='block'; err=true; }
+            if (!document.getElementById(tgId).value.trim() && !document.getElementById(vkId).value.trim()) { document.getElementById('contactErr').style.display='block'; err=true; }
+            if (!uploadedFile) { document.getElementById(errId).style.display='block'; err=true; }
+            if (err) return;
+            
+            const btn = document.getElementById('submitTransferBtn'); btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Отправляю...';
+            
+            const title = isCustom ? '🎤 Песня под заказ' : (selectedProduct?.title || '');
+            const order = { id: Date.now(), product: title, tg: document.getElementById(tgId).value.trim(), vk: document.getElementById(vkId).value.trim(), status: 'pending', time: new Date().toLocaleString('ru-RU'), code: getGuestCode() };
+            saveOrder(order);
+            
+            const caption = `🛎 *ЗАКАЗ*\n📀 ${title}\n👤 TG: ${order.tg||'—'} | VK: ${order.vk||'—'}\n🆔 ${getGuestCode()}\n🕐 ${order.time}`;
+            const fd = new FormData();
+            fd.append('chat_id', ADMIN_CHAT_ID); fd.append('caption', caption); fd.append('parse_mode', 'Markdown'); fd.append('photo', uploadedFile);
+            
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {method:'POST',body:fd});
+                document.getElementById('successModal').classList.add('active');
+                resetForm();
+            } catch(e) { alert('Ошибка: ' + e.message); }
+            finally { btn.disabled = false; btn.innerHTML = '✅ Я оплатил — отправить'; }
+        }
+        
         function resetForm() {
             selectedProduct = null; isCustom = false; uploadedFile = null;
             document.getElementById('fileInput').value = '';
@@ -490,8 +448,6 @@
             document.getElementById('dropzone').classList.remove('has-file');
             document.getElementById('orderForm').classList.remove('active');
             document.getElementById('transferSection').classList.add('hidden');
-            document.getElementById('btnCard').classList.remove('hidden');
-            document.getElementById('btnTransfer').classList.remove('hidden');
         }
         
         function selectCustom() {
@@ -504,6 +460,7 @@
             document.getElementById('orderForm').scrollIntoView({behavior:'smooth'});
         }
         
+        // ==================== МОИ ЗАКАЗЫ ====================
         function showMyOrders() {
             const panel = document.getElementById('ordersPanel'); panel.classList.toggle('active');
             if (panel.classList.contains('active')) {
@@ -516,6 +473,7 @@
         }
         function closeOrders() { document.getElementById('ordersPanel').classList.remove('active'); }
         
+        // ==================== ПЕРЕНОС ====================
         function showTransferModal() {
             document.getElementById('transferCodeDisplay').textContent = getGuestCode();
             document.getElementById('transferModal').classList.add('active');
@@ -525,26 +483,10 @@
             const code = document.getElementById('transferInput').value.trim().toUpperCase();
             if (!code) return;
             const data = localStorage.getItem('px_orders_' + code);
-            if (data) { localStorage.setItem('px_orders_' + getGuestCode(), data); alert('✅ Заказы перенесены!'); closeTransferModal(); showMyOrders(); }
+            if (data) { localStorage.setItem('px_orders_' + getGuestCode(), data); alert('✅ Перенесены!'); closeTransferModal(); showMyOrders(); }
             else { alert('❌ Код не найден'); }
         }
         function copyGuestCode() { navigator.clipboard.writeText(getGuestCode()).then(()=>alert('✅ ' + getGuestCode())); }
-        
-        ['dropzone','dropzone2'].forEach(id => {
-            const el = document.getElementById(id); if (!el) return;
-            el.addEventListener('dragover', e=>{e.preventDefault();el.style.borderColor='var(--accent)';});
-            el.addEventListener('dragleave', ()=>el.style.borderColor='rgba(255,255,255,0.1)');
-            el.addEventListener('drop', e=>{
-                e.preventDefault(); el.style.borderColor='rgba(255,255,255,0.1)';
-                const f = e.dataTransfer.files[0]; if (f) { 
-                    const dt = new DataTransfer(); dt.items.add(f);
-                    const inputId = id === 'dropzone' ? 'fileInput' : 'fileInput2';
-                    document.getElementById(inputId).files = dt.files;
-                    if (id === 'dropzone') handleFile({target:{files:dt.files}});
-                    else handleFile2({target:{files:dt.files}});
-                }
-            });
-        });
         
         render();
     </script>
