@@ -125,27 +125,23 @@
             .contact-row { flex-direction: column; }
             .payment-phone { font-size: 1.2rem; }
             h1 { font-size: 1.6rem; }
-            .details-card video { max-height: 220px; }
         }
     </style>
 </head>
 <body>
     <div class="bg"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div>
     <div class="bg-grid"></div>
-    
     <div class="app">
         <div class="header">
             <div class="logo">🎵</div>
             <h1>PieSenia</h1>
             <p class="subtitle">Авторские песни с полной передачей прав после выкупа</p>
         </div>
-        
         <div class="top-bar">
             <button class="btn-sm" onclick="showMyOrders()">📋 Мои заказы</button>
             <button class="btn-sm" onclick="showTransferModal()">📱 Перенос</button>
             <span class="guest-badge" onclick="copyGuestCode()">🆔 <span id="guestCodeDisplay">...</span></span>
         </div>
-        
         <div class="tabs" id="tabs">
             <button class="tab active" data-tab="all">✨ Все</button>
             <button class="tab" data-tab="kids">🧒 Детские</button>
@@ -154,340 +150,137 @@
             <button class="tab" data-tab="happy">🎉 Весёлые</button>
             <button class="tab" data-tab="love">❤️ Про любовь</button>
         </div>
-        
         <div class="section-title" id="sectionTitle">✨ Все песни</div>
         <div class="catalog" id="catalog"></div>
-        
         <div class="custom-card" id="customCard" onclick="selectCustom()">
-            <span style="font-size:38px;">🎤✨</span>
-            <h3>Песня под заказ</h3>
+            <span style="font-size:38px;">🎤✨</span><h3>Песня под заказ</h3>
             <p style="color:var(--text-dim)">Опиши идею — создам уникальный трек</p>
             <span style="color:var(--accent-light);font-weight:700;">Цена договорная</span>
         </div>
-        
         <div class="details-page" id="detailsPage"></div>
-        
         <div class="form" id="orderForm">
-            <div class="section-title" style="margin-top:0;">📝 Оформление заказа</div>
+            <div class="section-title" style="margin-top:0;">📝 Оформление</div>
             <div class="form-group"><label class="form-label">Выбранное</label><input class="form-input" id="selectedDisplay" readonly></div>
             <div class="form-group hidden" id="customGroup"><label class="form-label">Опиши идею *</label><textarea class="form-input" id="customDesc" placeholder="Жанр, настроение, тема..."></textarea><span class="error" id="customErr">Опиши идею</span></div>
-            <div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg" placeholder="Telegram: @user"><input class="form-input" id="contactVk" placeholder="ВКонтакте: ссылка"></div><span class="error" id="contactErr">Укажи контакт</span></div>
-            
+            <div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg" placeholder="Telegram"><input class="form-input" id="contactVk" placeholder="ВКонтакте"></div><span class="error" id="contactErr">Укажи контакт</span></div>
             <div class="payment-methods">
-                <button class="btn btn-tg" onclick="payByTelegram()">💬 Telegram</button>
+                <button class="btn btn-tg" onclick="window.open('https://t.me/Rettero','_blank')">💬 Telegram</button>
                 <button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button>
                 <button class="btn btn-gold" onclick="showTransferPayment()">📱 Перевод</button>
             </div>
-            <p class="payment-note">Выбери удобный способ оплаты</p>
-            
+            <p class="payment-note">Выбери способ оплаты</p>
             <div id="transferSection" class="hidden">
                 <div class="payment-box">
-                    <p style="color:var(--text-dim);margin-bottom:4px;">Оплата переводом:</p>
-                    <div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div>
+                    <div class="payment-phone" onclick="navigator.clipboard.writeText('+79048628327').then(()=>alert('✅ Скопировано!'))">+7 904 862 83 27</div>
                     <p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p>
                 </div>
-                <div class="form-group"><label class="form-label">Скриншот оплаты *</label><div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">📎<br>Нажми или перетащи<br><small style="color:var(--text-dim)">PNG, JPG до 10 МБ</small><div class="file-name" id="fileName"></div></div><input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)"><span class="error" id="fileErr">Прикрепи скриншот</span></div>
-                <button class="btn btn-gold" id="submitTransferBtn" onclick="submitTransfer()">✅ Я оплатил — отправить</button>
+                <div class="form-group"><label class="form-label">Скриншот *</label><div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">📎<br>Нажми или перетащи<div class="file-name" id="fileName"></div></div><input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)"><span class="error" id="fileErr">Прикрепи скриншот</span></div>
+                <button class="btn btn-gold" id="submitTransferBtn" onclick="submitTransfer()">✅ Отправить</button>
             </div>
         </div>
-        
         <div class="orders-panel" id="ordersPanel">
             <div class="section-title" style="margin-top:0;">📋 Мои заказы</div>
             <div id="ordersList"></div>
             <button class="btn-sm" onclick="closeOrders()" style="margin-top:14px;">← Назад</button>
         </div>
     </div>
-    
     <div class="modal" id="transferModal">
-        <div class="modal-box">
-            <h2>📱 Перенос заказов</h2>
-            <p style="color:var(--text-dim);">Твой код: <strong id="transferCodeDisplay" style="color:var(--accent-light);"></strong></p>
-            <input type="text" id="transferInput" placeholder="Введи код" maxlength="12" style="text-transform:uppercase;">
-            <button class="btn btn-accent" onclick="transferOrders()" style="margin-top:10px;">Загрузить</button>
-            <button class="btn-sm" onclick="closeTransferModal()" style="margin-top:8px;">Закрыть</button>
-        </div>
+        <div class="modal-box"><h2>📱 Перенос</h2><p style="color:var(--text-dim);">Код: <strong id="transferCodeDisplay"></strong></p><input type="text" id="transferInput" placeholder="Введи код" maxlength="12" style="text-transform:uppercase;"><button class="btn btn-accent" onclick="transferOrders()" style="margin-top:10px;">Загрузить</button><button class="btn-sm" onclick="closeTransferModal()" style="margin-top:8px;">Закрыть</button></div>
     </div>
-    
     <div class="modal" id="successModal">
-        <div class="modal-box">
-            <div style="font-size:56px;">✅</div>
-            <h2>Заказ отправлен!</h2>
-            <p style="color:var(--text-dim);">Проверю оплату и свяжусь 💛</p>
-            <button class="btn btn-accent" onclick="document.getElementById('successModal').classList.remove('active')">Ок</button>
+        <div class="modal-box"><div style="font-size:56px;">✅</div><h2>Заказ отправлен!</h2><p style="color:var(--text-dim);">Проверю оплату и свяжусь 💛</p><button class="btn btn-accent" onclick="document.getElementById('successModal').classList.remove('active')">Ок</button></div>
+    </div>
+    <div class="modal" id="paymentCheckModal">
+        <div class="modal-box" id="paymentCheckBox">
+            <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px;"></div>
+            <h2>Проверяем оплату...</h2>
+            <p style="color:var(--text-dim);">Подожди несколько секунд</p>
         </div>
     </div>
-
     <script>
-        // ==================== НАСТРОЙКИ ====================
-        const BOT_TOKEN = '8903727159:AAFVN3lQhHW2ljToZ-_s1J-1mjiEaVMtEPY';
-        const ADMIN_CHAT_ID = '5378877938';
+        const API_BASE = 'https://Rettero.pythonanywhere.com';
         const WATERMARK = 'Rettero';
-        const TG_PAY_BOT = 'https://t.me/send?start=IVxiLD9qyv8K';
-        const YOOMONEY_LINK = 'https://yoomoney.ru/to/4100118654321'; // ЗАМЕНИ НА СВОЮ ССЫЛКУ
-        
-        // ==================== КАТАЛОГ ====================
         const catalog = [
-            { id:1, emoji:"💔", title:"Разбитое сердце", price:3000, desc:"Лирическая баллада о любви", tags:["поп","баллада"], category:"sad", media:"media/demo1.mp3", type:"audio" },
+            { id:1, emoji:"💔", title:"Разбитое сердце", price:3000, desc:"Лирическая баллада", tags:["поп"], category:"sad", media:"media/demo1.mp3", type:"audio" },
             { id:2, emoji:"🔥", title:"На максимум", price:4000, desc:"Энергичный трек", tags:["хип-хоп"], category:"happy", media:"media/demo2.mp4", type:"video" },
-            { id:3, emoji:"🌙", title:"Ночной город", price:3500, desc:"Атмосферная песня", tags:["R&B","lo-fi"], category:"adult", media:"media/demo3.mp3", type:"audio" },
+            { id:3, emoji:"🌙", title:"Ночной город", price:3500, desc:"Атмосферная песня", tags:["R&B"], category:"adult", media:"media/demo3.mp3", type:"audio" },
             { id:4, emoji:"🅰️", title:"Весёлый алфавит", price:2000, desc:"Детская песня", tags:["детская"], category:"kids", media:"media/demo4.mp4", type:"video" },
             { id:5, emoji:"🌸", title:"Весна в душе", price:2500, desc:"Нежная акустика", tags:["инди"], category:"love", media:"media/demo5.mp3", type:"audio" },
             { id:6, emoji:"🎸", title:"Свобода", price:5000, desc:"Рок-баллада", tags:["рок"], category:"adult", media:"media/demo6.mp4", type:"video" },
             { id:7, emoji:"🎉", title:"Праздник", price:2800, desc:"Весёлая песня", tags:["поп"], category:"happy", media:"media/demo7.mp3", type:"audio" },
             { id:8, emoji:"😢", title:"Прощание", price:3200, desc:"Грустная баллада", tags:["баллада"], category:"sad", media:"media/demo8.mp4", type:"video" },
         ];
-        
-        // ==================== ГОСТЕВОЙ КОД ====================
-        function getGuestCode() {
-            let c = localStorage.getItem('px_code');
-            if (!c) { c = 'PX' + Math.random().toString(36).substring(2,8).toUpperCase(); localStorage.setItem('px_code', c); }
-            return c;
+        function getGuestCode() { let c=localStorage.getItem('px_code'); if(!c){c='PX'+Math.random().toString(36).substring(2,8).toUpperCase();localStorage.setItem('px_code',c);} return c; }
+        function getOrders() { try{return JSON.parse(localStorage.getItem('px_orders_'+getGuestCode())||'[]');}catch{return[];} }
+        function saveOrder(o){const orders=getOrders();orders.push(o);localStorage.setItem('px_orders_'+getGuestCode(),JSON.stringify(orders));}
+        let currentTab='all',selectedProduct=null,isCustom=false,uploadedFile=null;
+        function render(){
+            const filtered=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);
+            document.getElementById('catalog').innerHTML=filtered.map(p=>`<div class="card" onclick="showDetails(${p.id})"><div class="emoji">${p.emoji}</div><div class="title">${p.title}</div><div class="price">${p.price.toLocaleString()} ₽</div><div class="desc">${p.desc}</div><div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="copyright">🔒 Права после выкупа</div><div class="media-wrap">${p.type==='video'?`<video src="${p.media}" controls controlsList="nodownload" preload="none" style="max-height:160px;"></video>`:`<audio controls controlsList="nodownload" preload="none"><source src="${p.media}" type="audio/mpeg"></audio>`}<div class="watermark">🔊 Водяной знак «${WATERMARK}»</div></div></div>`).join('');
+            document.getElementById('guestCodeDisplay').textContent=getGuestCode();
         }
-        function getOrders() {
-            try { return JSON.parse(localStorage.getItem('px_orders_' + getGuestCode()) || '[]'); } catch { return []; }
-        }
-        function saveOrder(o) {
-            const orders = getOrders(); orders.push(o);
-            localStorage.setItem('px_orders_' + getGuestCode(), JSON.stringify(orders));
-        }
-        
-        let currentTab = 'all', selectedProduct = null, isCustom = false, uploadedFile = null;
-        
-        // ==================== РЕНДЕР ====================
-        function render() {
-            const filtered = currentTab === 'all' ? catalog : catalog.filter(p => p.category === currentTab);
-            document.getElementById('catalog').innerHTML = filtered.map(p => `
-                <div class="card" onclick="showDetails(${p.id})">
-                    <div class="emoji">${p.emoji}</div>
-                    <div class="title">${p.title}</div>
-                    <div class="price">${p.price.toLocaleString()} ₽</div>
-                    <div class="desc">${p.desc}</div>
-                    <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-                    <div class="copyright">🔒 Права после выкупа</div>
-                    <div class="media-wrap">
-                        ${p.type==='video' 
-                            ? `<video src="${p.media}" controls controlsList="nodownload" preload="none" style="max-height:160px;"></video>`
-                            : `<audio controls controlsList="nodownload" preload="none"><source src="${p.media}" type="audio/mpeg"></audio>`
-                        }
-                        <div class="watermark">🔊 Водяной знак «${WATERMARK}»</div>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('guestCodeDisplay').textContent = getGuestCode();
-        }
-        
-        // ==================== ТАБЫ ====================
-        document.getElementById('tabs').addEventListener('click', e => {
-            const tab = e.target.closest('.tab'); if (!tab) return;
-            document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-            tab.classList.add('active'); currentTab = tab.dataset.tab;
-            document.getElementById('sectionTitle').textContent = {all:'✨ Все',kids:'🧒 Детские',adult:'🔞 Взрослые',sad:'💔 Грустные',happy:'🎉 Весёлые',love:'❤️ Про любовь'}[currentTab];
-            document.getElementById('detailsPage').classList.remove('active');
-            document.getElementById('catalog').style.display = '';
-            render();
-        });
-        
-        // ==================== ДЕТАЛИ ПЕСНИ ====================
-        function showDetails(id) {
-            const p = catalog.find(x=>x.id===id); if (!p) return;
-            selectedProduct = p; isCustom = false;
-            document.getElementById('catalog').style.display = 'none';
-            document.getElementById('customCard').classList.add('hidden');
-            document.getElementById('detailsPage').classList.add('active');
-            document.getElementById('detailsPage').innerHTML = `
-                <span class="back-btn" onclick="goBack()">← Назад к каталогу</span>
-                <div class="details-card">
-                    <div style="font-size:48px;">${p.emoji}</div>
-                    <h2 style="font-family:var(--font-head);">${p.title}</h2>
-                    <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-head);background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div>
-                    <p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>
-                    ${p.type==='video' 
-                        ? `<video src="${p.media}" controls controlsList="nodownload" style="width:100%;max-height:350px;border-radius:16px;"></video>`
-                        : `<audio controls controlsList="nodownload" style="width:100%;margin:12px 0;"><source src="${p.media}" type="audio/mpeg"></audio>`
-                    }
-                    <div class="watermark">🔊 Водяной знак «${WATERMARK}»</div>
-                    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
-                        <button class="btn btn-tg" onclick="payByTelegram()">💬 Telegram</button>
-                        <button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button>
-                        <button class="btn btn-gold" onclick="showTransferFromDetails()">📱 Перевод</button>
-                    </div>
-                    <p class="payment-note">Выбери способ оплаты</p>
-                    <div id="transferFromDetails" class="hidden" style="margin-top:16px;">
-                        <div class="payment-box">
-                            <div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div>
-                            <p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p>
-                        </div>
-                        <div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg2" placeholder="Telegram"><input class="form-input" id="contactVk2" placeholder="ВК"></div></div>
-                        <div class="form-group"><label class="form-label">Скриншот</label><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажми или перетащи<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"></div>
-                        <button class="btn btn-gold" onclick="submitTransferFromDetails()">✅ Отправить</button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('detailsPage').scrollIntoView({behavior:'smooth'});
-        }
-        
-        function goBack() {
-            document.getElementById('detailsPage').classList.remove('active');
-            document.getElementById('catalog').style.display = '';
-            document.getElementById('customCard').classList.remove('hidden');
-        }
+        document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;document.getElementById('sectionTitle').textContent={all:'✨ Все',kids:'🧒 Детские',adult:'🔞 Взрослые',sad:'💔 Грустные',happy:'🎉 Весёлые',love:'❤️ Про любовь'}[currentTab];document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';render();});
+        function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=false;document.getElementById('catalog').style.display='none';document.getElementById('customCard').classList.add('hidden');document.getElementById('detailsPage').classList.add('active');document.getElementById('detailsPage').innerHTML=`<span class="back-btn" onclick="goBack()">← Назад</span><div class="details-card"><div style="font-size:48px;">${p.emoji}</div><h2 style="font-family:var(--font-head);">${p.title}</h2><div style="font-size:1.6rem;font-weight:800;font-family:var(--font-head);background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div><p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>${p.type==='video'?`<video src="${p.media}" controls controlsList="nodownload" style="width:100%;max-height:350px;border-radius:16px;"></video>`:`<audio controls controlsList="nodownload" style="width:100%;margin:12px 0;"><source src="${p.media}" type="audio/mpeg"></audio>`}<div class="watermark">🔊 Водяной знак «${WATERMARK}»</div><div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-tg" onclick="window.open('https://t.me/Rettero','_blank')">💬 Telegram</button><button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button><button class="btn btn-gold" onclick="showTransferFromDetails()">📱 Перевод</button></div><div id="transferFromDetails" class="hidden" style="margin-top:16px;"><div class="payment-box"><div class="payment-phone" onclick="navigator.clipboard.writeText('+79048628327').then(()=>alert('✅'))">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p></div><div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg2" placeholder="Telegram"><input class="form-input" id="contactVk2" placeholder="ВК"></div></div><div class="form-group"><label class="form-label">Скриншот</label><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажми<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"></div><button class="btn btn-gold" onclick="submitTransferFromDetails()">✅ Отправить</button></div></div>`;document.getElementById('detailsPage').scrollIntoView({behavior:'smooth'});}
+        function goBack(){document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';document.getElementById('customCard').classList.remove('hidden');}
         
         // ==================== ОПЛАТА ====================
-        function payByTelegram() {
-            if (!selectedProduct && !isCustom) return alert('Выбери песню!');
-            const price = isCustom ? 0 : selectedProduct.price;
-            const url = `${TG_PAY_BOT}_${price}`;
-            window.open(url, '_blank');
-        }
-        
-        function payByYooMoney() {
-            if (!selectedProduct && !isCustom) return alert('Выбери песню!');
-            const price = isCustom ? 0 : selectedProduct.price;
-            const url = `${YOOMONEY_LINK}?sum=${price}`;
-            window.open(url, '_blank');
-        }
-        
-        function showTransferPayment() {
-            document.getElementById('transferSection').classList.remove('hidden');
-        }
-        
-        function showTransferFromDetails() {
-            document.getElementById('transferFromDetails').classList.remove('hidden');
-        }
-        
-        function copyPhone() {
-            navigator.clipboard.writeText('+7 904 862 83 27').then(()=>alert('✅ Скопировано!'));
-        }
-        
-        // ==================== ЗАГРУЗКА ФАЙЛОВ ====================
-        function handleFile(e) { processFile(e.target.files[0], 'dropzone', 'fileName', 'fileErr'); }
-        function handleFile2(e) { processFile(e.target.files[0], 'dropzone2', 'fileName2', null); }
-        function processFile(file, zoneId, nameId, errId) {
-            if (!file) return;
-            if (file.size > 10*1024*1024) { alert('Макс 10 МБ!'); return; }
-            uploadedFile = file;
-            document.getElementById(zoneId).classList.add('has-file');
-            document.getElementById(nameId).textContent = '📎 ' + file.name;
-            if (errId) document.getElementById(errId).style.display = 'none';
-        }
-        
-        ['dropzone','dropzone2'].forEach(id => {
-            const el = document.getElementById(id); if (!el) return;
-            el.addEventListener('dragover', e=>{e.preventDefault();el.style.borderColor='var(--accent)';});
-            el.addEventListener('dragleave', ()=>el.style.borderColor='rgba(255,255,255,0.1)');
-            el.addEventListener('drop', e=>{
-                e.preventDefault(); el.style.borderColor='rgba(255,255,255,0.1)';
-                const f = e.dataTransfer.files[0]; if (f) { 
-                    const dt = new DataTransfer(); dt.items.add(f);
-                    const inputId = id === 'dropzone' ? 'fileInput' : 'fileInput2';
-                    document.getElementById(inputId).files = dt.files;
-                    if (id === 'dropzone') handleFile({target:{files:dt.files}});
-                    else handleFile2({target:{files:dt.files}});
-                }
-            });
-        });
-        
-        // ==================== ОТПРАВКА ЗАКАЗА ====================
-        async function submitTransfer() {
-            return submitOrderCommon('contactTg', 'contactVk', 'customDesc', 'dropzone', 'fileName', 'fileErr');
-        }
-        
-        async function submitTransferFromDetails() {
-            const tg = document.getElementById('contactTg2')?.value?.trim() || '';
-            const vk = document.getElementById('contactVk2')?.value?.trim() || '';
-            if (!tg && !vk) return alert('Укажи контакт!');
-            if (!uploadedFile) return alert('Прикрепи скриншот!');
-            
-            const title = selectedProduct?.title || 'Песня';
-            const order = { id: Date.now(), product: title, tg, vk, status: 'pending', time: new Date().toLocaleString('ru-RU'), code: getGuestCode() };
+        function payByYooMoney(){
+            if(!selectedProduct&&!isCustom)return alert('Выбери песню!');
+            const price=isCustom?0:selectedProduct.price;
+            const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');
+            const order={id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),code:getGuestCode()};
             saveOrder(order);
-            
-            const caption = `🛎 *ЗАКАЗ*\n📀 ${title}\n👤 TG: ${tg||'—'} | VK: ${vk||'—'}\n🆔 ${getGuestCode()}\n🕐 ${order.time}`;
-            const fd = new FormData();
-            fd.append('chat_id', ADMIN_CHAT_ID); fd.append('caption', caption); fd.append('parse_mode', 'Markdown'); fd.append('photo', uploadedFile);
-            
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {method:'POST',body:fd});
-                document.getElementById('successModal').classList.add('active');
-                uploadedFile = null;
-                document.getElementById('transferFromDetails').classList.add('hidden');
-            } catch(e) { alert('Ошибка: ' + e.message); }
+            window.open(`https://yoomoney.ru/to/4100117765240041/${price}`,'_blank');
+            setTimeout(()=>{if(!document.getElementById('paymentCheckModal').classList.contains('active'))checkPaymentStatus();},5000);
         }
         
-        async function submitOrderCommon(tgId, vkId, descId, zoneId, nameId, errId) {
-            document.querySelectorAll('.error').forEach(e=>e.style.display='none');
-            let err = false;
-            if (isCustom && !document.getElementById(descId).value.trim()) { document.getElementById('customErr').style.display='block'; err=true; }
-            if (!document.getElementById(tgId).value.trim() && !document.getElementById(vkId).value.trim()) { document.getElementById('contactErr').style.display='block'; err=true; }
-            if (!uploadedFile) { document.getElementById(errId).style.display='block'; err=true; }
-            if (err) return;
-            
-            const btn = document.getElementById('submitTransferBtn'); btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Отправляю...';
-            
-            const title = isCustom ? '🎤 Песня под заказ' : (selectedProduct?.title || '');
-            const order = { id: Date.now(), product: title, tg: document.getElementById(tgId).value.trim(), vk: document.getElementById(vkId).value.trim(), status: 'pending', time: new Date().toLocaleString('ru-RU'), code: getGuestCode() };
+        async function checkPaymentStatus(){
+            const modal=document.getElementById('paymentCheckModal');modal.classList.add('active');
+            const box=document.getElementById('paymentCheckBox');
+            box.innerHTML='<div class="spinner" style="width:40px;height:40px;margin:0 auto 16px;"></div><h2>Проверяем оплату...</h2><p style="color:var(--text-dim);">Подожди несколько секунд</p>';
+            const guest=getGuestCode();
+            for(let i=0;i<10;i++){await new Promise(r=>setTimeout(r,3000));try{const resp=await fetch(`${API_BASE}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})});const data=await resp.json();if(data.ok&&data.paid){box.innerHTML='<div style="font-size:64px;">💛</div><h2>Оплата успешна!</h2><p style="color:var(--text-dim);">Ожидайте вашего заказа. С вами свяжется исполнитель для обсуждения деталей.</p><p style="color:var(--accent-light);font-size:0.85rem;">Код заказа: '+guest+'</p><button class="btn btn-accent" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')">Ок</button>';updateLocalOrderStatus('paid');return;}}catch(e){}}box.innerHTML='<h2>Проверка оплаты</h2><p style="color:var(--text-dim);">Оплата пока не найдена. Это может занять до 5 минут.</p><button class="btn btn-accent" onclick="checkPaymentStatus()">🔄 Проверить снова</button><button class="btn-sm" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')" style="margin-top:8px;">Закрыть</button>';
+        }
+        function updateLocalOrderStatus(s){const orders=getOrders();if(orders.length>0){orders[orders.length-1].status=s;localStorage.setItem('px_orders_'+getGuestCode(),JSON.stringify(orders));}}
+        
+        function showTransferPayment(){document.getElementById('transferSection').classList.remove('hidden');}
+        function showTransferFromDetails(){document.getElementById('transferFromDetails').classList.remove('hidden');}
+        function handleFile(e){processFile(e.target.files[0],'dropzone','fileName','fileErr');}
+        function handleFile2(e){processFile(e.target.files[0],'dropzone2','fileName2',null);}
+        function processFile(file,zoneId,nameId,errId){if(!file)return;if(file.size>10*1024*1024){alert('Макс 10 МБ!');return;}uploadedFile=file;document.getElementById(zoneId).classList.add('has-file');document.getElementById(nameId).textContent='📎 '+file.name;if(errId)document.getElementById(errId).style.display='none';}
+        ['dropzone','dropzone2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('dragover',e=>{e.preventDefault();el.style.borderColor='var(--accent)';});el.addEventListener('dragleave',()=>el.style.borderColor='rgba(255,255,255,0.1)');el.addEventListener('drop',e=>{e.preventDefault();el.style.borderColor='rgba(255,255,255,0.1)';const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);const inputId=id==='dropzone'?'fileInput':'fileInput2';document.getElementById(inputId).files=dt.files;if(id==='dropzone')handleFile({target:{files:dt.files}});else handleFile2({target:{files:dt.files}});}});});
+        
+        async function submitTransfer(){
+            document.querySelectorAll('.error').forEach(e=>e.style.display='none');let err=false;
+            if(isCustom&&!document.getElementById('customDesc').value.trim()){document.getElementById('customErr').style.display='block';err=true;}
+            if(!document.getElementById('contactTg').value.trim()&&!document.getElementById('contactVk').value.trim()){document.getElementById('contactErr').style.display='block';err=true;}
+            if(!uploadedFile){document.getElementById('fileErr').style.display='block';err=true;}
+            if(err)return;
+            const btn=document.getElementById('submitTransferBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Отправляю...';
+            const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');
+            const order={id:Date.now(),product:title,tg:document.getElementById('contactTg').value.trim(),vk:document.getElementById('contactVk').value.trim(),status:'pending',time:new Date().toLocaleString('ru-RU'),code:getGuestCode()};
             saveOrder(order);
-            
-            const caption = `🛎 *ЗАКАЗ*\n📀 ${title}\n👤 TG: ${order.tg||'—'} | VK: ${order.vk||'—'}\n🆔 ${getGuestCode()}\n🕐 ${order.time}`;
-            const fd = new FormData();
-            fd.append('chat_id', ADMIN_CHAT_ID); fd.append('caption', caption); fd.append('parse_mode', 'Markdown'); fd.append('photo', uploadedFile);
-            
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {method:'POST',body:fd});
-                document.getElementById('successModal').classList.add('active');
-                resetForm();
-            } catch(e) { alert('Ошибка: ' + e.message); }
-            finally { btn.disabled = false; btn.innerHTML = '✅ Я оплатил — отправить'; }
+            const caption=`🛎 *ЗАКАЗ*\n📀 ${title}\n👤 TG: ${order.tg||'—'} | VK: ${order.vk||'—'}\n🆔 ${getGuestCode()}\n🕐 ${order.time}`;
+            const fd=new FormData();fd.append('caption',caption);fd.append('photo',uploadedFile);fd.append('guest',getGuestCode());
+            try{const resp=await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});const data=await resp.json();if(data.ok){document.getElementById('successModal').classList.add('active');resetForm();}else{alert('Ошибка: '+(data.error||'неизвестно'));}}catch(e){alert('Ошибка соединения');}
+            finally{btn.disabled=false;btn.innerHTML='✅ Отправить';}
         }
-        
-        function resetForm() {
-            selectedProduct = null; isCustom = false; uploadedFile = null;
-            document.getElementById('fileInput').value = '';
-            document.getElementById('fileName').textContent = '';
-            document.getElementById('dropzone').classList.remove('has-file');
-            document.getElementById('orderForm').classList.remove('active');
-            document.getElementById('transferSection').classList.add('hidden');
+        async function submitTransferFromDetails(){
+            const tg=document.getElementById('contactTg2')?.value?.trim()||'';const vk=document.getElementById('contactVk2')?.value?.trim()||'';
+            if(!tg&&!vk)return alert('Укажи контакт!');if(!uploadedFile)return alert('Прикрепи скриншот!');
+            const title=selectedProduct?.title||'Песня';
+            const caption=`🛎 *ЗАКАЗ*\n📀 ${title}\n👤 TG: ${tg||'—'} | VK: ${vk||'—'}\n🆔 ${getGuestCode()}\n🕐 ${new Date().toLocaleString('ru-RU')}`;
+            const fd=new FormData();fd.append('caption',caption);fd.append('photo',uploadedFile);fd.append('guest',getGuestCode());
+            try{const resp=await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});const data=await resp.json();if(data.ok){document.getElementById('successModal').classList.add('active');uploadedFile=null;document.getElementById('transferFromDetails').classList.add('hidden');}}catch(e){alert('Ошибка');}
         }
-        
-        function selectCustom() {
-            isCustom = true; selectedProduct = null;
-            document.getElementById('selectedDisplay').value = '🎤 Песня под заказ (цена договорная)';
-            document.getElementById('customGroup').classList.remove('hidden');
-            document.getElementById('orderForm').classList.add('active');
-            document.getElementById('detailsPage').classList.remove('active');
-            document.getElementById('catalog').style.display = '';
-            document.getElementById('orderForm').scrollIntoView({behavior:'smooth'});
-        }
-        
-        // ==================== МОИ ЗАКАЗЫ ====================
-        function showMyOrders() {
-            const panel = document.getElementById('ordersPanel'); panel.classList.toggle('active');
-            if (panel.classList.contains('active')) {
-                const orders = getOrders();
-                document.getElementById('ordersList').innerHTML = orders.length === 0
-                    ? '<div class="empty">📭 Пока нет заказов</div>'
-                    : orders.reverse().map(o => `<div class="order-row"><div><strong>${o.product}</strong><br><small style="color:var(--text-dim)">${o.time}</small></div><span class="status-badge ${o.status}">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('');
-                panel.scrollIntoView({behavior:'smooth'});
-            }
-        }
-        function closeOrders() { document.getElementById('ordersPanel').classList.remove('active'); }
-        
-        // ==================== ПЕРЕНОС ====================
-        function showTransferModal() {
-            document.getElementById('transferCodeDisplay').textContent = getGuestCode();
-            document.getElementById('transferModal').classList.add('active');
-        }
-        function closeTransferModal() { document.getElementById('transferModal').classList.remove('active'); }
-        function transferOrders() {
-            const code = document.getElementById('transferInput').value.trim().toUpperCase();
-            if (!code) return;
-            const data = localStorage.getItem('px_orders_' + code);
-            if (data) { localStorage.setItem('px_orders_' + getGuestCode(), data); alert('✅ Перенесены!'); closeTransferModal(); showMyOrders(); }
-            else { alert('❌ Код не найден'); }
-        }
-        function copyGuestCode() { navigator.clipboard.writeText(getGuestCode()).then(()=>alert('✅ ' + getGuestCode())); }
-        
+        function resetForm(){selectedProduct=null;isCustom=false;uploadedFile=null;document.getElementById('fileInput').value='';document.getElementById('fileName').textContent='';document.getElementById('dropzone').classList.remove('has-file');document.getElementById('orderForm').classList.remove('active');document.getElementById('transferSection').classList.add('hidden');}
+        function selectCustom(){isCustom=true;selectedProduct=null;document.getElementById('selectedDisplay').value='🎤 Песня под заказ';document.getElementById('customGroup').classList.remove('hidden');document.getElementById('orderForm').classList.add('active');document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';document.getElementById('orderForm').scrollIntoView({behavior:'smooth'});}
+        function showMyOrders(){const panel=document.getElementById('ordersPanel');panel.classList.toggle('active');if(panel.classList.contains('active')){const orders=getOrders();document.getElementById('ordersList').innerHTML=orders.length===0?'<div class="empty">📭 Пока нет заказов</div>':orders.reverse().map(o=>`<div class="order-row"><div><strong>${o.product}</strong><br><small style="color:var(--text-dim)">${o.time}</small></div><span class="status-badge ${o.status}">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('');panel.scrollIntoView({behavior:'smooth'});}}
+        function closeOrders(){document.getElementById('ordersPanel').classList.remove('active');}
+        function showTransferModal(){document.getElementById('transferCodeDisplay').textContent=getGuestCode();document.getElementById('transferModal').classList.add('active');}
+        function closeTransferModal(){document.getElementById('transferModal').classList.remove('active');}
+        function transferOrders(){const code=document.getElementById('transferInput').value.trim().toUpperCase();if(!code)return;const data=localStorage.getItem('px_orders_'+code);if(data){localStorage.setItem('px_orders_'+getGuestCode(),data);alert('✅ Перенесены!');closeTransferModal();showMyOrders();}else{alert('❌ Код не найден');}}
+        function copyGuestCode(){navigator.clipboard.writeText(getGuestCode()).then(()=>alert('✅ '+getGuestCode()));}
         render();
     </script>
 </body>
