@@ -4,55 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#060610">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
     <title>PieSenia — Авторские песни</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #060610; --card: rgba(12,12,28,0.5);
-            --border: rgba(255,255,255,0.04); --border-glow: rgba(139,92,246,0.15);
-            --gold: #d4a853; --gold-light: #f0d078;
-            --accent: #8b5cf6; --accent-light: #a78bfa; --accent-glow: rgba(139,92,246,0.5);
-            --cyan: #02c1b3; --cyan-glow: rgba(2,193,179,0.4);
-            --text: #e8e4f0; --text-dim: #8a84a0;
-            --danger: #f87171; --success: #4ade80;
+            --bg: #060610; --card: rgba(12,12,28,0.5); --border: rgba(255,255,255,0.04);
+            --gold: #d4a853; --gold-light: #f0d078; --accent: #8b5cf6; --accent-light: #a78bfa;
+            --cyan: #02c1b3; --text: #e8e4f0; --text-dim: #8a84a0; --danger: #f87171; --success: #4ade80;
             --radius: 24px; --glass: blur(32px);
         }
         * { margin:0;padding:0;box-sizing:border-box }
         body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased }
-        .bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden }
+        .bg { position:fixed; inset:0; z-index:0; pointer-events:none }
         .bg-orb { position:absolute; border-radius:50%; filter:blur(100px); opacity:0.4; animation:orbFloat 18s ease-in-out infinite }
         .bg-orb-1 { width:800px; height:800px; background:radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%); top:-400px; left:-300px }
         .bg-orb-2 { width:700px; height:700px; background:radial-gradient(circle, rgba(2,193,179,0.4) 0%, transparent 70%); bottom:-300px; right:-200px; animation-delay:-9s }
-        .bg-orb-3 { width:500px; height:500px; background:radial-gradient(circle, rgba(212,168,83,0.35) 0%, transparent 70%); top:40%; left:50%; animation-delay:-5s }
         @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,-60px) scale(1.2)} 66%{transform:translate(-50px,40px) scale(0.85)} }
-        .bg-grid { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.03; background-image:linear-gradient(rgba(139,92,246,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.2) 1px, transparent 1px); background-size:60px 60px }
-        .particles { position:fixed; inset:0; z-index:0; pointer-events:none }
-        .particle { position:absolute; width:3px; height:3px; background:var(--cyan); border-radius:50%; animation:particleFloat linear infinite; opacity:0 }
-        @keyframes particleFloat { 0%{transform:translateY(100vh) scale(0);opacity:0} 10%{opacity:0.8} 90%{opacity:0.2} 100%{transform:translateY(-100px) scale(1.5);opacity:0} }
+        .bg-grid { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.02; background-image:linear-gradient(rgba(139,92,246,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.2) 1px, transparent 1px); background-size:60px 60px }
         .app { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 20px 120px }
         .header { text-align:center; padding:50px 20px 10px }
-        .logo { font-size:70px; display:inline-block; animation:logoFloat 3s ease-in-out infinite; filter:drop-shadow(0 0 40px var(--accent-glow)) }
+        .logo { font-size:70px; display:inline-block; animation:logoFloat 3s ease-in-out infinite; filter:drop-shadow(0 0 40px rgba(139,92,246,0.5)) }
         @keyframes logoFloat { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-16px) rotate(5deg)} }
         h1 { font-family:'Unbounded',sans-serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:800; background:linear-gradient(135deg, var(--cyan), var(--accent-light), var(--gold-light)); background-size:300% 300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 4s ease-in-out infinite }
         @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
         .subtitle { color:var(--text-dim); font-size:0.95rem; max-width:500px; margin:0 auto }
         .top-bar { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; padding:20px 0 }
-        .btn-sm { padding:11px 24px; border-radius:30px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); backdrop-filter:var(--glass); -webkit-backdrop-filter:var(--glass); color:var(--text); cursor:pointer; font-size:0.85rem; font-weight:600; transition:all 0.4s }
-        .btn-sm:hover { border-color:var(--accent); background:rgba(139,92,246,0.1); box-shadow:0 0 30px var(--accent-glow); transform:translateY(-3px) }
+        .btn-sm { padding:11px 24px; border-radius:30px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); backdrop-filter:var(--glass); -webkit-backdrop-filter:var(--glass); color:var(--text); cursor:pointer; font-size:0.85rem; font-weight:600; transition:all 0.4s; font-family:inherit }
+        .btn-sm:hover { border-color:var(--accent); background:rgba(139,92,246,0.1); box-shadow:0 0 30px rgba(139,92,246,0.4); transform:translateY(-3px) }
         .guest-badge { background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.25); padding:11px 20px; border-radius:30px; font-size:0.8rem; color:var(--accent-light); font-weight:700; cursor:pointer; backdrop-filter:var(--glass); transition:all 0.4s }
-        .guest-badge:hover { box-shadow:0 0 30px var(--accent-glow); transform:translateY(-3px) }
+        .guest-badge:hover { box-shadow:0 0 30px rgba(139,92,246,0.4); transform:translateY(-3px) }
         .tabs { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin:20px 0; padding:6px; background:rgba(18,18,36,0.5); backdrop-filter:var(--glass); border-radius:40px; border:1px solid var(--border) }
-        .tab { padding:11px 22px; border:none; background:transparent; color:var(--text-dim); border-radius:30px; cursor:pointer; font-weight:600; font-size:0.82rem; transition:all 0.4s; white-space:nowrap }
-        .tab.active { background:rgba(139,92,246,0.25); color:#fff; box-shadow:0 0 30px var(--accent-glow); border:1px solid rgba(139,92,246,0.2) }
+        .tab { padding:11px 22px; border:none; background:transparent; color:var(--text-dim); border-radius:30px; cursor:pointer; font-weight:600; font-size:0.82rem; transition:all 0.4s; white-space:nowrap; font-family:inherit }
+        .tab.active { background:rgba(139,92,246,0.25); color:#fff; box-shadow:0 0 30px rgba(139,92,246,0.3); border:1px solid rgba(139,92,246,0.2) }
         .catalog { display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:22px }
         .card { background:var(--card); backdrop-filter:var(--glass); -webkit-backdrop-filter:var(--glass); border:1px solid var(--border); border-radius:var(--radius); padding:26px 20px; cursor:pointer; transition:all 0.5s; position:relative; overflow:hidden }
         .card::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 0%, rgba(139,92,246,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(2,193,179,0.06) 0%, transparent 60%); opacity:0; transition:opacity 0.5s }
-        .card::after { content:''; position:absolute; top:-2px; left:-2px; right:-2px; bottom:-2px; border-radius:calc(var(--radius) + 2px); background:linear-gradient(135deg, var(--accent), var(--cyan), var(--gold)); background-size:300% 300%; animation:borderGlow 4s linear infinite; opacity:0; transition:opacity 0.5s; z-index:-1 }
-        @keyframes borderGlow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-        .card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,0.5), 0 0 50px var(--accent-glow) }
+        .card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,0.5), 0 0 50px rgba(139,92,246,0.4) }
         .card:hover::before { opacity:1 }
-        .card:hover::after { opacity:0.3 }
         .card .emoji { font-size:40px; margin-bottom:10px; position:relative; z-index:1 }
         .card .title { font-weight:700; font-size:1.05rem; position:relative; z-index:1 }
         .card .price { font-size:1.3rem; font-weight:800; font-family:'Unbounded',sans-serif; background:linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; position:relative; z-index:1 }
@@ -64,31 +54,30 @@
         .media-wrap video { max-height:180px; object-fit:cover }
         .watermark { font-size:0.6rem; color:var(--danger); margin-top:4px; display:inline-block }
         .custom-card { background:var(--card); backdrop-filter:var(--glass); border:2px dashed rgba(139,92,246,0.25); border-radius:var(--radius); padding:32px; text-align:center; cursor:pointer; transition:all 0.5s; margin-top:22px }
-        .custom-card:hover { border-color:var(--accent-light); background:rgba(139,92,246,0.06); box-shadow:0 0 60px var(--accent-glow); transform:translateY(-4px) }
+        .custom-card:hover { border-color:var(--accent-light); background:rgba(139,92,246,0.06); box-shadow:0 0 60px rgba(139,92,246,0.4); transform:translateY(-4px) }
         .details-page { display:none; animation:slideUp 0.5s ease }
         .details-page.active { display:block }
         @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-        .details-card { background:var(--card); backdrop-filter:var(--glass); border:1px solid var(--border); border-radius:var(--radius); padding:32px 26px; margin-top:16px; position:relative; overflow:hidden }
-        .details-card::after { content:''; position:absolute; inset:-2px; border-radius:calc(var(--radius) + 2px); padding:2px; background:linear-gradient(135deg, var(--accent), var(--cyan)); background-size:300% 300%; opacity:0.05; animation:borderGlow 4s linear infinite; -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite:exclude; pointer-events:none }
+        .details-card { background:var(--card); backdrop-filter:var(--glass); border:1px solid var(--border); border-radius:var(--radius); padding:32px 26px; margin-top:16px }
         .details-card video { width:100%; max-height:400px; border-radius:16px; margin:16px 0 }
         .form { background:var(--card); backdrop-filter:var(--glass); border:1px solid var(--border); border-radius:var(--radius); padding:30px 24px; margin-top:20px; display:none; animation:slideUp 0.5s ease }
         .form.active { display:block }
         .form-input { width:100%; padding:14px 18px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:14px; color:var(--text); font-size:0.9rem; outline:none; transition:all 0.4s; font-family:inherit }
-        .form-input:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(139,92,246,0.1), 0 0 30px var(--accent-glow) }
+        .form-input:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(139,92,246,0.1), 0 0 30px rgba(139,92,246,0.3) }
         textarea.form-input { min-height:80px; resize:vertical }
         .payment-box { background:rgba(2,193,179,0.04); border:1px solid rgba(2,193,179,0.15); border-radius:18px; padding:22px; text-align:center; margin:18px 0 }
         .payment-phone { font-size:1.5rem; font-weight:800; font-family:'Unbounded',sans-serif; color:var(--cyan); cursor:pointer; transition:all 0.3s }
-        .payment-phone:hover { text-shadow:0 0 30px var(--cyan-glow) }
+        .payment-phone:hover { text-shadow:0 0 30px rgba(2,193,179,0.5) }
         .btn { padding:15px 28px; border:none; border-radius:14px; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.4s; display:inline-flex; align-items:center; justify-content:center; gap:8px; flex:1; min-width:150px; font-family:inherit; letter-spacing:0.03em; position:relative; overflow:hidden }
-        .btn::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition:left 0.5s }
+        .btn::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); transition:left 0.5s }
         .btn:hover::after { left:100% }
-        .btn-gold { background:linear-gradient(135deg, var(--gold-light), var(--gold-dark)); color:#000 }
+        .btn-gold { background:linear-gradient(135deg, var(--gold-light), var(--gold)); color:#000 }
         .btn-accent { background:linear-gradient(135deg, var(--accent), #6d28d9); color:#fff }
         .btn-ym { background:linear-gradient(135deg, #8e44ad, #6c2d82); color:#fff }
         .btn:hover { transform:translateY(-3px); box-shadow:0 15px 40px rgba(0,0,0,0.4) }
         .btn-full { width:100%; flex:none }
         .dropzone { border:2px dashed rgba(255,255,255,0.08); border-radius:16px; padding:28px; text-align:center; cursor:pointer; transition:all 0.4s }
-        .dropzone:hover { border-color:var(--accent); background:rgba(139,92,246,0.04); box-shadow:0 0 40px var(--accent-glow) }
+        .dropzone:hover { border-color:var(--accent); background:rgba(139,92,246,0.04); box-shadow:0 0 40px rgba(139,92,246,0.3) }
         .file-name { color:var(--success); margin-top:10px; font-weight:600 }
         .modal { display:none; position:fixed; inset:0; background:rgba(6,6,16,0.9); backdrop-filter:blur(16px); z-index:999; justify-content:center; align-items:center; padding:20px }
         .modal.active { display:flex }
@@ -101,14 +90,12 @@
         @keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
         @keyframes toastOut { from{opacity:1} to{opacity:0} }
         .hidden { display:none!important }
-        @media (max-width:600px) { .catalog { grid-template-columns:1fr } h1 { font-size:1.7rem } }
+        @media (max-width:600px) { .catalog { grid-template-columns:1fr } h1 { font-size:1.7rem } .btn { min-width:120px; font-size:0.82rem; padding:12px 18px } }
     </style>
 </head>
 <body>
-    <div class="bg"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div><div class="bg-orb bg-orb-3"></div></div>
+    <div class="bg"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div>
     <div class="bg-grid"></div>
-    <div class="particles" id="particles"></div>
-    
     <div class="app">
         <div class="header"><div class="logo">🎵</div><h1>PieSenia</h1><p class="subtitle">Авторские песни с полной передачей прав после выкупа</p></div>
         <div class="top-bar">
@@ -116,31 +103,26 @@
             <span class="guest-badge" onclick="copyGuestCode()">🆔 <span id="guestCodeDisplay">...</span></span>
         </div>
         <div class="tabs" id="tabs">
-            <button class="tab active" data-tab="all">✨ Все</button>
-            <button class="tab" data-tab="kids">🧒 Детские</button>
-            <button class="tab" data-tab="adult">🔞 Взрослые</button>
-            <button class="tab" data-tab="sad">💔 Грустные</button>
-            <button class="tab" data-tab="happy">🎉 Весёлые</button>
-            <button class="tab" data-tab="love">❤️ Про любовь</button>
+            <button class="tab active" data-tab="all">✨ Все</button><button class="tab" data-tab="kids">🧒 Детские</button><button class="tab" data-tab="adult">🔞 Взрослые</button><button class="tab" data-tab="sad">💔 Грустные</button><button class="tab" data-tab="happy">🎉 Весёлые</button><button class="tab" data-tab="love">❤️ Про любовь</button>
         </div>
         <div class="catalog" id="catalog"></div>
-        <div class="custom-card" onclick="selectCustom()"><span style="font-size:42px;">🎤✨</span><h3 style="font-weight:700;">Песня под заказ</h3><p style="color:var(--text-dim);">Опишите вашу идею — я создам уникальный трек специально для вас</p></div>
+        <div class="custom-card" onclick="selectCustom()"><span style="font-size:42px;">🎤✨</span><h3 style="font-weight:700;">Песня под заказ</h3><p style="color:var(--text-dim);">Опишите вашу идею — я создам уникальный трек</p></div>
         <div class="details-page" id="detailsPage"></div>
         <div class="form" id="orderForm">
             <h3 style="margin-bottom:16px;font-family:'Unbounded',sans-serif;">📝 Оформление заказа</h3>
             <div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Выбранное</label><input class="form-input" id="selectedDisplay" readonly></div>
             <div class="hidden" id="customGroup" style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Опишите идею</label><textarea class="form-input" id="customDesc" placeholder="Жанр, настроение, тема..."></textarea></div>
-            <div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Контакты для связи</label><div style="display:flex;gap:8px;"><input class="form-input" id="contactTg" placeholder="Telegram или ВКонтакте"></div></div>
+            <div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Ваш контакт для связи</label><input class="form-input" id="contactTg" placeholder="Telegram, ВКонтакте или номер телефона"></div>
             <button class="btn btn-ym btn-full" onclick="payByYooMoney()" style="margin-bottom:10px;">💛 Оплатить через ЮMoney</button>
             <button class="btn btn-gold btn-full" onclick="document.getElementById('transferSection').classList.remove('hidden')">📱 Переводом на карту</button>
             <div id="transferSection" class="hidden" style="margin-top:16px;">
                 <div class="payment-box">
-                    <p style="color:var(--text-dim);margin-bottom:4px;">Оплата переводом по номеру:</p>
+                    <p style="color:var(--text-dim);margin-bottom:4px;">Оплата переводом по номеру телефона:</p>
                     <div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div>
                     <p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p>
-                    <p style="color:var(--text-dim);font-size:0.7rem;margin-top:8px;">👆 Нажмите на номер, чтобы скопировать</p>
+                    <p style="color:var(--text-dim);font-size:0.7rem;margin-top:8px;">👆 Нажмите на номер, чтобы скопировать его</p>
                 </div>
-                <div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Прикрепите скриншот оплаты</label><div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">📎<br>Нажмите сюда или перетащите файл<div class="file-name" id="fileName"></div></div><input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)"></div>
+                <div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Прикрепите скриншот оплаты</label><div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">📎<br>Нажмите сюда, чтобы выбрать файл<br><small style="color:var(--text-dim);">или перетащите его в эту область</small><div class="file-name" id="fileName"></div></div><input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)"></div>
                 <button class="btn btn-gold btn-full" onclick="submitTransfer()">✅ Я оплатил(а) — отправить заказ</button>
             </div>
         </div>
@@ -150,8 +132,6 @@
     <div class="modal" id="paymentModal"><div class="modal-box" id="paymentBox"><div class="spinner"></div><p style="margin-top:12px;">Проверяем оплату...</p></div></div>
 
     <script>
-        (function(){const c=document.getElementById('particles');for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*15)+'s';p.style.animationDelay=Math.random()*10+'s';c.appendChild(p)}})();
-        
         const API_BASE = 'https://Rettero.pythonanywhere.com';
         const catalog = [
             { id:1, emoji:"💔", title:"Разбитое сердце", price:3000, desc:"Лирическая баллада о любви и расставании", tags:["поп","баллада"], category:"sad", base:"media/razbitoe_serdtse" },
@@ -169,33 +149,33 @@
         function saveOrder(o){const orders=getOrders();orders.push(o);localStorage.setItem('px_orders_'+getGuestCode(),JSON.stringify(orders));}
         let currentTab='all',selectedProduct=null,isCustom=false,uploadedFile=null;
         function showToast(msg){const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2800);}
-        function copyPhone(){navigator.clipboard.writeText('+7 904 862 83 27').then(()=>showToast('✅ Номер скопирован!'));}
+        function copyPhone(){navigator.clipboard.writeText('+7 904 862 83 27').then(()=>showToast('✅ Номер скопирован! Можете совершить перевод.'));}
         function copyGuestCode(){navigator.clipboard.writeText(getGuestCode()).then(()=>showToast('✅ Ваш код: '+getGuestCode()));}
-        
+
         function render(){const f=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);document.getElementById('catalog').innerHTML=f.map(p=>`<div class="card" onclick="showDetails(${p.id})"><div class="emoji">${p.emoji}</div><div class="title">${p.title}</div><div class="price">${p.price.toLocaleString()} ₽</div><div class="desc">${p.desc}</div><div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="media-wrap">${getMediaHTML(p.base)}<div class="watermark">🔊 Демо с водяным знаком «Rettero»</div></div></div>`).join('');document.getElementById('guestCodeDisplay').textContent=getGuestCode();}
         document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;render();});
-        
-        function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=false;document.getElementById('catalog').style.display='none';document.querySelector('.custom-card').classList.add('hidden');document.getElementById('detailsPage').classList.add('active');document.getElementById('detailsPage').innerHTML=`<button class="btn-sm" onclick="goBack()">← Назад к каталогу</button><div class="details-card"><div style="font-size:48px;">${p.emoji}</div><h2 style="font-family:'Unbounded',sans-serif;">${p.title}</h2><div style="font-size:1.6rem;font-weight:800;font-family:'Unbounded',sans-serif;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div><p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>${getMediaHTML(p.base).replace('max-height:180px','max-height:350px')}<div class="watermark">🔊 Демо с водяным знаком «Rettero» — после покупки вы получите чистую версию</div><div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-ym btn-full" onclick="payByYooMoney()">💛 Оплатить через ЮMoney</button><button class="btn btn-gold btn-full" onclick="showTransferFromDetails()">📱 Переводом на карту</button></div><div id="transferFromDetails" class="hidden" style="margin-top:16px;"><div class="payment-box"><div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p></div><div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Контакты</label><input class="form-input" id="contactTg2" placeholder="Telegram или ВКонтакте"></div><div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Скриншот</label><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажмите сюда<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"></div><button class="btn btn-gold btn-full" onclick="submitTransferFromDetails()">✅ Отправить</button></div></div>`;}
+
+        function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=false;document.getElementById('catalog').style.display='none';document.querySelector('.custom-card').classList.add('hidden');document.getElementById('detailsPage').classList.add('active');document.getElementById('detailsPage').innerHTML=`<button class="btn-sm" onclick="goBack()">← Назад к каталогу</button><div class="details-card"><div style="font-size:48px;">${p.emoji}</div><h2 style="font-family:'Unbounded',sans-serif;">${p.title}</h2><div style="font-size:1.6rem;font-weight:800;font-family:'Unbounded',sans-serif;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div><p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>${getMediaHTML(p.base).replace('max-height:180px','max-height:350px')}<div class="watermark">🔊 Демо с водяным знаком «Rettero» — после покупки вы получите чистую версию</div><div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-ym btn-full" onclick="payByYooMoney()">💛 Оплатить через ЮMoney</button><button class="btn btn-gold btn-full" onclick="showTransferFromDetails()">📱 Переводом на карту</button></div><div id="transferFromDetails" class="hidden" style="margin-top:16px;"><div class="payment-box"><div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p></div><div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Контакт для связи</label><input class="form-input" id="contactTg2" placeholder="Telegram, ВКонтакте или телефон"></div><div style="margin:12px 0;"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Скриншот оплаты</label><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажмите сюда<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"></div><button class="btn btn-gold btn-full" onclick="submitTransferFromDetails()">✅ Отправить заказ</button></div></div>`;document.getElementById('detailsPage').scrollIntoView({behavior:'smooth'});}
         function goBack(){document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';document.querySelector('.custom-card').classList.remove('hidden');}
-        
+
         function selectCustom(){isCustom=true;selectedProduct=null;document.getElementById('selectedDisplay').value='🎤 Песня под заказ (цена договорная)';document.getElementById('customGroup').classList.remove('hidden');document.getElementById('orderForm').classList.add('active');document.getElementById('orderForm').scrollIntoView({behavior:'smooth'});}
-        
-        function payByYooMoney(){if(!selectedProduct&&!isCustom)return alert('Выберите песню!');const price=isCustom?0:selectedProduct.price;const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const order={id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),code:getGuestCode()};saveOrder(order);window.open(`https://yoomoney.ru/to/4100117765240041/${price}`,'_blank');document.getElementById('paymentModal').classList.add('active');setTimeout(()=>checkPaymentOnce(),3000);}
-        
-        async function checkPaymentOnce(){const box=document.getElementById('paymentBox');const orders=getOrders();const lastOrder=orders[orders.length-1];if(!lastOrder){box.innerHTML='<h2>Нет заказа</h2><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Закрыть</button>';return;}if(lastOrder.status==='paid'){box.innerHTML='<div style="font-size:56px;">💛</div><h2>Платёж найден!</h2><p style="color:var(--text-dim);">Спасибо за оплату!</p><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Ок</button>';return;}try{const resp=await fetch(`${API_BASE}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:getGuestCode()})});const data=await resp.json();if(data.ok&&data.paid){box.innerHTML='<div style="font-size:56px;">💛</div><h2>Платёж найден!</h2><p style="color:var(--text-dim);">Спасибо! С вами свяжется исполнитель.</p><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Ок</button>';updateLocalOrderStatus('paid');}else{box.innerHTML='<div style="font-size:56px;">🔍</div><h2>Платёж не найден</h2><p style="color:var(--text-dim);">Повторите попытку позже.</p><button class="btn btn-accent btn-full" onclick="checkPaymentOnce()">🔄 Повторить</button><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')" style="margin-top:8px;">Закрыть</button>';}}catch(e){box.innerHTML='<h2>Ошибка</h2><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Закрыть</button>';}}
+
+        function payByYooMoney(){if(!selectedProduct&&!isCustom)return alert('Пожалуйста, выберите песню!');const price=isCustom?0:selectedProduct.price;const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const order={id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),code:getGuestCode()};saveOrder(order);window.open(`https://yoomoney.ru/to/4100117765240041/${price}`,'_blank');document.getElementById('paymentModal').classList.add('active');setTimeout(()=>checkPaymentOnce(),3000);}
+
+        async function checkPaymentOnce(){const box=document.getElementById('paymentBox');const orders=getOrders();const lastOrder=orders[orders.length-1];if(!lastOrder){box.innerHTML='<h2>Нет заказа</h2><p style="color:var(--text-dim);">Сначала выберите песню.</p><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Закрыть</button>';return;}if(lastOrder.status==='paid'){box.innerHTML='<div style="font-size:56px;">💛</div><h2>Платёж найден!</h2><p style="color:var(--text-dim);">Спасибо за оплату! С вами свяжется исполнитель.</p><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Ок</button>';return;}try{const resp=await fetch(`${API_BASE}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:getGuestCode()})});const data=await resp.json();if(data.ok&&data.paid){box.innerHTML='<div style="font-size:56px;">💛</div><h2>Платёж найден!</h2><p style="color:var(--text-dim);">Спасибо! С вами свяжется исполнитель.</p><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Ок</button>';updateLocalOrderStatus('paid');}else{box.innerHTML='<div style="font-size:56px;">🔍</div><h2>Платёж не найден</h2><p style="color:var(--text-dim);">Повторите попытку позже.</p><button class="btn btn-accent btn-full" onclick="checkPaymentOnce()">🔄 Повторить</button><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')" style="margin-top:8px;">Закрыть</button>';}}catch(e){box.innerHTML='<h2>Ошибка</h2><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentModal\').classList.remove(\'active\')">Закрыть</button>';}}
         function updateLocalOrderStatus(s){const orders=getOrders();if(orders.length>0){orders[orders.length-1].status=s;localStorage.setItem('px_orders_'+getGuestCode(),JSON.stringify(orders));}}
-        
+
         function showTransferFromDetails(){const el=document.getElementById('transferFromDetails');if(el)el.classList.remove('hidden');}
         function handleFile(e){processFile(e.target.files[0],'dropzone','fileName');}
         function handleFile2(e){processFile(e.target.files[0],'dropzone2','fileName2');}
-        function processFile(file,zoneId,nameId){if(!file)return;if(file.size>10*1024*1024){alert('Файл слишком большой!');return;}uploadedFile=file;document.getElementById(zoneId).style.borderColor='var(--success)';document.getElementById(nameId).textContent='📎 '+file.name;}
-        ['dropzone','dropzone2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('dragover',e=>{e.preventDefault();el.style.borderColor='var(--accent)';});el.addEventListener('dragleave',()=>el.style.borderColor='var(--border)');el.addEventListener('drop',e=>{e.preventDefault();el.style.borderColor='var(--border)';const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);const inputId=id==='dropzone'?'fileInput':'fileInput2';document.getElementById(inputId).files=dt.files;if(id==='dropzone')handleFile({target:{files:dt.files}});else handleFile2({target:{files:dt.files}});}});});
-        
-        async function submitTransfer(){if(!uploadedFile)return alert('Прикрепите скриншот!');const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const contact=document.getElementById('contactTg').value.trim();const order={id:Date.now(),product:title,contact:contact,status:'pending',time:new Date().toLocaleString('ru-RU'),code:getGuestCode()};saveOrder(order);const caption=`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact||'—'}\n🆔 Гость: ${getGuestCode()}\n🕐 ${order.time}`;const fd=new FormData();fd.append('caption',caption);fd.append('photo',uploadedFile);fd.append('guest',getGuestCode());try{const resp=await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});if(resp.ok){document.getElementById('successModal').classList.add('active');uploadedFile=null;document.getElementById('orderForm').classList.remove('active');document.getElementById('transferSection').classList.add('hidden');document.getElementById('fileName').textContent='';document.getElementById('dropzone').style.borderColor='var(--border)';}}catch(e){alert('Ошибка соединения.');}}
-        async function submitTransferFromDetails(){const contact=document.getElementById('contactTg2')?.value?.trim()||'';if(!contact)return alert('Укажите контакт!');if(!uploadedFile)return alert('Прикрепите скриншот!');const title=selectedProduct?.title||'Песня';const caption=`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact}\n🆔 Гость: ${getGuestCode()}\n🕐 ${new Date().toLocaleString('ru-RU')}`;const fd=new FormData();fd.append('caption',caption);fd.append('photo',uploadedFile);fd.append('guest',getGuestCode());try{const resp=await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});if(resp.ok){document.getElementById('successModal').classList.add('active');uploadedFile=null;document.getElementById('transferFromDetails').classList.add('hidden');}}catch(e){alert('Ошибка.');}}
-        
-        function showMyOrders(){const panel=document.getElementById('myOrdersPanel');panel.style.display=panel.style.display==='block'?'none':'block';if(panel.style.display==='block'){const orders=getOrders();document.getElementById('myOrders').innerHTML=orders.length===0?'<p style="color:var(--text-dim);text-align:center;">Пока нет заказов</p>':orders.reverse().map(o=>`<div class="order-row"><div><strong>${o.product}</strong><br><small style="color:var(--text-dim);">${o.time}</small></div><span style="color:${o.status==='pending'?'#fbbf24':'#4ade80'};font-weight:700;">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('');panel.scrollIntoView({behavior:'smooth'});}}
-        
+        function processFile(file,zoneId,nameId){if(!file)return;if(file.size>10*1024*1024){alert('Файл слишком большой! Максимальный размер — 10 МБ.');return;}uploadedFile=file;document.getElementById(zoneId).style.borderColor='var(--success)';document.getElementById(nameId).textContent='📎 Файл прикреплён: '+file.name;}
+        ['dropzone','dropzone2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('dragover',e=>{e.preventDefault();el.style.borderColor='var(--accent)';});el.addEventListener('dragleave',()=>el.style.borderColor='rgba(255,255,255,0.08)');el.addEventListener('drop',e=>{e.preventDefault();el.style.borderColor='rgba(255,255,255,0.08)';const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);const inputId=id==='dropzone'?'fileInput':'fileInput2';document.getElementById(inputId).files=dt.files;if(id==='dropzone')handleFile({target:{files:dt.files}});else handleFile2({target:{files:dt.files}});}});});
+
+        async function submitTransfer(){if(!uploadedFile)return alert('Пожалуйста, прикрепите скриншот оплаты!');const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const contact=document.getElementById('contactTg').value.trim();const order={id:Date.now(),product:title,contact:contact,status:'pending',time:new Date().toLocaleString('ru-RU'),code:getGuestCode()};saveOrder(order);const caption=`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact||'—'}\n🆔 Гость: ${getGuestCode()}\n🕐 ${order.time}`;const fd=new FormData();fd.append('caption',caption);fd.append('photo',uploadedFile);fd.append('guest',getGuestCode());try{const resp=await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});if(resp.ok){document.getElementById('successModal').classList.add('active');uploadedFile=null;document.getElementById('orderForm').classList.remove('active');document.getElementById('transferSection').classList.add('hidden');document.getElementById('fileName').textContent='';document.getElementById('dropzone').style.borderColor='rgba(255,255,255,0.08)';}}catch(e){alert('Ошибка соединения. Пожалуйста, попробуйте позже.');}}
+        async function submitTransferFromDetails(){const contact=document.getElementById('contactTg2')?.value?.trim()||'';if(!contact)return alert('Укажите контакт для связи!');if(!uploadedFile)return alert('Прикрепите скриншот оплаты!');const title=selectedProduct?.title||'Песня';const caption=`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact}\n🆔 Гость: ${getGuestCode()}\n🕐 ${new Date().toLocaleString('ru-RU')}`;const fd=new FormData();fd.append('caption',caption);fd.append('photo',uploadedFile);fd.append('guest',getGuestCode());try{const resp=await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});if(resp.ok){document.getElementById('successModal').classList.add('active');uploadedFile=null;document.getElementById('transferFromDetails').classList.add('hidden');}}catch(e){alert('Ошибка соединения.');}}
+
+        function showMyOrders(){const panel=document.getElementById('myOrdersPanel');panel.style.display=panel.style.display==='block'?'none':'block';if(panel.style.display==='block'){const orders=getOrders();document.getElementById('myOrders').innerHTML=orders.length===0?'<p style="color:var(--text-dim);text-align:center;">У вас пока нет заказов</p>':orders.reverse().map(o=>`<div class="order-row"><div><strong>${o.product}</strong><br><small style="color:var(--text-dim);">${o.time}</small></div><span style="color:${o.status==='pending'?'#fbbf24':'#4ade80'};font-weight:700;">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('');panel.scrollIntoView({behavior:'smooth'});}}
+
         render();document.getElementById('guestCodeDisplay').textContent=getGuestCode();
     </script>
 </body>
