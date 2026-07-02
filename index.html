@@ -97,6 +97,7 @@
         .btn-ym { background: #8e44ad; color: #fff; }
         .btn-ym:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(142,68,173,0.3); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-full { width: 100%; flex: none; }
         .dropzone { border: 2px dashed rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 28px 16px; text-align: center; cursor: pointer; transition: all 0.3s; }
         .dropzone:hover { border-color: var(--accent); background: rgba(139,92,246,0.04); }
         .dropzone.has-file { border-color: var(--success); border-style: solid; background: rgba(74,222,128,0.04); }
@@ -181,15 +182,32 @@
         <div class="orders-panel" id="ordersPanel">
             <div class="section-title" style="margin-top:0;">📋 Мои заказы</div>
             <div id="ordersList"></div>
-            <button class="btn-sm" onclick="closeOrders()" style="margin-top:14px;">← Назад</button>
+            <button class="btn btn-accent btn-full" onclick="closeOrders()" style="margin-top:14px;">← Назад</button>
         </div>
     </div>
+
+    <!-- МОДАЛКА ПЕРЕНОСА -->
     <div class="modal" id="transferModal">
-        <div class="modal-box"><h2>📱 Перенос</h2><p style="color:var(--text-dim);">Код: <strong id="transferCodeDisplay"></strong></p><input type="text" id="transferInput" placeholder="Введи код" maxlength="12" style="text-transform:uppercase;"><button class="btn btn-accent" onclick="transferOrders()" style="margin-top:10px;">Загрузить</button><button class="btn-sm" onclick="closeTransferModal()" style="margin-top:8px;">Закрыть</button></div>
+        <div class="modal-box">
+            <h2>📱 Перенос заказов</h2>
+            <p style="color:var(--text-dim);">Твой код: <strong id="transferCodeDisplay" style="color:var(--accent-light);"></strong></p>
+            <input type="text" id="transferInput" placeholder="Введи код собеседника" maxlength="12" style="text-transform:uppercase;">
+            <button class="btn btn-accent btn-full" onclick="transferOrders()" style="margin-bottom:8px;">📥 Загрузить заказы</button>
+            <button class="btn btn-accent btn-full" onclick="closeTransferModal()">Закрыть</button>
+        </div>
     </div>
+
+    <!-- МОДАЛКА УСПЕХА -->
     <div class="modal" id="successModal">
-        <div class="modal-box"><div style="font-size:56px;">✅</div><h2>Заказ отправлен!</h2><p style="color:var(--text-dim);">Проверю оплату и свяжусь 💛</p><button class="btn btn-accent" onclick="document.getElementById('successModal').classList.remove('active')">Ок</button></div>
+        <div class="modal-box">
+            <div style="font-size:56px;">✅</div>
+            <h2>Заказ отправлен!</h2>
+            <p style="color:var(--text-dim);">Проверю оплату и свяжусь 💛</p>
+            <button class="btn btn-accent btn-full" onclick="document.getElementById('successModal').classList.remove('active')">Ок</button>
+        </div>
     </div>
+
+    <!-- МОДАЛКА ПРОВЕРКИ ОПЛАТЫ -->
     <div class="modal" id="paymentCheckModal">
         <div class="modal-box" id="paymentCheckBox">
             <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px;"></div>
@@ -197,6 +215,7 @@
             <p style="color:var(--text-dim);">Подожди несколько секунд</p>
         </div>
     </div>
+
     <script>
         const API_BASE = 'https://Rettero.pythonanywhere.com';
         const WATERMARK = 'Rettero';
@@ -210,19 +229,28 @@
             { id:7, emoji:"🎉", title:"Праздник", price:2800, desc:"Весёлая песня", tags:["поп"], category:"happy", media:"media/demo7.mp3", type:"audio" },
             { id:8, emoji:"😢", title:"Прощание", price:3200, desc:"Грустная баллада", tags:["баллада"], category:"sad", media:"media/demo8.mp4", type:"video" },
         ];
+
+        // ==================== ГОСТЕВОЙ КОД ====================
         function getGuestCode() { let c=localStorage.getItem('px_code'); if(!c){c='PX'+Math.random().toString(36).substring(2,8).toUpperCase();localStorage.setItem('px_code',c);} return c; }
         function getOrders() { try{return JSON.parse(localStorage.getItem('px_orders_'+getGuestCode())||'[]');}catch{return[];} }
         function saveOrder(o){const orders=getOrders();orders.push(o);localStorage.setItem('px_orders_'+getGuestCode(),JSON.stringify(orders));}
+
         let currentTab='all',selectedProduct=null,isCustom=false,uploadedFile=null;
+
+        // ==================== РЕНДЕР ====================
         function render(){
             const filtered=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);
             document.getElementById('catalog').innerHTML=filtered.map(p=>`<div class="card" onclick="showDetails(${p.id})"><div class="emoji">${p.emoji}</div><div class="title">${p.title}</div><div class="price">${p.price.toLocaleString()} ₽</div><div class="desc">${p.desc}</div><div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="copyright">🔒 Права после выкупа</div><div class="media-wrap">${p.type==='video'?`<video src="${p.media}" controls controlsList="nodownload" preload="none" style="max-height:160px;"></video>`:`<audio controls controlsList="nodownload" preload="none"><source src="${p.media}" type="audio/mpeg"></audio>`}<div class="watermark">🔊 Водяной знак «${WATERMARK}»</div></div></div>`).join('');
             document.getElementById('guestCodeDisplay').textContent=getGuestCode();
         }
+
+        // ==================== ТАБЫ ====================
         document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;document.getElementById('sectionTitle').textContent={all:'✨ Все',kids:'🧒 Детские',adult:'🔞 Взрослые',sad:'💔 Грустные',happy:'🎉 Весёлые',love:'❤️ Про любовь'}[currentTab];document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';render();});
-        function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=false;document.getElementById('catalog').style.display='none';document.getElementById('customCard').classList.add('hidden');document.getElementById('detailsPage').classList.add('active');document.getElementById('detailsPage').innerHTML=`<span class="back-btn" onclick="goBack()">← Назад</span><div class="details-card"><div style="font-size:48px;">${p.emoji}</div><h2 style="font-family:var(--font-head);">${p.title}</h2><div style="font-size:1.6rem;font-weight:800;font-family:var(--font-head);background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div><p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>${p.type==='video'?`<video src="${p.media}" controls controlsList="nodownload" style="width:100%;max-height:350px;border-radius:16px;"></video>`:`<audio controls controlsList="nodownload" style="width:100%;margin:12px 0;"><source src="${p.media}" type="audio/mpeg"></audio>`}<div class="watermark">🔊 Водяной знак «${WATERMARK}»</div><div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-tg" onclick="window.open('https://t.me/Rettero','_blank')">💬 Telegram</button><button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button><button class="btn btn-gold" onclick="showTransferFromDetails()">📱 Перевод</button></div><div id="transferFromDetails" class="hidden" style="margin-top:16px;"><div class="payment-box"><div class="payment-phone" onclick="navigator.clipboard.writeText('+79048628327').then(()=>alert('✅'))">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p></div><div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg2" placeholder="Telegram"><input class="form-input" id="contactVk2" placeholder="ВК"></div></div><div class="form-group"><label class="form-label">Скриншот</label><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажми<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"></div><button class="btn btn-gold" onclick="submitTransferFromDetails()">✅ Отправить</button></div></div>`;document.getElementById('detailsPage').scrollIntoView({behavior:'smooth'});}
+
+        // ==================== ДЕТАЛИ ====================
+        function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=false;document.getElementById('catalog').style.display='none';document.getElementById('customCard').classList.add('hidden');document.getElementById('detailsPage').classList.add('active');document.getElementById('detailsPage').innerHTML=`<span class="back-btn" onclick="goBack()">← Назад</span><div class="details-card"><div style="font-size:48px;">${p.emoji}</div><h2 style="font-family:var(--font-head);">${p.title}</h2><div style="font-size:1.6rem;font-weight:800;font-family:var(--font-head);background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${p.price.toLocaleString()} ₽</div><p style="color:var(--text-dim);margin:12px 0;">${p.desc}</p>${p.type==='video'?`<video src="${p.media}" controls controlsList="nodownload" style="width:100%;max-height:350px;border-radius:16px;"></video>`:`<audio controls controlsList="nodownload" style="width:100%;margin:12px 0;"><source src="${p.media}" type="audio/mpeg"></audio>`}<div class="watermark">🔊 Водяной знак «${WATERMARK}»</div><div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-tg" onclick="window.open('https://t.me/Rettero','_blank')">💬 Telegram</button><button class="btn btn-ym" onclick="payByYooMoney()">💛 ЮMoney</button><button class="btn btn-gold" onclick="showTransferFromDetails()">📱 Перевод</button></div><div id="transferFromDetails" class="hidden" style="margin-top:16px;"><div class="payment-box"><div class="payment-phone" onclick="navigator.clipboard.writeText('+79048628327').then(()=>alert('✅'))">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p></div><div class="form-group"><label class="form-label">Контакты *</label><div class="contact-row"><input class="form-input" id="contactTg2" placeholder="Telegram"><input class="form-input" id="contactVk2" placeholder="ВК"></div></div><div class="form-group"><label class="form-label">Скриншот</label><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажми<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"></div><button class="btn btn-gold btn-full" onclick="submitTransferFromDetails()">✅ Отправить</button></div></div>`;document.getElementById('detailsPage').scrollIntoView({behavior:'smooth'});}
         function goBack(){document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';document.getElementById('customCard').classList.remove('hidden');}
-        
+
         // ==================== ОПЛАТА ====================
         function payByYooMoney(){
             if(!selectedProduct&&!isCustom)return alert('Выбери песню!');
@@ -233,23 +261,26 @@
             window.open(`https://yoomoney.ru/to/4100117765240041/${price}`,'_blank');
             setTimeout(()=>{if(!document.getElementById('paymentCheckModal').classList.contains('active'))checkPaymentStatus();},5000);
         }
-        
+
+        // ==================== ПРОВЕРКА ОПЛАТЫ ====================
         async function checkPaymentStatus(){
             const modal=document.getElementById('paymentCheckModal');modal.classList.add('active');
             const box=document.getElementById('paymentCheckBox');
-            box.innerHTML='<h2>Проверка оплаты</h2><p style="color:var(--text-dim);">Оплата пока не найдена. Это может занять до 5 минут.</p><button class="btn btn-accent" onclick="checkPaymentStatus()" style="margin-bottom:8px;width:100%;">🔄 Проверить снова</button><button class="btn btn-accent" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')" style="width:100%;">Закрыть</button>';
+            box.innerHTML='<div class="spinner" style="width:40px;height:40px;margin:0 auto 16px;"></div><h2>Проверяем оплату...</h2><p style="color:var(--text-dim);">Подожди несколько секунд</p>';
             const guest=getGuestCode();
-            for(let i=0;i<10;i++){await new Promise(r=>setTimeout(r,3000));try{const resp=await fetch(`${API_BASE}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})});const data=await resp.json();if(data.ok&&data.paid){box.innerHTML='<div style="font-size:64px;">💛</div><h2>Оплата успешна!</h2><p style="color:var(--text-dim);">Ожидайте вашего заказа. С вами свяжется исполнитель для обсуждения деталей.</p><p style="color:var(--accent-light);font-size:0.85rem;">Код заказа: '+guest+'</p><button class="btn btn-accent" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')">Ок</button>';updateLocalOrderStatus('paid');return;}}catch(e){}}box.innerHTML='<h2>Проверка оплаты</h2><p style="color:var(--text-dim);">Оплата пока не найдена. Это может занять до 5 минут.</p><button class="btn btn-accent" onclick="checkPaymentStatus()">🔄 Проверить снова</button><button class="btn-sm" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')" style="margin-top:8px;">Закрыть</button>';
+            for(let i=0;i<10;i++){await new Promise(r=>setTimeout(r,3000));try{const resp=await fetch(`${API_BASE}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})});const data=await resp.json();if(data.ok&&data.paid){box.innerHTML='<div style="font-size:64px;">💛</div><h2>Оплата успешна!</h2><p style="color:var(--text-dim);">Ожидайте вашего заказа. С вами свяжется исполнитель для обсуждения деталей.</p><p style="color:var(--accent-light);font-size:0.85rem;">Код заказа: '+guest+'</p><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')">Ок</button>';updateLocalOrderStatus('paid');return;}}catch(e){}}
+            box.innerHTML='<h2>Проверка оплаты</h2><p style="color:var(--text-dim);">Оплата пока не найдена. Может занять до 5 минут.</p><button class="btn btn-accent btn-full" onclick="checkPaymentStatus()" style="margin-bottom:8px;">🔄 Проверить снова</button><button class="btn btn-accent btn-full" onclick="document.getElementById(\'paymentCheckModal\').classList.remove(\'active\')">Закрыть</button>';
         }
         function updateLocalOrderStatus(s){const orders=getOrders();if(orders.length>0){orders[orders.length-1].status=s;localStorage.setItem('px_orders_'+getGuestCode(),JSON.stringify(orders));}}
-        
+
+        // ==================== ПЕРЕВОД НА КАРТУ ====================
         function showTransferPayment(){document.getElementById('transferSection').classList.remove('hidden');}
         function showTransferFromDetails(){document.getElementById('transferFromDetails').classList.remove('hidden');}
         function handleFile(e){processFile(e.target.files[0],'dropzone','fileName','fileErr');}
         function handleFile2(e){processFile(e.target.files[0],'dropzone2','fileName2',null);}
         function processFile(file,zoneId,nameId,errId){if(!file)return;if(file.size>10*1024*1024){alert('Макс 10 МБ!');return;}uploadedFile=file;document.getElementById(zoneId).classList.add('has-file');document.getElementById(nameId).textContent='📎 '+file.name;if(errId)document.getElementById(errId).style.display='none';}
         ['dropzone','dropzone2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('dragover',e=>{e.preventDefault();el.style.borderColor='var(--accent)';});el.addEventListener('dragleave',()=>el.style.borderColor='rgba(255,255,255,0.1)');el.addEventListener('drop',e=>{e.preventDefault();el.style.borderColor='rgba(255,255,255,0.1)';const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);const inputId=id==='dropzone'?'fileInput':'fileInput2';document.getElementById(inputId).files=dt.files;if(id==='dropzone')handleFile({target:{files:dt.files}});else handleFile2({target:{files:dt.files}});}});});
-        
+
         async function submitTransfer(){
             document.querySelectorAll('.error').forEach(e=>e.style.display='none');let err=false;
             if(isCustom&&!document.getElementById('customDesc').value.trim()){document.getElementById('customErr').style.display='block';err=true;}
@@ -275,12 +306,47 @@
         }
         function resetForm(){selectedProduct=null;isCustom=false;uploadedFile=null;document.getElementById('fileInput').value='';document.getElementById('fileName').textContent='';document.getElementById('dropzone').classList.remove('has-file');document.getElementById('orderForm').classList.remove('active');document.getElementById('transferSection').classList.add('hidden');}
         function selectCustom(){isCustom=true;selectedProduct=null;document.getElementById('selectedDisplay').value='🎤 Песня под заказ';document.getElementById('customGroup').classList.remove('hidden');document.getElementById('orderForm').classList.add('active');document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';document.getElementById('orderForm').scrollIntoView({behavior:'smooth'});}
+
+        // ==================== МОИ ЗАКАЗЫ ====================
         function showMyOrders(){const panel=document.getElementById('ordersPanel');panel.classList.toggle('active');if(panel.classList.contains('active')){const orders=getOrders();document.getElementById('ordersList').innerHTML=orders.length===0?'<div class="empty">📭 Пока нет заказов</div>':orders.reverse().map(o=>`<div class="order-row"><div><strong>${o.product}</strong><br><small style="color:var(--text-dim)">${o.time}</small></div><span class="status-badge ${o.status}">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('');panel.scrollIntoView({behavior:'smooth'});}}
         function closeOrders(){document.getElementById('ordersPanel').classList.remove('active');}
-        function showTransferModal(){document.getElementById('transferCodeDisplay').textContent=getGuestCode();document.getElementById('transferModal').classList.add('active');}
+
+        // ==================== ПЕРЕНОС ЗАКАЗОВ ====================
+        function showTransferModal(){
+            document.getElementById('transferCodeDisplay').textContent=getGuestCode();
+            document.getElementById('transferModal').classList.add('active');
+        }
         function closeTransferModal(){document.getElementById('transferModal').classList.remove('active');}
-        function transferOrders(){const code=document.getElementById('transferInput').value.trim().toUpperCase();if(!code)return;const data=localStorage.getItem('px_orders_'+code);if(data){localStorage.setItem('px_orders_'+getGuestCode(),data);alert('✅ Перенесены!');closeTransferModal();showMyOrders();}else{alert('❌ Код не найден');}}
-        function copyGuestCode(){navigator.clipboard.writeText(getGuestCode()).then(()=>alert('✅ '+getGuestCode()));}
+
+        function transferOrders(){
+            const code=document.getElementById('transferInput').value.trim().toUpperCase();
+            if(!code) return alert('Введи код собеседника!');
+            
+            // Ищем заказы по коду в localStorage
+            const key='px_orders_'+code;
+            const data=localStorage.getItem(key);
+            
+            if(data){
+                try {
+                    const parsed=JSON.parse(data);
+                    if(parsed.length===0) return alert('У этого кода нет заказов!');
+                    
+                    // Копируем заказы себе
+                    localStorage.setItem('px_orders_'+getGuestCode(),data);
+                    alert('✅ Загружено заказов: '+parsed.length);
+                    closeTransferModal();
+                    showMyOrders();
+                } catch(e) {
+                    alert('❌ Ошибка данных!');
+                }
+            } else {
+                alert('❌ Код не найден! Проверь правильность кода.');
+            }
+        }
+
+        function copyGuestCode(){navigator.clipboard.writeText(getGuestCode()).then(()=>alert('✅ Код скопирован: '+getGuestCode()));}
+
+        // ==================== СТАРТ ====================
         render();
     </script>
 </body>
