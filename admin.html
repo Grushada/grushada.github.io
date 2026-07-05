@@ -24,15 +24,19 @@
         .panel{background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:none;box-shadow:0 30px 60px rgba(0,0,0,0.4)}
         .panel.active{display:block}
         h1{font-family:'Unbounded',sans-serif;text-align:center;margin-bottom:20px;background:linear-gradient(135deg,var(--cyan),var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.6rem}
-        input,textarea,select{width:100%;padding:14px;margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:0.9rem;outline:none;font-family:inherit;transition:all 0.3s}
-        input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 20px rgba(139,92,246,0.2)}
+        h3{color:var(--text);margin-bottom:12px}
+        input,textarea,select{width:100%;padding:14px;margin:8px 0;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:0.9rem;outline:none;font-family:inherit;transition:all 0.3s}
+        input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 20px rgba(139,92,246,0.2);background:rgba(255,255,255,0.08)}
+        input::placeholder,textarea::placeholder{color:var(--text-dim)}
         textarea{min-height:80px;resize:vertical}
         .btn{padding:12px 20px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:0.85rem;font-family:inherit;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px}
         .btn-accent{background:var(--accent);color:#fff}
         .btn-danger{background:var(--danger);color:#fff}
         .btn-success{background:var(--success);color:#000}
         .btn-warning{background:var(--warning);color:#000}
+        .btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
         .btn-sm{padding:8px 16px;font-size:0.78rem}
+        .btn-xs{padding:6px 12px;font-size:0.7rem;border-radius:8px}
         .btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,0.3)}
         .btn-full{width:100%;justify-content:center}
         .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
@@ -61,8 +65,20 @@
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--success);color:#000;padding:12px 28px;border-radius:30px;font-weight:700;z-index:9999;animation:toastIn 0.4s ease,toastOut 0.4s ease 2.5s forwards}
         @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
         @keyframes toastOut{from{opacity:1}to{opacity:0}}
-        .catalog-item{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:0.85rem}
-        .catalog-item .info{flex:1;min-width:180px}
+        .catalog-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:0.85rem;transition:all 0.3s}
+        .catalog-item:hover{background:rgba(255,255,255,0.06);border-color:rgba(139,92,246,0.2)}
+        .catalog-item .info{flex:1;min-width:200px}
+        .catalog-item .info strong{color:var(--text)}
+        .catalog-item .info small{color:var(--text-dim)}
+        .catalog-item .actions{display:flex;gap:6px}
+        .edit-form{background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.2);border-radius:14px;padding:16px;margin-top:8px}
+        .edit-form label{font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;display:block;margin-bottom:4px}
+        .edit-form input{margin:4px 0;padding:10px 14px}
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(6,6,16,0.9);backdrop-filter:blur(10px);z-index:999;justify-content:center;align-items:center;padding:20px}
+        .modal-overlay.active{display:flex}
+        .modal-box{background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:500px;width:100%;text-align:center;animation:modalIn 0.4s ease}
+        @keyframes modalIn{from{opacity:0;transform:scale(0.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        .hint{font-size:0.7rem;color:var(--text-dim);margin-top:2px}
         @media(max-width:768px){.toolbar>*{min-width:100%}.stats-bar{flex-direction:column}}
     </style>
 </head>
@@ -109,18 +125,20 @@
             <!-- КАТАЛОГ -->
             <div class="panel" id="panel-catalog">
                 <h1>📀 Каталог</h1>
-                <button class="btn btn-accent btn-sm" onclick="loadCatalog()">🔄 Обновить</button>
-                <div id="catalogList" style="margin-top:14px;"></div>
+                <button class="btn btn-accent btn-sm" onclick="loadCatalog()" style="margin-bottom:14px;">🔄 Обновить</button>
+                <div id="catalogList"></div>
             </div>
 
             <!-- ДОБАВИТЬ -->
             <div class="panel" id="panel-add">
                 <h1>➕ Добавить товар</h1>
-                <input id="newTitle" placeholder="Название">
-                <div class="row"><input id="newPrice" placeholder="Цена (₽)" type="number"><input id="newEmoji" placeholder="Эмодзи (💔)"></div>
-                <input id="newDesc" placeholder="Описание"><input id="newTags" placeholder="Теги через запятую">
-                <div class="row"><select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select><input id="newBase" placeholder="Имя файла"></div>
-                <button class="btn btn-accent btn-full" onclick="addProduct()">✅ Добавить</button>
+                <input id="newTitle" placeholder="Название песни *">
+                <div class="row"><input id="newPrice" placeholder="Цена в ₽ *" type="number"><input id="newEmoji" placeholder="Эмодзи (необязательно)"></div>
+                <input id="newDesc" placeholder="Описание (необязательно)">
+                <input id="newTags" placeholder="Теги через запятую (необязательно)">
+                <div class="row"><select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select><input id="newBase" placeholder="Имя файла без расширения (необязательно)"></div>
+                <p class="hint">* — обязательные поля. Если не указать имя файла — оно создастся автоматически из названия.</p>
+                <button class="btn btn-accent btn-full" onclick="addProduct()">✅ Добавить товар</button>
             </div>
 
             <!-- НАСТРОЙКИ -->
@@ -135,13 +153,16 @@
             <p style="text-align:center;margin-top:20px;"><a href="/" style="color:var(--text-dim);font-size:.8rem;">← На сайт</a></p>
         </div>
     </div>
+
     <script>
         const API='https://Rettero.pythonanywhere.com';
-        const PASS='709';
         let S=JSON.parse(localStorage.getItem('px_settings')||'{"phone":"+79048628327","bank":"Альфа-банк","name":"Иван Максимович К.","yoomoney":"4100117765240041"}');
         document.getElementById('setPhone').value=S.phone;document.getElementById('setBank').value=S.bank;document.getElementById('setName').value=S.name;document.getElementById('setYoo').value=S.yoomoney;
 
-        function login(){if(document.getElementById('passInput').value===PASS){document.getElementById('loginBlock').classList.add('hidden');document.getElementById('adminBlock').classList.remove('hidden');showPanel('orders');loadOrders();}else alert('❌ Неверный пароль!');}
+        async function login(){
+            const pass=document.getElementById('passInput').value;
+            try{const r=await fetch(`${API}/api/check-admin-password`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});const d=await r.json();if(d.ok){document.getElementById('loginBlock').classList.add('hidden');document.getElementById('adminBlock').classList.remove('hidden');showPanel('orders');loadOrders();}else{alert('❌ Неверный пароль!');}}catch(e){alert('Ошибка соединения с сервером');}
+        }
         document.getElementById('passInput').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
         document.querySelector('.tabs').addEventListener('click',e=>{const btn=e.target.closest('.tab-btn[data-tab]');if(!btn)return;document.querySelectorAll('.tab-btn[data-tab]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');showPanel(btn.dataset.tab);if(btn.dataset.tab==='orders')loadOrders();if(btn.dataset.tab==='catalog')loadCatalog();});
         function showPanel(name){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+name).classList.add('active');}
@@ -159,23 +180,74 @@
             document.getElementById('pendingOrders').textContent=orders.filter(o=>o.status==='pending').length;
             document.getElementById('paidOrders').textContent=orders.filter(o=>o.status==='paid').length;
             document.getElementById('rejectedOrders').textContent=orders.filter(o=>o.status==='rejected').length;
-            document.getElementById('ordersList').innerHTML=orders.length===0?'<p style="text-align:center;color:var(--text-dim);">Заказов пока нет</p>':orders.reverse().map(o=>{
-                const t=o.caption?o.caption.replace(/[*_`\[\]()]/g,''):'Заказ';
-                return`<div class="order"><div class="order-header" onclick="this.parentElement.querySelector('.order-detail').classList.toggle('open')"><input type="checkbox" class="checkbox" onclick="event.stopPropagation();toggleSelect('${o.guest}','${o.time}')" style="margin-right:10px;"><div class="info"><strong>${t.substring(0,80)}</strong><br><small style="color:var(--text-dim);">🕐 ${o.time||'—'} | 🆔 ${o.guest||'—'} | <span class="badge badge-${o.status==='pending'?'pending':o.status==='paid'?'paid':'rejected'}">${o.status==='pending'?'Ожидает':o.status==='paid'?'Оплачен':'Отклонён'}</span></small></div><div class="actions">${o.status==='pending'?`<button class="btn btn-success btn-sm" onclick="event.stopPropagation();confirmOrder('${o.guest}')">✅</button><button class="btn btn-danger btn-sm" onclick="event.stopPropagation();rejectOrder('${o.guest}')">❌</button>`:''}<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteOrder('${o.guest}','${o.time}')">🗑</button></div></div><div class="order-detail"><strong>Полный текст:</strong><br>${t}<br><br><strong>Гость:</strong> ${o.guest||'—'}<br><strong>Время:</strong> ${o.time||'—'}<br><strong>Статус:</strong> ${o.status||'—'}</div></div>`}).join('');}catch(e){document.getElementById('ordersList').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка загрузки</p>';}}
+            document.getElementById('ordersList').innerHTML=orders.length===0?'<p style="text-align:center;color:var(--text-dim);">Заказов пока нет</p>':orders.reverse().map(o=>{const t=o.caption?o.caption.replace(/[*_`\[\]()]/g,''):'Заказ';return`<div class="order"><div class="order-header" onclick="this.parentElement.querySelector('.order-detail').classList.toggle('open')"><input type="checkbox" class="checkbox" onclick="event.stopPropagation();toggleSelect('${o.guest}','${o.time}')" style="margin-right:10px;"><div class="info"><strong>${t.substring(0,80)}</strong><br><small style="color:var(--text-dim);">🕐 ${o.time||'—'} | 🆔 ${o.guest||'—'} | <span class="badge badge-${o.status==='pending'?'pending':o.status==='paid'?'paid':'rejected'}">${o.status==='pending'?'Ожидает':o.status==='paid'?'Оплачен':'Отклонён'}</span></small></div><div class="actions">${o.status==='pending'?`<button class="btn btn-success btn-sm" onclick="event.stopPropagation();confirmOrder('${o.guest}')">✅</button><button class="btn btn-danger btn-sm" onclick="event.stopPropagation();rejectOrder('${o.guest}')">❌</button>`:''}<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteOrder('${o.guest}','${o.time}')">🗑</button></div></div><div class="order-detail"><strong>Полный текст:</strong><br>${t}<br><br><strong>Гость:</strong> ${o.guest||'—'}<br><strong>Время:</strong> ${o.time||'—'}<br><strong>Статус:</strong> ${o.status||'—'}</div></div>`}).join('');}catch(e){document.getElementById('ordersList').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка загрузки</p>';}}
 
         function toggleSelect(guest,time){const key=guest+'|'+time;const idx=selectedOrders.indexOf(key);if(idx>-1)selectedOrders.splice(idx,1);else selectedOrders.push(key);}
         async function confirmOrder(g){await fetch(`${API}/api/confirm-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:g})});toast('✅ Подтверждено!');loadOrders();}
         async function rejectOrder(g){await fetch(`${API}/api/reject-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:g})});toast('❌ Отклонено!');loadOrders();}
         async function deleteOrder(g,t){if(!confirm('Удалить заказ?'))return;await fetch(`${API}/api/delete-order`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:g,time:t})});toast('🗑 Заказ удалён!');loadOrders();}
-        async function deleteAllOrders(){if(!confirm('Удалить АБСОЛЮТНО ВСЕ заказы? Это действие необратимо!'))return;await fetch(`${API}/api/clear-orders`,{method:'POST'});toast('🗑 Все заказы удалены!');loadOrders();}
-        async function massConfirm(){if(selectedOrders.length===0)return alert('Выберите заказы галочками!');const count=selectedOrders.length;for(const key of selectedOrders){const[guest]=key.split('|');await fetch(`${API}/api/confirm-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})});}selectedOrders=[];toast('✅ Подтверждено: '+count);loadOrders();}
-        async function massReject(){if(selectedOrders.length===0)return alert('Выберите заказы галочками!');const count=selectedOrders.length;for(const key of selectedOrders){const[guest]=key.split('|');await fetch(`${API}/api/reject-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})});}selectedOrders=[];toast('❌ Отклонено: '+count);loadOrders();}
-        async function checkAllPayments(){const r=await fetch(`${API}/api/orders-list`);const d=await r.json();const orders=(d.orders||[]).filter(o=>o.status==='pending');if(orders.length===0)return toast('Нет ожидающих платежей');toast('🔍 Проверяем '+orders.length+' платежей...');for(const o of orders){await fetch(`${API}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:o.guest})});}loadOrders();toast('✅ Проверка завершена!');}
+        async function deleteAllOrders(){if(!confirm('Удалить АБСОЛЮТНО ВСЕ заказы?'))return;await fetch(`${API}/api/clear-orders`,{method:'POST'});toast('🗑 Все удалены!');loadOrders();}
+        async function massConfirm(){if(selectedOrders.length===0)return alert('Выберите заказы!');const c=selectedOrders.length;for(const k of selectedOrders){const[g]=k.split('|');await fetch(`${API}/api/confirm-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:g})});}selectedOrders=[];toast('✅ Подтверждено: '+c);loadOrders();}
+        async function massReject(){if(selectedOrders.length===0)return alert('Выберите заказы!');const c=selectedOrders.length;for(const k of selectedOrders){const[g]=k.split('|');await fetch(`${API}/api/reject-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:g})});}selectedOrders=[];toast('❌ Отклонено: '+c);loadOrders();}
+        async function checkAllPayments(){const r=await fetch(`${API}/api/orders-list`);const d=await r.json();const orders=(d.orders||[]).filter(o=>o.status==='pending');if(orders.length===0)return toast('Нет ожидающих');toast('🔍 Проверяем '+orders.length+'...');for(const o of orders){await fetch(`${API}/api/check-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest:o.guest})});}loadOrders();toast('✅ Готово!');}
         function exportCSV(){fetch(`${API}/api/orders-list`).then(r=>r.json()).then(d=>{const orders=d.orders||[];let csv='Время;Гость;Статус;Описание\n';orders.forEach(o=>{csv+=`"${o.time||''}";"${o.guest||''}";"${o.status||''}";"${(o.caption||'').replace(/"/g,'""')}"\n`;});const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='orders.csv';a.click();toast('📥 CSV скачан!');});}
 
-        async function loadCatalog(){try{const r=await fetch(`${API}/api/catalog`);const d=await r.json();const cat=d.products||[];document.getElementById('catalogList').innerHTML=cat.map(p=>`<div class="catalog-item"><div class="info"><strong>${p.emoji||''} ${p.title}</strong> — ${p.price}₽<br><small style="color:var(--text-dim);">${p.desc||''} | ${p.category||''}</small></div><button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">🗑</button></div>`).join('');}catch(e){document.getElementById('catalogList').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка</p>';}}
+        // ==================== КАТАЛОГ (С РЕДАКТИРОВАНИЕМ) ====================
+        async function loadCatalog(){
+            try{const r=await fetch(`${API}/api/catalog`);const d=await r.json();const cat=d.products||[];
+            document.getElementById('catalogList').innerHTML=cat.length===0?'<p style="text-align:center;color:var(--text-dim);">Каталог пуст</p>':cat.map(p=>`
+            <div class="catalog-item" id="cat-item-${p.id}">
+                <div class="info">
+                    <strong>${p.emoji||'🎵'} ${p.title}</strong> — <span style="color:var(--gold);font-weight:700;">${p.price}₽</span>
+                    <br><small>${p.desc||'—'} | Категория: ${p.category||'—'} | Теги: ${(p.tags||[]).join(', ')||'—'} | Файл: ${p.base||'—'}</small>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-outline btn-xs" onclick="startEdit(${p.id})">✏️</button>
+                    <button class="btn btn-danger btn-xs" onclick="deleteProduct(${p.id})">🗑</button>
+                </div>
+                <div class="edit-form hidden" id="edit-form-${p.id}">
+                    <label>Название</label><input id="edit-title-${p.id}" value="${p.title}">
+                    <label>Цена</label><input id="edit-price-${p.id}" value="${p.price}" type="number">
+                    <label>Эмодзи</label><input id="edit-emoji-${p.id}" value="${p.emoji||''}">
+                    <label>Описание</label><input id="edit-desc-${p.id}" value="${p.desc||''}">
+                    <label>Теги (через запятую)</label><input id="edit-tags-${p.id}" value="${(p.tags||[]).join(', ')}">
+                    <label>Категория</label><select id="edit-cat-${p.id}"><option value="sad" ${p.category==='sad'?'selected':''}>💔 Грустные</option><option value="happy" ${p.category==='happy'?'selected':''}>🎉 Весёлые</option><option value="adult" ${p.category==='adult'?'selected':''}>🔞 Взрослые</option><option value="kids" ${p.category==='kids'?'selected':''}>🧒 Детские</option><option value="love" ${p.category==='love'?'selected':''}>❤️ Про любовь</option></select>
+                    <label>Имя файла</label><input id="edit-base-${p.id}" value="${p.base||''}">
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <button class="btn btn-success btn-sm" onclick="saveEdit(${p.id})">💾 Сохранить</button>
+                        <button class="btn btn-outline btn-sm" onclick="cancelEdit(${p.id})">Отмена</button>
+                    </div>
+                </div>
+            </div>`).join('');}catch(e){document.getElementById('catalogList').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка загрузки</p>';}}
+
+        function startEdit(id){
+            document.querySelectorAll('.edit-form').forEach(f=>f.classList.add('hidden'));
+            document.getElementById('edit-form-'+id).classList.remove('hidden');
+        }
+        function cancelEdit(id){document.getElementById('edit-form-'+id).classList.add('hidden');}
+        async function saveEdit(id){
+            const data={
+                id:id,
+                title:document.getElementById('edit-title-'+id).value.trim(),
+                price:document.getElementById('edit-price-'+id).value.trim(),
+                emoji:document.getElementById('edit-emoji-'+id).value.trim(),
+                desc:document.getElementById('edit-desc-'+id).value.trim(),
+                tags:document.getElementById('edit-tags-'+id).value.split(',').map(x=>x.trim()).filter(x=>x),
+                category:document.getElementById('edit-cat-'+id).value,
+                base:document.getElementById('edit-base-'+id).value.trim()
+            };
+            if(!data.title||!data.price)return alert('Название и цена обязательны!');
+            try{await fetch(`${API}/api/update-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});toast('✅ Товар обновлён!');loadCatalog();}catch(e){alert('Ошибка');}
+        }
         async function deleteProduct(id){if(!confirm('Удалить товар #'+id+'?'))return;await fetch(`${API}/api/delete-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});toast('🗑 Товар удалён!');loadCatalog();}
-        async function addProduct(){const t=document.getElementById('newTitle').value.trim();const p=document.getElementById('newPrice').value.trim();if(!t||!p)return alert('Название и цена обязательны!');const d={title:t,price:p,emoji:document.getElementById('newEmoji').value.trim()||'🎵',desc:document.getElementById('newDesc').value.trim(),tags:document.getElementById('newTags').value.split(',').map(x=>x.trim()).filter(x=>x),category:document.getElementById('newCategory').value,base:document.getElementById('newBase').value.trim()||t.toLowerCase().replace(/\s+/g,'_')};await fetch(`${API}/api/add-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});toast('✅ Товар добавлен!');document.getElementById('newTitle').value='';document.getElementById('newPrice').value='';loadCatalog();}
+        async function addProduct(){
+            const t=document.getElementById('newTitle').value.trim();
+            const p=document.getElementById('newPrice').value.trim();
+            if(!t||!p)return alert('Название и цена обязательны!');
+            const d={title:t,price:p,emoji:document.getElementById('newEmoji').value.trim()||'🎵',desc:document.getElementById('newDesc').value.trim(),tags:document.getElementById('newTags').value.split(',').map(x=>x.trim()).filter(x=>x),category:document.getElementById('newCategory').value,base:document.getElementById('newBase').value.trim()||'media/'+t.toLowerCase().replace(/\s+/g,'_')};
+            await fetch(`${API}/api/add-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+            toast('✅ Товар добавлен!');document.getElementById('newTitle').value='';document.getElementById('newPrice').value='';loadCatalog();
+        }
         function saveSettings(){S={phone:document.getElementById('setPhone').value,bank:document.getElementById('setBank').value,name:document.getElementById('setName').value,yoomoney:document.getElementById('setYoo').value};localStorage.setItem('px_settings',JSON.stringify(S));toast('💾 Настройки сохранены!');}
     </script>
 </body>
