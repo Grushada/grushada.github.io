@@ -9,191 +9,2055 @@
     <meta name="google-adsense-account" content="ca-pub-4228536607258228">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
     <title>PieSenia — Авторские песни</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#060610;--card:rgba(12,12,28,0.5);--border:rgba(255,255,255,0.04);--gold:#d4a853;--gold-light:#f0d078;--accent:#8b5cf6;--cyan:#02c1b3;--text:#e8e4f0;--text-dim:#8a84a0;--danger:#f87171;--success:#4ade80;--warning:#fbbf24;--radius:24px;--glass:blur(32px)}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-        .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-        .bg-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.4;animation:orbFloat 18s ease-in-out infinite}
-        .bg-orb-1{width:800px;height:800px;background:radial-gradient(circle,rgba(139,92,246,0.5) 0%,transparent 70%);top:-400px;left:-300px}
-        .bg-orb-2{width:700px;height:700px;background:radial-gradient(circle,rgba(2,193,179,0.4) 0%,transparent 70%);bottom:-300px;right:-200px;animation-delay:-9s}
-        @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(80px,-60px) scale(1.2)}66%{transform:translate(-50px,40px) scale(0.85)}}
-        .bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;background-image:linear-gradient(rgba(139,92,246,0.2) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.2) 1px,transparent 1px);background-size:60px 60px}
-        .app{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px 120px}
-        .header{text-align:center;padding:50px 20px 10px}
-        .logo{font-size:70px;display:inline-block;animation:logoFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 40px rgba(139,92,246,0.5))}
-        @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-        h1{font-family:'Unbounded',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--accent),var(--gold-light));background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s ease-in-out infinite}
-        @keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-        .subtitle{color:var(--text-dim);font-size:0.95rem;max-width:500px;margin:0 auto}
-        .top-bar{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 0}
-        .btn-sm{padding:11px 24px;border-radius:30px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);color:var(--text);cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.4s;font-family:inherit}
-        .btn-sm:hover{border-color:var(--accent);background:rgba(139,92,246,0.1);box-shadow:0 0 30px rgba(139,92,246,0.4);transform:translateY(-3px)}
-        .user-badge{background:rgba(2,193,179,0.15);border:1px solid rgba(2,193,179,0.25);padding:9px 16px;border-radius:22px;font-size:0.8rem;color:var(--cyan);font-weight:700;cursor:pointer;backdrop-filter:var(--glass)}
-        .user-badge:hover{box-shadow:0 0 20px rgba(2,193,179,0.3)}
-        .tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:20px 0;padding:6px;background:rgba(18,18,36,0.5);backdrop-filter:var(--glass);border-radius:40px;border:1px solid var(--border)}
-        .tab{padding:11px 22px;border:none;background:transparent;color:var(--text-dim);border-radius:30px;cursor:pointer;font-weight:600;font-size:0.82rem;transition:all 0.4s;font-family:inherit}
-        .tab.active{background:rgba(139,92,246,0.25);color:#fff;box-shadow:0 0 30px rgba(139,92,246,0.3)}
-        .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px}
-        .card{background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:26px 20px;cursor:pointer;transition:all 0.5s;position:relative;overflow:hidden}
-        .card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 0%,rgba(139,92,246,0.08) 0%,transparent 60%);opacity:0;transition:opacity 0.5s}
-        .card:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 50px rgba(139,92,246,0.4)}
-        .card:hover::before{opacity:1}
-        .card .emoji{font-size:40px;margin-bottom:10px}
-        .card .title{font-weight:700;font-size:1.05rem}
-        .card .price{font-size:1.3rem;font-weight:800;font-family:'Unbounded',sans-serif;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .card .desc{color:var(--text-dim);font-size:0.82rem;margin-top:4px}
-        .card .tags{display:flex;gap:5px;margin-top:10px}
-        .card .tag{font-size:0.65rem;padding:4px 10px;border-radius:15px;background:rgba(139,92,246,0.2);color:var(--accent-light);font-weight:600}
-        .media-wrap{margin-top:14px}.media-wrap video,.media-wrap audio{width:100%;border-radius:14px}.media-wrap video{max-height:180px;object-fit:cover}
-        .watermark{font-size:0.6rem;color:var(--danger);margin-top:4px;display:inline-block}
-        .custom-card{background:var(--card);backdrop-filter:var(--glass);border:2px dashed rgba(139,92,246,0.25);border-radius:var(--radius);padding:32px;text-align:center;cursor:pointer;transition:all 0.5s;margin-top:22px}
-        .custom-card:hover{border-color:var(--accent-light);box-shadow:0 0 60px rgba(139,92,246,0.4)}
-        .details-page{display:none;animation:slideUp 0.5s ease}.details-page.active{display:block}
-        @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-        .details-card{background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:32px 26px;margin-top:16px}
-        .details-card video{width:100%;max-height:400px;border-radius:16px;margin:16px 0}
-        .form{background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:30px 24px;margin-top:20px;display:none;animation:slideUp 0.5s ease}.form.active{display:block}
-        .form-input{width:100%;padding:14px 18px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:0.9rem;outline:none;font-family:inherit}
-        .form-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(139,92,246,0.1)}
-        .payment-box{background:rgba(2,193,179,0.04);border:1px solid rgba(2,193,179,0.15);border-radius:18px;padding:22px;text-align:center;margin:18px 0}
-        .payment-phone{font-size:1.5rem;font-weight:800;font-family:'Unbounded',sans-serif;color:var(--cyan);cursor:pointer}
-        .btn{padding:15px 28px;border:none;border-radius:14px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.4s;display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:1;min-width:150px;font-family:inherit;position:relative;overflow:hidden}
-        .btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);transition:left 0.5s}
-        .btn:hover::after{left:100%}
-        .btn-gold{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#000}
-        .btn-accent{background:linear-gradient(135deg,var(--accent),#6d28d9);color:#fff}
-        .btn-ym{background:linear-gradient(135deg,#8e44ad,#6c2d82);color:#fff}
-        .btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,0.4)}
-        .btn-full{width:100%;flex:none}
-        .dropzone{border:2px dashed rgba(255,255,255,0.08);border-radius:16px;padding:28px;text-align:center;cursor:pointer}.dropzone:hover{border-color:var(--accent);background:rgba(139,92,246,0.04)}
-        .file-name{color:var(--success);margin-top:10px;font-weight:600}
-        .modal{display:none;position:fixed;inset:0;background:rgba(6,6,16,0.9);backdrop-filter:blur(16px);z-index:999;justify-content:center;align-items:center;padding:20px}.modal.active{display:flex}
-        .modal-box{background:rgba(20,20,40,0.8);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:36px 28px;max-width:460px;width:100%;text-align:center;animation:modalIn 0.5s ease}
-        @keyframes modalIn{from{opacity:0;transform:scale(0.9) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
-        .modal-box h2{font-family:'Unbounded',sans-serif;margin-bottom:8px}
-        .modal-box input,.modal-box textarea{width:100%;padding:12px;margin:8px 0;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:14px;color:var(--text);text-align:center;font-size:1rem;outline:none;font-family:inherit}
-        .modal-box textarea{text-align:left;min-height:100px;resize:vertical}
-        .modal-box input:focus,.modal-box textarea:focus{border-color:var(--accent)}
-        .spinner{width:24px;height:24px;border:3px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin 0.6s linear infinite;display:inline-block}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        .order-row{display:flex;justify-content:space-between;padding:14px;margin-bottom:6px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;font-size:0.85rem}
-        .copy-toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:var(--success);color:#000;padding:14px 32px;border-radius:30px;font-weight:700;z-index:9999;animation:toastIn 0.4s ease,toastOut 0.4s ease 2.5s forwards}
-        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-        @keyframes toastOut{from{opacity:1}to{opacity:0}}
-        .hidden{display:none!important}
-        footer{text-align:center;padding:30px 20px;color:var(--text-dim);font-size:0.75rem;border-top:1px solid var(--border);margin-top:40px;line-height:2}
-        footer a{color:var(--accent-light);text-decoration:none}footer a:hover{color:var(--cyan)}
-        .welcome-screen{text-align:center;padding:60px 20px}
-        .welcome-screen h2{font-family:'Unbounded',sans-serif;font-size:1.8rem;margin-bottom:16px}
-        .welcome-screen p{color:var(--text-dim);margin-bottom:24px}
-        .welcome-buttons{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-        @media(max-width:600px){.catalog{grid-template-columns:1fr}h1{font-size:1.7rem}}
+        :root {
+            --bg: #060610;
+            --card: rgba(12, 12, 28, 0.45);
+            --border: rgba(255, 255, 255, 0.06);
+            --glass-bg: rgba(18, 18, 36, 0.55);
+            --gold: #d4a853;
+            --gold-light: #f0d078;
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --cyan: #02c1b3;
+            --neon-pink: #ff2d95;
+            --neon-blue: #00d4ff;
+            --text: #e8e4f0;
+            --text-dim: #8a84a0;
+            --danger: #f87171;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --radius: 24px;
+            --radius-sm: 16px;
+            --glass: blur(42px);
+            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+            transition: background 0.5s;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-pink);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease, background 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 2px solid rgba(255, 45, 149, 0.6);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, border-color 0.3s, width 0.3s, height 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor-ring.hover {
+            width: 56px;
+            height: 56px;
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.08);
+        }
+
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.35;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+        .bg-orb-1 {
+            width: 900px;
+            height: 900px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, transparent 70%);
+            top: -450px;
+            left: -350px;
+        }
+        .bg-orb-2 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(2, 193, 179, 0.4) 0%, transparent 70%);
+            bottom: -350px;
+            right: -250px;
+            animation-delay: -10s;
+        }
+        .bg-orb-3 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 45, 149, 0.3) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -5s;
+            opacity: 0.25;
+        }
+        @keyframes orbFloat {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(100px, -80px) scale(1.2);
+            }
+            66% {
+                transform: translate(-70px, 60px) scale(0.85);
+            }
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: linear-gradient(rgba(139, 92, 246, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.3) 1px, transparent 1px);
+            background-size: 70px 70px;
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px 140px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 15px;
+        }
+        .logo {
+            font-size: 80px;
+            display: inline-block;
+            animation: logoFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 50px rgba(139, 92, 246, 0.6)) drop-shadow(0 0 20px rgba(255, 45, 149, 0.3));
+        }
+        @keyframes logoFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-18px);
+            }
+        }
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-blue), var(--accent-light), var(--neon-pink), var(--gold-light));
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.4));
+        }
+        @keyframes shimmer {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1rem;
+            max-width: 550px;
+            margin: 8px auto 0;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 24px 0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 40px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent, rgba(255, 255, 255, 0.05));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.5);
+        }
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        .btn-sm {
+            padding: 10px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+        .btn-sm:hover {
+            border-color: var(--accent-light);
+            background: rgba(139, 92, 246, 0.12);
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.4);
+            transform: translateY(-3px);
+            color: #fff;
+        }
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000;
+            font-weight: 800;
+        }
+        .btn-ym {
+            background: linear-gradient(135deg, #8e44ad, #6c2d82);
+            color: #fff;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(139, 92, 246, 0.5);
+            color: var(--accent-light);
+        }
+        .btn-outline:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--accent-light);
+        }
+        .btn-full {
+            width: 100%;
+            flex: none;
+            justify-content: center;
+        }
+        .btn-xs {
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            border-radius: 20px;
+        }
+
+        .user-badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--neon-blue);
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            transition: all var(--transition);
+        }
+        .user-badge:hover {
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.18);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 24px 0;
+            padding: 8px;
+            background: rgba(18, 18, 36, 0.5);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+        .tab.active {
+            background: rgba(139, 92, 246, 0.3);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tab:hover:not(.active) {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 28px 22px;
+            cursor: pointer;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s;
+            z-index: 0;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 60px rgba(139, 92, 246, 0.5), 0 0 20px rgba(255, 45, 149, 0.2);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+        .card:hover::before {
+            opacity: 1;
+        }
+        .card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .card .emoji {
+            font-size: 44px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+        .card .title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .card .price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Unbounded', sans-serif;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(212, 168, 83, 0.4));
+        }
+        .card .desc {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+        .card .tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .card .tag {
+            font-size: 0.7rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-light);
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+        .card-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        .media-wrap {
+            margin-top: 16px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        .media-wrap video,
+        .media-wrap audio {
+            width: 100%;
+            border-radius: 14px;
+        }
+        .media-wrap video {
+            max-height: 190px;
+            object-fit: cover;
+        }
+        .watermark {
+            font-size: 0.65rem;
+            color: var(--danger);
+            margin-top: 6px;
+            display: inline-block;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .custom-card {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius);
+            padding: 36px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition);
+            margin-top: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .custom-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 45, 149, 0.08) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+        .custom-card:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 70px rgba(255, 45, 149, 0.4), 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+        }
+        .custom-card:hover::before {
+            opacity: 1;
+        }
+
+        .details-page {
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+        .details-page.active {
+            display: block;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .details-card {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            margin-top: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        .details-card img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .details-card video {
+            width: 100%;
+            max-height: 420px;
+            border-radius: 18px;
+            margin: 20px 0;
+        }
+
+        .form {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 34px 28px;
+            margin-top: 24px;
+            display: none;
+            animation: slideUp 0.6s ease;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        .form.active {
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: var(--text);
+            font-size: 0.95rem;
+            outline: none;
+            font-family: inherit;
+            transition: all var(--transition);
+        }
+        .form-input:focus {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.1), 0 0 25px rgba(139, 92, 246, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+            border-radius: 16px;
+        }
+
+        .payment-box {
+            background: rgba(0, 212, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 20px;
+            padding: 26px;
+            text-align: center;
+            margin: 20px 0;
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+        }
+        .payment-phone {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Unbounded', sans-serif;
+            color: var(--neon-blue);
+            cursor: pointer;
+            transition: all var(--transition);
+            letter-spacing: 1px;
+        }
+        .payment-phone:hover {
+            text-shadow: 0 0 25px rgba(0, 212, 255, 0.7);
+            transform: scale(1.03);
+        }
+
+        .dropzone {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .dropzone:hover {
+            border-color: var(--accent-light);
+            background: rgba(139, 92, 246, 0.05);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+        .file-name {
+            color: var(--success);
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 4, 12, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-box {
+            background: rgba(20, 20, 45, 0.75);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            animation: modalIn 0.5s ease;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 60px rgba(139, 92, 246, 0.3);
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal-box h2 {
+            font-family: 'Unbounded', sans-serif;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--neon-blue), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .modal-box input,
+        .modal-box textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: var(--text);
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            font-family: inherit;
+            transition: all var(--transition);
+        }
+        .modal-box textarea {
+            text-align: left;
+            min-height: 110px;
+            resize: vertical;
+        }
+        .modal-box input:focus,
+        .modal-box textarea:focus {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid transparent;
+            border-top-color: var(--accent-light);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            font-size: 0.9rem;
+            transition: all var(--transition);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .order-row:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        .order-row .order-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .order-row .order-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .badge-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        .badge-paid {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        .copy-toast {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: #000;
+            padding: 16px 36px;
+            border-radius: 40px;
+            font-weight: 700;
+            z-index: 9999;
+            animation: toastIn 0.5s ease, toastOut 0.5s ease 2.8s forwards;
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.4);
+        }
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 50px;
+            line-height: 2.2;
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+        }
+        footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: var(--neon-blue);
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 70px 20px;
+        }
+        .welcome-screen h2 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .welcome-screen p {
+            color: var(--text-dim);
+            margin-bottom: 28px;
+            font-size: 1rem;
+        }
+        .welcome-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .settings-panel {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-top: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        .settings-panel label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            margin-top: 14px;
+        }
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .toggle-switch span {
+            font-weight: 500;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.4s;
+            border-radius: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 2px;
+            background: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked+.slider {
+            background: var(--accent);
+            border-color: var(--accent-light);
+        }
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media(max-width: 768px) {
+            .catalog {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.75rem;
+            }
+            .modal-box {
+                padding: 28px 20px;
+            }
+        }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
-    <script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script>
-    <!-- Yandex.Metrika counter -->
-    <script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=110413717','ym');ym(110413717,'init',{ssr:true,webvisor:true,trackHash:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});</script>
+    <script>
+        window.yaContextCb = window.yaContextCb || []
+    </script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+    <script>
+        (function(m, e, t, r, i, k, a) {
+            m[i] = m[i] || function() {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode
+                .insertBefore(k, a)
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=110413717', 'ym');
+        ym(110413717, 'init', {
+            ssr: true,
+            webvisor: true,
+            trackHash: true,
+            clickmap: true,
+            ecommerce: "dataLayer",
+            referrer: document.referrer,
+            url: location.href,
+            accurateTrackBounce: true,
+            trackLinks: true
+        });
+    </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GYRZDGVW3V');</script>
-    <!-- /Google Analytics -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments)
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-GYRZDGVW3V');
+    </script>
 </head>
 <body>
-    <div id="yandex_rtb_R-A-19547505-1"></div><script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-19547505-1","renderTo":"yandex_rtb_R-A-19547505-1"})})</script>
-    <div class="bg"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div><div class="bg-grid"></div>
+    <div id="yandex_rtb_R-A-19547505-1"></div>
+    <script>
+        window.yaContextCb.push(() => {
+            Ya.Context.AdvManager.render({
+                "blockId": "R-A-19547505-1",
+                "renderTo": "yandex_rtb_R-A-19547505-1"
+            })
+        })
+    </script>
+
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <div class="bg">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+    <div class="bg-grid"></div>
+    <canvas id="particles-canvas"></canvas>
+
     <div class="app">
-        <div class="header"><div class="logo">🎵</div><h1>PieSenia</h1><p class="subtitle">Авторские песни с полной передачей прав после выкупа</p></div>
+        <div class="header">
+            <div class="logo">🎵</div>
+            <h1>PieSenia</h1>
+            <p class="subtitle" id="subtitleText">Авторские песни с полной передачей прав после выкупа</p>
+        </div>
+
         <div class="welcome-screen" id="welcomeScreen">
-            <h2>👋 Добро пожаловать!</h2>
-            <p>Создайте аккаунт или войдите, чтобы отслеживать свои заказы на любом устройстве.</p>
+            <h2 id="welcomeTitle">👋 Добро пожаловать!</h2>
+            <p id="welcomeDesc">Создайте аккаунт или войдите, чтобы отслеживать свои заказы на любом устройстве.</p>
             <div class="welcome-buttons">
-                <button class="btn btn-accent" onclick="showModal('nickModal')">📝 Создать аккаунт</button>
-                <button class="btn" style="background:transparent;border:1px solid var(--accent);color:var(--accent);" onclick="showModal('loginByPasswordModal')">🔐 Войти</button>
-                <button class="btn btn-sm" onclick="enterAsGuest()">👻 Продолжить без аккаунта</button>
+                <button class="btn btn-accent" onclick="showModal('nickModal')" id="btnCreateAcc">📝 Создать аккаунт</button>
+                <button class="btn btn-outline" onclick="showModal('loginByPasswordModal')" id="btnLoginWelcome">🔐 Войти</button>
+                <button class="btn btn-sm" onclick="enterAsGuest()" id="btnGuest">👻 Продолжить без аккаунта</button>
             </div>
         </div>
+
         <div id="mainContent" class="hidden">
             <div class="top-bar">
                 <span class="user-badge" id="userBadge" onclick="showUserMenu()">👤 Гость</span>
-                <button class="btn-sm hidden" id="btnLogin" onclick="showModal('loginByPasswordModal')">🔐 Войти</button>
-                <button class="btn-sm" onclick="showMyOrders()">📋 Мои заказы</button>
-                <button class="btn-sm" onclick="showVerifyCodeModal()">🔑 Код для входа</button>
-                <button class="btn-sm" onclick="showModal('feedbackModal')">💬 Обратная связь</button>
+                <button class="btn-sm hidden" id="btnLoginTop" onclick="showModal('loginByPasswordModal')">🔐 Войти</button>
+                <button class="btn-sm" onclick="showMyOrders()" id="btnMyOrders">📋 Мои заказы</button>
+                <button class="btn-sm" onclick="showVerifyCodeModal()" id="btnVerifyCode">🔑 Код для входа</button>
+                <button class="btn-sm" onclick="showModal('feedbackModal')" id="btnFeedback">💬 Обратная связь</button>
+                <button class="btn-sm" onclick="toggleSettings()" id="btnSettings">⚙️ Настройки</button>
             </div>
-            <div class="tabs" id="tabs"><button class="tab active" data-tab="all">✨ Все</button><button class="tab" data-tab="kids">🧒 Детские</button><button class="tab" data-tab="adult">🔞 Взрослые</button><button class="tab" data-tab="sad">💔 Грустные</button><button class="tab" data-tab="happy">🎉 Весёлые</button><button class="tab" data-tab="love">❤️ Про любовь</button></div>
-            <div class="catalog" id="catalog"><div class="spinner"></div></div>
-            <div class="custom-card" onclick="selectCustom()"><span style="font-size:42px;">🎤✨</span><h3>Песня под заказ</h3><p style="color:var(--text-dim);">Опишите вашу идею — я создам уникальный трек</p></div>
-            <div class="details-page" id="detailsPage"></div>
-            <div class="form" id="orderForm">
-                <h3 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">📝 Оформление заказа</h3>
-                <div><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Выбранное</label><input class="form-input" id="selectedDisplay" readonly></div>
-                <div class="hidden" id="customGroup"><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Опишите идею</label><textarea class="form-input" id="customDesc" placeholder="Жанр, настроение, тема..."></textarea></div>
-                <div><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Ваш контакт</label><input class="form-input" id="contactTg" placeholder="Telegram, ВКонтакте или телефон"></div>
-                <button class="btn btn-ym btn-full" onclick="payByYooMoney()" style="margin-bottom:10px;">💛 Оплатить через ЮMoney</button>
-                <button class="btn btn-gold btn-full" onclick="document.getElementById('transferSection').classList.remove('hidden')">📱 Переводом на карту</button>
-                <div id="transferSection" class="hidden" style="margin-top:16px;">
-                    <div class="payment-box"><p style="color:var(--text-dim);">Оплата переводом:</p><div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p><p style="color:var(--text-dim);font-size:0.7rem;margin-top:8px;">⚠️ В комментарии укажите ваш ник: <strong id="nickHint">—</strong></p></div>
-                    <div><label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;">Скриншот оплаты</label><div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">📎<br>Нажмите сюда или перетащите файл<div class="file-name" id="fileName"></div></div><input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)"></div>
-                    <button class="btn btn-gold btn-full" onclick="submitTransfer()">✅ Я оплатил(а) — отправить</button>
+
+            <div class="settings-panel hidden" id="settingsPanel">
+                <h3 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;" id="settingsTitle">⚙️ Настройки</h3>
+                <div class="toggle-switch">
+                    <span id="settingsParticles">Частицы на фоне</span>
+                    <label class="switch"><input type="checkbox" id="toggleParticles" checked onchange="toggleParticles()"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-switch">
+                    <span id="settingsCursor">Кастомный курсор</span>
+                    <label class="switch"><input type="checkbox" id="toggleCursor" checked onchange="toggleCursor()"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-switch">
+                    <span id="settingsAnimations">Анимации</span>
+                    <label class="switch"><input type="checkbox" id="toggleAnimations" checked onchange="toggleAnimations()"><span class="slider"></span></label>
+                </div>
+                <div style="margin-top:16px;">
+                    <label for="langSelect" id="settingsLang">🌐 Язык</label>
+                    <select class="form-input" id="langSelect" onchange="changeLanguage(this.value)" style="padding:12px;">
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="be">🇧🇾 Беларуская</option>
+                        <option value="uz">🇺🇿 O'zbekcha</option>
+                    </select>
                 </div>
             </div>
-            <div id="myOrdersPanel" style="display:none;background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:20px;"><h3 style="font-family:'Unbounded',sans-serif;">📋 Мои заказы</h3><div id="myOrders"></div></div>
+
+            <div class="tabs" id="tabs">
+                <button class="tab active" data-tab="all" id="tabAll">✨ Все</button>
+                <button class="tab" data-tab="kids" id="tabKids">🧒 Детские</button>
+                <button class="tab" data-tab="adult" id="tabAdult">🔞 Взрослые</button>
+                <button class="tab" data-tab="sad" id="tabSad">💔 Грустные</button>
+                <button class="tab" data-tab="happy" id="tabHappy">🎉 Весёлые</button>
+                <button class="tab" data-tab="love" id="tabLove">❤️ Про любовь</button>
+            </div>
+            <div class="catalog" id="catalog"><div class="spinner"></div></div>
+            <div class="custom-card" onclick="selectCustom()">
+                <span style="font-size:48px;">🎤✨</span>
+                <h3 id="customTitle">Песня под заказ</h3>
+                <p style="color:var(--text-dim);" id="customDesc">Опишите вашу идею — я создам уникальный трек</p>
+            </div>
+            <div class="details-page" id="detailsPage"></div>
+
+            <div class="form" id="orderForm">
+                <h3 style="font-family:'Unbounded',sans-serif;margin-bottom:20px;" id="formTitle">📝 Оформление заказа</h3>
+                <div>
+                    <label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;" id="formSelected">Выбранное</label>
+                    <input class="form-input" id="selectedDisplay" readonly>
+                </div>
+                <div class="hidden" id="customGroup">
+                    <label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;" id="formIdea">Опишите идею</label>
+                    <textarea class="form-input" id="customDescInput" placeholder="Жанр, настроение, тема..."></textarea>
+                </div>
+                <div>
+                    <label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;" id="formContact">Ваш контакт</label>
+                    <input class="form-input" id="contactTg" placeholder="Telegram, ВКонтакте или телефон">
+                </div>
+
+                <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                    <button class="btn btn-ym btn-full" onclick="payByYooMoney()" id="btnYooMoney">💛 ЮMoney</button>
+                    <button class="btn btn-gold btn-full" onclick="showTransferSection()" id="btnTransfer">📱 Перевод на карту</button>
+                </div>
+
+                <div id="transferSection" class="hidden" style="margin-top:20px;">
+                    <div class="payment-box">
+                        <p style="color:var(--text-dim);margin-bottom:8px;" id="transferTitle">Оплата переводом:</p>
+                        <div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div>
+                        <p style="color:var(--text-dim);font-size:0.8rem;margin-top:4px;">Альфа-банк • Иван Максимович К.</p>
+                        <p style="color:var(--text-dim);font-size:0.7rem;margin-top:8px;">⚠️ <span id="transferHint">В комментарии укажите ваш ник:</span> <strong id="nickHint">—</strong></p>
+                    </div>
+                    <div>
+                        <label style="font-weight:600;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;" id="formScreenshot">Скриншот оплаты</label>
+                        <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+                            📎<br><span id="dropzoneText">Нажмите сюда или перетащите файл</span>
+                            <div class="file-name" id="fileName"></div>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" hidden onchange="handleFile(event)">
+                    </div>
+                    <button class="btn btn-gold btn-full" onclick="submitTransfer()" style="margin-top:16px;" id="btnSubmitTransfer">✅ Я оплатил(а) — отправить</button>
+                </div>
+            </div>
+
+            <div id="myOrdersPanel" style="display:none;background:var(--card);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-top:24px;box-shadow:0 20px 50px rgba(0,0,0,0.4);">
+                <h3 style="font-family:'Unbounded',sans-serif;" id="myOrdersTitle">📋 Мои заказы</h3>
+                <div id="myOrders"></div>
+            </div>
         </div>
     </div>
+
     <footer>
         <p>© 2026 Кузьмин Иван. Все права защищены. Копирование преследуется по закону — ст. 1301 ГК РФ, ст. 146 УК РФ.</p>
         <p>Контакты: <a href="mailto:love_cute_cats@mail.ru">love_cute_cats@mail.ru</a> | <a href="https://t.me/Rettero">@Rettero</a></p>
         <p><a href="/privacy">Политика конфиденциальности</a> | <a href="/terms">Пользовательское соглашение</a> | <a href="/cookies">Cookie</a> | <a href="/copyright">Авторские права</a></p>
     </footer>
-    <div class="modal" id="nickModal"><div class="modal-box"><h2>📝 Создание аккаунта</h2><p style="color:var(--text-dim);">Придумайте ник и пароль.</p><input type="text" id="nickInput" placeholder="Ваш ник"><input type="password" id="nickPassword" placeholder="Пароль"><p style="color:var(--warning);font-size:0.7rem;">⚠️ Без пароля потеряете доступ!</p><button class="btn btn-accent btn-full" onclick="createNick()">Создать</button><button class="btn btn-sm" onclick="closeModal('nickModal')" style="margin-top:8px;">Отмена</button></div></div>
-    <div class="modal" id="loginByPasswordModal"><div class="modal-box"><h2>🔐 Вход</h2><input type="text" id="loginNickPassInput" placeholder="Ник"><input type="password" id="loginPassInput" placeholder="Пароль"><button class="btn btn-accent btn-full" onclick="loginByPassword()">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByPasswordModal')" style="margin-top:8px;">Отмена</button></div></div>
-    <div class="modal" id="verifyCodeModal"><div class="modal-box"><h2>🔑 Код для входа</h2><p style="color:var(--text-dim);">Действует 5 минут.</p><div style="font-size:2rem;font-weight:800;color:var(--cyan);margin:16px 0;" id="verifyCodeDisplay">----</div><button class="btn btn-accent btn-full" onclick="generateVerifyCode()">🔄 Новый код</button><button class="btn btn-sm" onclick="closeModal('verifyCodeModal')" style="margin-top:8px;">Закрыть</button></div></div>
-    <div class="modal" id="loginByCodeModal"><div class="modal-box"><h2>🔐 Вход по коду</h2><input type="text" id="loginNickInput" placeholder="Ник"><input type="text" id="loginCodeInput" placeholder="Код"><button class="btn btn-accent btn-full" onclick="loginByCode()">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByCodeModal')" style="margin-top:8px;">Отмена</button></div></div>
-    <div class="modal" id="successModal"><div class="modal-box"><div style="font-size:60px;">✅</div><h2>Заказ отправлен!</h2><p style="color:var(--text-dim);">Скоро проверим ваш платёж. Спасибо! 💛</p><button class="btn btn-accent btn-full" onclick="closeModal('successModal')">Хорошо</button></div></div>
-    <div class="modal" id="paymentModal"><div class="modal-box" id="paymentBox"><div class="spinner"></div><p style="margin-top:12px;">Проверяем платёж...</p></div></div>
-    <div class="modal" id="toastModal"><div class="modal-box"><h2 id="toastTitle"></h2><p style="color:var(--text-dim);" id="toastMessage"></p><button class="btn btn-accent btn-full" onclick="closeModal('toastModal')">Ок</button></div></div>
-    <div class="modal" id="feedbackModal"><div class="modal-box"><h2>💬 Обратная связь</h2><p style="color:var(--text-dim);">Оцените сайт, напишите идеи.</p><textarea id="feedbackText" placeholder="Ваше сообщение..."></textarea><input id="feedbackContact" placeholder="Ваш контакт (необязательно)"><button class="btn btn-accent btn-full" onclick="sendFeedback()">Отправить</button><button class="btn btn-sm" onclick="closeModal('feedbackModal')" style="margin-top:8px;">Отмена</button></div></div>
+
+    <!-- Модальные окна -->
+    <div class="modal" id="nickModal"><div class="modal-box"><h2 id="modalCreateTitle">📝 Создание аккаунта</h2><p style="color:var(--text-dim);" id="modalCreateDesc">Придумайте ник и пароль.</p><input type="text" id="nickInput" placeholder="Ваш ник"><input type="password" id="nickPassword" placeholder="Пароль"><p style="color:var(--warning);font-size:0.7rem;" id="modalCreateWarn">⚠️ Без пароля потеряете доступ!</p><button class="btn btn-accent btn-full" onclick="createNick()" id="btnCreate">Создать</button><button class="btn btn-sm" onclick="closeModal('nickModal')" style="margin-top:10px;" id="btnCancel">Отмена</button></div></div>
+    <div class="modal" id="loginByPasswordModal"><div class="modal-box"><h2 id="modalLoginTitle">🔐 Вход</h2><input type="text" id="loginNickPassInput" placeholder="Ник"><input type="password" id="loginPassInput" placeholder="Пароль"><button class="btn btn-accent btn-full" onclick="loginByPassword()" id="btnLogin">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByPasswordModal')" style="margin-top:10px;" id="btnCancelLogin">Отмена</button></div></div>
+    <div class="modal" id="verifyCodeModal"><div class="modal-box"><h2 id="modalCodeTitle">🔑 Код для входа</h2><p style="color:var(--text-dim);" id="modalCodeDesc">Действует 5 минут.</p><div style="font-size:2.2rem;font-weight:800;color:var(--cyan);margin:18px 0;" id="verifyCodeDisplay">----</div><button class="btn btn-accent btn-full" onclick="generateVerifyCode()" id="btnNewCode">🔄 Новый код</button><button class="btn btn-sm" onclick="closeModal('verifyCodeModal')" style="margin-top:10px;" id="btnCloseCode">Закрыть</button></div></div>
+    <div class="modal" id="loginByCodeModal"><div class="modal-box"><h2 id="modalLoginCodeTitle">🔐 Вход по коду</h2><input type="text" id="loginNickInput" placeholder="Ник"><input type="text" id="loginCodeInput" placeholder="Код"><button class="btn btn-accent btn-full" onclick="loginByCode()" id="btnLoginCode">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByCodeModal')" style="margin-top:10px;" id="btnCancelCode">Отмена</button></div></div>
+    <div class="modal" id="successModal"><div class="modal-box"><div style="font-size:64px;">✅</div><h2 id="modalSuccessTitle">Заказ отправлен!</h2><p style="color:var(--text-dim);" id="modalSuccessDesc">Скоро проверим ваш платёж. Спасибо! 💛</p><button class="btn btn-accent btn-full" onclick="closeModal('successModal')" id="btnOk">Хорошо</button></div></div>
+    <div class="modal" id="paymentModal"><div class="modal-box" id="paymentBox"><div class="spinner"></div><p style="margin-top:14px;" id="paymentCheckText">Проверяем платёж...</p></div></div>
+    <div class="modal" id="toastModal"><div class="modal-box"><h2 id="toastTitle"></h2><p style="color:var(--text-dim);" id="toastMessage"></p><button class="btn btn-accent btn-full" onclick="closeModal('toastModal')" id="btnToastOk">Ок</button></div></div>
+    <div class="modal" id="feedbackModal"><div class="modal-box"><h2 id="modalFeedbackTitle">💬 Обратная связь</h2><p style="color:var(--text-dim);" id="modalFeedbackDesc">Оцените сайт, напишите идеи.</p><textarea id="feedbackText" placeholder="Ваше сообщение..."></textarea><input id="feedbackContact" placeholder="Ваш контакт (необязательно)"><button class="btn btn-accent btn-full" onclick="sendFeedback()" id="btnSendFeedback">Отправить</button><button class="btn btn-sm" onclick="closeModal('feedbackModal')" style="margin-top:10px;" id="btnCancelFeedback">Отмена</button></div></div>
+    <!-- Кастомное окно подтверждения -->
+    <div class="modal" id="confirmModal"><div class="modal-box"><h2 id="confirmTitle">Подтверждение</h2><p style="color:var(--text-dim);" id="confirmMessage"></p><div class="confirm-buttons"><button class="btn btn-accent" id="confirmYes">Да</button><button class="btn btn-sm" id="confirmNo">Нет</button></div></div></div>
+
     <script>
-        const API_BASE='https://Rettero.pythonanywhere.com';
-        let catalog=[],userNick=localStorage.getItem('px_nick')||'';
-        function showModal(id){document.getElementById(id).classList.add('active')}
-        function closeModal(id){document.getElementById(id).classList.remove('active')}
-        function showToast(title,message){document.getElementById('toastTitle').textContent=title;document.getElementById('toastMessage').textContent=message;showModal('toastModal')}
-        function getMediaHTML(b){return`<video src="${b}.mp4" controls controlsList="nodownload" preload="metadata" style="max-height:180px;width:100%;border-radius:14px;" onerror="this.style.display='none'"></video><audio controls controlsList="nodownload" preload="metadata" style="width:100%;"><source src="${b}.mp3" type="audio/mpeg"></audio>`}
-        function getOrders(){try{return JSON.parse(localStorage.getItem('px_orders_'+(userNick||'guest'))||'[]')}catch(e){return[]}}
-        function saveOrder(o){const key='px_orders_'+(userNick||'guest');const orders=getOrders();orders.push(o);localStorage.setItem(key,JSON.stringify(orders))}
-        let currentTab='all',selectedProduct=null,isCustom=false,uploadedFile=null;
-        function toast(msg){const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2800)}
-        function copyPhone(){navigator.clipboard.writeText('+7 904 862 83 27').then(()=>toast('✅ Номер скопирован!'))}
-        function updateUI(){if(userNick){document.getElementById('userBadge').textContent='👤 '+userNick;document.getElementById('nickHint').textContent=userNick;document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');document.getElementById('btnLogin').classList.add('hidden')}else{document.getElementById('userBadge').textContent='👤 Гость';document.getElementById('nickHint').textContent='—';document.getElementById('btnLogin').classList.remove('hidden')}}
-        function enterAsGuest(){userNick='';localStorage.removeItem('px_nick');localStorage.removeItem('px_pass');updateUI();document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');loadCatalogFromServer()}
-        function showUserMenu(){if(!userNick)return showModal('nickModal');showToast('Выход','Вы вошли как "'+userNick+'".\n\nНажмите "Ок" чтобы выйти.');document.getElementById('toastModal').querySelector('.btn-accent').onclick=()=>{userNick='';localStorage.removeItem('px_nick');localStorage.removeItem('px_pass');updateUI();closeModal('toastModal');document.getElementById('welcomeScreen').classList.remove('hidden');document.getElementById('mainContent').classList.add('hidden');toast('Вы вышли из аккаунта')}}
-        async function createNick(){const nick=document.getElementById('nickInput').value.trim().toLowerCase();const password=document.getElementById('nickPassword').value.trim();if(nick.length<3)return showToast('Ошибка','Ник минимум 3 символа!');if(!password)return showToast('Ошибка','Придумайте пароль!');try{const r=await fetch(`${API_BASE}/api/create-nick`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,password})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);localStorage.setItem('px_pass',password);updateUI();closeModal('nickModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Аккаунт создан: '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось создать аккаунт')}}
-        async function loginByPassword(){const nick=document.getElementById('loginNickPassInput').value.trim().toLowerCase();const password=document.getElementById('loginPassInput').value.trim();if(!nick||!password)return showToast('Ошибка','Заполните все поля!');try{const r=await fetch(`${API_BASE}/api/login-nick`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,password})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);localStorage.setItem('px_pass',password);updateUI();closeModal('loginByPasswordModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось войти')}}
-        function showVerifyCodeModal(){if(!userNick)return showToast('Ошибка','Сначала создайте аккаунт!');showModal('verifyCodeModal');generateVerifyCode()}
-        async function generateVerifyCode(){if(!userNick)return;try{const r=await fetch(`${API_BASE}/api/generate-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick:userNick})});const d=await r.json();if(d.ok)document.getElementById('verifyCodeDisplay').textContent=d.code;else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось сгенерировать код')}}
-        async function loginByCode(){const nick=document.getElementById('loginNickInput').value.trim().toLowerCase();const code=document.getElementById('loginCodeInput').value.trim();if(!nick||!code)return showToast('Ошибка','Заполните все поля!');try{const r=await fetch(`${API_BASE}/api/verify-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,code})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);updateUI();closeModal('loginByCodeModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось войти')}}
-        async function loadCatalogFromServer(){try{const r=await fetch(`${API_BASE}/api/catalog`);const d=await r.json();catalog=d.products||[];render()}catch(e){document.getElementById('catalog').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка загрузки каталога</p>'}}
-        function render(){const f=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);document.getElementById('catalog').innerHTML=f.map(p=>`<div class="card" onclick="showDetails(${p.id})"><div class="emoji">${p.emoji||'🎵'}</div><div class="title">${p.title}</div><div class="price">${Number(p.price).toLocaleString()} ₽</div><div class="desc">${p.desc||''}</div><div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="media-wrap">${getMediaHTML(p.base||'media/default')}<div class="watermark">🔊 Демо с водяным знаком «Rettero»</div></div></div>`).join('')}
-        document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;render()});
-        function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=false;document.getElementById('catalog').style.display='none';document.querySelector('.custom-card').classList.add('hidden');document.getElementById('detailsPage').classList.add('active');document.getElementById('detailsPage').innerHTML=`<button class="btn-sm" onclick="goBack()">← Назад</button><div class="details-card"><div style="font-size:48px;">${p.emoji||'🎵'}</div><h2>${p.title}</h2><div style="font-size:1.6rem;font-weight:800;font-family:'Unbounded',sans-serif;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${Number(p.price).toLocaleString()} ₽</div><p style="color:var(--text-dim);">${p.desc||''}</p>${getMediaHTML(p.base||'media/default').replace('max-height:180px','max-height:350px')}<div class="watermark">🔊 Демо — после покупки чистая версия</div><button class="btn btn-ym btn-full" onclick="payByYooMoney()" style="margin-top:16px;">💛 Оплатить через ЮMoney</button><button class="btn btn-gold btn-full" onclick="showTransferFromDetails()" style="margin-top:8px;">📱 Переводом на карту</button><div id="transferFromDetails" class="hidden" style="margin-top:16px;"><div class="payment-box"><div class="payment-phone" onclick="copyPhone()">+7 904 862 83 27</div><p style="color:var(--text-dim);font-size:0.78rem;">Альфа-банк • Иван Максимович К.</p><p style="color:var(--text-dim);font-size:0.7rem;">⚠️ В комментарии укажите ваш ник: <strong>${userNick||'—'}</strong></p></div><input class="form-input" id="contactTg2" placeholder="Ваш контакт"><div class="dropzone" id="dropzone2" onclick="document.getElementById('fileInput2').click()">📎 Нажмите сюда<div class="file-name" id="fileName2"></div></div><input type="file" id="fileInput2" accept="image/*" hidden onchange="handleFile2(event)"><button class="btn btn-gold btn-full" onclick="submitTransferFromDetails()">✅ Отправить</button></div></div>`}
-        function goBack(){document.getElementById('detailsPage').classList.remove('active');document.getElementById('catalog').style.display='';document.querySelector('.custom-card').classList.remove('hidden')}
-        function selectCustom(){isCustom=true;selectedProduct=null;document.getElementById('selectedDisplay').value='🎤 Песня под заказ';document.getElementById('customGroup').classList.remove('hidden');document.getElementById('orderForm').classList.add('active')}
-        function payByYooMoney(){if(!selectedProduct&&!isCustom)return showToast('Ошибка','Выберите песню!');const price=isCustom?0:selectedProduct.price;const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');saveOrder({id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick});window.open(`https://yoomoney.ru/to/4100117765240041/${price}`,'_blank');showModal('paymentModal');setTimeout(()=>{document.getElementById('paymentBox').innerHTML='<div style="font-size:56px;">🔍</div><h2>Скоро проверим</h2><p style="color:var(--text-dim);">Мы проверим ваш платёж и пришлём уведомление.</p><button class="btn btn-accent btn-full" onclick="closeModal(\'paymentModal\')">Хорошо</button>'},3000)}
-        function showTransferFromDetails(){const el=document.getElementById('transferFromDetails');if(el)el.classList.remove('hidden')}
-        function handleFile(e){processFile(e.target.files[0],'dropzone','fileName')}
-        function handleFile2(e){processFile(e.target.files[0],'dropzone2','fileName2')}
-        function processFile(file,zoneId,nameId){if(!file)return;if(file.size>10*1024*1024){showToast('Ошибка','Файл слишком большой!');return}uploadedFile=file;document.getElementById(zoneId).style.borderColor='var(--success)';document.getElementById(nameId).textContent='📎 '+file.name}
-        async function submitTransfer(){if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const contact=document.getElementById('contactTg').value.trim();saveOrder({id:Date.now(),product:title,contact:contact,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick});const fd=new FormData();fd.append('caption',`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact||'—'}\n🆔 Ник: ${userNick||'—'}\n🕐 ${new Date().toLocaleString('ru-RU')}`);fd.append('photo',uploadedFile);fd.append('guest',userNick||'guest_'+Date.now().toString(36));try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});showModal('successModal');uploadedFile=null;document.getElementById('orderForm').classList.remove('active');document.getElementById('transferSection').classList.add('hidden')}catch(e){showToast('Ошибка','Не удалось отправить заказ')}}
-        async function submitTransferFromDetails(){const contact=document.getElementById('contactTg2')?.value?.trim()||'';if(!contact)return showToast('Ошибка','Укажите контакт!');if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');const title=selectedProduct?.title||'Песня';const fd=new FormData();fd.append('caption',`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact}\n🆔 Ник: ${userNick||'—'}\n🕐 ${new Date().toLocaleString('ru-RU')}`);fd.append('photo',uploadedFile);fd.append('guest',userNick||'guest_'+Date.now().toString(36));try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});showModal('successModal');uploadedFile=null;document.getElementById('transferFromDetails').classList.add('hidden')}catch(e){showToast('Ошибка','Не удалось отправить')}}
-        function showMyOrders(){const panel=document.getElementById('myOrdersPanel');panel.style.display=panel.style.display==='block'?'none':'block';if(panel.style.display==='block'){const orders=getOrders();document.getElementById('myOrders').innerHTML=orders.length===0?'<p style="color:var(--text-dim);text-align:center;">Пока нет заказов</p>':orders.reverse().map(o=>`<div class="order-row"><div><strong>#${o.id||'—'} — ${o.product}</strong><br><small style="color:var(--text-dim);">${o.time}</small></div><span style="color:${o.status==='pending'?'#fbbf24':'#4ade80'};font-weight:700;">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('')}}
-        async function sendFeedback(){const text=document.getElementById('feedbackText').value.trim();if(!text)return showToast('Ошибка','Напишите сообщение!');const contact=document.getElementById('feedbackContact').value.trim();try{await fetch(`${API_BASE}/api/send-feedback`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,contact,nick:userNick||'guest'})});closeModal('feedbackModal');toast('✅ Спасибо за отзыв!')}catch(e){showToast('Ошибка','Не удалось отправить')}}
+        const API_BASE = 'https://Rettero.pythonanywhere.com';
+        let catalog = [],
+            userNick = localStorage.getItem('px_nick') || '';
+        let currentTab = 'all',
+            selectedProduct = null,
+            isCustom = false,
+            uploadedFile = null;
+        let settings = JSON.parse(localStorage.getItem('px_settings_ui') ||
+            '{"particles":true,"cursor":true,"animations":true,"lang":"ru"}');
+
+        // Инициализация
+        document.getElementById('toggleParticles').checked = settings.particles;
+        document.getElementById('toggleCursor').checked = settings.cursor;
+        document.getElementById('toggleAnimations').checked = settings.animations;
+        document.getElementById('langSelect').value = settings.lang;
+        applySettings();
+
+        // ==================== МУЛЬТИЯЗЫЧНОСТЬ ====================
+        const translations = {
+            ru: {
+                subtitle: 'Авторские песни с полной передачей прав после выкупа',
+                welcomeTitle: '👋 Добро пожаловать!',
+                welcomeDesc: 'Создайте аккаунт или войдите, чтобы отслеживать свои заказы на любом устройстве.',
+                btnCreateAcc: '📝 Создать аккаунт',
+                btnLoginWelcome: '🔐 Войти',
+                btnGuest: '👻 Продолжить без аккаунта',
+                btnMyOrders: '📋 Мои заказы',
+                btnVerifyCode: '🔑 Код для входа',
+                btnFeedback: '💬 Обратная связь',
+                btnSettings: '⚙️ Настройки',
+                settingsTitle: '⚙️ Настройки',
+                settingsParticles: 'Частицы на фоне',
+                settingsCursor: 'Кастомный курсор',
+                settingsAnimations: 'Анимации',
+                settingsLang: '🌐 Язык',
+                tabAll: '✨ Все',
+                tabKids: '🧒 Детские',
+                tabAdult: '🔞 Взрослые',
+                tabSad: '💔 Грустные',
+                tabHappy: '🎉 Весёлые',
+                tabLove: '❤️ Про любовь',
+                customTitle: 'Песня под заказ',
+                customDesc: 'Опишите вашу идею — я создам уникальный трек',
+                formTitle: '📝 Оформление заказа',
+                formSelected: 'Выбранное',
+                formIdea: 'Опишите идею',
+                formContact: 'Ваш контакт',
+                btnYooMoney: '💛 ЮMoney',
+                btnTransfer: '📱 Перевод на карту',
+                transferTitle: 'Оплата переводом:',
+                transferHint: 'В комментарии укажите ваш ник:',
+                formScreenshot: 'Скриншот оплаты',
+                dropzoneText: 'Нажмите сюда или перетащите файл',
+                btnSubmitTransfer: '✅ Я оплатил(а) — отправить',
+                myOrdersTitle: '📋 Мои заказы',
+                modalCreateTitle: '📝 Создание аккаунта',
+                modalCreateDesc: 'Придумайте ник и пароль.',
+                modalCreateWarn: '⚠️ Без пароля потеряете доступ!',
+                btnCreate: 'Создать',
+                btnCancel: 'Отмена',
+                modalLoginTitle: '🔐 Вход',
+                btnLogin: 'Войти',
+                btnCancelLogin: 'Отмена',
+                modalCodeTitle: '🔑 Код для входа',
+                modalCodeDesc: 'Действует 5 минут.',
+                btnNewCode: '🔄 Новый код',
+                btnCloseCode: 'Закрыть',
+                modalLoginCodeTitle: '🔐 Вход по коду',
+                btnLoginCode: 'Войти',
+                btnCancelCode: 'Отмена',
+                modalSuccessTitle: 'Заказ отправлен!',
+                modalSuccessDesc: 'Скоро проверим ваш платёж. Спасибо! 💛',
+                btnOk: 'Хорошо',
+                paymentCheckText: 'Проверяем платёж...',
+                modalFeedbackTitle: '💬 Обратная связь',
+                modalFeedbackDesc: 'Оцените сайт, напишите идеи.',
+                btnSendFeedback: 'Отправить',
+                btnCancelFeedback: 'Отмена',
+                confirmTitle: 'Подтверждение',
+                confirmYes: 'Да',
+                confirmNo: 'Нет',
+                toastCopy: '✅ Номер скопирован!',
+                toastLogout: 'Вы вышли из аккаунта',
+                errorNickShort: 'Ник минимум 3 символа!',
+                errorNoPassword: 'Придумайте пароль!',
+                errorFillAll: 'Заполните все поля!',
+                errorSelectSong: 'Выберите песню!',
+                errorAttachScreenshot: 'Прикрепите скриншот!',
+                errorFileTooBig: 'Файл слишком большой!',
+                errorNoContact: 'Укажите контакт!',
+                errorNoMessage: 'Напишите сообщение!',
+                errorNeedAccount: 'Сначала создайте аккаунт!',
+                successAccountCreated: '✅ Аккаунт создан: ',
+                successLoggedIn: '✅ Вы вошли как ',
+                successFeedback: '✅ Спасибо за отзыв!',
+                guest: 'Гость',
+                noOrders: 'Пока нет заказов',
+                orderPending: '⏳ Ожидает',
+                orderPaid: '✅ Оплачен',
+                deleteConfirm: 'Вы уверены, что хотите удалить этот заказ?',
+                logoutConfirm: 'Вы уверены, что хотите выйти?',
+            },
+            en: {
+                subtitle: 'Author songs with full rights transfer after purchase',
+                welcomeTitle: '👋 Welcome!',
+                welcomeDesc: 'Create an account or log in to track your orders on any device.',
+                btnCreateAcc: '📝 Create Account',
+                btnLoginWelcome: '🔐 Log In',
+                btnGuest: '👻 Continue as Guest',
+                btnMyOrders: '📋 My Orders',
+                btnVerifyCode: '🔑 Login Code',
+                btnFeedback: '💬 Feedback',
+                btnSettings: '⚙️ Settings',
+                settingsTitle: '⚙️ Settings',
+                settingsParticles: 'Background Particles',
+                settingsCursor: 'Custom Cursor',
+                settingsAnimations: 'Animations',
+                settingsLang: '🌐 Language',
+                tabAll: '✨ All',
+                tabKids: '🧒 Kids',
+                tabAdult: '🔞 Adult',
+                tabSad: '💔 Sad',
+                tabHappy: '🎉 Happy',
+                tabLove: '❤️ Love',
+                customTitle: 'Custom Song',
+                customDesc: 'Describe your idea — I\'ll create a unique track',
+                formTitle: '📝 Order Form',
+                formSelected: 'Selected',
+                formIdea: 'Describe Your Idea',
+                formContact: 'Your Contact',
+                btnYooMoney: '💛 YooMoney',
+                btnTransfer: '📱 Bank Transfer',
+                transferTitle: 'Bank Transfer:',
+                transferHint: 'In the comment, specify your nickname:',
+                formScreenshot: 'Payment Screenshot',
+                dropzoneText: 'Click here or drag a file',
+                btnSubmitTransfer: '✅ I Paid — Submit',
+                myOrdersTitle: '📋 My Orders',
+                modalCreateTitle: '📝 Create Account',
+                modalCreateDesc: 'Choose a nickname and password.',
+                modalCreateWarn: '⚠️ Without a password, you will lose access!',
+                btnCreate: 'Create',
+                btnCancel: 'Cancel',
+                modalLoginTitle: '🔐 Log In',
+                btnLogin: 'Log In',
+                btnCancelLogin: 'Cancel',
+                modalCodeTitle: '🔑 Login Code',
+                modalCodeDesc: 'Valid for 5 minutes.',
+                btnNewCode: '🔄 New Code',
+                btnCloseCode: 'Close',
+                modalLoginCodeTitle: '🔐 Code Login',
+                btnLoginCode: 'Log In',
+                btnCancelCode: 'Cancel',
+                modalSuccessTitle: 'Order Sent!',
+                modalSuccessDesc: 'We\'ll check your payment soon. Thank you! 💛',
+                btnOk: 'OK',
+                paymentCheckText: 'Checking payment...',
+                modalFeedbackTitle: '💬 Feedback',
+                modalFeedbackDesc: 'Rate the site, share ideas.',
+                btnSendFeedback: 'Send',
+                btnCancelFeedback: 'Cancel',
+                confirmTitle: 'Confirm',
+                confirmYes: 'Yes',
+                confirmNo: 'No',
+                toastCopy: '✅ Number copied!',
+                toastLogout: 'You have logged out',
+                errorNickShort: 'Nickname must be at least 3 characters!',
+                errorNoPassword: 'Create a password!',
+                errorFillAll: 'Fill in all fields!',
+                errorSelectSong: 'Select a song!',
+                errorAttachScreenshot: 'Attach a screenshot!',
+                errorFileTooBig: 'File is too large!',
+                errorNoContact: 'Specify your contact!',
+                errorNoMessage: 'Write a message!',
+                errorNeedAccount: 'Create an account first!',
+                successAccountCreated: '✅ Account created: ',
+                successLoggedIn: '✅ Logged in as ',
+                successFeedback: '✅ Thanks for the feedback!',
+                guest: 'Guest',
+                noOrders: 'No orders yet',
+                orderPending: '⏳ Pending',
+                orderPaid: '✅ Paid',
+                deleteConfirm: 'Are you sure you want to delete this order?',
+                logoutConfirm: 'Are you sure you want to log out?',
+            },
+            be: {
+                subtitle: 'Аўтарскія песні з поўнай перадачай правоў пасля выкупу',
+                welcomeTitle: '👋 Сардэчна запрашаем!',
+                welcomeDesc: 'Стварыце акаўнт або ўвайдзіце, каб адсочваць свае заказы на любой прыладзе.',
+                btnCreateAcc: '📝 Стварыць акаўнт',
+                btnLoginWelcome: '🔐 Увайсці',
+                btnGuest: '👻 Працягнуць як госць',
+                btnMyOrders: '📋 Мае заказы',
+                btnVerifyCode: '🔑 Код для ўваходу',
+                btnFeedback: '💬 Зваротная сувязь',
+                btnSettings: '⚙️ Налады',
+                settingsTitle: '⚙️ Налады',
+                settingsParticles: 'Часціцы на фоне',
+                settingsCursor: 'Карыстацкі курсор',
+                settingsAnimations: 'Анімацыі',
+                settingsLang: '🌐 Мова',
+                tabAll: '✨ Усе',
+                tabKids: '🧒 Дзіцячыя',
+                tabAdult: '🔞 Дарослыя',
+                tabSad: '💔 Сумныя',
+                tabHappy: '🎉 Вясёлыя',
+                tabLove: '❤️ Пра каханне',
+                customTitle: 'Песня на заказ',
+                customDesc: 'Апішыце вашу ідэю — я створа ўнікальны трэк',
+                formTitle: '📝 Афармленне заказу',
+                formSelected: 'Абранае',
+                formIdea: 'Апішыце ідэю',
+                formContact: 'Ваш кантакт',
+                btnYooMoney: '💛 YooMoney',
+                btnTransfer: '📱 Перавод на карту',
+                transferTitle: 'Аплата пераводам:',
+                transferHint: 'У каментарыі пакажыце ваш нік:',
+                formScreenshot: 'Здымак экрана аплаты',
+                dropzoneText: 'Націсніце сюды або перацягніце файл',
+                btnSubmitTransfer: '✅ Я аплаціў(ла) — адправіць',
+                myOrdersTitle: '📋 Мае заказы',
+                modalCreateTitle: '📝 Стварэнне акаўнта',
+                modalCreateDesc: 'Прыдумайце нік і пароль.',
+                modalCreateWarn: '⚠️ Без пароля страціце доступ!',
+                btnCreate: 'Стварыць',
+                btnCancel: 'Адмена',
+                modalLoginTitle: '🔐 Уваход',
+                btnLogin: 'Увайсці',
+                btnCancelLogin: 'Адмена',
+                modalCodeTitle: '🔑 Код для ўваходу',
+                modalCodeDesc: 'Дзейнічае 5 хвілін.',
+                btnNewCode: '🔄 Новы код',
+                btnCloseCode: 'Зачыніць',
+                modalLoginCodeTitle: '🔐 Уваход па кодзе',
+                btnLoginCode: 'Увайсці',
+                btnCancelCode: 'Адмена',
+                modalSuccessTitle: 'Заказ адпраўлены!',
+                modalSuccessDesc: 'Хутка праверым ваш плацёж. Дзякуй! 💛',
+                btnOk: 'Добра',
+                paymentCheckText: 'Правяраем плацёж...',
+                modalFeedbackTitle: '💬 Зваротная сувязь',
+                modalFeedbackDesc: 'Ацаніце сайт, напішыце ідэі.',
+                btnSendFeedback: 'Адправіць',
+                btnCancelFeedback: 'Адмена',
+                confirmTitle: 'Пацвярджэнне',
+                confirmYes: 'Так',
+                confirmNo: 'Не',
+                toastCopy: '✅ Нумар скапіяваны!',
+                toastLogout: 'Вы выйшлі з акаўнта',
+                errorNickShort: 'Нік мінімум 3 сімвала!',
+                errorNoPassword: 'Прыдумайце пароль!',
+                errorFillAll: 'Запоўніце ўсе палі!',
+                errorSelectSong: 'Выберыце песню!',
+                errorAttachScreenshot: 'Прымацуйце здымак экрана!',
+                errorFileTooBig: 'Файл занадта вялікі!',
+                errorNoContact: 'Пакажыце ваш кантакт!',
+                errorNoMessage: 'Напішыце паведамленне!',
+                errorNeedAccount: 'Спачатку стварыце акаўнт!',
+                successAccountCreated: '✅ Акаўнт створаны: ',
+                successLoggedIn: '✅ Вы ўвайшлі як ',
+                successFeedback: '✅ Дзякуй за водгук!',
+                guest: 'Госць',
+                noOrders: 'Пакуль няма заказаў',
+                orderPending: '⏳ Чакае',
+                orderPaid: '✅ Аплачаны',
+                deleteConfirm: 'Вы ўпэўнены, што хочаце выдаліць гэты заказ?',
+                logoutConfirm: 'Вы ўпэўнены, што хочаце выйсці?',
+            },
+            uz: {
+                subtitle: 'Sotib olingandan so\'ng barcha huquqlar o\'tadigan mualliflik qo\'shiqlari',
+                welcomeTitle: '👋 Xush kelibsiz!',
+                welcomeDesc: 'Buyurtmalaringizni istalgan qurilmada kuzatish uchun akkaunt yarating yoki tizimga kiring.',
+                btnCreateAcc: '📝 Akkaunt yaratish',
+                btnLoginWelcome: '🔐 Kirish',
+                btnGuest: '👻 Mehmonsifat davom etish',
+                btnMyOrders: '📋 Mening buyurtmalarim',
+                btnVerifyCode: '🔑 Kirish kodi',
+                btnFeedback: '💬 Fikr-mulohaza',
+                btnSettings: '⚙️ Sozlamalar',
+                settingsTitle: '⚙️ Sozlamalar',
+                settingsParticles: 'Fondagi zarralar',
+                settingsCursor: 'Maxsus kursor',
+                settingsAnimations: 'Animatsiyalar',
+                settingsLang: '🌐 Til',
+                tabAll: '✨ Hammasi',
+                tabKids: '🧒 Bolalar',
+                tabAdult: '🔞 Kattalar',
+                tabSad: '💔 G\'amgin',
+                tabHappy: '🎉 Quvnoq',
+                tabLove: '❤️ Sevgi haqida',
+                customTitle: 'Buyurtma qo\'shiq',
+                customDesc: 'Fikringizni tasvirlab bering — men noyob trek yarataman',
+                formTitle: '📝 Buyurtma rasmiylashtirish',
+                formSelected: 'Tanlangan',
+                formIdea: 'Fikringizni tasvirlang',
+                formContact: 'Sizning kontaktingiz',
+                btnYooMoney: '💛 YooMoney',
+                btnTransfer: '📱 Kartaga o\'tkazma',
+                transferTitle: 'O\'tkazma orqali to\'lov:',
+                transferHint: 'Izohda taxallusingizni ko\'rsating:',
+                formScreenshot: 'To\'lov skrinshoti',
+                dropzoneText: 'Shu yerga bosing yoki faylni sudrab keling',
+                btnSubmitTransfer: '✅ Men to\'ladim — yuborish',
+                myOrdersTitle: '📋 Mening buyurtmalarim',
+                modalCreateTitle: '📝 Akkaunt yaratish',
+                modalCreateDesc: 'Taxallus va parol o\'ylab toping.',
+                modalCreateWarn: '⚠️ Parolsiz kirish huquqini yo\'qotasiz!',
+                btnCreate: 'Yaratish',
+                btnCancel: 'Bekor qilish',
+                modalLoginTitle: '🔐 Kirish',
+                btnLogin: 'Kirish',
+                btnCancelLogin: 'Bekor qilish',
+                modalCodeTitle: '🔑 Kirish kodi',
+                modalCodeDesc: '5 daqiqa amal qiladi.',
+                btnNewCode: '🔄 Yangi kod',
+                btnCloseCode: 'Yopish',
+                modalLoginCodeTitle: '🔐 Kod orqali kirish',
+                btnLoginCode: 'Kirish',
+                btnCancelCode: 'Bekor qilish',
+                modalSuccessTitle: 'Buyurtma yuborildi!',
+                modalSuccessDesc: 'To\'lovingizni tez orada tekshiramiz. Rahmat! 💛',
+                btnOk: 'Yaxshi',
+                paymentCheckText: 'To\'lov tekshirilmoqda...',
+                modalFeedbackTitle: '💬 Fikr-mulohaza',
+                modalFeedbackDesc: 'Saytni baholang, fikrlaringizni yozing.',
+                btnSendFeedback: 'Yuborish',
+                btnCancelFeedback: 'Bekor qilish',
+                confirmTitle: 'Tasdiqlash',
+                confirmYes: 'Ha',
+                confirmNo: 'Yo\'q',
+                toastCopy: '✅ Raqam nusxalandi!',
+                toastLogout: 'Siz akkauntdan chiqdingiz',
+                errorNickShort: 'Taxallus kamida 3 ta belgidan iborat bo\'lishi kerak!',
+                errorNoPassword: 'Parol o\'ylab toping!',
+                errorFillAll: 'Barcha maydonlarni to\'ldiring!',
+                errorSelectSong: 'Qo\'shiqni tanlang!',
+                errorAttachScreenshot: 'Skrinshotni ilova qiling!',
+                errorFileTooBig: 'Fayl juda katta!',
+                errorNoContact: 'Kontaktingizni ko\'rsating!',
+                errorNoMessage: 'Xabar yozing!',
+                errorNeedAccount: 'Avval akkaunt yarating!',
+                successAccountCreated: '✅ Akkaunt yaratildi: ',
+                successLoggedIn: '✅ Siz kirdingiz: ',
+                successFeedback: '✅ Fikr-mulohaza uchun rahmat!',
+                guest: 'Mehmon',
+                noOrders: 'Hozircha buyurtmalar yo\'q',
+                orderPending: '⏳ Kutilmoqda',
+                orderPaid: '✅ To\'langan',
+                deleteConfirm: 'Ushbu buyurtmani o\'chirishga ishonchingiz komilmi?',
+                logoutConfirm: 'Chiqishga ishonchingiz komilmi?',
+            }
+        };
+
+        function t(key) {
+            return (translations[settings.lang] && translations[settings.lang][key]) || (translations[
+                'ru'] && translations['ru'][key]) || key;
+        }
+
+        function applyTranslations() {
+            const ids = [
+                'subtitleText', 'welcomeTitle', 'welcomeDesc', 'btnCreateAcc', 'btnLoginWelcome', 'btnGuest',
+                'btnMyOrders', 'btnVerifyCode', 'btnFeedback', 'btnSettings', 'settingsTitle', 'settingsParticles',
+                'settingsCursor', 'settingsAnimations', 'settingsLang', 'tabAll', 'tabKids', 'tabAdult', 'tabSad',
+                'tabHappy', 'tabLove', 'customTitle', 'customDesc', 'formTitle', 'formSelected', 'formIdea',
+                'formContact', 'btnYooMoney', 'btnTransfer', 'transferTitle', 'transferHint', 'formScreenshot',
+                'dropzoneText', 'btnSubmitTransfer', 'myOrdersTitle', 'modalCreateTitle', 'modalCreateDesc',
+                'modalCreateWarn', 'btnCreate', 'btnCancel', 'modalLoginTitle', 'btnLogin', 'btnCancelLogin',
+                'modalCodeTitle', 'modalCodeDesc', 'btnNewCode', 'btnCloseCode', 'modalLoginCodeTitle',
+                'btnLoginCode', 'btnCancelCode', 'modalSuccessTitle', 'modalSuccessDesc', 'btnOk',
+                'paymentCheckText', 'modalFeedbackTitle', 'modalFeedbackDesc', 'btnSendFeedback',
+                'btnCancelFeedback'
+            ];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && t(id)) el.textContent = t(id);
+            });
+            updateUI();
+        }
+
+        function changeLanguage(lang) {
+            settings.lang = lang;
+            localStorage.setItem('px_settings_ui', JSON.stringify(settings));
+            applyTranslations();
+            if (document.getElementById('welcomeScreen').classList.contains('hidden')) {
+                loadCatalogFromServer();
+            }
+        }
+
+        function toggleParticles() {
+            settings.particles = document.getElementById('toggleParticles').checked;
+            localStorage.setItem('px_settings_ui', JSON.stringify(settings));
+            applySettings();
+        }
+
+        function toggleCursor() {
+            settings.cursor = document.getElementById('toggleCursor').checked;
+            localStorage.setItem('px_settings_ui', JSON.stringify(settings));
+            applySettings();
+        }
+
+        function toggleAnimations() {
+            settings.animations = document.getElementById('toggleAnimations').checked;
+            localStorage.setItem('px_settings_ui', JSON.stringify(settings));
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('particles-canvas').style.display = settings.particles ? 'block' : 'none';
+            document.getElementById('cursorDot').style.display = settings.cursor ? 'block' : 'none';
+            document.getElementById('cursorRing').style.display = settings.cursor ? 'block' : 'none';
+            document.body.style.setProperty('--transition', settings.animations ? '0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2)' :
+                '0s');
+        }
+
+        function toggleSettings() {
+            document.getElementById('settingsPanel').classList.toggle('hidden');
+        }
+
+        // ==================== КАСТОМНЫЙ КУРСОР ====================
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorRing = document.getElementById('cursorRing');
+        document.addEventListener('mousemove', (e) => {
+            if (!settings.cursor) return;
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            cursorRing.style.left = e.clientX - 18 + 'px';
+            cursorRing.style.top = e.clientY - 18 + 'px';
+        });
+        document.addEventListener('mouseover', (e) => {
+            if (!settings.cursor) return;
+            if (e.target.closest(
+                    'button, a, .card, .custom-card, .dropzone, .payment-phone, .user-badge, .tab, input, textarea, select'
+                    )) {
+                cursorRing.classList.add('hover');
+            } else {
+                cursorRing.classList.remove('hover');
+            }
+        });
+
+        // ==================== ЧАСТИЦЫ ====================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.speedY = (Math.random() - 0.5) * 0.6;
+                this.opacity = Math.random() * 0.5 + 0.15;
+                this.color = Math.random() > 0.5 ? '139, 92, 246' : '255, 45, 149';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            if (!settings.particles) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                requestAnimationFrame(animateParticles);
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update();
+                p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ==================== КАСТОМНЫЙ CONFIRM ====================
+        let confirmCallback = null;
+
+        function customConfirm(message, callback, title = null) {
+            document.getElementById('confirmMessage').textContent = message || t('deleteConfirm');
+            document.getElementById('confirmTitle').textContent = title || t('confirmTitle');
+            document.getElementById('confirmYes').textContent = t('confirmYes');
+            document.getElementById('confirmNo').textContent = t('confirmNo');
+            confirmCallback = callback;
+            showModal('confirmModal');
+        }
+
+        document.getElementById('confirmYes').addEventListener('click', () => {
+            closeModal('confirmModal');
+            if (confirmCallback && typeof confirmCallback === 'function') confirmCallback(true);
+            confirmCallback = null;
+        });
+        document.getElementById('confirmNo').addEventListener('click', () => {
+            closeModal('confirmModal');
+            if (confirmCallback && typeof confirmCallback === 'function') confirmCallback(false);
+            confirmCallback = null;
+        });
+
+        // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
+        function showModal(id) { document.getElementById(id).classList.add('active'); }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function showToast(title, message) {
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            showModal('toastModal');
+        }
+
+        function getMediaHTML(b) {
+            const imgExt = b.includes('.') ? '' : '.jpg';
+            const imgSrc = `${b}${imgExt}`;
+            return `<img src="${imgSrc}" class="card-image" onerror="this.style.display='none'" alt="">
+        <div class="media-wrap">
+          <video src="${b}.mp4" controls controlsList="nodownload" preload="metadata" style="max-height:180px;width:100%;border-radius:14px;" onerror="this.style.display='none'"></video>
+          <audio controls controlsList="nodownload" preload="metadata" style="width:100%;"><source src="${b}.mp3" type="audio/mpeg"></audio>
+        </div>`;
+        }
+
+        function getOrders() {
+            try { return JSON.parse(localStorage.getItem('px_orders_' + (userNick || 'guest')) || '[]'); } catch (
+            e) { return []; }
+        }
+
+        function saveOrder(o) {
+            const key = 'px_orders_' + (userNick || 'guest');
+            const orders = getOrders();
+            orders.push(o);
+            localStorage.setItem(key, JSON.stringify(orders));
+        }
+
+        function deleteOrderById(orderId) {
+            customConfirm(t('deleteConfirm'), (confirmed) => {
+                if (!confirmed) return;
+                const key = 'px_orders_' + (userNick || 'guest');
+                let orders = getOrders();
+                orders = orders.filter(o => o.id !== orderId);
+                localStorage.setItem(key, JSON.stringify(orders));
+                toast('🗑 Заказ удалён');
+                showMyOrders(true);
+            });
+        }
+
+        function toast(msg) {
+            const t = document.createElement('div');
+            t.className = 'copy-toast';
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2800);
+        }
+
+        function copyPhone() {
+            navigator.clipboard.writeText('+7 904 862 83 27').then(() => toast(t('toastCopy')));
+        }
+
+        function updateUI() {
+            if (userNick) {
+                document.getElementById('userBadge').textContent = '👤 ' + userNick;
+                document.getElementById('nickHint').textContent = userNick;
+                document.getElementById('welcomeScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                document.getElementById('btnLoginTop').classList.add('hidden');
+            } else {
+                document.getElementById('userBadge').textContent = '👤 ' + t('guest');
+                document.getElementById('nickHint').textContent = '—';
+                document.getElementById('btnLoginTop').classList.remove('hidden');
+            }
+        }
+
+        function enterAsGuest() {
+            userNick = '';
+            localStorage.removeItem('px_nick');
+            localStorage.removeItem('px_pass');
+            updateUI();
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            loadCatalogFromServer();
+        }
+
+        function showUserMenu() {
+            if (!userNick) return showModal('nickModal');
+            customConfirm(t('logoutConfirm'), (confirmed) => {
+                if (!confirmed) return;
+                userNick = '';
+                localStorage.removeItem('px_nick');
+                localStorage.removeItem('px_pass');
+                updateUI();
+                document.getElementById('welcomeScreen').classList.remove('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+                toast(t('toastLogout'));
+            }, t('modalLoginTitle'));
+        }
+
+        async function createNick() {
+            const nick = document.getElementById('nickInput').value.trim().toLowerCase();
+            const password = document.getElementById('nickPassword').value.trim();
+            if (nick.length < 3) return showToast('Ошибка', t('errorNickShort'));
+            if (!password) return showToast('Ошибка', t('errorNoPassword'));
+            try {
+                const r = await fetch(`${API_BASE}/api/create-nick`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nick, password })
+                });
+                const d = await r.json();
+                if (d.ok) {
+                    userNick = nick;
+                    localStorage.setItem('px_nick', nick);
+                    localStorage.setItem('px_pass', password);
+                    updateUI();
+                    closeModal('nickModal');
+                    document.getElementById('welcomeScreen').classList.add('hidden');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                    toast(t('successAccountCreated') + nick);
+                    loadCatalogFromServer();
+                } else showToast('Ошибка', d.error);
+            } catch (e) { showToast('Ошибка', ''); }
+        }
+
+        async function loginByPassword() {
+            const nick = document.getElementById('loginNickPassInput').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassInput').value.trim();
+            if (!nick || !password) return showToast('Ошибка', t('errorFillAll'));
+            try {
+                const r = await fetch(`${API_BASE}/api/login-nick`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nick, password })
+                });
+                const d = await r.json();
+                if (d.ok) {
+                    userNick = nick;
+                    localStorage.setItem('px_nick', nick);
+                    localStorage.setItem('px_pass', password);
+                    updateUI();
+                    closeModal('loginByPasswordModal');
+                    document.getElementById('welcomeScreen').classList.add('hidden');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                    toast(t('successLoggedIn') + nick);
+                    loadCatalogFromServer();
+                } else showToast('Ошибка', d.error);
+            } catch (e) { showToast('Ошибка', ''); }
+        }
+
+        function showVerifyCodeModal() {
+            if (!userNick) return showToast('Ошибка', t('errorNeedAccount'));
+            showModal('verifyCodeModal');
+            generateVerifyCode();
+        }
+
+        async function generateVerifyCode() {
+            if (!userNick) return;
+            try {
+                const r = await fetch(`${API_BASE}/api/generate-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nick: userNick })
+                });
+                const d = await r.json();
+                if (d.ok) document.getElementById('verifyCodeDisplay').textContent = d.code;
+                else showToast('Ошибка', d.error);
+            } catch (e) { showToast('Ошибка', ''); }
+        }
+
+        async function loginByCode() {
+            const nick = document.getElementById('loginNickInput').value.trim().toLowerCase();
+            const code = document.getElementById('loginCodeInput').value.trim();
+            if (!nick || !code) return showToast('Ошибка', t('errorFillAll'));
+            try {
+                const r = await fetch(`${API_BASE}/api/verify-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nick, code })
+                });
+                const d = await r.json();
+                if (d.ok) {
+                    userNick = nick;
+                    localStorage.setItem('px_nick', nick);
+                    updateUI();
+                    closeModal('loginByCodeModal');
+                    document.getElementById('welcomeScreen').classList.add('hidden');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                    toast(t('successLoggedIn') + nick);
+                    loadCatalogFromServer();
+                } else showToast('Ошибка', d.error);
+            } catch (e) { showToast('Ошибка', ''); }
+        }
+
+        async function loadCatalogFromServer() {
+            try {
+                const r = await fetch(`${API_BASE}/api/catalog`);
+                const d = await r.json();
+                catalog = d.products || [];
+                render();
+            } catch (e) {
+                document.getElementById('catalog').innerHTML =
+                    '<p style="text-align:center;color:var(--danger);">Ошибка загрузки каталога</p>';
+            }
+        }
+
+        function render() {
+            const f = currentTab === 'all' ? catalog : catalog.filter(p => p.category === currentTab);
+            document.getElementById('catalog').innerHTML = f.map(p => {
+                const imgExt = (p.base && p.base.includes('.')) ? '' : '.jpg';
+                const imgSrc = p.base ? `${p.base}${imgExt}` : '';
+                return `<div class="card" onclick="showDetails(${p.id})">
+              ${imgSrc ? `<img src="${imgSrc}" class="card-image" onerror="this.style.display='none'" alt="">` : ''}
+              <div class="emoji">${p.emoji||'🎵'}</div>
+              <div class="title">${p.title}</div>
+              <div class="price">${Number(p.price).toLocaleString()} ₽</div>
+              <div class="desc">${p.desc||''}</div>
+              <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+              <div class="media-wrap">${getMediaHTML(p.base||'media/default')}<div class="watermark">🔊 Демо с водяным знаком «Rettero»</div></div>
+            </div>`;
+            }).join('');
+        }
+
+        document.getElementById('tabs').addEventListener('click', e => {
+            const tab = e.target.closest('.tab');
+            if (!tab) return;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentTab = tab.dataset.tab;
+            render();
+        });
+
+        // ==================== ДЕТАЛИ И ЗАКАЗ ====================
+        function showDetails(id) {
+            const p = catalog.find(x => x.id === id);
+            if (!p) return;
+            selectedProduct = p;
+            isCustom = false;
+
+            // Закрываем форму заказа и возвращаем каталог
+            document.getElementById('orderForm').classList.remove('active');
+            document.getElementById('catalog').style.display = '';
+            document.querySelector('.custom-card').classList.remove('hidden');
+            document.getElementById('detailsPage').classList.add('active');
+
+            const imgExt = (p.base && p.base.includes('.')) ? '' : '.jpg';
+            const imgSrc = p.base ? `${p.base}${imgExt}` : '';
+            document.getElementById('detailsPage').innerHTML = `
+            <button class="btn-sm" onclick="goBack()">← Назад</button>
+            <div class="details-card">
+              ${imgSrc ? `<img src="${imgSrc}" onerror="this.style.display='none'" alt="">` : ''}
+              <div style="font-size:48px;">${p.emoji||'🎵'}</div>
+              <h2>${p.title}</h2>
+              <div style="font-size:1.6rem;font-weight:800;font-family:'Unbounded',sans-serif;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${Number(p.price).toLocaleString()} ₽</div>
+              <p style="color:var(--text-dim);">${p.desc||''}</p>
+              ${getMediaHTML(p.base||'media/default').replace('max-height:180px','max-height:350px')}
+              <div class="watermark">🔊 Демо — после покупки чистая версия</div>
+              <button class="btn btn-ym btn-full" onclick="openOrderForm()" style="margin-top:16px;">💛 Оплатить через ЮMoney</button>
+              <button class="btn btn-gold btn-full" onclick="openOrderForm();setTimeout(()=>showTransferSection(),300)" style="margin-top:8px;">📱 Переводом на карту</button>
+            </div>`;
+        }
+
+        function goBack() {
+            document.getElementById('detailsPage').classList.remove('active');
+            document.getElementById('orderForm').classList.remove('active');
+            document.getElementById('catalog').style.display = '';
+            document.querySelector('.custom-card').classList.remove('hidden');
+            selectedProduct = null;
+            isCustom = false;
+            uploadedFile = null;
+            document.getElementById('transferSection').classList.add('hidden');
+        }
+
+        function selectCustom() {
+            isCustom = true;
+            selectedProduct = null;
+            document.getElementById('detailsPage').classList.remove('active');
+            document.getElementById('catalog').style.display = '';
+            document.querySelector('.custom-card').classList.remove('hidden');
+            document.getElementById('selectedDisplay').value = '🎤 ' + t('customTitle');
+            document.getElementById('customGroup').classList.remove('hidden');
+            document.getElementById('orderForm').classList.add('active');
+            document.getElementById('transferSection').classList.add('hidden');
+            uploadedFile = null;
+            document.getElementById('fileName').textContent = '';
+        }
+
+        function openOrderForm() {
+            if (!selectedProduct && !isCustom) return;
+            document.getElementById('selectedDisplay').value = isCustom ? '🎤 ' + t('customTitle') : (selectedProduct
+                ?.title || '');
+            document.getElementById('customGroup').classList.toggle('hidden', !isCustom);
+            document.getElementById('orderForm').classList.add('active');
+            document.getElementById('transferSection').classList.add('hidden');
+            uploadedFile = null;
+            document.getElementById('fileName').textContent = '';
+        }
+
+        function showTransferSection() {
+            document.getElementById('transferSection').classList.remove('hidden');
+        }
+
+        function payByYooMoney() {
+            if (!selectedProduct && !isCustom) return showToast('Ошибка', t('errorSelectSong'));
+            const price = isCustom ? 0 : selectedProduct.price;
+            const title = isCustom ? '🎤 ' + t('customTitle') : (selectedProduct?.title || '');
+            saveOrder({
+                id: Date.now(),
+                product: title,
+                status: 'pending',
+                time: new Date().toLocaleString('ru-RU'),
+                nick: userNick
+            });
+            window.open(`https://yoomoney.ru/to/4100117765240041/${price}`, '_blank');
+            showModal('paymentModal');
+            setTimeout(() => {
+                document.getElementById('paymentBox').innerHTML =
+                    '<div style="font-size:56px;">🔍</div><h2>Скоро проверим</h2><p style="color:var(--text-dim);">Мы проверим ваш платёж и пришлём уведомление.</p><button class="btn btn-accent btn-full" onclick="closeModal(\'paymentModal\')">Хорошо</button>';
+            }, 3000);
+        }
+
+        function handleFile(e) { processFile(e.target.files[0], 'dropzone', 'fileName'); }
+
+        function processFile(file, zoneId, nameId) {
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) { showToast('Ошибка', t('errorFileTooBig')); return; }
+            uploadedFile = file;
+            document.getElementById(zoneId).style.borderColor = 'var(--success)';
+            document.getElementById(nameId).textContent = '📎 ' + file.name;
+        }
+
+        async function submitTransfer() {
+            if (!uploadedFile) return showToast('Ошибка', t('errorAttachScreenshot'));
+            const title = isCustom ? '🎤 ' + t('customTitle') : (selectedProduct?.title || '');
+            const contact = document.getElementById('contactTg').value.trim();
+            saveOrder({
+                id: Date.now(),
+                product: title,
+                contact: contact,
+                status: 'pending',
+                time: new Date().toLocaleString('ru-RU'),
+                nick: userNick
+            });
+            const fd = new FormData();
+            fd.append('caption',
+                `🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact||'—'}\n🆔 Ник: ${userNick||'—'}\n🕐 ${new Date().toLocaleString('ru-RU')}`
+                );
+            fd.append('photo', uploadedFile);
+            fd.append('guest', userNick || 'guest_' + Date.now().toString(36));
+            try {
+                await fetch(`${API_BASE}/api/send-order`, { method: 'POST', body: fd });
+                showModal('successModal');
+                uploadedFile = null;
+                document.getElementById('orderForm').classList.remove('active');
+                document.getElementById('transferSection').classList.add('hidden');
+                document.getElementById('detailsPage').classList.remove('active');
+                document.getElementById('catalog').style.display = '';
+                document.querySelector('.custom-card').classList.remove('hidden');
+                selectedProduct = null;
+                isCustom = false;
+            } catch (e) { showToast('Ошибка', 'Не удалось отправить заказ'); }
+        }
+
+        // ==================== МОИ ЗАКАЗЫ ====================
+        function showMyOrders(forceRefresh = false) {
+            const panel = document.getElementById('myOrdersPanel');
+            if (forceRefresh) {
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            }
+            if (panel.style.display === 'block') {
+                const orders = getOrders();
+                document.getElementById('myOrders').innerHTML = orders.length === 0 ?
+                    `<p style="color:var(--text-dim);text-align:center;">${t('noOrders')}</p>` :
+                    orders.reverse().map(o => `
+              <div class="order-row">
+                <div class="order-info">
+                  <strong>#${o.id||'—'} — ${o.product}</strong><br>
+                  <small style="color:var(--text-dim);">${o.time}</small>
+                </div>
+                <div class="order-actions">
+                  <span class="badge ${o.status==='pending'?'badge-pending':'badge-paid'}">${o.status==='pending'?t('orderPending'):t('orderPaid')}</span>
+                  <button class="btn btn-xs" style="background:var(--danger);color:#fff;" onclick="deleteOrderById(${o.id})">🗑</button>
+                </div>
+              </div>`).join('');
+            }
+        }
+
+        async function sendFeedback() {
+            const text = document.getElementById('feedbackText').value.trim();
+            if (!text) return showToast('Ошибка', t('errorNoMessage'));
+            const contact = document.getElementById('feedbackContact').value.trim();
+            try {
+                await fetch(`${API_BASE}/api/send-feedback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, contact, nick: userNick || 'guest' })
+                });
+                closeModal('feedbackModal');
+                toast(t('successFeedback'));
+                document.getElementById('feedbackText').value = '';
+                document.getElementById('feedbackContact').value = '';
+            } catch (e) { showToast('Ошибка', ''); }
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        applyTranslations();
         updateUI();
-        if(userNick){document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');loadCatalogFromServer()}
+        if (userNick) {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            loadCatalogFromServer();
+        }
     </script>
 </body>
 </html>
