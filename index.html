@@ -1,3 +1,4 @@
+<!-- ==================== index.html ==================== -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -92,17 +93,20 @@
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
     <script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script>
+    <!-- Yandex.Metrika counter -->
     <script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=110413717','ym');ym(110413717,'init',{ssr:true,webvisor:true,trackHash:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});</script>
     <noscript><div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-964DHNBYF2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-964DHNBYF2');</script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GYRZDGVW3V');</script>
+    <!-- /Google Analytics -->
 </head>
 <body>
     <div id="yandex_rtb_R-A-19547505-1"></div><script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-19547505-1","renderTo":"yandex_rtb_R-A-19547505-1"})})</script>
     <div class="bg"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div><div class="bg-grid"></div>
     <div class="app">
         <div class="header"><div class="logo">🎵</div><h1>PieSenia</h1><p class="subtitle">Авторские песни с полной передачей прав после выкупа</p></div>
-
-        <!-- ЭКРАН ПРИВЕТСТВИЯ -->
         <div class="welcome-screen" id="welcomeScreen">
             <h2>👋 Добро пожаловать!</h2>
             <p>Создайте аккаунт или войдите, чтобы отслеживать свои заказы на любом устройстве.</p>
@@ -112,8 +116,6 @@
                 <button class="btn btn-sm" onclick="enterAsGuest()">👻 Продолжить без аккаунта</button>
             </div>
         </div>
-
-        <!-- ОСНОВНОЙ КОНТЕНТ -->
         <div id="mainContent" class="hidden">
             <div class="top-bar">
                 <span class="user-badge" id="userBadge" onclick="showUserMenu()">👤 Гость</span>
@@ -147,17 +149,14 @@
         <p>Контакты: <a href="mailto:love_cute_cats@mail.ru">love_cute_cats@mail.ru</a> | <a href="https://t.me/Rettero">@Rettero</a></p>
         <p><a href="/privacy">Политика конфиденциальности</a> | <a href="/terms">Пользовательское соглашение</a> | <a href="/cookies">Cookie</a> | <a href="/copyright">Авторские права</a></p>
     </footer>
-
-    <!-- МОДАЛКИ -->
-    <div class="modal" id="nickModal"><div class="modal-box"><h2>📝 Создание аккаунта</h2><p style="color:var(--text-dim);">Придумайте ник и пароль чтобы не потерять доступ.</p><input type="text" id="nickInput" placeholder="Ваш ник (мин. 3 символа)"><input type="password" id="nickPassword" placeholder="Пароль (запомните!)"><p style="color:var(--warning);font-size:0.7rem;">⚠️ Без пароля потеряете доступ при смене устройства!</p><button class="btn btn-accent btn-full" onclick="createNick()">Создать аккаунт</button><button class="btn btn-sm" onclick="closeModal('nickModal')" style="margin-top:8px;">Отмена</button></div></div>
-    <div class="modal" id="loginByPasswordModal"><div class="modal-box"><h2>🔐 Вход в аккаунт</h2><p style="color:var(--text-dim);">Войдите чтобы увидеть свои заказы.</p><input type="text" id="loginNickPassInput" placeholder="Ваш ник"><input type="password" id="loginPassInput" placeholder="Пароль"><button class="btn btn-accent btn-full" onclick="loginByPassword()">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByPasswordModal')" style="margin-top:8px;">Отмена</button></div></div>
-    <div class="modal" id="verifyCodeModal"><div class="modal-box"><h2>🔑 Код для входа</h2><p style="color:var(--text-dim);">Действует 5 минут. Для входа на другом устройстве.</p><div style="font-size:2rem;font-weight:800;color:var(--cyan);letter-spacing:0.1em;margin:16px 0;" id="verifyCodeDisplay">----</div><button class="btn btn-accent btn-full" onclick="generateVerifyCode()">🔄 Сгенерировать новый</button><button class="btn btn-sm" onclick="closeModal('verifyCodeModal')" style="margin-top:8px;">Закрыть</button></div></div>
-    <div class="modal" id="loginByCodeModal"><div class="modal-box"><h2>🔐 Вход по коду</h2><p style="color:var(--text-dim);">Введите ник и проверочный код.</p><input type="text" id="loginNickInput" placeholder="Ваш ник"><input type="text" id="loginCodeInput" placeholder="Проверочный код"><button class="btn btn-accent btn-full" onclick="loginByCode()">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByCodeModal')" style="margin-top:8px;">Отмена</button></div></div>
-    <div class="modal" id="successModal"><div class="modal-box"><div style="font-size:60px;">✅</div><h2>Заказ отправлен!</h2><p style="color:var(--text-dim);">Скоро проверим ваш платёж и пришлём уведомление. Спасибо! 💛</p><button class="btn btn-accent btn-full" onclick="closeModal('successModal')">Хорошо</button></div></div>
+    <div class="modal" id="nickModal"><div class="modal-box"><h2>📝 Создание аккаунта</h2><p style="color:var(--text-dim);">Придумайте ник и пароль.</p><input type="text" id="nickInput" placeholder="Ваш ник"><input type="password" id="nickPassword" placeholder="Пароль"><p style="color:var(--warning);font-size:0.7rem;">⚠️ Без пароля потеряете доступ!</p><button class="btn btn-accent btn-full" onclick="createNick()">Создать</button><button class="btn btn-sm" onclick="closeModal('nickModal')" style="margin-top:8px;">Отмена</button></div></div>
+    <div class="modal" id="loginByPasswordModal"><div class="modal-box"><h2>🔐 Вход</h2><input type="text" id="loginNickPassInput" placeholder="Ник"><input type="password" id="loginPassInput" placeholder="Пароль"><button class="btn btn-accent btn-full" onclick="loginByPassword()">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByPasswordModal')" style="margin-top:8px;">Отмена</button></div></div>
+    <div class="modal" id="verifyCodeModal"><div class="modal-box"><h2>🔑 Код для входа</h2><p style="color:var(--text-dim);">Действует 5 минут.</p><div style="font-size:2rem;font-weight:800;color:var(--cyan);margin:16px 0;" id="verifyCodeDisplay">----</div><button class="btn btn-accent btn-full" onclick="generateVerifyCode()">🔄 Новый код</button><button class="btn btn-sm" onclick="closeModal('verifyCodeModal')" style="margin-top:8px;">Закрыть</button></div></div>
+    <div class="modal" id="loginByCodeModal"><div class="modal-box"><h2>🔐 Вход по коду</h2><input type="text" id="loginNickInput" placeholder="Ник"><input type="text" id="loginCodeInput" placeholder="Код"><button class="btn btn-accent btn-full" onclick="loginByCode()">Войти</button><button class="btn btn-sm" onclick="closeModal('loginByCodeModal')" style="margin-top:8px;">Отмена</button></div></div>
+    <div class="modal" id="successModal"><div class="modal-box"><div style="font-size:60px;">✅</div><h2>Заказ отправлен!</h2><p style="color:var(--text-dim);">Скоро проверим ваш платёж. Спасибо! 💛</p><button class="btn btn-accent btn-full" onclick="closeModal('successModal')">Хорошо</button></div></div>
     <div class="modal" id="paymentModal"><div class="modal-box" id="paymentBox"><div class="spinner"></div><p style="margin-top:12px;">Проверяем платёж...</p></div></div>
     <div class="modal" id="toastModal"><div class="modal-box"><h2 id="toastTitle"></h2><p style="color:var(--text-dim);" id="toastMessage"></p><button class="btn btn-accent btn-full" onclick="closeModal('toastModal')">Ок</button></div></div>
-    <div class="modal" id="feedbackModal"><div class="modal-box"><h2>💬 Обратная связь</h2><p style="color:var(--text-dim);">Оцените сайт, напишите идеи и пожелания.</p><textarea id="feedbackText" placeholder="Ваше сообщение..."></textarea><input id="feedbackContact" placeholder="Ваш контакт (необязательно)"><button class="btn btn-accent btn-full" onclick="sendFeedback()">Отправить</button><button class="btn btn-sm" onclick="closeModal('feedbackModal')" style="margin-top:8px;">Отмена</button></div></div>
-
+    <div class="modal" id="feedbackModal"><div class="modal-box"><h2>💬 Обратная связь</h2><p style="color:var(--text-dim);">Оцените сайт, напишите идеи.</p><textarea id="feedbackText" placeholder="Ваше сообщение..."></textarea><input id="feedbackContact" placeholder="Ваш контакт (необязательно)"><button class="btn btn-accent btn-full" onclick="sendFeedback()">Отправить</button><button class="btn btn-sm" onclick="closeModal('feedbackModal')" style="margin-top:8px;">Отмена</button></div></div>
     <script>
         const API_BASE='https://Rettero.pythonanywhere.com';
         let catalog=[],userNick=localStorage.getItem('px_nick')||'';
@@ -170,55 +169,14 @@
         let currentTab='all',selectedProduct=null,isCustom=false,uploadedFile=null;
         function toast(msg){const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2800)}
         function copyPhone(){navigator.clipboard.writeText('+7 904 862 83 27').then(()=>toast('✅ Номер скопирован!'))}
-        function updateUI(){
-            if(userNick){
-                document.getElementById('userBadge').textContent='👤 '+userNick;
-                document.getElementById('nickHint').textContent=userNick;
-                document.getElementById('welcomeScreen').classList.add('hidden');
-                document.getElementById('mainContent').classList.remove('hidden');
-                document.getElementById('btnLogin').classList.add('hidden');
-            }else{
-                document.getElementById('userBadge').textContent='👤 Гость';
-                document.getElementById('nickHint').textContent='—';
-                document.getElementById('btnLogin').classList.remove('hidden');
-            }
-        }
-        function enterAsGuest(){
-            userNick='';localStorage.removeItem('px_nick');localStorage.removeItem('px_pass');
-            updateUI();document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');loadCatalogFromServer();
-        }
-        function showUserMenu(){
-            if(!userNick)return showModal('nickModal');
-            showToast('Выход из аккаунта','Вы вошли как "'+userNick+'".\n\nНажмите "Ок" чтобы выйти из аккаунта и вернуться на экран входа.');
-            document.getElementById('toastModal').querySelector('.btn-accent').onclick=()=>{
-                userNick='';localStorage.removeItem('px_nick');localStorage.removeItem('px_pass');
-                updateUI();closeModal('toastModal');
-                document.getElementById('welcomeScreen').classList.remove('hidden');
-                document.getElementById('mainContent').classList.add('hidden');
-                toast('Вы вышли из аккаунта');
-            };
-        }
-        async function createNick(){
-            const nick=document.getElementById('nickInput').value.trim().toLowerCase();
-            const password=document.getElementById('nickPassword').value.trim();
-            if(nick.length<3)return showToast('Ошибка','Ник минимум 3 символа!');
-            if(!password)return showToast('Ошибка','Придумайте пароль!');
-            try{const r=await fetch(`${API_BASE}/api/create-nick`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,password})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);localStorage.setItem('px_pass',password);updateUI();closeModal('nickModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Аккаунт создан: '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось создать аккаунт')}
-        }
-        async function loginByPassword(){
-            const nick=document.getElementById('loginNickPassInput').value.trim().toLowerCase();
-            const password=document.getElementById('loginPassInput').value.trim();
-            if(!nick||!password)return showToast('Ошибка','Заполните все поля!');
-            try{const r=await fetch(`${API_BASE}/api/login-nick`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,password})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);localStorage.setItem('px_pass',password);updateUI();closeModal('loginByPasswordModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось войти')}
-        }
+        function updateUI(){if(userNick){document.getElementById('userBadge').textContent='👤 '+userNick;document.getElementById('nickHint').textContent=userNick;document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');document.getElementById('btnLogin').classList.add('hidden')}else{document.getElementById('userBadge').textContent='👤 Гость';document.getElementById('nickHint').textContent='—';document.getElementById('btnLogin').classList.remove('hidden')}}
+        function enterAsGuest(){userNick='';localStorage.removeItem('px_nick');localStorage.removeItem('px_pass');updateUI();document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');loadCatalogFromServer()}
+        function showUserMenu(){if(!userNick)return showModal('nickModal');showToast('Выход','Вы вошли как "'+userNick+'".\n\nНажмите "Ок" чтобы выйти.');document.getElementById('toastModal').querySelector('.btn-accent').onclick=()=>{userNick='';localStorage.removeItem('px_nick');localStorage.removeItem('px_pass');updateUI();closeModal('toastModal');document.getElementById('welcomeScreen').classList.remove('hidden');document.getElementById('mainContent').classList.add('hidden');toast('Вы вышли из аккаунта')}}
+        async function createNick(){const nick=document.getElementById('nickInput').value.trim().toLowerCase();const password=document.getElementById('nickPassword').value.trim();if(nick.length<3)return showToast('Ошибка','Ник минимум 3 символа!');if(!password)return showToast('Ошибка','Придумайте пароль!');try{const r=await fetch(`${API_BASE}/api/create-nick`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,password})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);localStorage.setItem('px_pass',password);updateUI();closeModal('nickModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Аккаунт создан: '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось создать аккаунт')}}
+        async function loginByPassword(){const nick=document.getElementById('loginNickPassInput').value.trim().toLowerCase();const password=document.getElementById('loginPassInput').value.trim();if(!nick||!password)return showToast('Ошибка','Заполните все поля!');try{const r=await fetch(`${API_BASE}/api/login-nick`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,password})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);localStorage.setItem('px_pass',password);updateUI();closeModal('loginByPasswordModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось войти')}}
         function showVerifyCodeModal(){if(!userNick)return showToast('Ошибка','Сначала создайте аккаунт!');showModal('verifyCodeModal');generateVerifyCode()}
         async function generateVerifyCode(){if(!userNick)return;try{const r=await fetch(`${API_BASE}/api/generate-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick:userNick})});const d=await r.json();if(d.ok)document.getElementById('verifyCodeDisplay').textContent=d.code;else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось сгенерировать код')}}
-        async function loginByCode(){
-            const nick=document.getElementById('loginNickInput').value.trim().toLowerCase();
-            const code=document.getElementById('loginCodeInput').value.trim();
-            if(!nick||!code)return showToast('Ошибка','Заполните все поля!');
-            try{const r=await fetch(`${API_BASE}/api/verify-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,code})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);updateUI();closeModal('loginByCodeModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось войти')}}
+        async function loginByCode(){const nick=document.getElementById('loginNickInput').value.trim().toLowerCase();const code=document.getElementById('loginCodeInput').value.trim();if(!nick||!code)return showToast('Ошибка','Заполните все поля!');try{const r=await fetch(`${API_BASE}/api/verify-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,code})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);updateUI();closeModal('loginByCodeModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','Не удалось войти')}}
         async function loadCatalogFromServer(){try{const r=await fetch(`${API_BASE}/api/catalog`);const d=await r.json();catalog=d.products||[];render()}catch(e){document.getElementById('catalog').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка загрузки каталога</p>'}}
         function render(){const f=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);document.getElementById('catalog').innerHTML=f.map(p=>`<div class="card" onclick="showDetails(${p.id})"><div class="emoji">${p.emoji||'🎵'}</div><div class="title">${p.title}</div><div class="price">${Number(p.price).toLocaleString()} ₽</div><div class="desc">${p.desc||''}</div><div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="media-wrap">${getMediaHTML(p.base||'media/default')}<div class="watermark">🔊 Демо с водяным знаком «Rettero»</div></div></div>`).join('')}
         document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;render()});
@@ -232,7 +190,7 @@
         function processFile(file,zoneId,nameId){if(!file)return;if(file.size>10*1024*1024){showToast('Ошибка','Файл слишком большой!');return}uploadedFile=file;document.getElementById(zoneId).style.borderColor='var(--success)';document.getElementById(nameId).textContent='📎 '+file.name}
         async function submitTransfer(){if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const contact=document.getElementById('contactTg').value.trim();saveOrder({id:Date.now(),product:title,contact:contact,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick});const fd=new FormData();fd.append('caption',`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact||'—'}\n🆔 Ник: ${userNick||'—'}\n🕐 ${new Date().toLocaleString('ru-RU')}`);fd.append('photo',uploadedFile);fd.append('guest',userNick||'guest_'+Date.now().toString(36));try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});showModal('successModal');uploadedFile=null;document.getElementById('orderForm').classList.remove('active');document.getElementById('transferSection').classList.add('hidden')}catch(e){showToast('Ошибка','Не удалось отправить заказ')}}
         async function submitTransferFromDetails(){const contact=document.getElementById('contactTg2')?.value?.trim()||'';if(!contact)return showToast('Ошибка','Укажите контакт!');if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');const title=selectedProduct?.title||'Песня';const fd=new FormData();fd.append('caption',`🛎 НОВЫЙ ЗАКАЗ\n📀 ${title}\n👤 Контакт: ${contact}\n🆔 Ник: ${userNick||'—'}\n🕐 ${new Date().toLocaleString('ru-RU')}`);fd.append('photo',uploadedFile);fd.append('guest',userNick||'guest_'+Date.now().toString(36));try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd});showModal('successModal');uploadedFile=null;document.getElementById('transferFromDetails').classList.add('hidden')}catch(e){showToast('Ошибка','Не удалось отправить')}}
-        function showMyOrders(){const panel=document.getElementById('myOrdersPanel');panel.style.display=panel.style.display==='block'?'none':'block';if(panel.style.display==='block'){const orders=getOrders();document.getElementById('myOrders').innerHTML=orders.length===0?'<p style="color:var(--text-dim);text-align:center;">Пока нет заказов</p>':orders.reverse().map(o=>`<div class="order-row"><div><strong>${o.product}</strong><br><small style="color:var(--text-dim);">${o.time}</small></div><span style="color:${o.status==='pending'?'#fbbf24':'#4ade80'};font-weight:700;">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('')}}
+        function showMyOrders(){const panel=document.getElementById('myOrdersPanel');panel.style.display=panel.style.display==='block'?'none':'block';if(panel.style.display==='block'){const orders=getOrders();document.getElementById('myOrders').innerHTML=orders.length===0?'<p style="color:var(--text-dim);text-align:center;">Пока нет заказов</p>':orders.reverse().map(o=>`<div class="order-row"><div><strong>#${o.id||'—'} — ${o.product}</strong><br><small style="color:var(--text-dim);">${o.time}</small></div><span style="color:${o.status==='pending'?'#fbbf24':'#4ade80'};font-weight:700;">${o.status==='pending'?'⏳ Ожидает':'✅ Оплачен'}</span></div>`).join('')}}
         async function sendFeedback(){const text=document.getElementById('feedbackText').value.trim();if(!text)return showToast('Ошибка','Напишите сообщение!');const contact=document.getElementById('feedbackContact').value.trim();try{await fetch(`${API_BASE}/api/send-feedback`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,contact,nick:userNick||'guest'})});closeModal('feedbackModal');toast('✅ Спасибо за отзыв!')}catch(e){showToast('Ошибка','Не удалось отправить')}}
         updateUI();
         if(userNick){document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');loadCatalogFromServer()}
