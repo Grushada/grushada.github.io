@@ -964,8 +964,6 @@
         .frame-indicator {
             position: absolute;
             top: 0;
-            left: 0;
-            width: calc(25% - 9px);
             height: 100%;
             border: 2px solid var(--accent);
             border-radius: 18px;
@@ -1392,12 +1390,22 @@
 
         function selectPlan(plan) {
             selectedPlan = plan;
-            const names = {
-                '1day': '1 день (100₽)',
-                '1week': '1 неделя (300₽)',
-                '1month': '1 месяц (1000₽)',
-                '3months': '3 месяца Ultra (3000₽)'
-            };
+            const names = { '1day': '1 день (100₽)', '1week': '1 неделя (300₽)', '1month': '1 месяц (1000₽)', '3months': '3 месяца Ultra (3000₽)' };
+            document.getElementById('selectedPlanName').textContent = names[plan];
+            document.getElementById('selectedPlanInfo').classList.remove('hidden');
+        
+            const activeCard = document.querySelector(`.plan-card[data-plan="${plan}"]`);
+            const frame = document.getElementById('frameIndicator');
+            if (activeCard && frame) {
+                const parent = document.getElementById('planSelector');
+                // Ширина и смещение от левого края родителя
+                frame.style.width = activeCard.offsetWidth + 'px';
+                frame.style.left = activeCard.offsetLeft + 'px';
+                frame.style.transform = 'translateX(0)';
+                document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+                activeCard.classList.add('selected');
+            }
+        }
             document.getElementById('selectedPlanName').textContent = names[plan];
             document.getElementById('selectedPlanInfo').classList.remove('hidden');
 
