@@ -943,6 +943,54 @@
         input:checked+.slider:before {
             transform: translateX(24px);
         }
+        /* Анимированная рамка подписки */
+        .plan-selector {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .plan-card {
+            position: relative;
+            z-index: 1;
+            background: var(--card);
+            border: 2px solid transparent;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-3px);
+        }
+        .plan-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+        }
+        .frame-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(25% - 9px); /* начальная позиция для 4 карточек */
+            height: 100%;
+            border: 2px solid var(--accent);
+            border-radius: 18px;
+            background: rgba(139, 92, 246, 0.08);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 0;
+        }
+        @media (max-width: 600px) {
+            .plan-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .frame-indicator {
+                width: calc(50% - 6px);
+            }
+        }
         /* Адаптив */
         @media(max-width: 768px) {
             .catalog {
@@ -1093,18 +1141,35 @@
         </div>
     </div>
 
-    <!-- Подписка -->
+    <!-- Подписка с анимированной рамкой -->
     <div class="fullscreen-overlay" id="subscriptionOverlay">
         <div class="fullscreen-container">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
                 <h2 style="font-family:'Unbounded',sans-serif;margin:0;">👑 Подписка</h2>
                 <button class="btn-sm" onclick="closeOverlay('subscriptionOverlay')">✕</button>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('1day')"><div style="font-size:2rem;">⚡</div><div>1 день</div><div style="color:var(--gold-light);">100 ₽</div></div>
-                <div style="background:var(--card);border:2px solid var(--accent);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('1week')"><div style="font-size:2rem;">💎</div><div>1 неделя</div><div style="color:var(--gold-light);">300 ₽</div></div>
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('1month')"><div style="font-size:2rem;">👑</div><div>1 месяц</div><div style="color:var(--gold-light);">1000 ₽</div></div>
-                <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('3months')"><div style="font-size:2rem;">🌟</div><div>3 мес</div><div style="color:var(--gold-light);">3000 ₽</div></div>
+            <div class="plan-selector" id="planSelector">
+                <div class="frame-indicator" id="frameIndicator"></div>
+                <div class="plan-card" data-plan="1day" onclick="selectPlan('1day')">
+                    <div style="font-size:2rem;">⚡</div>
+                    <div>1 день</div>
+                    <div style="color:var(--gold-light);">100 ₽</div>
+                </div>
+                <div class="plan-card" data-plan="1week" onclick="selectPlan('1week')">
+                    <div style="font-size:2rem;">💎</div>
+                    <div>1 неделя</div>
+                    <div style="color:var(--gold-light);">300 ₽</div>
+                </div>
+                <div class="plan-card" data-plan="1month" onclick="selectPlan('1month')">
+                    <div style="font-size:2rem;">👑</div>
+                    <div>1 месяц</div>
+                    <div style="color:var(--gold-light);">1000 ₽</div>
+                </div>
+                <div class="plan-card" data-plan="3months" onclick="selectPlan('3months')">
+                    <div style="font-size:2rem;">🌟</div>
+                    <div>3 мес</div>
+                    <div style="color:var(--gold-light);">3000 ₽</div>
+                </div>
             </div>
             <div id="selectedPlanInfo" class="hidden" style="text-align:center;margin-bottom:16px;">
                 <p>Выбран план: <strong id="selectedPlanName"></strong></p>
@@ -1247,7 +1312,7 @@
                     </div>`).join('');
         }
 
-        // ==================== ПОДПИСКА ====================
+        // ==================== ПОДПИСКА С АНИМАЦИЕЙ ====================
         let selectedPlan = null;
         let userSubscription = 'free';
 
@@ -1267,7 +1332,8 @@
 
         function updateSubscriptionBadge() {
             const badge = document.getElementById('userBadge');
-            if (userSubscription !== 'free') badge.innerHTML = '👤 ' + userNick + ' <span style="color:var(--gold);">👑</span>';
+            if (userSubscription !== 'free') badge.innerHTML = '👤 ' + userNick +
+                ' <span style="color:var(--gold);">👑</span>';
             else badge.textContent = '👤 ' + userNick;
         }
 
@@ -1276,7 +1342,8 @@
             checkUserSubscription();
             const info = document.getElementById('currentSubscription');
             if (userSubscription !== 'free') {
-                info.innerHTML = `<p style="color:var(--success);">✅ У вас активна подписка: <strong>${userSubscription.toUpperCase()}</strong></p>`;
+                info.innerHTML =
+                    `<p style="color:var(--success);">✅ У вас активна подписка: <strong>${userSubscription.toUpperCase()}</strong></p>`;
             } else {
                 info.innerHTML = '<p style="color:var(--text-dim);">У вас нет активной подписки</p>';
             }
@@ -1292,6 +1359,26 @@
             };
             document.getElementById('selectedPlanName').textContent = names[plan];
             document.getElementById('selectedPlanInfo').classList.remove('hidden');
+
+            // Анимация рамки
+            const activeCard = document.querySelector(`.plan-card[data-plan="${plan}"]`);
+            const frame = document.getElementById('frameIndicator');
+            if (activeCard && frame) {
+                const selector = document.getElementById('planSelector');
+                const cards = selector.querySelectorAll('.plan-card');
+                let index = Array.from(cards).indexOf(activeCard);
+                if (index === -1) index = 0;
+                const totalCards = cards.length;
+                const cardWidth = activeCard.offsetWidth;
+                const gap = parseInt(getComputedStyle(selector).gap) || 12;
+                const leftOffset = index * (cardWidth + gap);
+                frame.style.width = cardWidth + 'px';
+                frame.style.transform = `translateX(${leftOffset}px)`;
+
+                // подсветка карточки
+                cards.forEach(c => c.classList.remove('selected'));
+                activeCard.classList.add('selected');
+            }
         }
 
         function buySubscription() {
