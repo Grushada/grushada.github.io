@@ -479,7 +479,112 @@
         function loadBackupInfo() { const backup=localStorage.getItem('px_backup'); if(backup){ const b=JSON.parse(backup); document.getElementById('backupInfo').innerHTML=`<p>Последняя копия: <strong>${b.timestamp||'неизвестно'}</strong></p><p>Товаров: ${b.catalog?b.catalog.length:0}</p>`; }else{document.getElementById('backupInfo').innerHTML='<p>Резервных копий пока нет</p>'; } }
         function createBackup() { fetch(`${API}/api/catalog`).then(r=>r.json()).then(d=>{ const backup={catalog:d.products||[],timestamp:new Date().toISOString()}; localStorage.setItem('px_backup',JSON.stringify(backup)); toast('💾 Копия создана!'); loadBackupInfo(); }); }
         function restoreBackup() { customConfirm('Восстановить каталог из резервной копии?',async(ok)=>{if(!ok)return; const backup=JSON.parse(localStorage.getItem('px_backup')||'{}'); if(backup.catalog){ for(const p of backup.catalog) await fetch(`${API}/api/add-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)}); toast('📥 Каталог восстановлен!'); loadCatalog(); } }); }
+         // ... весь предыдущий JS, исправлены/добавлены функции ниже ...
 
+        // ---------- ПОЛЬЗОВАТЕЛИ: убираем undefined ----------
+        async function loadUsers() {
+            const r = await fetch(`${API}/api/users-list`);
+            let users = Object.values(((await r.json()).users || {}));
+            // Фильтруем undefined и пустые ники
+            users = users.filter(u => u.nick && u.nick !== 'undefined' && u.nick.trim() !== '');
+            const onlineR = await fetch(`${API}/api/online-users`);
+            const online = ((await onlineR.json()).users || []);
+            document.getElementById('usersList').innerHTML = users.length === 0
+                ? '<p style="text-align:center;color:var(--text-dim);">Нет пользователей</p>'
+                : users.map(u => `
+                    <div class="user-item">
+                        <div><strong>${u.nick}</strong> ${u.role && u.role !== 'user' ? `[${u.role}]` : ''} ${online.includes(u.nick) ? '🟢' : ''}<br><small>${u.created || '—'} | ${u.banned ? '<span style="color:var(--danger);">🚫</span>' : '<span style="color:var(--success);">✅</span>'}</small></div>
+                        <div style="display:flex;gap:6px;">
+                            <button class="btn btn-outline btn-xs" onclick="changeRole('${u.nick}')">🔄 Роль</button>
+                            ${u.banned ? `<button class="btn btn-success btn-sm" onclick="unbanUser('${u.nick}')">Разбанить</button>` : `<button class="btn btn-danger btn-sm" onclick="banUser('${u.nick}')">Забанить</button>`}
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${u.nick}')">🗑</button>
+                        </div>
+                    </div>`).join('');
+        }
+
+        // ---------- БАЛЛЫ: проверка пользователя, минимальное списание ----------
+        async function addPointsToUser(negative = false) {
+            const nick = document.getElementById('pointsNick').value.trim();
+            let amount = parseInt(document.getElementById('pointsAmount').value);
+            if (isNaN(amount)) return toast('Введите корректное число!');
+            if (negative) amount = -Math.abs(amount);
+            const reason = document.getElementById('pointsReason').value.trim() || (negative ? 'Списание' : 'Начисление');
+            if (!nick) return toast('Введите ник!');
+            // Проверка существования пользователя
+            const existR = await fetch(`${API}/api/user-exists`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nick }) });
+            const exist = (await existR.json()).exists;
+            if (!exist) return toast('Пользователь не найден!');
+            // Минимальное списание 10000 баллов
+            if (negative && Math.abs(amount) < 10000) return toast('Минимальное списание: 10 000 баллов');
+            const r = await fetch(`${API}/api/add-points`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nick, amount, reason }) });
+            const res = await r.json();
+            if (res.ok) {
+                toast(`💎 ${amount > 0 ? '+' + amount : amount} баллов для ${nick}. Баланс: ${res.balance}`);
+                addLog(`Баллы ${nick}: ${amount}`);
+                loadPoints();
+            } else {
+                toast('Ошибка: ' + (res.error || ''));
+            }
+        }
+
+        function loadPoints() {
+            document.getElementById('pointsList').innerHTML = '<p style="color:var(--text-dim);">Введите ник и количество баллов (+/-). Мин. списание 10 000 баллов.</p>';
+        }
+
+        // ---------- ЧАТ: редактирование сообщений админом ----------
+        let editingAdminMsgId = null;
+
+        async function loadChatMessagesForUser(nick) {
+            const r = await fetch(`${API}/api/chat-user-messages`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nick }) });
+            const msgs = ((await r.json()).messages || []);
+            document.getElementById('chatAdminMessages').innerHTML = msgs.map(m => {
+                const editBtn = (m.sender === 'admin') ? `<button class="chat-edit-btn" onclick="startEditAdminMessage(${m.id}, '${m.message.replace(/'/g, "\\'")}')">✏️</button>` : '';
+                return `<div class="chat-message ${m.sender === 'admin' ? 'admin' : 'user'}">
+                    <strong>${m.sender === 'admin' ? '💬 Вы (админ)' : '👤 ' + m.nick}</strong>${editBtn}
+                    <div class="chat-msg-text" id="admin-msg-text-${m.id}">${m.message}</div>
+                    <small style="color:var(--text-dim);">${m.time}</small>
+                </div>`;
+            }).join('');
+        }
+
+        function startEditAdminMessage(msgId, currentText) {
+            editingAdminMsgId = msgId;
+            document.getElementById('chatAdminInput').value = currentText;
+            document.getElementById('chatAdminInput').focus();
+            const sendBtn = document.getElementById('chatSendBtn');
+            sendBtn.textContent = '💾';
+            sendBtn.onclick = saveEditedAdminMessage;
+        }
+
+        async function saveEditedAdminMessage() {
+            const newText = document.getElementById('chatAdminInput').value.trim();
+            if (!newText || !editingAdminMsgId) return;
+            await fetch(`${API}/api/chat-edit-message`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: editingAdminMsgId, message: newText, nick: currentChatUser, sender: 'admin' })
+            });
+            editingAdminMsgId = null;
+            document.getElementById('chatAdminInput').value = '';
+            const sendBtn = document.getElementById('chatSendBtn');
+            sendBtn.textContent = '📤';
+            sendBtn.onclick = sendAdminChatReply;
+            await loadChatMessagesForUser(currentChatUser);
+        }
+
+        async function sendAdminChatReply() {
+            if (editingAdminMsgId) {
+                await saveEditedAdminMessage();
+                return;
+            }
+            const msg = document.getElementById('chatAdminInput').value.trim();
+            if (!msg || !currentChatUser) return toast('Введите сообщение и выберите пользователя!');
+            await fetch(`${API}/api/chat-admin-reply`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nick: currentChatUser, message: msg }) });
+            document.getElementById('chatAdminInput').value = '';
+            await loadChatMessagesForUser(currentChatUser);
+        }
+
+        // Остальной код без изменений...
         loadSettingsForm();
     </script>
 </body>
