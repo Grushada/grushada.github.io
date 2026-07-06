@@ -330,6 +330,19 @@
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
             background: rgba(0, 212, 255, 0.18);
         }
+        .points-badge {
+            background: rgba(212,168,83,0.15);
+            border:1px solid rgba(212,168,83,0.3);
+            padding:10px 18px;
+            border-radius:30px;
+            font-size:0.85rem;
+            color:var(--gold-light);
+            font-weight:700;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
         .tabs {
             display: flex;
             gap: 6px;
@@ -990,11 +1003,15 @@
         <div id="mainContent" class="hidden">
             <div class="top-bar">
                 <span class="user-badge" id="userBadge" onclick="showUserMenu()">👤 Гость</span>
+                <span class="points-badge" id="pointsBadge" onclick="showPointsOverlay()">💎 <span id="pointsDisplay">0</span> баллов</span>
                 <button class="btn-sm hidden" id="btnLoginTop" onclick="showModal('loginByPasswordModal')">🔐 Войти</button>
                 <button class="btn-sm" onclick="showMyOrdersOverlay()">📋 Мои заказы</button>
+                <button class="btn-sm" onclick="showTasksOverlay()">🎯 Задания</button>
                 <button class="btn-sm" onclick="showVerifyCodeModal()">🔑 Код для входа</button>
                 <button class="btn-sm" onclick="showModal('feedbackModal')">💬 Обратная связь</button>
                 <button class="btn-sm" onclick="showSettingsModal()">⚙️ Настройки</button>
+                <button class="btn-sm" onclick="showSubscriptionOverlay()">👑 Подписка</button>
+                <button class="btn-sm" onclick="showChatOverlay()">💬 Чат</button>
             </div>
             <div class="tabs" id="tabs">
                 <button class="tab active" data-tab="all">✨ Все</button>
@@ -1042,12 +1059,73 @@
 
     <!-- Полноэкранное окно: Мои заказы -->
     <div class="fullscreen-overlay" id="ordersOverlay">
-        <div class="fullscreen-container">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <div class="fullscreen-container" style="max-height:80vh; overflow-y:auto;" id="ordersContainer">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px; position:sticky; top:0; background:rgba(20,20,45,0.95); backdrop-filter:blur(12px); z-index:1; padding-bottom:12px;">
                 <h2 style="font-family:'Unbounded',sans-serif;margin:0;">📋 Мои заказы</h2>
                 <button class="btn-sm" onclick="closeOverlay('ordersOverlay')" style="font-size:1.2rem;">✕</button>
             </div>
             <div id="myOrders"></div>
+        </div>
+    </div>
+
+    <!-- Окно Задания -->
+    <div class="fullscreen-overlay" id="tasksOverlay">
+        <div class="fullscreen-container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                <h2 style="font-family:'Unbounded',sans-serif;margin:0;">🎯 Задания</h2>
+                <button class="btn-sm" onclick="closeOverlay('tasksOverlay')">✕</button>
+            </div>
+            <p style="color:var(--text-dim);margin-bottom:20px;">Выполняйте задания и получайте баллы!</p>
+            <div id="tasksList"></div>
+        </div>
+    </div>
+
+    <!-- Окно Баллы -->
+    <div class="fullscreen-overlay" id="pointsOverlay">
+        <div class="fullscreen-container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                <h2 style="font-family:'Unbounded',sans-serif;margin:0;">💎 Мои баллы</h2>
+                <button class="btn-sm" onclick="closeOverlay('pointsOverlay')">✕</button>
+            </div>
+            <div style="text-align:center;font-size:2rem;font-weight:800;color:var(--gold-light);margin:20px 0;" id="pointsTotal">0 баллов</div>
+            <p style="color:var(--text-dim);">100 баллов = скидка 100 ₽</p>
+            <div style="margin-top:20px;"><h3>История начислений</h3><div id="pointsHistory"></div></div>
+        </div>
+    </div>
+
+    <!-- Подписка -->
+    <div class="fullscreen-overlay" id="subscriptionOverlay">
+        <div class="fullscreen-container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                <h2 style="font-family:'Unbounded',sans-serif;margin:0;">👑 Подписка</h2>
+                <button class="btn-sm" onclick="closeOverlay('subscriptionOverlay')">✕</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('1day')"><div style="font-size:2rem;">⚡</div><div>1 день</div><div style="color:var(--gold-light);">100 ₽</div></div>
+                <div style="background:var(--card);border:2px solid var(--accent);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('1week')"><div style="font-size:2rem;">💎</div><div>1 неделя</div><div style="color:var(--gold-light);">300 ₽</div></div>
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('1month')"><div style="font-size:2rem;">👑</div><div>1 месяц</div><div style="color:var(--gold-light);">1000 ₽</div></div>
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer;" onclick="selectPlan('3months')"><div style="font-size:2rem;">🌟</div><div>3 мес</div><div style="color:var(--gold-light);">3000 ₽</div></div>
+            </div>
+            <div id="selectedPlanInfo" class="hidden" style="text-align:center;margin-bottom:16px;">
+                <p>Выбран план: <strong id="selectedPlanName"></strong></p>
+                <button class="btn btn-accent btn-full" onclick="buySubscription()">💳 Оплатить</button>
+            </div>
+            <div id="currentSubscription" style="margin-top:16px;"></div>
+        </div>
+    </div>
+
+    <!-- Чат -->
+    <div class="fullscreen-overlay" id="chatOverlay">
+        <div class="fullscreen-container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                <h2 style="font-family:'Unbounded',sans-serif;margin:0;">💬 Чат поддержки</h2>
+                <button class="btn-sm" onclick="closeOverlay('chatOverlay')">✕</button>
+            </div>
+            <div id="chatMessages" style="max-height:400px;overflow-y:auto;margin-bottom:16px;padding:12px;background:rgba(0,0,0,0.2);border-radius:16px;"></div>
+            <div style="display:flex;gap:10px;">
+                <input class="form-input" id="chatInput" placeholder="Ваше сообщение...">
+                <button class="btn btn-accent" onclick="sendChatMessage()">📤</button>
+            </div>
         </div>
     </div>
 
@@ -1075,9 +1153,7 @@
             <div class="toggle-switch"><span>Частицы на фоне</span><label class="switch"><input type="checkbox" id="toggleParticles" checked onchange="toggleParticles()"><span class="slider"></span></label></div>
             <div class="toggle-switch"><span>Кастомный курсор</span><label class="switch"><input type="checkbox" id="toggleCursor" checked onchange="toggleCursor()"><span class="slider"></span></label></div>
             <div class="toggle-switch"><span>Анимации</span><label class="switch"><input type="checkbox" id="toggleAnimations" checked onchange="toggleAnimations()"><span class="slider"></span></label></div>
-            <div class="toggle-switch"><span>Авто-резервное копирование</span><label class="switch"><input type="checkbox" id="toggleBackup" checked onchange="toggleBackup()"><span class="slider"></span></label></div>
-            <button class="btn btn-danger btn-full" onclick="createBackup()" style="margin-top:16px;">💾 Создать резервную копию</button>
-            <button class="btn btn-sm" onclick="closeModal('settingsModal')" style="margin-top:10px;">Закрыть</button>
+            <button class="btn btn-sm" onclick="closeModal('settingsModal')" style="margin-top:16px;">Закрыть</button>
         </div>
     </div>
 
@@ -1090,16 +1166,186 @@
             isCustom = false,
             uploadedFile = null;
         let settings = JSON.parse(localStorage.getItem('px_settings_ui') ||
-            '{"particles":true,"cursor":true,"animations":true,"backup":true}');
-        // Резервное копирование раз в 5 минут
-        let backupInterval = null;
+            '{"particles":true,"cursor":true,"animations":true}');
 
         document.getElementById('toggleParticles').checked = settings.particles;
         document.getElementById('toggleCursor').checked = settings.cursor;
         document.getElementById('toggleAnimations').checked = settings.animations;
-        document.getElementById('toggleBackup').checked = settings.backup;
         applySettings();
-        if (settings.backup) startAutoBackup();
+
+        // ==================== БАЛЛЫ И ЗАДАНИЯ ====================
+        let userPoints = parseInt(localStorage.getItem('px_points_' + (userNick || 'guest')) || '0');
+        let pointsHistory = JSON.parse(localStorage.getItem('px_points_history_' + (userNick || 'guest')) || '[]');
+
+        const tasks = [
+            { id: 1, title: 'Создать аккаунт', reward: 50, doneKey: 'task_create_account', condition: () => !!userNick,
+                once: true },
+            { id: 2, title: 'Первый заказ', reward: 100, doneKey: 'task_first_order', condition: () => getOrders()
+                    .length > 0, once: true },
+            { id: 3, title: 'Оставить отзыв', reward: 30, doneKey: 'task_feedback', condition: () => localStorage
+                    .getItem('px_feedback_sent') === 'true', once: true },
+            { id: 4, title: 'Ежедневный вход', reward: 10, doneKey: 'task_daily_login', daily: true, condition: () =>
+                    true },
+        ];
+
+        function addPoints(amount, reason) {
+            userPoints += amount;
+            localStorage.setItem('px_points_' + (userNick || 'guest'), userPoints);
+            pointsHistory.push({ amount, reason, time: new Date().toLocaleString('ru-RU') });
+            localStorage.setItem('px_points_history_' + (userNick || 'guest'), JSON.stringify(pointsHistory));
+            updatePointsDisplay();
+        }
+
+        function updatePointsDisplay() {
+            document.getElementById('pointsDisplay').textContent = userPoints;
+            document.getElementById('pointsTotal').textContent = userPoints + ' баллов';
+        }
+
+        function checkTasks() {
+            const today = new Date().toDateString();
+            tasks.forEach(task => {
+                if (task.daily) {
+                    const lastDone = localStorage.getItem(task.doneKey);
+                    if (lastDone !== today && task.condition()) {
+                        localStorage.setItem(task.doneKey, today);
+                        addPoints(task.reward, task.title);
+                    }
+                } else if (task.once && !localStorage.getItem(task.doneKey) && task.condition()) {
+                    localStorage.setItem(task.doneKey, 'true');
+                    addPoints(task.reward, task.title);
+                }
+            });
+        }
+
+        function showTasksOverlay() {
+            showOverlay('tasksOverlay');
+            const today = new Date().toDateString();
+            document.getElementById('tasksList').innerHTML = tasks.map(task => {
+                let done = false;
+                if (task.daily) done = localStorage.getItem(task.doneKey) === today;
+                else if (task.once) done = !!localStorage.getItem(task.doneKey);
+                return `
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:14px;margin-bottom:8px;">
+                        <div>
+                            <strong>${task.title}</strong><br>
+                            <small style="color:var(--text-dim);">+${task.reward} баллов</small>
+                        </div>
+                        <span style="color:${done?'var(--success)':'var(--text-dim)'};">${done?'✅ Выполнено':'🔒'}</span>
+                    </div>`;
+            }).join('');
+        }
+
+        function showPointsOverlay() {
+            showOverlay('pointsOverlay');
+            updatePointsDisplay();
+            document.getElementById('pointsHistory').innerHTML = pointsHistory.length === 0 ?
+                '<p style="color:var(--text-dim);">История пуста</p>' :
+                pointsHistory.reverse().map(h => `
+                    <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <span style="color:var(--gold-light);">+${h.amount}</span> — ${h.reason}
+                        <small style="color:var(--text-dim);">${h.time}</small>
+                    </div>`).join('');
+        }
+
+        // ==================== ПОДПИСКА ====================
+        let selectedPlan = null;
+        let userSubscription = 'free';
+
+        async function checkUserSubscription() {
+            if (!userNick) return;
+            try {
+                const r = await fetch(`${API_BASE}/api/check-subscription`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nick: userNick })
+                });
+                const d = await r.json();
+                userSubscription = d.plan || 'free';
+                updateSubscriptionBadge();
+            } catch (e) {}
+        }
+
+        function updateSubscriptionBadge() {
+            const badge = document.getElementById('userBadge');
+            if (userSubscription !== 'free') badge.innerHTML = '👤 ' + userNick + ' <span style="color:var(--gold);">👑</span>';
+            else badge.textContent = '👤 ' + userNick;
+        }
+
+        function showSubscriptionOverlay() {
+            showOverlay('subscriptionOverlay');
+            checkUserSubscription();
+            const info = document.getElementById('currentSubscription');
+            if (userSubscription !== 'free') {
+                info.innerHTML = `<p style="color:var(--success);">✅ У вас активна подписка: <strong>${userSubscription.toUpperCase()}</strong></p>`;
+            } else {
+                info.innerHTML = '<p style="color:var(--text-dim);">У вас нет активной подписки</p>';
+            }
+        }
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            const names = {
+                '1day': '1 день (100₽)',
+                '1week': '1 неделя (300₽)',
+                '1month': '1 месяц (1000₽)',
+                '3months': '3 месяца Ultra (3000₽)'
+            };
+            document.getElementById('selectedPlanName').textContent = names[plan];
+            document.getElementById('selectedPlanInfo').classList.remove('hidden');
+        }
+
+        function buySubscription() {
+            if (!selectedPlan) return toast('Выберите план!');
+            const prices = { '1day': 100, '1week': 300, '1month': 1000, '3months': 3000 };
+            saveOrder({
+                id: Date.now(),
+                product: `Подписка ${selectedPlan}`,
+                status: 'pending',
+                time: new Date().toLocaleString('ru-RU'),
+                nick: userNick,
+                paymentMethod: 'Подписка'
+            });
+            window.open(`https://yoomoney.ru/to/4100117765240041/${prices[selectedPlan]}`, '_blank');
+            toast('✅ Заказ подписки отправлен!');
+            closeOverlay('subscriptionOverlay');
+        }
+
+        // ==================== ЧАТ ====================
+        async function showChatOverlay() {
+            showOverlay('chatOverlay');
+            await loadChatMessages();
+        }
+
+        async function loadChatMessages() {
+            if (!userNick) return;
+            try {
+                const r = await fetch(`${API_BASE}/api/chat-user-messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nick: userNick })
+                });
+                const d = await r.json();
+                document.getElementById('chatMessages').innerHTML = d.messages.map(m => `
+                    <div style="margin-bottom:8px;padding:8px 12px;border-radius:14px;background:${m.sender==='admin'?'rgba(139,92,246,0.2)':'rgba(255,255,255,0.05)'};">
+                        <strong>${m.sender==='admin'?'💬 Поддержка':'👤 Вы'}</strong>
+                        <div>${m.message}</div>
+                        <small style="color:var(--text-dim);">${m.time}</small>
+                    </div>`).join('');
+                document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+            } catch (e) {}
+        }
+
+        async function sendChatMessage() {
+            const msg = document.getElementById('chatInput').value.trim();
+            if (!msg) return;
+            await fetch(`${API_BASE}/api/chat-send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nick: userNick, message: msg })
+            });
+            document.getElementById('chatInput').value = '';
+            await loadChatMessages();
+        }
 
         // ==================== НАСТРОЙКИ ====================
         function showSettingsModal() { showModal('settingsModal'); }
@@ -1122,13 +1368,6 @@
             applySettings();
         }
 
-        function toggleBackup() {
-            settings.backup = document.getElementById('toggleBackup').checked;
-            saveSettings();
-            if (settings.backup) startAutoBackup();
-            else stopAutoBackup();
-        }
-
         function saveSettings() { localStorage.setItem('px_settings_ui', JSON.stringify(settings)); }
 
         function applySettings() {
@@ -1140,34 +1379,6 @@
                 '0s');
             document.body.style.setProperty('--spring', settings.animations ? '0.7s cubic-bezier(0.34, 1.56, 0.64, 1)' :
                 '0s');
-        }
-
-        // ==================== РЕЗЕРВНОЕ КОПИРОВАНИЕ ====================
-        function createBackup() {
-            const backup = {
-                catalog: catalog,
-                orders: getOrders(),
-                userNick: userNick,
-                timestamp: new Date().toISOString()
-            };
-            localStorage.setItem('px_backup', JSON.stringify(backup));
-            // Отправляем на сервер
-            fetch(`${API_BASE}/api/backup`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(backup)
-            }).catch(() => {});
-            toast('💾 Резервная копия создана!');
-        }
-
-        function startAutoBackup() {
-            if (backupInterval) clearInterval(backupInterval);
-            backupInterval = setInterval(createBackup, 5 * 60 * 1000);
-        }
-
-        function stopAutoBackup() {
-            if (backupInterval) { clearInterval(backupInterval);
-                backupInterval = null; }
         }
 
         // ==================== КУРСОР ====================
@@ -1253,7 +1464,7 @@
         }
         animateParticles();
 
-        // ==================== CONFIRM (замена alert) ====================
+        // ==================== КАСТОМНЫЙ CONFIRM ====================
         let confirmCallback = null;
 
         function customConfirm(message, callback, title = 'Подтверждение') {
@@ -1272,12 +1483,6 @@
             if (confirmCallback) confirmCallback(false);
             confirmCallback = null;
         });
-        // Переопределяем window.confirm
-        window.confirm = function(msg) {
-            return new Promise((resolve) => {
-                customConfirm(msg, (result) => resolve(result));
-            });
-        };
 
         // ==================== МЕДИА-ЗАГЛУШКИ ====================
         const fallbackImages = [
@@ -1395,6 +1600,9 @@
                 document.getElementById('nickHint').textContent = '—';
                 document.getElementById('btnLoginTop').classList.remove('hidden');
             }
+            updatePointsDisplay();
+            checkTasks();
+            if (userNick) checkUserSubscription();
         }
 
         function enterAsGuest() {
@@ -1595,19 +1803,7 @@
             fd.append('photo', uploadedFile || new Blob([''], { type: 'image/png' }));
             fd.append('guest', userNick || 'guest_' + Date.now().toString(36));
             fd.append('title', title);
-            try {
-                const r = await fetch(`${API_BASE}/api/send-order`, { method: 'POST', body: fd });
-                const d = await r.json();
-                if (d.ok) {
-                    // Обновляем статус в локальном хранилище
-                    const orders = getOrders();
-                    const lastOrder = orders[orders.length - 1];
-                    if (lastOrder && lastOrder.status === 'pending') {
-                        lastOrder.serverId = d.order_id;
-                        localStorage.setItem('px_orders_' + (userNick || 'guest'), JSON.stringify(orders));
-                    }
-                }
-            } catch (e) { console.error('Ошибка отправки на сервер:', e); }
+            try { await fetch(`${API_BASE}/api/send-order`, { method: 'POST', body: fd }); } catch (e) {}
         }
 
         function payByYooMoney() {
@@ -1665,11 +1861,15 @@
             isCustom = false;
         }
 
-        // ==================== МОИ ЗАКАЗЫ (полноэкранное окно) ====================
+        // ==================== МОИ ЗАКАЗЫ ====================
         async function showMyOrdersOverlay(forceRefresh = false) {
             showOverlay('ordersOverlay');
             await loadOrdersFromServer();
             renderOrders();
+            setTimeout(() => {
+                const container = document.getElementById('ordersContainer');
+                if (container) container.scrollTop = container.scrollHeight;
+            }, 200);
         }
 
         async function loadOrdersFromServer() {
@@ -1679,16 +1879,14 @@
                 const d = await r.json();
                 const serverOrders = (d.orders || []).filter(o => o.guest === userNick);
                 const localOrders = getOrders();
-                // Синхронизация статусов
                 serverOrders.forEach(so => {
-                    const localOrder = localOrders.find(lo => lo.serverId === so.id || lo.product === so
-                        .title);
+                    const localOrder = localOrders.find(lo => lo.id === so.id || lo.product === so.title);
                     if (localOrder && so.status !== localOrder.status) {
                         localOrder.status = so.status;
                     }
                 });
                 localStorage.setItem('px_orders_' + (userNick || 'guest'), JSON.stringify(localOrders));
-            } catch (e) { console.error('Ошибка загрузки заказов с сервера:', e); }
+            } catch (e) {}
         }
 
         function renderOrders() {
@@ -1719,9 +1917,11 @@
                     body: JSON.stringify({ text, contact, nick: userNick || 'guest' })
                 });
                 closeModal('feedbackModal');
+                localStorage.setItem('px_feedback_sent', 'true');
                 toast('✅ Спасибо за отзыв!');
                 document.getElementById('feedbackText').value = '';
                 document.getElementById('feedbackContact').value = '';
+                checkTasks();
             } catch (e) { showToast('Ошибка', ''); }
         }
 
@@ -1731,6 +1931,8 @@
             document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
             loadCatalogFromServer();
+            checkTasks();
+            checkUserSubscription();
         }
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
@@ -1770,5 +1972,3 @@
     </script>
 </body>
 </html>
-
-<!-- test -->
