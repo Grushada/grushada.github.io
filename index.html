@@ -239,8 +239,41 @@ const canvas=document.getElementById('particles-canvas'),ctx=canvas.getContext('
 
 let confirmCallback=null;function customConfirm(message,callback,title='Подтверждение'){document.getElementById('confirmMessage').textContent=message;document.getElementById('confirmTitle').textContent=title;confirmCallback=callback;showModal('confirmModal')}document.getElementById('confirmYes').addEventListener('click',()=>{closeModal('confirmModal');if(confirmCallback)confirmCallback(!0);confirmCallback=null});document.getElementById('confirmNo').addEventListener('click',()=>{closeModal('confirmModal');if(confirmCallback)confirmCallback(!1);confirmCallback=null});
 
-const fallbackImages=['https://picsum.photos/400/200?random=1','https://picsum.photos/400/200?random=2','https://picsum.photos/400/200?random=3','https://picsum.photos/400/200?random=4','https://picsum.photos/400/200?random=5'];const fallbackAudio='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';const fallbackVideo='https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
-function getMediaHTML(base,productId){const imgIdx=(productId||1)%fallbackImages.length;const imgSrc=fallbackImages[imgIdx];const videoSrc=base?`${base}.mp4`:fallbackVideo;const audioSrc=base?`${base}.mp3`:fallbackAudio;return'<img src="'+(base?base+'.jpg':imgSrc)+'" class="card-image" onerror="this.src=\''+fallbackImages[imgIdx]+'\';this.style.display=\'block\';" alt=""><div class="media-wrap"><div style="position:relative;"><video src="'+videoSrc+'" controls controlsList="nodownload" preload="metadata" style="max-height:180px;width:100%;border-radius:14px;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';" ontimeupdate="checkWatermark(this,'+(productId||0)+')"></video><audio controls controlsList="nodownload" preload="metadata" style="width:100%;display:none;" ontimeupdate="checkWatermark(this,'+(productId||0)+')"><source src="'+audioSrc+'" type="audio/mpeg"></audio></div><div class="watermark">🔊 Демо с водяным знаком «Rettero»</div></div>'}
+function getMediaHTML(base, productId, source, file_url) {
+    if (source === 'yandex' && file_url) {
+        return `
+            <div class="media-wrap">
+                <audio controls controlsList="nodownload" preload="metadata" style="width:100%;" ontimeupdate="checkWatermark(this, ${productId})">
+                    <source src="${file_url}" type="audio/mpeg">
+                </audio>
+                <div class="watermark">🔊 Демо с водяным знаком «Rettero»</div>
+            </div>
+            <img src="https://picsum.photos/400/200?random=${productId}" class="card-image" alt="">
+        `;
+    }
+    // Для GitHub – проверяем, есть ли расширение
+    let baseName = base || '';
+    let ext = '';
+    if (baseName.includes('.')) {
+        const parts = baseName.split('.');
+        ext = '.' + parts.pop();
+        baseName = parts.join('.');
+    }
+    const videoSrc = baseName + (ext || '.mp4');
+    const audioSrc = baseName + (ext || '.mp3');
+    const imgSrc = baseName + (ext || '.jpg');
+    return `
+        <img src="${imgSrc}" class="card-image" onerror="this.src='https://picsum.photos/400/200?random=${productId}';this.style.display='block';" alt="">
+        <div class="media-wrap">
+            <video src="${videoSrc}" controls controlsList="nodownload" preload="metadata" style="max-height:180px;width:100%;border-radius:14px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" ontimeupdate="checkWatermark(this, ${productId})"></video>
+            <audio controls controlsList="nodownload" preload="metadata" style="width:100%;display:none;" ontimeupdate="checkWatermark(this, ${productId})">
+                <source src="${audioSrc}" type="audio/mpeg">
+            </audio>
+            <div class="watermark">🔊 Демо с водяным знаком «Rettero»</div>
+        </div>
+    `;
+}
+
 function checkWatermark(mediaElement,productId){if(!mediaElement||mediaElement.dataset.watermarked)return;const currentTime=mediaElement.currentTime;const duration=mediaElement.duration;if(duration>0&&currentTime>duration*.4&&currentTime<duration*.45){mediaElement.dataset.watermarked='true';const originalVolume=mediaElement.volume;mediaElement.volume=Math.min(originalVolume*.5,.3);const utterance=new SpeechSynthesisUtterance('Сделано by Rettero');utterance.lang='ru-RU';utterance.rate=.9;utterance.pitch=1.1;utterance.volume=1;window.speechSynthesis.speak(utterance);utterance.onend=()=>{mediaElement.volume=originalVolume};setTimeout(()=>{mediaElement.dataset.watermarked=''},1e4)}}
 
 function showModal(id){document.getElementById(id).classList.add('active')}function closeModal(id){document.getElementById(id).classList.remove('active')}function showOverlay(id){document.getElementById(id).classList.add('active')}function closeOverlay(id){document.getElementById(id).classList.remove('active')}function showToast(title,message){document.getElementById('toastTitle').textContent=title;document.getElementById('toastMessage').textContent=message;showModal('toastModal')}
@@ -258,17 +291,54 @@ function showVerifyCodeModal(){if(!userNick)return showToast('Ошибка','С�
 async function generateVerifyCode(){if(!userNick)return;try{const r=await fetch(`${API_BASE}/api/generate-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick:userNick})});const d=await r.json();if(d.ok)document.getElementById('verifyCodeDisplay').textContent=d.code;else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','')}}
 async function loginByCode(){const nick=document.getElementById('loginNickInput').value.trim().toLowerCase();const code=document.getElementById('loginCodeInput').value.trim();if(!nick||!code)return showToast('Ошибка','Заполните все поля!');try{const r=await fetch(`${API_BASE}/api/verify-code`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick,code})});const d=await r.json();if(d.ok){userNick=nick;localStorage.setItem('px_nick',nick);updateUI();closeModal('loginByCodeModal');document.getElementById('welcomeScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');toast('✅ Вы вошли как '+nick);loadCatalogFromServer()}else showToast('Ошибка',d.error)}catch(e){showToast('Ошибка','')}}
 async function loadCatalogFromServer(){try{const r=await fetch(`${API_BASE}/api/catalog`);const d=await r.json();catalog=d.products||[];render()}catch(e){document.getElementById('catalog').innerHTML='<p style="text-align:center;color:var(--danger);">Ошибка загрузки каталога</p>'}}
-function render(){const f=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);document.getElementById('catalog').innerHTML=f.map((p,index)=>'<div class="card" onclick="showDetails('+p.id+')" style="animation-delay:'+(index*.05)+'s">'+getMediaHTML(p.base,p.id)+'<div class="emoji">'+(p.emoji||'🎵')+'</div><div class="title">'+p.title+'</div><div class="price">'+Number(p.price).toLocaleString()+' ₽</div><div class="desc">'+(p.desc||'')+'</div><div class="tags">'+(p.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('')+'</div></div>').join('')}
+function render(){const f=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);document.getElementById('catalog').innerHTML=f.map((p,index)=>'<div class="card" onclick="showDetails('+p.id+')" style="animation-delay:'+(index*.05)+'s">'+getMediaHTML(p.base,p.id,p.source,p.file_url)+'<div class="emoji">'+(p.emoji||'🎵')+'</div><div class="title">'+p.title+'</div><div class="price">'+Number(p.price).toLocaleString()+' ₽</div><div class="desc">'+(p.desc||'')+'</div><div class="tags">'+(p.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('')+'</div></div>').join('')}
 document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;render()});
 
 function openOrderForm(){if(!selectedProduct&&!isCustom)return;document.getElementById('selectedDisplay').value=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');document.getElementById('customGroup').classList.toggle('hidden',!isCustom);showOverlay('orderOverlay');document.getElementById('transferSection').classList.add('hidden');uploadedFile=null;document.getElementById('fileName').textContent=''}
 function selectCustom(){isCustom=!0;selectedProduct=null;document.getElementById('selectedDisplay').value='🎤 Песня под заказ';document.getElementById('customGroup').classList.remove('hidden');showOverlay('orderOverlay');document.getElementById('transferSection').classList.add('hidden');uploadedFile=null;document.getElementById('fileName').textContent=''}
 function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=!1;openOrderForm()}
 function showTransferSection(){document.getElementById('transferSection').classList.remove('hidden')}
-async function sendOrderToServer(title,paymentMethod){const contact=document.getElementById('contactTg').value.trim();const fd=new FormData();fd.append('caption','🛎 НОВЫЙ ЗАКАЗ\n📀 '+title+'\n💳 Способ: '+paymentMethod+'\n👤 Контакт: '+(contact||'—')+'\n🆔 Ник: '+(userNick||'—')+'\n🕐 '+new Date().toLocaleString('ru-RU'));fd.append('photo',uploadedFile||new Blob([''],{type:'image/png'}));fd.append('guest',userNick||'guest_'+Date.now().toString(36));fd.append('title',title);try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd})}catch(e){}}
-function payByYooMoney(){if(!selectedProduct&&!isCustom)return showToast('Ошибка','Выберите песню!');const price=isCustom?0:selectedProduct.price;const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');saveOrder({id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick,paymentMethod:'ЮMoney'});sendOrderToServer(title,'ЮMoney');window.open('https://yoomoney.ru/to/4100117765240041/'+price,'_blank');showModal('paymentModal');setTimeout(()=>{document.getElementById('paymentBox').innerHTML='<div style="font-size:56px;">🔍</div><h2>Скоро проверим</h2><p style="color:var(--text-dim);">Мы проверим ваш платёж и пришлём уведомление.</p><button class="btn btn-accent btn-full" onclick="closeModal(\'paymentModal\')">Хорошо</button>';closeOverlay('orderOverlay');selectedProduct=null;isCustom=!1},3000)}
+async function sendOrderToServer(title,paymentMethod, product_id, source, file_url){
+    const contact=document.getElementById('contactTg').value.trim();
+    const fd=new FormData();
+    fd.append('caption','🛎 НОВЫЙ ЗАКАЗ\n📀 '+title+'\n💳 Способ: '+paymentMethod+'\n👤 Контакт: '+(contact||'—')+'\n🆔 Ник: '+(userNick||'—')+'\n🕐 '+new Date().toLocaleString('ru-RU'));
+    fd.append('photo',uploadedFile||new Blob([''],{type:'image/png'}));
+    fd.append('guest',userNick||'guest_'+Date.now().toString(36));
+    fd.append('title',title);
+    fd.append('product_id', product_id);
+    fd.append('source', source);
+    fd.append('file_url', file_url);
+    try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd})}catch(e){}
+}
+function payByYooMoney(){
+    if(!selectedProduct&&!isCustom)return showToast('Ошибка','Выберите песню!');
+    const price=isCustom?0:selectedProduct.price;
+    const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');
+    const product_id=isCustom?0:selectedProduct.id;
+    const source=isCustom?'':(selectedProduct.source||'github');
+    const file_url=isCustom?'':(selectedProduct.file_url||'');
+    saveOrder({id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick,paymentMethod:'ЮMoney',product_id,source,file_url});
+    sendOrderToServer(title,'ЮMoney',product_id,source,file_url);
+    window.open('https://yoomoney.ru/to/4100117765240041/'+price,'_blank');
+    showModal('paymentModal');
+    setTimeout(()=>{
+        document.getElementById('paymentBox').innerHTML='<div style="font-size:56px;">🔍</div><h2>Скоро проверим</h2><p style="color:var(--text-dim);">Мы проверим ваш платёж и пришлём уведомление.</p><button class="btn btn-accent btn-full" onclick="closeModal(\'paymentModal\')">Хорошо</button>';
+        closeOverlay('orderOverlay');
+        selectedProduct=null;isCustom=!1
+    },3000)
+}
 function handleFile(e){processFile(e.target.files[0])}function processFile(file){if(!file)return;if(file.size>10*1024*1024){showToast('Ошибка','Файл слишком большой!');return}uploadedFile=file;document.getElementById('dropzone').style.borderColor='var(--success)';document.getElementById('fileName').textContent='📎 '+file.name}
-async function submitTransfer(){if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');const contact=document.getElementById('contactTg').value.trim();saveOrder({id:Date.now(),product:title,contact:contact,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick,paymentMethod:'Перевод на карту'});await sendOrderToServer(title,'Перевод на карту');showModal('successModal');uploadedFile=null;closeOverlay('orderOverlay');selectedProduct=null;isCustom=!1}
+async function submitTransfer(){
+    if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');
+    const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');
+    const product_id=isCustom?0:selectedProduct.id;
+    const source=isCustom?'':(selectedProduct.source||'github');
+    const file_url=isCustom?'':(selectedProduct.file_url||'');
+    saveOrder({id:Date.now(),product:title,status:'pending',time:new Date().toLocaleString('ru-RU'),nick:userNick,paymentMethod:'Перевод на карту',product_id,source,file_url});
+    await sendOrderToServer(title,'Перевод на карту',product_id,source,file_url);
+    showModal('successModal');
+    uploadedFile=null;closeOverlay('orderOverlay');selectedProduct=null;isCustom=!1
+}
 
 async function showMyOrdersOverlay(forceRefresh=!1){showOverlay('ordersOverlay');await loadOrdersFromServer();renderOrders();setTimeout(()=>{const container=document.getElementById('ordersContainer');if(container)container.scrollTop=container.scrollHeight},200)}
 async function loadOrdersFromServer(){if(!userNick)return;try{const r=await fetch(`${API_BASE}/api/orders-list`);const d=await r.json();const serverOrders=(d.orders||[]).filter(o=>o.guest===userNick);const localOrders=getOrders();serverOrders.forEach(so=>{const localOrder=localOrders.find(lo=>lo.id===so.id||lo.product===so.title);if(localOrder&&so.status!==localOrder.status){localOrder.status=so.status}});localStorage.setItem('px_orders_'+(userNick||'guest'),JSON.stringify(localOrders))}catch(e){console.warn('Ошибка загрузки заказов с сервера')}}
