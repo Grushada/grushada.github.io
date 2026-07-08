@@ -98,7 +98,8 @@
             <button class="tab-btn" data-tab="feedback">💬 Отзывы</button>
             <button class="tab-btn" data-tab="points">💎 Баллы</button>
             <button class="tab-btn" data-tab="subscriptions">👑 Подписки</button>
-            <button class="tab-btn" data-tab="chats">💬 Чат</button>
+            <button class="tab-btn" data-tab="chats">💬 Чат поддержки</button>
+            <button class="tab-btn" data-tab="orderchats">📦 Чат заказов</button>
             <button class="tab-btn" data-tab="settings">⚙️ Настройки</button>
             <button class="tab-btn" data-tab="logs">📜 Логи</button>
             <button class="tab-btn" data-tab="backup">💾 Бэкап</button>
@@ -135,6 +136,10 @@
                     <input id="newBase" placeholder="Имя файла (media/...)">
                 </div>
                 <select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select>
+                <div class="row">
+                    <select id="newSource"><option value="github">GitHub</option><option value="yandex">Yandex</option></select>
+                    <input id="newFileUrl" placeholder="Ссылка на файл (для Yandex)">
+                </div>
                 <button class="btn btn-success btn-full" onclick="addProduct()">✅ Добавить</button>
             </div>
             <div id="catalogList"></div>
@@ -142,7 +147,10 @@
         <!-- Панель: Пользователи -->
         <div class="panel" id="panel-users"><div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadUsers()">🔄 Обновить</button></div><div id="usersList"></div></div>
         <!-- Панель: Отзывы -->
-        <div class="panel" id="panel-feedback"><div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadFeedback()">🔄 Обновить</button></div><div id="feedbackList"></div></div>
+        <div class="panel" id="panel-feedback">
+            <div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadFeedback()">🔄 Обновить</button></div>
+            <div id="feedbackList"></div>
+        </div>
         <!-- Панель: Баллы -->
         <div class="panel" id="panel-points">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💎 Управление баллами</h2>
@@ -161,7 +169,7 @@
             <button class="btn btn-danger btn-full" onclick="cancelSubscription()" style="margin-top:8px;">❌ Отменить подписку</button>
             <div id="subsList" style="margin-top:20px;"></div>
         </div>
-        <!-- Панель: Чат (исправлена) -->
+        <!-- Панель: Чат поддержки -->
         <div class="panel" id="panel-chats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💬 Чат поддержки</h2>
             <div style="margin-bottom:16px;">
@@ -171,8 +179,22 @@
             <div id="chatAdminMessages" style="max-height:350px;overflow-y:auto;margin-bottom:16px;padding:12px;background:rgba(0,0,0,.2);border-radius:16px;"></div>
             <div style="display:flex;gap:10px;">
                 <textarea id="chatAdminInput" placeholder="Ответ..." style="flex:1;min-height:50px;"></textarea>
-                <button class="btn btn-accent" id="chatSendBtn" onclick="sendAdminChatReply()">📤</button>
-                <button class="btn btn-success btn-sm" onclick="resolveChat()">✅ Решено</button>
+                <button class="btn btn-accent" id="chatSendBtn" onclick="sendAdminChatReply('support')">📤</button>
+                <button class="btn btn-success btn-sm" onclick="resolveChat('support')">✅ Решено</button>
+            </div>
+        </div>
+        <!-- Панель: Чат заказов -->
+        <div class="panel" id="panel-orderchats">
+            <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">📦 Чат заказов</h2>
+            <div style="margin-bottom:16px;">
+                <h3>Активные диалоги:</h3>
+                <div id="activeOrderChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div>
+            </div>
+            <div id="orderChatMessages" style="max-height:350px;overflow-y:auto;margin-bottom:16px;padding:12px;background:rgba(0,0,0,.2);border-radius:16px;"></div>
+            <div style="display:flex;gap:10px;">
+                <textarea id="orderChatInput" placeholder="Ответ..." style="flex:1;min-height:50px;"></textarea>
+                <button class="btn btn-accent" id="orderChatSendBtn" onclick="sendAdminChatReply('order')">📤</button>
+                <button class="btn btn-success btn-sm" onclick="resolveChat('order')">✅ Решено</button>
             </div>
         </div>
         <!-- Панель: Настройки -->
@@ -208,6 +230,7 @@ let S = JSON.parse(localStorage.getItem('px_admin_settings') || '{"phone":"+7904
 let logs = JSON.parse(localStorage.getItem('px_admin_logs') || '[]');
 let selectedOrders = [];
 let currentChatUser = '';
+let currentOrderChatUser = '';
 let confirmCallback = null;
 let editingAdminMsgId = null;
 
@@ -235,7 +258,8 @@ document.getElementById('tabBar').addEventListener('click',e=>{
     const name = btn.dataset.tab; showPanel(name);
     if(name==='orders')loadOrders(); if(name==='catalog')loadCatalog(); if(name==='users')loadUsers();
     if(name==='feedback')loadFeedback(); if(name==='points')loadPoints(); if(name==='subscriptions')loadSubscriptions();
-    if(name==='chats')loadChats(); if(name==='logs')loadLogs(); if(name==='backup')loadBackupInfo(); if(name==='settings')loadSettingsForm();
+    if(name==='chats')loadChats('support'); if(name==='orderchats')loadChats('order');
+    if(name==='logs')loadLogs(); if(name==='backup')loadBackupInfo(); if(name==='settings')loadSettingsForm();
 });
 function showPanel(name) { document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active')); const panel=document.getElementById('panel-'+name); if(panel)panel.classList.add('active'); }
 
@@ -282,13 +306,15 @@ async function loadCatalog() {
         document.getElementById('catalogList').innerHTML = cat.length===0?'<p style="text-align:center;color:var(--text-dim);">Каталог пуст</p>':cat.map(p=>`
             <div class="catalog-item">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-                    <div><strong>${p.emoji||'🎵'} ${p.title}</strong> — <span style="color:var(--gold);">${p.price}₽</span><br><small>${p.desc||'—'} | ${p.category||'—'}</small></div>
+                    <div><strong>${p.emoji||'🎵'} ${p.title}</strong> — <span style="color:var(--gold);">${p.price}₽</span><br><small>${p.desc||'—'} | ${p.category||'—'} | Источник: ${p.source||'github'}</small></div>
                     <div style="display:flex;gap:6px;"><button class="btn btn-outline btn-xs" onclick="startEdit(${p.id})">✏️</button><button class="btn btn-danger btn-xs" onclick="deleteProduct(${p.id})">🗑</button></div>
                 </div>
                 <div class="edit-form hidden" id="edit-form-${p.id}">
                     <input id="edit-title-${p.id}" value="${p.title}"><input id="edit-price-${p.id}" value="${p.price}" type="number"><input id="edit-emoji-${p.id}" value="${p.emoji||''}"><input id="edit-desc-${p.id}" value="${p.desc||''}"><input id="edit-tags-${p.id}" value="${(p.tags||[]).join(', ')}">
                     <select id="edit-cat-${p.id}"><option value="sad" ${p.category==='sad'?'selected':''}>Грустные</option><option value="happy" ${p.category==='happy'?'selected':''}>Весёлые</option><option value="adult" ${p.category==='adult'?'selected':''}>Взрослые</option><option value="kids" ${p.category==='kids'?'selected':''}>Детские</option><option value="love" ${p.category==='love'?'selected':''}>Про любовь</option></select>
                     <input id="edit-base-${p.id}" value="${p.base||''}">
+                    <select id="edit-source-${p.id}"><option value="github" ${p.source==='github'?'selected':''}>GitHub</option><option value="yandex" ${p.source==='yandex'?'selected':''}>Yandex</option></select>
+                    <input id="edit-file_url-${p.id}" value="${p.file_url||''}" placeholder="Ссылка на файл (для Yandex)">
                     <div style="display:flex;gap:8px;margin-top:10px;"><button class="btn btn-success btn-sm" onclick="saveEdit(${p.id})">💾 Сохранить</button><button class="btn btn-outline btn-sm" onclick="cancelEdit(${p.id})">Отмена</button></div>
                 </div>
             </div>`).join('');
@@ -298,7 +324,18 @@ function startEdit(id) { document.querySelectorAll('.edit-form').forEach(f=>f.cl
 function cancelEdit(id) { document.getElementById('edit-form-'+id).classList.add('hidden'); }
 async function saveEdit(id) {
     try {
-        const data = { id, title:document.getElementById('edit-title-'+id).value.trim(), price:document.getElementById('edit-price-'+id).value.trim(), emoji:document.getElementById('edit-emoji-'+id).value.trim(), desc:document.getElementById('edit-desc-'+id).value.trim(), tags:document.getElementById('edit-tags-'+id).value.split(',').map(x=>x.trim()).filter(x=>x), category:document.getElementById('edit-cat-'+id).value, base:document.getElementById('edit-base-'+id).value.trim() };
+        const data = {
+            id,
+            title: document.getElementById('edit-title-'+id).value.trim(),
+            price: document.getElementById('edit-price-'+id).value.trim(),
+            emoji: document.getElementById('edit-emoji-'+id).value.trim(),
+            desc: document.getElementById('edit-desc-'+id).value.trim(),
+            tags: document.getElementById('edit-tags-'+id).value.split(',').map(x=>x.trim()).filter(x=>x),
+            category: document.getElementById('edit-cat-'+id).value,
+            base: document.getElementById('edit-base-'+id).value.trim(),
+            source: document.getElementById('edit-source-'+id).value,
+            file_url: document.getElementById('edit-file_url-'+id).value.trim()
+        };
         if(!data.title||!data.price) return toast('Название и цена обязательны!');
         await fetch(`${API}/api/update-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
         toast('✅ Обновлён!'); addLog('Обновление товара #'+id); loadCatalog();
@@ -313,7 +350,15 @@ async function addProduct() {
         let base = document.getElementById('newBase').value.trim();
         if(mediaType==='video') base = 'test_video';
         else if(mediaType==='audio') base = 'test_audio';
-        const d = { title:t, price:p, emoji:document.getElementById('newEmoji').value.trim()||'🎵', desc:document.getElementById('newDesc').value.trim(), tags:document.getElementById('newTags').value.split(',').map(x=>x.trim()).filter(x=>x), category:document.getElementById('newCategory').value, base };
+        const d = {
+            title:t, price:p, emoji:document.getElementById('newEmoji').value.trim()||'🎵',
+            desc:document.getElementById('newDesc').value.trim(),
+            tags:document.getElementById('newTags').value.split(',').map(x=>x.trim()).filter(x=>x),
+            category:document.getElementById('newCategory').value,
+            base: base,
+            source: document.getElementById('newSource').value,
+            file_url: document.getElementById('newFileUrl').value.trim()
+        };
         await fetch(`${API}/api/add-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
         toast('✅ Добавлен!'); addLog('Добавление товара: '+t); document.getElementById('newTitle').value=''; document.getElementById('newPrice').value=''; loadCatalog();
     } catch(e) { toast('⚠️ Ошибка добавления'); }
@@ -353,11 +398,40 @@ async function loadFeedback() {
             <div class="feedback-item">
                 <div style="font-size:.8rem;color:var(--text-dim);">👤 ${f.nick||'—'} | 🕐 ${f.time||'—'} | ${'⭐'.repeat(f.rating||5)}</div>
                 <div>${f.text}</div>
-                ${f.replied?`<div style="margin-top:8px;padding:8px;background:rgba(139,92,246,.1);border-radius:8px;"><strong>Ответ:</strong> ${f.reply}</div>`:`<div style="margin-top:8px;"><textarea id="reply-${f.id}" placeholder="Ответ..."></textarea><button class="btn btn-accent btn-sm" onclick="replyFeedback(${f.id})">📤 Ответить</button></div>`}
+                ${f.replied?`<div style="margin-top:8px;padding:8px;background:rgba(139,92,246,.1);border-radius:8px;"><strong>Ответ:</strong> ${f.reply}</div>`:`
+                    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+                        <textarea id="reply-${f.id}" placeholder="Ответ..." style="flex:1;"></textarea>
+                        <button class="btn btn-accent btn-sm" onclick="replyFeedback(${f.id})">📤 Ответить</button>
+                    </div>
+                `}
+                ${f.rewarded ? `<div style="margin-top:6px;color:var(--success);">✅ Оценён: ${f.category_rated||'—'} (${f.points_awarded||0} баллов)</div>` : `
+                    <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+                        <select id="rate-cat-${f.id}">
+                            <option value="ordinary">Обычный (0)</option>
+                            <option value="weak">Слабая полезность (10)</option>
+                            <option value="medium">Средняя полезность (30)</option>
+                            <option value="strong">Очень полезный (100)</option>
+                        </select>
+                        <button class="btn btn-success btn-sm" onclick="rateFeedback(${f.id})">💎 Оценить</button>
+                    </div>
+                `}
             </div>`).join('');
     } catch(e) { toast('⚠️ Ошибка загрузки отзывов'); console.error(e); }
 }
 async function replyFeedback(id) { const reply=document.getElementById('reply-'+id).value.trim(); if(!reply)return toast('Напишите ответ!'); try{await fetch(`${API}/api/reply-feedback`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,reply})}); toast('✅ Ответ сохранён!'); loadFeedback(); }catch(e){toast('⚠️ Ошибка');} }
+async function rateFeedback(id) {
+    const cat = document.getElementById('rate-cat-'+id).value;
+    try {
+        const r = await fetch(`${API}/api/rate-feedback`, {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ id, category: cat })
+        });
+        const res = await r.json();
+        if(res.ok) { toast('💎 Баллы начислены!'); loadFeedback(); }
+        else toast('⚠️ Ошибка: ' + (res.error||''));
+    } catch(e) { toast('⚠️ Ошибка оценки'); }
+}
 
 // ==================== БАЛЛЫ ====================
 function loadPoints() { document.getElementById('pointsList').innerHTML='<p style="color:var(--text-dim);">Введите ник и количество баллов (+/-). Мин. списание 10 000 баллов.</p>'; }
@@ -407,19 +481,34 @@ async function cancelSubscription() { const nick=document.getElementById('subNic
 async function cancelUserSubscription(nick) { try{await fetch(`${API}/api/cancel-subscription`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick})}); toast('❌ Отменена'); loadSubscriptions(); }catch(e){toast('⚠️ Ошибка');} }
 
 // ==================== ЧАТ ====================
-async function loadChats() {
+async function loadChats(type) {
+    const activeDiv = type === 'support' ? 'activeChats' : 'activeOrderChats';
+    const messagesDiv = type === 'support' ? 'chatAdminMessages' : 'orderChatMessages';
+    const inputId = type === 'support' ? 'chatAdminInput' : 'orderChatInput';
     try {
-        const r1=await fetch(`${API}/api/chat-active-users`); const users=((await r1.json()).users||[]);
-        document.getElementById('activeChats').innerHTML=users.map(u=>`<button class="btn btn-sm" onclick="openChatWith('${u}')" style="background:${currentChatUser===u?'var(--accent)':''}">${u}</button>`).join('');
-        if(currentChatUser) await loadChatMessagesForUser(currentChatUser);
+        const r1 = await fetch(`${API}/api/chat-active-users?type=${type}`);
+        const users = ((await r1.json()).users||[]);
+        document.getElementById(activeDiv).innerHTML = users.map(u => `<button class="btn btn-sm" onclick="openChatWith('${u}', '${type}')" style="background:${(type==='support'?currentChatUser:currentOrderChatUser)===u?'var(--accent)':''}">${u}</button>`).join('');
+        const currentUser = type === 'support' ? currentChatUser : currentOrderChatUser;
+        if(currentUser) await loadChatMessagesForUser(currentUser, type);
     } catch(e) { toast('⚠️ Ошибка загрузки чатов'); console.error(e); }
 }
-function openChatWith(nick) { currentChatUser=nick; loadChatMessagesForUser(nick); }
-async function loadChatMessagesForUser(nick) {
+function openChatWith(nick, type) {
+    if(type === 'support') currentChatUser = nick;
+    else currentOrderChatUser = nick;
+    loadChatMessagesForUser(nick, type);
+}
+async function loadChatMessagesForUser(nick, type) {
+    const messagesDiv = type === 'support' ? 'chatAdminMessages' : 'orderChatMessages';
     try {
-        const r=await fetch(`${API}/api/chat-user-messages`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick})}); const msgs=((await r.json()).messages||[]);
-        document.getElementById('chatAdminMessages').innerHTML = msgs.map(m => {
-            const editBtn = (m.sender === 'admin') ? `<button class="chat-edit-btn" onclick="startEditAdminMessage(${m.id}, '${(m.message||'').replace(/'/g, "\\'")}')">✏️</button>` : '';
+        const r = await fetch(`${API}/api/chat-user-messages`, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({nick, type})
+        });
+        const msgs = ((await r.json()).messages||[]);
+        document.getElementById(messagesDiv).innerHTML = msgs.map(m => {
+            const editBtn = (m.sender === 'admin') ? `<button class="chat-edit-btn" onclick="startEditAdminMessage(${m.id}, '${(m.message||'').replace(/'/g, "\\'")}', '${type}')">✏️</button>` : '';
             return `<div class="chat-message ${m.sender === 'admin' ? 'admin' : 'user'}">
                 <strong>${m.sender === 'admin' ? '💬 Вы (админ)' : '👤 ' + m.nick}</strong>${editBtn}
                 <div class="chat-msg-text" id="admin-msg-text-${m.id}">${m.message}</div>
@@ -428,43 +517,66 @@ async function loadChatMessagesForUser(nick) {
         }).join('');
     } catch(e) { toast('⚠️ Ошибка загрузки сообщений'); }
 }
-function startEditAdminMessage(msgId, currentText) {
+function startEditAdminMessage(msgId, currentText, type) {
     editingAdminMsgId = msgId;
-    document.getElementById('chatAdminInput').value = currentText;
-    document.getElementById('chatAdminInput').focus();
-    const sendBtn = document.getElementById('chatSendBtn');
+    const inputId = type === 'support' ? 'chatAdminInput' : 'orderChatInput';
+    document.getElementById(inputId).value = currentText;
+    document.getElementById(inputId).focus();
+    const sendBtn = document.getElementById(inputId === 'chatAdminInput' ? 'chatSendBtn' : 'orderChatSendBtn');
     sendBtn.textContent = '💾';
-    sendBtn.onclick = saveEditedAdminMessage;
+    sendBtn.onclick = function() { saveEditedAdminMessage(type); };
 }
-async function saveEditedAdminMessage() {
-    const newText = document.getElementById('chatAdminInput').value.trim();
+async function saveEditedAdminMessage(type) {
+    const inputId = type === 'support' ? 'chatAdminInput' : 'orderChatInput';
+    const newText = document.getElementById(inputId).value.trim();
     if (!newText || !editingAdminMsgId) return;
+    const nick = type === 'support' ? currentChatUser : currentOrderChatUser;
     try {
         await fetch(`${API}/api/chat-edit-message`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: editingAdminMsgId, message: newText, nick: currentChatUser, sender: 'admin' })
+            body: JSON.stringify({ id: editingAdminMsgId, message: newText, nick, sender: 'admin' })
         });
         toast('✅ Сообщение обновлено');
         editingAdminMsgId = null;
-        document.getElementById('chatAdminInput').value = '';
-        const sendBtn = document.getElementById('chatSendBtn');
+        document.getElementById(inputId).value = '';
+        const sendBtn = document.getElementById(inputId === 'chatAdminInput' ? 'chatSendBtn' : 'orderChatSendBtn');
         sendBtn.textContent = '📤';
-        sendBtn.onclick = sendAdminChatReply;
-        await loadChatMessagesForUser(currentChatUser);
+        sendBtn.onclick = function() { sendAdminChatReply(type); };
+        await loadChatMessagesForUser(nick, type);
     } catch(e) { toast('⚠️ Ошибка редактирования'); }
 }
-async function sendAdminChatReply() {
-    if (editingAdminMsgId) { await saveEditedAdminMessage(); return; }
-    const msg = document.getElementById('chatAdminInput').value.trim();
-    if (!msg || !currentChatUser) return toast('Введите сообщение и выберите пользователя!');
+async function sendAdminChatReply(type) {
+    if (editingAdminMsgId) { await saveEditedAdminMessage(type); return; }
+    const inputId = type === 'support' ? 'chatAdminInput' : 'orderChatInput';
+    const msg = document.getElementById(inputId).value.trim();
+    const nick = type === 'support' ? currentChatUser : currentOrderChatUser;
+    if (!msg || !nick) return toast('Введите сообщение и выберите пользователя!');
     try {
-        await fetch(`${API}/api/chat-admin-reply`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nick: currentChatUser, message: msg }) });
-        document.getElementById('chatAdminInput').value = '';
-        await loadChatMessagesForUser(currentChatUser);
+        await fetch(`${API}/api/chat-admin-reply`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nick, message: msg, type })
+        });
+        document.getElementById(inputId).value = '';
+        await loadChatMessagesForUser(nick, type);
     } catch(e) { toast('⚠️ Ошибка отправки'); }
 }
-async function resolveChat() { if(!currentChatUser)return toast('Выберите пользователя!'); try{await fetch(`${API}/api/chat-resolve`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick:currentChatUser})}); toast('✅ Диалог решён'); currentChatUser=''; loadChats(); }catch(e){toast('⚠️ Ошибка');} }
+async function resolveChat(type) {
+    const nick = type === 'support' ? currentChatUser : currentOrderChatUser;
+    if(!nick) return toast('Выберите пользователя!');
+    try {
+        await fetch(`${API}/api/chat-resolve`, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({ nick, type })
+        });
+        toast('✅ Диалог решён');
+        if(type === 'support') currentChatUser = '';
+        else currentOrderChatUser = '';
+        loadChats(type);
+    } catch(e) { toast('⚠️ Ошибка'); }
+}
 
 // ==================== НАСТРОЙКИ ====================
 function loadSettingsForm() { document.getElementById('setPhone').value=S.phone; document.getElementById('setBank').value=S.bank; document.getElementById('setName').value=S.name; document.getElementById('setYoo').value=S.yoomoney; document.getElementById('setBotToken').value=S.bot_token||''; document.getElementById('setAdminChat').value=S.admin_chat||''; }
