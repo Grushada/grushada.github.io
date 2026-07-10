@@ -87,17 +87,47 @@
         .chat-message.user{background:rgba(255,255,255,.05)}
         .chat-edit-btn{background:none;border:none;color:var(--accent-light);cursor:pointer;font-size:.8rem;margin-left:8px;opacity:.6;transition:opacity .2s}
         .chat-edit-btn:hover{opacity:1}
-        /* Кастомные чекбоксы */
-        .toggle-row{display:flex;align-items:center;gap:12px;margin:8px 0;cursor:pointer}
+        .toggle-row{display:flex;align-items:center;gap:12px;margin:8px 0;}
         .toggle-row label{color:var(--text-dim);font-weight:500;cursor:pointer}
-        .toggle-row input[type="checkbox"]{display:none}
-        .toggle-row .checkmark{width:20px;height:20px;border:2px solid var(--border);border-radius:6px;display:inline-block;position:relative;transition:all .3s ease;flex-shrink:0;background:rgba(255,255,255,.04)}
-        .toggle-row input:checked + .checkmark{background:var(--accent);border-color:var(--accent);box-shadow:0 0 20px rgba(139,92,246,.4)}
-        .toggle-row input:checked + .checkmark::after{content:"✓";color:#fff;font-size:14px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:700}
-        .toggle-row:hover .checkmark{border-color:var(--accent-light)}
+        .toggle-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
         .history-item{background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);padding:8px 0;font-size:.8rem}
         .history-item:last-child{border-bottom:none}
         @media(max-width:768px){.toolbar>*{min-width:100%}.stats{grid-template-columns:repeat(2,1fr)}}
+
+        /* КАСТОМНЫЕ ЧЕКБОКСЫ ДЛЯ АДМИНКИ */
+        .order-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            background: rgba(255,255,255,.03);
+            cursor: pointer;
+            position: relative;
+            transition: all var(--transition);
+            flex-shrink: 0;
+            margin-right: 12px;
+        }
+        .order-checkbox:hover {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 15px rgba(139,92,246,.2);
+        }
+        .order-checkbox:checked {
+            border-color: var(--accent);
+            background: var(--accent);
+            box-shadow: 0 0 20px rgba(139,92,246,.4);
+        }
+        .order-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -154,12 +184,7 @@
                 <div class="row"><div class="floating-group"><select id="newMediaType"><option value="custom">Свой файл</option><option value="video">Тестовое видео</option><option value="audio">Тестовое аудио</option></select><label>Тип медиа</label></div><div class="floating-group"><input type="text" id="newBase" placeholder=" "><label>Имя файла (с расширением, например media/demo1.mp4)</label><span class="hint">Укажите путь к файлу с расширением, например media/demo1.mp4</span></div></div>
                 <div class="floating-group"><select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select><label>Категория</label></div>
                 <div class="row"><div class="floating-group"><select id="newSource"><option value="github">GitHub</option><option value="yandex">Yandex</option></select><label>Источник файла</label></div><div class="floating-group"><input type="text" id="newFileUrl" placeholder=" "><label>Ссылка на файл (для Yandex)</label></div></div>
-                <div class="floating-group"><input type="text" id="newImageUrl" placeholder=" "><label>Ссылка на обложку (например https://example.com/image.jpg или media/image.jpg)</label><span class="hint">Оставьте пустым для автоматической картинки</span></div>
-                <div class="toggle-row">
-                    <input type="checkbox" id="newShowImage" checked>
-                    <span class="checkmark"></span>
-                    <label for="newShowImage">Показывать картинку (обложку)</label>
-                </div>
+                <div class="toggle-row"><input type="checkbox" id="newShowImage" checked><label for="newShowImage">Показывать картинку (обложку)</label></div>
                 <button class="btn btn-success btn-full" onclick="addProduct()">✅ Добавить</button>
             </div>
             <div id="catalogList"></div>
@@ -181,16 +206,12 @@
         <div class="panel" id="panel-subscriptions">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">👑 Управление подписками</h2>
             <div class="row"><div class="floating-group"><input type="text" id="subNick" placeholder=" "><label>Ник пользователя</label></div><div class="floating-group"><select id="subPlan"><option value="1day">1 день (100₽)</option><option value="1week">1 неделя (300₽)</option><option value="1month">1 месяц (1000₽)</option><option value="3months">3 месяца Ultra (3000₽)</option></select><label>План подписки</label></div></div>
-            <div class="toggle-row">
-                <input type="checkbox" id="subAutopay">
-                <span class="checkmark"></span>
-                <label for="subAutopay">Автопродление</label>
-            </div>
+            <div class="toggle-row"><input type="checkbox" id="subAutopay"><label for="subAutopay">Автопродление</label></div>
             <button class="btn btn-accent btn-full" onclick="activateSubscription()">✅ Активировать подписку</button>
             <button class="btn btn-danger btn-full" onclick="cancelSubscription()" style="margin-top:8px;">❌ Отменить подписку</button>
             <div id="subsList" style="margin-top:20px;"></div>
         </div>
-        <!-- Панель: Чат поддержки -->
+        <!-- Панель: Чат поддержки (исправлен дизайн) -->
         <div class="panel" id="panel-chats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💬 Чат поддержки</h2>
             <div style="margin-bottom:16px;"><h3>Активные диалоги:</h3><div id="activeChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div></div>
@@ -204,7 +225,7 @@
                 <button class="btn btn-success btn-sm" onclick="resolveChat('support')" style="height:50px;">✅ Решено</button>
             </div>
         </div>
-        <!-- Панель: Чат заказов -->
+        <!-- Панель: Чат заказов (исправлен дизайн) -->
         <div class="panel" id="panel-orderchats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">📦 Чат заказов</h2>
             <div style="margin-bottom:16px;"><h3>Активные диалоги:</h3><div id="activeOrderChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div></div>
@@ -400,15 +421,16 @@ async function loadOrders() {
         document.getElementById('ordersList').innerHTML = orders.length === 0 ?
             '<p style="text-align:center;color:var(--text-dim);">Заказов нет</p>' :
             orders.reverse().map(o => {
+                // Убираем обрезание текста, чтобы видеть полный "Контакт"
                 const t = o.caption ? o.caption.replace(/[*_`\[\]()]/g,'') : 'Заказ #'+o.id;
                 const guest = o.guest || 'неизвестный';
                 const fileLink = o.file_link ? `<br><a href="${o.file_link}" target="_blank" style="color:var(--accent-light);">🎵 Скачать песню</a>` : '';
                 return `<div class="order-row" onclick="this.querySelector('.order-detail').classList.toggle('open')">
-                    <input type="checkbox" class="order-checkbox" data-guest="${guest}" data-time="${o.time||''}" onclick="event.stopPropagation();updateSelectedOrders()" style="margin-right:10px;">
-                    <div style="flex:1;min-width:200px;"><strong>#${o.id} — ${t.substring(0,60)}</strong><br><small style="color:var(--text-dim);">🕐 ${o.time||'—'} | 🆔 ${guest} | <span class="badge badge-${o.status==='pending'?'pending':o.status==='paid'?'paid':'rejected'}">${o.status==='pending'?'Ожидает':o.status==='paid'?'Оплачен':'Отклонён'}</span>${fileLink}</small></div>
+                    <input type="checkbox" class="order-checkbox" data-id="${o.id}" onclick="event.stopPropagation();updateSelectedOrders()">
+                    <div style="flex:1;min-width:200px;word-break:break-word;"><strong>#${o.id} — ${t}</strong><br><small style="color:var(--text-dim);">🕐 ${o.time||'—'} | 🆔 ${guest} | <span class="badge badge-${o.status==='pending'?'pending':o.status==='paid'?'paid':'rejected'}">${o.status==='pending'?'Ожидает':o.status==='paid'?'Оплачен':'Отклонён'}</span>${fileLink}</small></div>
                     <div style="display:flex;gap:6px;" onclick="event.stopPropagation();">
-                        ${o.status==='pending' ? `<button class="btn btn-success btn-xs" onclick="confirmOrder('${guest}')">✅</button><button class="btn btn-danger btn-xs" onclick="rejectOrder('${guest}')">❌</button>` : `<button class="btn btn-outline btn-xs" onclick="toggleStatus('${guest}')">🔄</button>`}
-                        <button class="btn btn-danger btn-xs" onclick="deleteOrder('${guest}','${o.time}')">🗑</button>
+                        ${o.status==='pending' ? `<button class="btn btn-success btn-xs" onclick="confirmOrder(${o.id})">✅</button><button class="btn btn-danger btn-xs" onclick="rejectOrder(${o.id})">❌</button>` : `<button class="btn btn-outline btn-xs" onclick="toggleStatus(${o.id})">🔄</button>`}
+                        <button class="btn btn-danger btn-xs" onclick="deleteOrder(${o.id})">🗑</button>
                     </div>
                     <div class="order-detail"><strong>Полный текст:</strong><br>${t}<br><br><strong>Гость:</strong> ${guest}<br><strong>Время:</strong> ${o.time||'—'}<br>${o.file_link ? `<strong>Ссылка на файл:</strong> <a href="${o.file_link}" target="_blank">${o.file_link}</a>` : ''}</div>
                 </div>`;
@@ -425,49 +447,49 @@ function toggleSelectAll() {
 
 function updateSelectedOrders() {
     selectedOrders = [];
-    document.querySelectorAll('.order-checkbox:checked').forEach(cb => selectedOrders.push({guest: cb.dataset.guest, time: cb.dataset.time}));
+    document.querySelectorAll('.order-checkbox:checked').forEach(cb => selectedOrders.push({id: parseInt(cb.dataset.id)}));
 }
 
-async function confirmOrder(guest) {
-    customConfirm(`Подтвердить оплату для ${guest}?`, async (ok) => {
+async function confirmOrder(id) {
+    customConfirm(`Подтвердить заказ #${id}?`, async (ok) => {
         if (!ok) return;
         try {
-            await fetch(`${API}/api/confirm-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({guest}) });
+            await fetch(`${API}/api/confirm-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) });
             toast('✅ Подтверждено!');
-            addLog('Подтверждение заказа: '+guest);
+            addLog('Подтверждение заказа #'+id);
             loadOrders();
         } catch(e) { toast('⚠️ Ошибка'); }
     });
 }
 
-async function rejectOrder(guest) {
-    customConfirm(`Отклонить заказ ${guest}?`, async (ok) => {
+async function rejectOrder(id) {
+    customConfirm(`Отклонить заказ #${id}?`, async (ok) => {
         if (!ok) return;
         try {
-            await fetch(`${API}/api/reject-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({guest}) });
+            await fetch(`${API}/api/reject-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) });
             toast('❌ Отклонено!');
-            addLog('Отклонение заказа: '+guest);
+            addLog('Отклонение заказа #'+id);
             loadOrders();
         } catch(e) { toast('⚠️ Ошибка'); }
     });
 }
 
-async function toggleStatus(guest) {
+async function toggleStatus(id) {
     try {
-        await fetch(`${API}/api/toggle-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({guest}) });
+        await fetch(`${API}/api/toggle-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) });
         toast('🔄 Статус изменён');
-        addLog('Изменение статуса: '+guest);
+        addLog('Изменение статуса заказа #'+id);
         loadOrders();
     } catch(e) { toast('⚠️ Ошибка'); }
 }
 
-async function deleteOrder(guest, time) {
-    customConfirm(`Удалить заказ ${guest}?`, async (ok) => {
+async function deleteOrder(id) {
+    customConfirm(`Удалить заказ #${id}?`, async (ok) => {
         if (!ok) return;
         try {
-            await fetch(`${API}/api/delete-order`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({guest, time}) });
+            await fetch(`${API}/api/delete-order`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) });
             toast('🗑 Удалён!');
-            addLog('Удаление заказа: '+guest);
+            addLog('Удаление заказа #'+id);
             loadOrders();
         } catch(e) { toast('⚠️ Ошибка'); }
     });
@@ -490,8 +512,8 @@ async function massConfirm() {
     if (!selectedOrders.length) return toast('Выберите заказы!');
     customConfirm(`Подтвердить ${selectedOrders.length} заказов?`, async (ok) => {
         if (!ok) return;
-        for (const {guest} of selectedOrders) {
-            try { await fetch(`${API}/api/confirm-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({guest}) }); } catch(e) {}
+        for (const {id} of selectedOrders) {
+            try { await fetch(`${API}/api/confirm-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) }); } catch(e) {}
         }
         selectedOrders = [];
         toast('✅ Подтверждено!');
@@ -505,8 +527,8 @@ async function massReject() {
     if (!selectedOrders.length) return toast('Выберите заказы!');
     customConfirm(`Отклонить ${selectedOrders.length} заказов?`, async (ok) => {
         if (!ok) return;
-        for (const {guest} of selectedOrders) {
-            try { await fetch(`${API}/api/reject-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({guest}) }); } catch(e) {}
+        for (const {id} of selectedOrders) {
+            try { await fetch(`${API}/api/reject-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) }); } catch(e) {}
         }
         selectedOrders = [];
         toast('❌ Отклонено!');
@@ -574,14 +596,8 @@ async function loadCatalog() {
                             <input type="text" id="edit-file_url-${p.id}" value="${p.file_url||''}" placeholder=" ">
                             <label>Ссылка на файл (для Yandex)</label>
                         </div>
-                        <div class="floating-group">
-                            <input type="text" id="edit-image_url-${p.id}" value="${p.image_url||''}" placeholder=" ">
-                            <label>Ссылка на обложку (например https://example.com/image.jpg или media/image.jpg)</label>
-                            <span class="hint">Оставьте пустым для автоматической картинки</span>
-                        </div>
                         <div class="toggle-row">
                             <input type="checkbox" id="edit-show_image-${p.id}" ${p.show_image ? 'checked' : ''}>
-                            <span class="checkmark"></span>
                             <label for="edit-show_image-${p.id}">Показывать картинку (обложку)</label>
                         </div>
                         <div style="display:flex;gap:8px;margin-top:10px;">
@@ -616,7 +632,6 @@ async function saveEdit(id) {
             base: document.getElementById('edit-base-'+id).value.trim(),
             source: document.getElementById('edit-source-'+id).value,
             file_url: document.getElementById('edit-file_url-'+id).value.trim(),
-            image_url: document.getElementById('edit-image_url-'+id).value.trim(),
             show_image: document.getElementById('edit-show_image-'+id).checked
         };
         if (!data.title || !data.price) return toast('Название и цена обязательны!');
@@ -658,7 +673,6 @@ async function addProduct() {
             base: base,
             source: document.getElementById('newSource').value,
             file_url: document.getElementById('newFileUrl').value.trim(),
-            image_url: document.getElementById('newImageUrl').value.trim(),
             show_image: document.getElementById('newShowImage').checked
         };
         await fetch(`${API}/api/add-product`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(d) });
@@ -846,27 +860,40 @@ function loadPoints() {
 }
 
 async function addPointsToUser(negative = false) {
-    try {
-        const nick = document.getElementById('pointsNick').value.trim();
-        let amount = parseInt(document.getElementById('pointsAmount').value);
-        if (isNaN(amount)) return toast('Введите корректное число!');
-        if (negative) amount = -Math.abs(amount);
-        const reason = document.getElementById('pointsReason').value.trim() || (negative ? 'Списание' : 'Начисление');
-        if (!nick) return toast('Введите ник!');
-        const existR = await fetch(`${API}/api/user-exists`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nick}) });
-        const exist = (await existR.json()).exists;
-        if (!exist) return toast('Пользователь не найден!');
-        if (negative && Math.abs(amount) < 10000) return toast('Минимальное списание: 10 000 баллов');
-        const r = await fetch(`${API}/api/add-points`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nick, amount, reason}) });
-        const res = await r.json();
-        if (res.ok) {
-            toast(`💎 ${amount > 0 ? '+' + amount : amount} баллов для ${nick}. Баланс: ${res.balance}`);
-            addLog(`Баллы ${nick}: ${amount}`);
-            loadPoints();
-        } else {
-            toast('Ошибка: ' + (res.error || ''));
-        }
-    } catch(e) { toast('⚠️ Ошибка'); }
+    const nick = document.getElementById('pointsNick').value.trim();
+    let amount = parseInt(document.getElementById('pointsAmount').value);
+    if (isNaN(amount)) return toast('Введите корректное число!');
+    if (negative) amount = -Math.abs(amount);
+    const reason = document.getElementById('pointsReason').value.trim() || (negative ? 'Списание' : 'Начисление');
+    if (!nick) return toast('Введите ник!');
+
+    const existR = await fetch(`${API}/api/user-exists`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nick })
+    });
+    const exist = (await existR.json()).exists;
+    if (!exist) return toast('Пользователь не найден!');
+
+    if (negative && Math.abs(amount) < 10000) {
+        return toast('Минимальное списание: 10 000 баллов');
+    }
+
+    const r = await fetch(`${API}/api/add-points`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nick, amount, reason })
+    });
+    const res = await r.json();
+    if (res.ok) {
+        toast(`💎 ${amount > 0 ? '+' + amount : amount} баллов для ${nick}. Баланс: ${res.balance}`);
+        addLog(`Баллы ${nick}: ${amount}`);
+        loadUsers();
+        document.getElementById('pointsAmount').value = '';
+        document.getElementById('pointsReason').value = '';
+    } else {
+        toast('Ошибка: ' + (res.error || ''));
+    }
 }
 
 // ==================== ПОДПИСКИ ====================
