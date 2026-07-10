@@ -141,110 +141,36 @@
             <div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadCatalog()">🔄 Обновить</button><button class="btn btn-success btn-sm" onclick="document.getElementById('addProductForm').classList.toggle('hidden')">➕ Добавить товар</button></div>
             <div id="addProductForm" class="hidden" style="margin-bottom:20px;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:20px;">
                 <h3 style="margin-bottom:12px;">➕ Новый товар</h3>
-                <div class="floating-group">
-                    <input type="text" id="newTitle" placeholder=" ">
-                    <label>Название песни *</label>
-                </div>
-                <div class="row">
-                    <div class="floating-group">
-                        <input type="number" id="newPrice" placeholder=" ">
-                        <label>Цена ₽ *</label>
-                    </div>
-                    <div class="floating-group">
-                        <input type="text" id="newEmoji" placeholder=" ">
-                        <label>Эмодзи (например 🎵)</label>
-                    </div>
-                </div>
-                <div class="floating-group">
-                    <textarea id="newDesc" placeholder=" "></textarea>
-                    <label>Описание</label>
-                </div>
-                <div class="floating-group">
-                    <input type="text" id="newTags" placeholder=" ">
-                    <label>Теги через запятую</label>
-                </div>
-                <div class="row">
-                    <div class="floating-group">
-                        <select id="newMediaType">
-                            <option value="custom">Свой файл</option>
-                            <option value="video">Тестовое видео</option>
-                            <option value="audio">Тестовое аудио</option>
-                        </select>
-                        <label>Тип медиа</label>
-                    </div>
-                    <div class="floating-group">
-                        <input type="text" id="newBase" placeholder=" ">
-                        <label>Имя файла (с расширением, например media/demo1.mp4)</label>
-                        <span class="hint">Укажите путь к файлу с расширением, например media/demo1.mp4</span>
-                    </div>
-                </div>
-                <div class="floating-group">
-                    <select id="newCategory">
-                        <option value="sad">💔 Грустные</option>
-                        <option value="happy">🎉 Весёлые</option>
-                        <option value="adult">🔞 Взрослые</option>
-                        <option value="kids">🧒 Детские</option>
-                        <option value="love">❤️ Про любовь</option>
-                    </select>
-                    <label>Категория</label>
-                </div>
-                <div class="row">
-                    <div class="floating-group">
-                        <select id="newSource">
-                            <option value="github">GitHub</option>
-                            <option value="yandex">Yandex</option>
-                        </select>
-                        <label>Источник файла</label>
-                    </div>
-                    <div class="floating-group">
-                        <input type="text" id="newFileUrl" placeholder=" ">
-                        <label>Ссылка на файл (для Yandex)</label>
-                    </div>
-                </div>
-                <div class="toggle-row">
-                    <input type="checkbox" id="newShowImage" checked>
-                    <label for="newShowImage">Показывать картинку (обложку)</label>
-                </div>
+                <div class="floating-group"><input type="text" id="newTitle" placeholder=" "><label>Название песни *</label></div>
+                <div class="row"><div class="floating-group"><input type="number" id="newPrice" placeholder=" "><label>Цена ₽ *</label></div><div class="floating-group"><input type="text" id="newEmoji" placeholder=" "><label>Эмодзи (например 🎵)</label></div></div>
+                <div class="floating-group"><textarea id="newDesc" placeholder=" "></textarea><label>Описание</label></div>
+                <div class="floating-group"><input type="text" id="newTags" placeholder=" "><label>Теги через запятую</label></div>
+                <div class="row"><div class="floating-group"><select id="newMediaType"><option value="custom">Свой файл</option><option value="video">Тестовое видео</option><option value="audio">Тестовое аудио</option></select><label>Тип медиа</label></div><div class="floating-group"><input type="text" id="newBase" placeholder=" "><label>Имя файла (с расширением, например media/demo1.mp4)</label><span class="hint">Укажите путь к файлу с расширением, например media/demo1.mp4</span></div></div>
+                <div class="floating-group"><select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select><label>Категория</label></div>
+                <div class="row"><div class="floating-group"><select id="newSource"><option value="github">GitHub</option><option value="yandex">Yandex</option></select><label>Источник файла</label></div><div class="floating-group"><input type="text" id="newFileUrl" placeholder=" "><label>Ссылка на файл (для Yandex)</label></div></div>
+                <div class="toggle-row"><input type="checkbox" id="newShowImage" checked><label for="newShowImage">Показывать картинку (обложку)</label></div>
                 <button class="btn btn-success btn-full" onclick="addProduct()">✅ Добавить</button>
             </div>
             <div id="catalogList"></div>
         </div>
         <!-- Панель: Пользователи -->
-        <div class="panel" id="panel-users">
-            <div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadUsers()">🔄 Обновить</button></div>
-            <div id="usersList"></div>
-        </div>
+        <div class="panel" id="panel-users"><div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadUsers()">🔄 Обновить</button></div><div id="usersList"></div></div>
         <!-- Панель: Отзывы -->
-        <div class="panel" id="panel-feedback">
-            <div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadFeedback()">🔄 Обновить</button></div>
-            <div id="feedbackList"></div>
-        </div>
+        <div class="panel" id="panel-feedback"><div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadFeedback()">🔄 Обновить</button></div><div id="feedbackList"></div></div>
         <!-- Панель: Баллы -->
         <div class="panel" id="panel-points">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💎 Управление баллами</h2>
-            <div class="floating-group">
-                <input type="text" id="pointsNick" placeholder=" ">
-                <label>Ник пользователя</label>
-            </div>
-            <div class="floating-group">
-                <input type="number" id="pointsAmount" placeholder=" ">
-                <label>Кол-во баллов (+/-)</label>
-            </div>
-            <div class="floating-group">
-                <input type="text" id="pointsReason" placeholder=" ">
-                <label>Причина</label>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button class="btn btn-accent btn-full" onclick="addPointsToUser()">➕ Начислить</button>
-                <button class="btn btn-danger btn-full" onclick="addPointsToUser(true)" style="margin-top:8px;">➖ Списать</button>
-            </div>
+            <div class="floating-group"><input type="text" id="pointsNick" placeholder=" "><label>Ник пользователя</label></div>
+            <div class="floating-group"><input type="number" id="pointsAmount" placeholder=" "><label>Кол-во баллов (+/-)</label></div>
+            <div class="floating-group"><input type="text" id="pointsReason" placeholder=" "><label>Причина</label></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-accent btn-full" onclick="addPointsToUser()">➕ Начислить</button><button class="btn btn-danger btn-full" onclick="addPointsToUser(true)" style="margin-top:8px;">➖ Списать</button></div>
             <div id="pointsList" style="margin-top:20px;"></div>
         </div>
         <!-- Панель: Подписки -->
         <div class="panel" id="panel-subscriptions">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">👑 Управление подписками</h2>
-            <div class="row"><input id="subNick" placeholder="Ник пользователя"><select id="subPlan"><option value="1day">1 день (100₽)</option><option value="1week">1 неделя (300₽)</option><option value="1month">1 месяц (1000₽)</option><option value="3months">3 месяца Ultra (3000₽)</option></select></div>
-            <label style="display:flex;align-items:center;gap:8px;margin:8px 0;"><input type="checkbox" id="subAutopay"> Автопродление</label>
+            <div class="row"><div class="floating-group"><input type="text" id="subNick" placeholder=" "><label>Ник пользователя</label></div><div class="floating-group"><select id="subPlan"><option value="1day">1 день (100₽)</option><option value="1week">1 неделя (300₽)</option><option value="1month">1 месяц (1000₽)</option><option value="3months">3 месяца Ultra (3000₽)</option></select><label>План подписки</label></div></div>
+            <div class="toggle-row"><input type="checkbox" id="subAutopay"><label for="subAutopay">Автопродление</label></div>
             <button class="btn btn-accent btn-full" onclick="activateSubscription()">✅ Активировать подписку</button>
             <button class="btn btn-danger btn-full" onclick="cancelSubscription()" style="margin-top:8px;">❌ Отменить подписку</button>
             <div id="subsList" style="margin-top:20px;"></div>
@@ -252,68 +178,40 @@
         <!-- Панель: Чат поддержки -->
         <div class="panel" id="panel-chats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💬 Чат поддержки</h2>
-            <div style="margin-bottom:16px;">
-                <h3>Активные диалоги:</h3>
-                <div id="activeChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div>
-            </div>
+            <div style="margin-bottom:16px;"><h3>Активные диалоги:</h3><div id="activeChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div></div>
             <div id="chatAdminMessages" style="max-height:350px;overflow-y:auto;margin-bottom:16px;padding:12px;background:rgba(0,0,0,.2);border-radius:16px;"></div>
-            <div style="display:flex;gap:10px;">
-                <textarea id="chatAdminInput" placeholder="Ответ..." style="flex:1;min-height:50px;"></textarea>
-                <button class="btn btn-accent" id="chatSendBtn" onclick="sendAdminChatReply('support')">📤</button>
-                <button class="btn btn-success btn-sm" onclick="resolveChat('support')">✅ Решено</button>
-            </div>
+            <div style="display:flex;gap:10px;"><textarea id="chatAdminInput" placeholder="Ответ..." style="flex:1;min-height:50px;"></textarea><button class="btn btn-accent" id="chatSendBtn" onclick="sendAdminChatReply('support')">📤</button><button class="btn btn-success btn-sm" onclick="resolveChat('support')">✅ Решено</button></div>
         </div>
         <!-- Панель: Чат заказов -->
         <div class="panel" id="panel-orderchats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">📦 Чат заказов</h2>
-            <div style="margin-bottom:16px;">
-                <h3>Активные диалоги:</h3>
-                <div id="activeOrderChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div>
-            </div>
+            <div style="margin-bottom:16px;"><h3>Активные диалоги:</h3><div id="activeOrderChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div></div>
             <div id="orderChatMessages" style="max-height:350px;overflow-y:auto;margin-bottom:16px;padding:12px;background:rgba(0,0,0,.2);border-radius:16px;"></div>
-            <div style="display:flex;gap:10px;">
-                <textarea id="orderChatInput" placeholder="Ответ..." style="flex:1;min-height:50px;"></textarea>
-                <button class="btn btn-accent" id="orderChatSendBtn" onclick="sendAdminChatReply('order')">📤</button>
-                <button class="btn btn-success btn-sm" onclick="resolveChat('order')">✅ Решено</button>
-            </div>
+            <div style="display:flex;gap:10px;"><textarea id="orderChatInput" placeholder="Ответ..." style="flex:1;min-height:50px;"></textarea><button class="btn btn-accent" id="orderChatSendBtn" onclick="sendAdminChatReply('order')">📤</button><button class="btn btn-success btn-sm" onclick="resolveChat('order')">✅ Решено</button></div>
         </div>
-        <!-- Панель: Настройки -->
+        <!-- Панель: Настройки (исправлен дизайн полей) -->
         <div class="panel" id="panel-settings">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">⚙️ Настройки</h2>
             <div style="margin-bottom:24px;padding:16px;background:rgba(139,92,246,.08);border-radius:16px;border:1px solid rgba(139,92,246,.2);">
                 <h3 style="font-size:1rem;margin-bottom:12px;">🔑 Смена пароля администратора</h3>
-                <div class="floating-group">
-                    <input type="password" id="oldPassInput" placeholder=" ">
-                    <label>Текущий пароль</label>
-                </div>
-                <div class="floating-group">
-                    <input type="password" id="newPassInput" placeholder=" ">
-                    <label>Новый пароль (мин. 4 символа)</label>
-                </div>
-                <div class="floating-group">
-                    <input type="password" id="confirmPassInput" placeholder=" ">
-                    <label>Подтвердите новый пароль</label>
-                </div>
+                <div class="floating-group"><input type="password" id="oldPassInput" placeholder=" "><label>Текущий пароль</label></div>
+                <div class="floating-group"><input type="password" id="newPassInput" placeholder=" "><label>Новый пароль (мин. 4 символа)</label></div>
+                <div class="floating-group"><input type="password" id="confirmPassInput" placeholder=" "><label>Подтвердите новый пароль</label></div>
                 <button class="btn btn-accent btn-full" onclick="changeAdminPassword()">💾 Сменить пароль</button>
             </div>
             <hr style="border-color:var(--border);margin:16px 0;">
-            <label>Номер телефона</label><input id="setPhone">
-            <label>Банк</label><input id="setBank">
-            <label>Получатель</label><input id="setName">
-            <label>ЮMoney</label><input id="setYoo">
-            <label>Telegram Bot Token</label><input id="setBotToken">
-            <label>Admin Chat ID</label><input id="setAdminChat">
+            <div class="floating-group"><input type="text" id="setPhone" placeholder=" "><label>Номер телефона</label></div>
+            <div class="floating-group"><input type="text" id="setBank" placeholder=" "><label>Банк</label></div>
+            <div class="floating-group"><input type="text" id="setName" placeholder=" "><label>Получатель</label></div>
+            <div class="floating-group"><input type="text" id="setYoo" placeholder=" "><label>ЮMoney</label></div>
+            <div class="floating-group"><input type="text" id="setBotToken" placeholder=" "><label>Telegram Bot Token</label></div>
+            <div class="floating-group"><input type="text" id="setAdminChat" placeholder=" "><label>Admin Chat ID</label></div>
             <button class="btn btn-accent btn-full" onclick="saveSettings()">💾 Сохранить</button>
         </div>
         <!-- Панель: Логи -->
         <div class="panel" id="panel-logs"><h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">📜 Логи действий</h2><div id="logsList"></div></div>
         <!-- Панель: Бэкап -->
-        <div class="panel" id="panel-backup">
-            <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💾 Резервное копирование</h2>
-            <button class="btn btn-accent btn-full" onclick="createBackup()">💾 Создать резервную копию</button>
-            <button class="btn btn-outline btn-full" onclick="restoreBackup()" style="margin-top:10px;">📥 Восстановить из копии</button>
-            <div id="backupInfo" style="margin-top:16px;color:var(--text-dim);"></div>
-        </div>
+        <div class="panel" id="panel-backup"><h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💾 Резервное копирование</h2><button class="btn btn-accent btn-full" onclick="createBackup()">💾 Создать резервную копию</button><button class="btn btn-outline btn-full" onclick="restoreBackup()" style="margin-top:10px;">📥 Восстановить из копии</button><div id="backupInfo" style="margin-top:16px;color:var(--text-dim);"></div></div>
     </div>
 </div>
 
