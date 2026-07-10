@@ -55,9 +55,19 @@
         .badge-rejected{background:rgba(248,113,113,.2);color:#f87171}
         .row{display:flex;gap:10px;flex-wrap:wrap}
         .row>*{flex:1;min-width:150px}
-        input,textarea,select{width:100%;padding:14px;margin:8px 0;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:.9rem;outline:none;font-family:inherit;transition:all var(--transition)}
-        input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 20px rgba(139,92,246,.2);background:rgba(255,255,255,.07)}
-        textarea{min-height:80px;resize:vertical}
+        /* Floating label стили */
+        .floating-group{position:relative;margin:16px 0;}
+        .floating-group input,.floating-group textarea,.floating-group select{width:100%;padding:14px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:.9rem;outline:none;font-family:inherit;transition:all var(--transition)}
+        .floating-group input:focus,.floating-group textarea:focus,.floating-group select:focus{border-color:var(--accent);box-shadow:0 0 20px rgba(139,92,246,.2);background:rgba(255,255,255,.07)}
+        .floating-group label{position:absolute;left:14px;top:14px;color:var(--text-dim);font-size:.9rem;pointer-events:none;transition:all .3s ease;background:transparent;padding:0 4px}
+        .floating-group input:focus ~ label,
+        .floating-group input:not(:placeholder-shown) ~ label,
+        .floating-group textarea:focus ~ label,
+        .floating-group textarea:not(:placeholder-shown) ~ label,
+        .floating-group select:focus ~ label,
+        .floating-group select:not([value=""]) ~ label{top:-10px;font-size:.7rem;color:var(--accent-light);background:var(--bg);border-radius:4px}
+        .floating-group textarea{min-height:80px;resize:vertical}
+        .floating-group .hint{font-size:.7rem;color:var(--text-dim);margin-top:4px;display:block}
         .edit-form{background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:18px;margin-top:8px}
         .hidden{display:none!important}
         .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--success);color:#000;padding:14px 30px;border-radius:30px;font-weight:700;z-index:9999;animation:toastIn .4s ease,toastOut .4s ease 2.5s forwards}
@@ -78,6 +88,8 @@
         .chat-message.user{background:rgba(255,255,255,.05)}
         .chat-edit-btn{background:none;border:none;color:var(--accent-light);cursor:pointer;font-size:.8rem;margin-left:8px;opacity:.6;transition:opacity .2s}
         .chat-edit-btn:hover{opacity:1}
+        .toggle-row{display:flex;align-items:center;gap:12px;margin:8px 0;}
+        .toggle-row label{color:var(--text-dim);font-weight:500;}
         @media(max-width:768px){.toolbar>*{min-width:100%}.stats{grid-template-columns:repeat(2,1fr)}}
     </style>
 </head>
@@ -128,17 +140,69 @@
             <div class="toolbar"><button class="btn btn-accent btn-sm" onclick="loadCatalog()">🔄 Обновить</button><button class="btn btn-success btn-sm" onclick="document.getElementById('addProductForm').classList.toggle('hidden')">➕ Добавить товар</button></div>
             <div id="addProductForm" class="hidden" style="margin-bottom:20px;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:20px;">
                 <h3 style="margin-bottom:12px;">➕ Новый товар</h3>
-                <input id="newTitle" placeholder="Название *">
-                <div class="row"><input id="newPrice" placeholder="Цена ₽ *" type="number"><input id="newEmoji" placeholder="Эмодзи"></div>
-                <input id="newDesc" placeholder="Описание"><input id="newTags" placeholder="Теги через запятую">
-                <div class="row">
-                    <select id="newMediaType"><option value="custom">Свой файл</option><option value="video">Тестовое видео</option><option value="audio">Тестовое аудио</option></select>
-                    <input id="newBase" placeholder="Имя файла (media/...)">
+                <div class="floating-group">
+                    <input type="text" id="newTitle" placeholder=" ">
+                    <label>Название песни *</label>
                 </div>
-                <select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select>
                 <div class="row">
-                    <select id="newSource"><option value="github">GitHub</option><option value="yandex">Yandex</option></select>
-                    <input id="newFileUrl" placeholder="Ссылка на файл (для Yandex)">
+                    <div class="floating-group">
+                        <input type="number" id="newPrice" placeholder=" ">
+                        <label>Цена ₽ *</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="text" id="newEmoji" placeholder=" ">
+                        <label>Эмодзи (например 🎵)</label>
+                    </div>
+                </div>
+                <div class="floating-group">
+                    <textarea id="newDesc" placeholder=" "></textarea>
+                    <label>Описание</label>
+                </div>
+                <div class="floating-group">
+                    <input type="text" id="newTags" placeholder=" ">
+                    <label>Теги через запятую</label>
+                </div>
+                <div class="row">
+                    <div class="floating-group">
+                        <select id="newMediaType">
+                            <option value="custom">Свой файл</option>
+                            <option value="video">Тестовое видео</option>
+                            <option value="audio">Тестовое аудио</option>
+                        </select>
+                        <label>Тип медиа</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="text" id="newBase" placeholder=" ">
+                        <label>Имя файла (с расширением, например media/demo1.mp4)</label>
+                        <span class="hint">Укажите путь к файлу с расширением, например media/demo1.mp4</span>
+                    </div>
+                </div>
+                <div class="floating-group">
+                    <select id="newCategory">
+                        <option value="sad">💔 Грустные</option>
+                        <option value="happy">🎉 Весёлые</option>
+                        <option value="adult">🔞 Взрослые</option>
+                        <option value="kids">🧒 Детские</option>
+                        <option value="love">❤️ Про любовь</option>
+                    </select>
+                    <label>Категория</label>
+                </div>
+                <div class="row">
+                    <div class="floating-group">
+                        <select id="newSource">
+                            <option value="github">GitHub</option>
+                            <option value="yandex">Yandex</option>
+                        </select>
+                        <label>Источник файла</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="text" id="newFileUrl" placeholder=" ">
+                        <label>Ссылка на файл (для Yandex)</label>
+                    </div>
+                </div>
+                <div class="toggle-row">
+                    <input type="checkbox" id="newShowImage" checked>
+                    <label for="newShowImage">Показывать картинку (обложку)</label>
                 </div>
                 <button class="btn btn-success btn-full" onclick="addProduct()">✅ Добавить</button>
             </div>
@@ -276,14 +340,15 @@ async function loadOrders() {
         document.getElementById('rejectedOrders').textContent=orders.filter(o=>o.status==='rejected').length;
         document.getElementById('ordersList').innerHTML = orders.length===0?'<p style="text-align:center;color:var(--text-dim);">Заказов нет</p>':orders.reverse().map(o=>{
             const t = o.caption?o.caption.replace(/[*_`\[\]()]/g,''):'Заказ #'+o.id, guest=o.guest||'неизвестный';
+            const fileLink = o.file_link ? `<br><a href="${o.file_link}" target="_blank" style="color:var(--accent-light);">🎵 Скачать песню</a>` : '';
             return `<div class="order-row" onclick="this.querySelector('.order-detail').classList.toggle('open')">
                 <input type="checkbox" class="order-checkbox" data-guest="${guest}" data-time="${o.time||''}" onclick="event.stopPropagation();updateSelectedOrders()" style="margin-right:10px;">
-                <div style="flex:1;min-width:200px;"><strong>#${o.id} — ${t.substring(0,60)}</strong><br><small style="color:var(--text-dim);">🕐 ${o.time||'—'} | 🆔 ${guest} | <span class="badge badge-${o.status==='pending'?'pending':o.status==='paid'?'paid':'rejected'}">${o.status==='pending'?'Ожидает':o.status==='paid'?'Оплачен':'Отклонён'}</span></small></div>
+                <div style="flex:1;min-width:200px;"><strong>#${o.id} — ${t.substring(0,60)}</strong><br><small style="color:var(--text-dim);">🕐 ${o.time||'—'} | 🆔 ${guest} | <span class="badge badge-${o.status==='pending'?'pending':o.status==='paid'?'paid':'rejected'}">${o.status==='pending'?'Ожидает':o.status==='paid'?'Оплачен':'Отклонён'}</span>${fileLink}</small></div>
                 <div style="display:flex;gap:6px;" onclick="event.stopPropagation();">
                     ${o.status==='pending'?`<button class="btn btn-success btn-xs" onclick="confirmOrder('${guest}')">✅</button><button class="btn btn-danger btn-xs" onclick="rejectOrder('${guest}')">❌</button>`:`<button class="btn btn-outline btn-xs" onclick="toggleStatus('${guest}')">🔄</button>`}
                     <button class="btn btn-danger btn-xs" onclick="deleteOrder('${guest}','${o.time}')">🗑</button>
                 </div>
-                <div class="order-detail"><strong>Полный текст:</strong><br>${t}<br><br><strong>Гость:</strong> ${guest}<br><strong>Время:</strong> ${o.time||'—'}</div>
+                <div class="order-detail"><strong>Полный текст:</strong><br>${t}<br><br><strong>Гость:</strong> ${guest}<br><strong>Время:</strong> ${o.time||'—'}<br>${o.file_link ? `<strong>Ссылка на файл:</strong> <a href="${o.file_link}" target="_blank">${o.file_link}</a>` : ''}</div>
             </div>`;
         }).join('');
     } catch(e) { toast('⚠️ Ошибка загрузки заказов'); console.error(e); }
@@ -297,7 +362,7 @@ async function deleteOrder(guest,time) { customConfirm(`Удалить зака�
 async function deleteAllOrders() { customConfirm('Удалить ВСЕ заказы?',async(ok)=>{if(!ok)return; try{await fetch(`${API}/api/clear-orders`,{method:'POST'}); toast('🗑 Все удалены!'); addLog('Удаление всех заказов'); loadOrders(); }catch(e){toast('⚠️ Ошибка');} }); }
 async function massConfirm() { updateSelectedOrders(); if(!selectedOrders.length)return toast('Выберите заказы!'); customConfirm(`Подтвердить ${selectedOrders.length} заказов?`,async(ok)=>{if(!ok)return; for(const{guest}of selectedOrders) try{await fetch(`${API}/api/confirm-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})}); }catch(e){} selectedOrders=[]; toast('✅ Подтверждено!'); addLog('Массовое подтверждение'); loadOrders(); }); }
 async function massReject() { updateSelectedOrders(); if(!selectedOrders.length)return toast('Выберите заказы!'); customConfirm(`Отклонить ${selectedOrders.length} заказов?`,async(ok)=>{if(!ok)return; for(const{guest}of selectedOrders) try{await fetch(`${API}/api/reject-payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guest})}); }catch(e){} selectedOrders=[]; toast('❌ Отклонено!'); addLog('Массовое отклонение'); loadOrders(); }); }
-function exportCSV() { fetch(`${API}/api/orders-list`).then(r=>r.json()).then(d=>{ const orders=d.orders||[]; let csv='ID;Время;Гость;Статус;Описание\n'; orders.forEach(o=>csv+=`"${o.id||''}";"${o.time||''}";"${o.guest||''}";"${o.status||''}";"${(o.caption||'').replace(/"/g,'""')}"\n`); const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='orders.csv'; a.click(); toast('📥 CSV скачан!'); }).catch(()=>toast('⚠️ Ошибка экспорта')); }
+function exportCSV() { fetch(`${API}/api/orders-list`).then(r=>r.json()).then(d=>{ const orders=d.orders||[]; let csv='ID;Время;Гость;Статус;Описание;Ссылка\n'; orders.forEach(o=>csv+=`"${o.id||''}";"${o.time||''}";"${o.guest||''}";"${o.status||''}";"${(o.caption||'').replace(/"/g,'""')}";"${o.file_link||''}"\n`); const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='orders.csv'; a.click(); toast('📥 CSV скачан!'); }).catch(()=>toast('⚠️ Ошибка экспорта')); }
 
 // ==================== КАТАЛОГ ====================
 async function loadCatalog() {
@@ -306,16 +371,49 @@ async function loadCatalog() {
         document.getElementById('catalogList').innerHTML = cat.length===0?'<p style="text-align:center;color:var(--text-dim);">Каталог пуст</p>':cat.map(p=>`
             <div class="catalog-item">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-                    <div><strong>${p.emoji||'🎵'} ${p.title}</strong> — <span style="color:var(--gold);">${p.price}₽</span><br><small>${p.desc||'—'} | ${p.category||'—'} | Источник: ${p.source||'github'}</small></div>
+                    <div><strong>${p.emoji||'🎵'} ${p.title}</strong> — <span style="color:var(--gold);">${p.price}₽</span><br><small>${p.desc||'—'} | ${p.category||'—'} | Источник: ${p.source||'github'} | Картинка: ${p.show_image ? '✅' : '❌'}</small></div>
                     <div style="display:flex;gap:6px;"><button class="btn btn-outline btn-xs" onclick="startEdit(${p.id})">✏️</button><button class="btn btn-danger btn-xs" onclick="deleteProduct(${p.id})">🗑</button></div>
                 </div>
                 <div class="edit-form hidden" id="edit-form-${p.id}">
-                    <input id="edit-title-${p.id}" value="${p.title}"><input id="edit-price-${p.id}" value="${p.price}" type="number"><input id="edit-emoji-${p.id}" value="${p.emoji||''}"><input id="edit-desc-${p.id}" value="${p.desc||''}"><input id="edit-tags-${p.id}" value="${(p.tags||[]).join(', ')}">
-                    <select id="edit-cat-${p.id}"><option value="sad" ${p.category==='sad'?'selected':''}>Грустные</option><option value="happy" ${p.category==='happy'?'selected':''}>Весёлые</option><option value="adult" ${p.category==='adult'?'selected':''}>Взрослые</option><option value="kids" ${p.category==='kids'?'selected':''}>Детские</option><option value="love" ${p.category==='love'?'selected':''}>Про любовь</option></select>
-                    <input id="edit-base-${p.id}" value="${p.base||''}">
-                    <select id="edit-source-${p.id}"><option value="github" ${p.source==='github'?'selected':''}>GitHub</option><option value="yandex" ${p.source==='yandex'?'selected':''}>Yandex</option></select>
-                    <input id="edit-file_url-${p.id}" value="${p.file_url||''}" placeholder="Ссылка на файл (для Yandex)">
-                    <div style="display:flex;gap:8px;margin-top:10px;"><button class="btn btn-success btn-sm" onclick="saveEdit(${p.id})">💾 Сохранить</button><button class="btn btn-outline btn-sm" onclick="cancelEdit(${p.id})">Отмена</button></div>
+                    <div class="floating-group"><input type="text" id="edit-title-${p.id}" value="${p.title}" placeholder=" "><label>Название песни *</label></div>
+                    <div class="floating-group"><input type="number" id="edit-price-${p.id}" value="${p.price}" placeholder=" "><label>Цена ₽ *</label></div>
+                    <div class="floating-group"><input type="text" id="edit-emoji-${p.id}" value="${p.emoji||''}" placeholder=" "><label>Эмодзи</label></div>
+                    <div class="floating-group"><textarea id="edit-desc-${p.id}" placeholder=" ">${p.desc||''}</textarea><label>Описание</label></div>
+                    <div class="floating-group"><input type="text" id="edit-tags-${p.id}" value="${(p.tags||[]).join(', ')}" placeholder=" "><label>Теги через запятую</label></div>
+                    <div class="floating-group">
+                        <select id="edit-cat-${p.id}">
+                            <option value="sad" ${p.category==='sad'?'selected':''}>Грустные</option>
+                            <option value="happy" ${p.category==='happy'?'selected':''}>Весёлые</option>
+                            <option value="adult" ${p.category==='adult'?'selected':''}>Взрослые</option>
+                            <option value="kids" ${p.category==='kids'?'selected':''}>Детские</option>
+                            <option value="love" ${p.category==='love'?'selected':''}>Про любовь</option>
+                        </select>
+                        <label>Категория</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="text" id="edit-base-${p.id}" value="${p.base||''}" placeholder=" ">
+                        <label>Имя файла (с расширением, например media/demo1.mp4)</label>
+                        <span class="hint">Укажите путь к файлу с расширением, например media/demo1.mp4</span>
+                    </div>
+                    <div class="floating-group">
+                        <select id="edit-source-${p.id}">
+                            <option value="github" ${p.source==='github'?'selected':''}>GitHub</option>
+                            <option value="yandex" ${p.source==='yandex'?'selected':''}>Yandex</option>
+                        </select>
+                        <label>Источник файла</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="text" id="edit-file_url-${p.id}" value="${p.file_url||''}" placeholder=" ">
+                        <label>Ссылка на файл (для Yandex)</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="edit-show_image-${p.id}" ${p.show_image ? 'checked' : ''}>
+                        <label for="edit-show_image-${p.id}">Показывать картинку (обложку)</label>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <button class="btn btn-success btn-sm" onclick="saveEdit(${p.id})">💾 Сохранить</button>
+                        <button class="btn btn-outline btn-sm" onclick="cancelEdit(${p.id})">Отмена</button>
+                    </div>
                 </div>
             </div>`).join('');
     } catch(e) { toast('⚠️ Ошибка загрузки каталога'); console.error(e); }
@@ -334,7 +432,8 @@ async function saveEdit(id) {
             category: document.getElementById('edit-cat-'+id).value,
             base: document.getElementById('edit-base-'+id).value.trim(),
             source: document.getElementById('edit-source-'+id).value,
-            file_url: document.getElementById('edit-file_url-'+id).value.trim()
+            file_url: document.getElementById('edit-file_url-'+id).value.trim(),
+            show_image: document.getElementById('edit-show_image-'+id).checked
         };
         if(!data.title||!data.price) return toast('Название и цена обязательны!');
         await fetch(`${API}/api/update-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
@@ -348,8 +447,8 @@ async function addProduct() {
         if(!t||!p) return toast('Название и цена обязательны!');
         const mediaType = document.getElementById('newMediaType').value;
         let base = document.getElementById('newBase').value.trim();
-        if(mediaType==='video') base = 'test_video';
-        else if(mediaType==='audio') base = 'test_audio';
+        if(mediaType==='video') base = 'test_video.mp4';
+        else if(mediaType==='audio') base = 'test_audio.mp3';
         const d = {
             title:t, price:p, emoji:document.getElementById('newEmoji').value.trim()||'🎵',
             desc:document.getElementById('newDesc').value.trim(),
@@ -357,7 +456,8 @@ async function addProduct() {
             category:document.getElementById('newCategory').value,
             base: base,
             source: document.getElementById('newSource').value,
-            file_url: document.getElementById('newFileUrl').value.trim()
+            file_url: document.getElementById('newFileUrl').value.trim(),
+            show_image: document.getElementById('newShowImage').checked
         };
         await fetch(`${API}/api/add-product`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
         toast('✅ Добавлен!'); addLog('Добавление товара: '+t); document.getElementById('newTitle').value=''; document.getElementById('newPrice').value=''; loadCatalog();
@@ -398,7 +498,12 @@ async function loadFeedback() {
             <div class="feedback-item">
                 <div style="font-size:.8rem;color:var(--text-dim);">👤 ${f.nick||'—'} | 🕐 ${f.time||'—'} | ${'⭐'.repeat(f.rating||5)}</div>
                 <div>${f.text}</div>
-                ${f.replied?`<div style="margin-top:8px;padding:8px;background:rgba(139,92,246,.1);border-radius:8px;"><strong>Ответ:</strong> ${f.reply}</div>`:`
+                ${f.replied ? `
+                    <div style="margin-top:8px;padding:8px;background:rgba(139,92,246,.1);border-radius:8px;">
+                        <strong>Ответ:</strong> <span id="reply-text-${f.id}">${f.reply}</span>
+                        <button class="chat-edit-btn" onclick="editFeedbackReply(${f.id})">✏️</button>
+                    </div>
+                ` : `
                     <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
                         <textarea id="reply-${f.id}" placeholder="Ответ..." style="flex:1;"></textarea>
                         <button class="btn btn-accent btn-sm" onclick="replyFeedback(${f.id})">📤 Ответить</button>
@@ -418,7 +523,37 @@ async function loadFeedback() {
             </div>`).join('');
     } catch(e) { toast('⚠️ Ошибка загрузки отзывов'); console.error(e); }
 }
-async function replyFeedback(id) { const reply=document.getElementById('reply-'+id).value.trim(); if(!reply)return toast('Напишите ответ!'); try{await fetch(`${API}/api/reply-feedback`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,reply})}); toast('✅ Ответ сохранён!'); loadFeedback(); }catch(e){toast('⚠️ Ошибка');} }
+async function replyFeedback(id) {
+    const reply = document.getElementById('reply-'+id).value.trim();
+    if(!reply) return toast('Напишите ответ!');
+    try {
+        await fetch(`${API}/api/reply-feedback`, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({id, reply})
+        });
+        toast('✅ Ответ сохранён!');
+        loadFeedback();
+    } catch(e) { toast('⚠️ Ошибка'); }
+}
+function editFeedbackReply(id) {
+    const currentReply = document.getElementById('reply-text-'+id).textContent;
+    const newReply = prompt('Редактировать ответ:', currentReply);
+    if (newReply === null || newReply.trim() === '') return;
+    if (newReply === currentReply) return;
+    updateFeedbackReply(id, newReply.trim());
+}
+async function updateFeedbackReply(id, newReply) {
+    try {
+        await fetch(`${API}/api/update-feedback-reply`, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({id, reply: newReply})
+        });
+        toast('✅ Ответ обновлён!');
+        loadFeedback();
+    } catch(e) { toast('⚠️ Ошибка'); }
+}
 async function rateFeedback(id) {
     const cat = document.getElementById('rate-cat-'+id).value;
     try {
@@ -428,8 +563,12 @@ async function rateFeedback(id) {
             body: JSON.stringify({ id, category: cat })
         });
         const res = await r.json();
-        if(res.ok) { toast('💎 Баллы начислены!'); loadFeedback(); }
-        else toast('⚠️ Ошибка: ' + (res.error||''));
+        if(res.ok) {
+            toast(`💎 Начислено ${res.points} баллов!`);
+            loadFeedback();
+        } else {
+            toast('⚠️ Ошибка: ' + (res.error||''));
+        }
     } catch(e) { toast('⚠️ Ошибка оценки'); }
 }
 
