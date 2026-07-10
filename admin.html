@@ -87,9 +87,14 @@
         .chat-message.user{background:rgba(255,255,255,.05)}
         .chat-edit-btn{background:none;border:none;color:var(--accent-light);cursor:pointer;font-size:.8rem;margin-left:8px;opacity:.6;transition:opacity .2s}
         .chat-edit-btn:hover{opacity:1}
-        .toggle-row{display:flex;align-items:center;gap:12px;margin:8px 0;}
+        /* Кастомные чекбоксы */
+        .toggle-row{display:flex;align-items:center;gap:12px;margin:8px 0;cursor:pointer}
         .toggle-row label{color:var(--text-dim);font-weight:500;cursor:pointer}
-        .toggle-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+        .toggle-row input[type="checkbox"]{display:none}
+        .toggle-row .checkmark{width:20px;height:20px;border:2px solid var(--border);border-radius:6px;display:inline-block;position:relative;transition:all .3s ease;flex-shrink:0;background:rgba(255,255,255,.04)}
+        .toggle-row input:checked + .checkmark{background:var(--accent);border-color:var(--accent);box-shadow:0 0 20px rgba(139,92,246,.4)}
+        .toggle-row input:checked + .checkmark::after{content:"✓";color:#fff;font-size:14px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:700}
+        .toggle-row:hover .checkmark{border-color:var(--accent-light)}
         .history-item{background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);padding:8px 0;font-size:.8rem}
         .history-item:last-child{border-bottom:none}
         @media(max-width:768px){.toolbar>*{min-width:100%}.stats{grid-template-columns:repeat(2,1fr)}}
@@ -149,7 +154,12 @@
                 <div class="row"><div class="floating-group"><select id="newMediaType"><option value="custom">Свой файл</option><option value="video">Тестовое видео</option><option value="audio">Тестовое аудио</option></select><label>Тип медиа</label></div><div class="floating-group"><input type="text" id="newBase" placeholder=" "><label>Имя файла (с расширением, например media/demo1.mp4)</label><span class="hint">Укажите путь к файлу с расширением, например media/demo1.mp4</span></div></div>
                 <div class="floating-group"><select id="newCategory"><option value="sad">💔 Грустные</option><option value="happy">🎉 Весёлые</option><option value="adult">🔞 Взрослые</option><option value="kids">🧒 Детские</option><option value="love">❤️ Про любовь</option></select><label>Категория</label></div>
                 <div class="row"><div class="floating-group"><select id="newSource"><option value="github">GitHub</option><option value="yandex">Yandex</option></select><label>Источник файла</label></div><div class="floating-group"><input type="text" id="newFileUrl" placeholder=" "><label>Ссылка на файл (для Yandex)</label></div></div>
-                <div class="toggle-row"><input type="checkbox" id="newShowImage" checked><label for="newShowImage">Показывать картинку (обложку)</label></div>
+                <div class="floating-group"><input type="text" id="newImageUrl" placeholder=" "><label>Ссылка на обложку (например https://example.com/image.jpg или media/image.jpg)</label><span class="hint">Оставьте пустым для автоматической картинки</span></div>
+                <div class="toggle-row">
+                    <input type="checkbox" id="newShowImage" checked>
+                    <span class="checkmark"></span>
+                    <label for="newShowImage">Показывать картинку (обложку)</label>
+                </div>
                 <button class="btn btn-success btn-full" onclick="addProduct()">✅ Добавить</button>
             </div>
             <div id="catalogList"></div>
@@ -171,12 +181,16 @@
         <div class="panel" id="panel-subscriptions">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">👑 Управление подписками</h2>
             <div class="row"><div class="floating-group"><input type="text" id="subNick" placeholder=" "><label>Ник пользователя</label></div><div class="floating-group"><select id="subPlan"><option value="1day">1 день (100₽)</option><option value="1week">1 неделя (300₽)</option><option value="1month">1 месяц (1000₽)</option><option value="3months">3 месяца Ultra (3000₽)</option></select><label>План подписки</label></div></div>
-            <div class="toggle-row"><input type="checkbox" id="subAutopay"><label for="subAutopay">Автопродление</label></div>
+            <div class="toggle-row">
+                <input type="checkbox" id="subAutopay">
+                <span class="checkmark"></span>
+                <label for="subAutopay">Автопродление</label>
+            </div>
             <button class="btn btn-accent btn-full" onclick="activateSubscription()">✅ Активировать подписку</button>
             <button class="btn btn-danger btn-full" onclick="cancelSubscription()" style="margin-top:8px;">❌ Отменить подписку</button>
             <div id="subsList" style="margin-top:20px;"></div>
         </div>
-        <!-- Панель: Чат поддержки (исправлен дизайн) -->
+        <!-- Панель: Чат поддержки -->
         <div class="panel" id="panel-chats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">💬 Чат поддержки</h2>
             <div style="margin-bottom:16px;"><h3>Активные диалоги:</h3><div id="activeChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div></div>
@@ -190,7 +204,7 @@
                 <button class="btn btn-success btn-sm" onclick="resolveChat('support')" style="height:50px;">✅ Решено</button>
             </div>
         </div>
-        <!-- Панель: Чат заказов (исправлен дизайн) -->
+        <!-- Панель: Чат заказов -->
         <div class="panel" id="panel-orderchats">
             <h2 style="font-family:'Unbounded',sans-serif;margin-bottom:16px;">📦 Чат заказов</h2>
             <div style="margin-bottom:16px;"><h3>Активные диалоги:</h3><div id="activeOrderChats" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"></div></div>
@@ -560,8 +574,14 @@ async function loadCatalog() {
                             <input type="text" id="edit-file_url-${p.id}" value="${p.file_url||''}" placeholder=" ">
                             <label>Ссылка на файл (для Yandex)</label>
                         </div>
+                        <div class="floating-group">
+                            <input type="text" id="edit-image_url-${p.id}" value="${p.image_url||''}" placeholder=" ">
+                            <label>Ссылка на обложку (например https://example.com/image.jpg или media/image.jpg)</label>
+                            <span class="hint">Оставьте пустым для автоматической картинки</span>
+                        </div>
                         <div class="toggle-row">
                             <input type="checkbox" id="edit-show_image-${p.id}" ${p.show_image ? 'checked' : ''}>
+                            <span class="checkmark"></span>
                             <label for="edit-show_image-${p.id}">Показывать картинку (обложку)</label>
                         </div>
                         <div style="display:flex;gap:8px;margin-top:10px;">
@@ -596,6 +616,7 @@ async function saveEdit(id) {
             base: document.getElementById('edit-base-'+id).value.trim(),
             source: document.getElementById('edit-source-'+id).value,
             file_url: document.getElementById('edit-file_url-'+id).value.trim(),
+            image_url: document.getElementById('edit-image_url-'+id).value.trim(),
             show_image: document.getElementById('edit-show_image-'+id).checked
         };
         if (!data.title || !data.price) return toast('Название и цена обязательны!');
@@ -637,6 +658,7 @@ async function addProduct() {
             base: base,
             source: document.getElementById('newSource').value,
             file_url: document.getElementById('newFileUrl').value.trim(),
+            image_url: document.getElementById('newImageUrl').value.trim(),
             show_image: document.getElementById('newShowImage').checked
         };
         await fetch(`${API}/api/add-product`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(d) });
@@ -1074,4 +1096,3 @@ loadSettingsForm();
 </script>
 </body>
 </html>
-<!-- test -->
