@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#060610">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>PieSenia — Полезные ссылки</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#060610;--card:rgba(12,12,28,.45);--border:rgba(255,255,255,.06);--gold:#d4a853;--gold-light:#f0d078;--accent:#8b5cf6;--accent-light:#a78bfa;--cyan:#02c1b3;--neon-pink:#ff2d95;--neon-blue:#00d4ff;--text:#e8e4f0;--text-dim:#8a84a0;--danger:#f87171;--success:#4ade80;--warning:#fbbf24;--radius:28px;--glass:blur(42px);--transition:.5s cubic-bezier(.16,1,.3,1);--spring:.7s cubic-bezier(.34,1.56,.64,1)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+        .bg-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.35;animation:orbFloat 20s ease-in-out infinite}
+        .bg-orb-1{width:900px;height:900px;background:radial-gradient(circle,rgba(139,92,246,.5)0,transparent 70%);top:-450px;left:-350px}
+        .bg-orb-2{width:800px;height:800px;background:radial-gradient(circle,rgba(2,193,179,.4)0,transparent 70%);bottom:-350px;right:-250px;animation-delay:-10s}
+        .bg-orb-3{width:600px;height:600px;background:radial-gradient(circle,rgba(255,45,149,.3)0,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-5s;opacity:.25}
+        @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(100px,-80px) scale(1.2)}66%{transform:translate(-70px,60px) scale(.85)}}
+        .bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:linear-gradient(rgba(139,92,246,.3)1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.3)1px,transparent 1px);background-size:70px 70px}
+        .app{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px 24px 100px}
+        .header{text-align:center;padding:40px 20px 20px}
+        .logo{font-size:60px;display:inline-block;animation:logoFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 50px rgba(139,92,246,.6))}
+        @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+        h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;background:linear-gradient(135deg,var(--neon-blue),var(--accent-light),var(--neon-pink),var(--gold-light));background-size:400% 400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s ease-in-out infinite}
+        @keyframes shimmer{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+        .subtitle{color:var(--text-dim);font-size:1rem;max-width:550px;margin:8px auto 20px}
+        .back-link{display:inline-block;margin:10px 0 30px;color:var(--accent-light);text-decoration:none;font-weight:600;transition:all var(--transition)}
+        .back-link:hover{color:var(--neon-blue);transform:translateX(-4px)}
+        .stats-badge{display:inline-block;background:rgba(139,92,246,.15);padding:8px 20px;border-radius:30px;color:var(--accent-light);font-size:.85rem;margin-bottom:24px;border:1px solid rgba(139,92,246,.2)}
+        .category{background:var(--card);backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:20px;transition:all var(--transition)}
+        .category:hover{border-color:rgba(139,92,246,.3);box-shadow:0 10px 40px rgba(0,0,0,.3)}
+        .category-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;cursor:pointer;user-select:none}
+        .category-header .emoji{font-size:28px}
+        .category-header .title{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+        .category-header .count{font-size:.75rem;color:var(--text-dim);background:rgba(255,255,255,.05);padding:2px 12px;border-radius:20px}
+        .category-header .arrow{transition:transform .3s ease;color:var(--text-dim);font-size:.9rem}
+        .category-header .arrow.open{transform:rotate(180deg)}
+        .links-list{display:flex;flex-wrap:wrap;gap:10px;padding-top:4px}
+        .links-list.collapsed{display:none}
+        .link-item{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:8px 16px;font-size:.85rem;transition:all var(--transition);text-decoration:none;color:var(--text);word-break:break-all;max-width:100%}
+        .link-item:hover{background:rgba(139,92,246,.1);border-color:var(--accent-light);transform:translateY(-2px);box-shadow:0 8px 25px rgba(139,92,246,.3);color:#fff}
+        .link-item .copy-btn{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:.7rem;padding:2px 6px;border-radius:6px;transition:all .3s;opacity:.4}
+        .link-item .copy-btn:hover{opacity:1;color:var(--accent-light);background:rgba(139,92,246,.1)}
+        .link-item .badge-link{font-size:.6rem;padding:2px 8px;border-radius:10px;background:rgba(139,92,246,.2);color:var(--accent-light);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+        .footer{text-align:center;padding:30px 20px;color:var(--text-dim);font-size:.8rem;border-top:1px solid rgba(255,255,255,.04);margin-top:30px;line-height:2}
+        .footer a{color:var(--accent-light);text-decoration:none;transition:color .3s}
+        .footer a:hover{color:var(--neon-blue)}
+        .copy-toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:var(--success);color:#000;padding:14px 30px;border-radius:40px;font-weight:700;z-index:9999;animation:toastIn .5s var(--spring),toastOut .5s ease 2.8s forwards}
+        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(30px) scale(.9)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+        @keyframes toastOut{from{opacity:1}to{opacity:0}}
+        @media(max-width:768px){.app{padding:10px 16px 80px}.category{padding:16px 18px}.link-item{font-size:.78rem;padding:6px 12px}}
+    </style>
+</head>
+<body>
+<div class="bg"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div><div class="bg-orb bg-orb-3"></div></div>
+<div class="bg-grid"></div>
+
+<div class="app">
+    <div class="header">
+        <div class="logo">🔗</div>
+        <h1>Полезные ссылки</h1>
+        <p class="subtitle">Подборка сервисов, промокодов и полезных инструментов</p>
+        <a href="/" class="back-link">← На главную</a>
+        <div class="stats-badge">📊 Всего ссылок: <span id="totalCount">0</span></div>
+    </div>
+
+    <div id="linksContainer"></div>
+
+    <footer class="footer">
+        <p>© 2026 Кузьмин Иван. Все права защищены.</p>
+        <p><a href="/">PieSenia</a> — авторские песни с полной передачей прав</p>
+    </footer>
+</div>
+
+<script>
+const linksData = [
+    {
+        category: "🔍 СМОТРЕТЬ УДАЛЕННЫЕ СООБЩЕНИЯ",
+        links: [
+            "https://t.me/Detect_Massages_Rettero_bot — просмотр удаленных сообщений",
+            "https://t.me/detector_Rettero_bot — детектор удаленок",
+            "https://clck.ly/3UP8xW — смотреть удаленки"
+        ]
+    },
+    {
+        category: "🎭 ПРАНКИ",
+        links: [
+            "https://clck.ly/3UP8MX — пранк-шоу",
+            "https://clck.ru/3UP7yV — пранки"
+        ]
+    },
+    {
+        category: "🔎 ПРОБИВ / ПРОБИВАШКА",
+        links: [
+            "https://clck.ly/3UP8Lw — пробивашка",
+            "https://clck.ly/3UP8Mo — пробив",
+            "https://clck.ly/3UP84z — пробив",
+            "https://clck.ly/3UP8N4 — пробивашка",
+            "https://clck.su/eMmhO — пробивашка",
+            "https://clck.ly/3UP8Nc — пробив",
+            "https://clck.su/lugjd — пробив",
+            "https://clck.su/XAbmk — пробивашка",
+            "https://clck.ly/3UP8Yw — пробивашка",
+            "https://clck.ly/3UP8Z7 — пробив",
+            "https://clck.ly/3UP8ZS — пробив"
+        ]
+    },
+    {
+        category: "💣 БОМБЕР",
+        links: [
+            "https://clck.ly/3UP8NM — бомбер",
+            "https://clck.ly/3UP88L — бомбер"
+        ]
+    },
+    {
+        category: "💸 ФЕЙК ПЕРЕВОДЫ",
+        links: [
+            "https://t.me/fsqrs_bot — фейк переводы",
+            "https://t.me/money_rettero_bot — фейк переводы 2"
+        ]
+    },
+    {
+        category: "🤖 НЕЙРОНКА",
+        links: [
+            "https://clck.ly/3UP8fv — нейронка"
+        ]
+    },
+    {
+        category: "🎤 ИЗМЕНЕНИЕ ГОЛОСА",
+        links: [
+            "https://clk.li/PbQ — изменение голоса или его генерация"
+        ]
+    },
+    {
+        category: "🔒 VPN",
+        links: [
+            "https://clck.ly/3UP8gS — VPN",
+            "https://clck.ly/3UP8hP — VPN",
+            "https://clck.ly/3UP8hc — VPN",
+            "https://clck.ly/3UP8hy — VPN",
+            "https://clck.ly/3UP8i9 — VPN",
+            "https://clck.ly/3UP8io — VPN",
+            "https://clck.ly/3UP8ji — VPN",
+            "https://clck.ly/3UP8kN — VPN",
+            "https://clck.ly/3UP8n3 — VPN",
+            "https://clck.ly/3UP8nW — VPN",
+            "https://clck.ly/3UP8nc — VPN личный кабинет",
+            "https://clck.ly/3UP8ob — VPN",
+            "https://clck.ly/3UP8pP — VPN",
+            "https://clck.ly/3UP8pZ — VPN регистрация",
+            "https://clck.ly/3UP8q2 — VPN",
+            "https://clck.ly/3UP8qP — VPN",
+            "https://clck.ly/3UP8qt — VPN",
+            "https://clck.ly/3UP8rM — VPN",
+            "https://clck.ly/3UP8ry — VPN",
+            "https://clck.ly/3UP8sU — VPN",
+            "https://clck.ly/3UP8ud — VPN",
+            "https://clck.ly/3UP8wn — VPN"
+        ]
+    },
+    {
+        category: "🎁 РОЗЫГРЫШ ПОДАРКОВ И ПРИЗОВ",
+        links: [
+            "https://clck.ly/3UP8vd — розыгрыш подарков и призов"
+        ]
+    },
+    {
+        category: "🏗️ АЛАБУГА",
+        links: [
+            "https://clck.ly/3UP8wK — политех Алабуга"
+        ]
+    },
+    {
+        category: "🍏 ЕДАДИЛ",
+        links: [
+            "edadeal-vt9dkml — промокод Едадил"
+        ]
+    },
+    {
+        category: "💳 ЯНДЕКС",
+        links: [
+            "https://tri.su/nqAOn — Яндекс карточка",
+            "https://tri.su/mjERz — Яндекс супер сплит",
+            "https://tri.su/M2RXM — Яндекс вклад"
+        ]
+    },
+    {
+        category: "🛒 ПЯТЁРОЧКА",
+        links: [
+            "https://tri.su/MWYvz — Пятёрочка тайный покупатель"
+        ]
+    },
+    {
+        category: "📱 ТЕЛЕ2",
+        links: [
+            "https://tri.su/zVl8M — Теле2"
+        ]
+    },
+    {
+        category: "🏦 АЛЬФА-БАНК",
+        links: [
+            "https://alfa.me/IdqLSf — Альфа карта",
+            "https://alfa.me/BZip8G — карта родителя",
+            "https://alfa.me/4ccukB — карта для бабушек и дедушек",
+            "https://alfa.me/v4zJvx — карточка для футболистов",
+            "https://alfa.me/7slofU — пенсия",
+            "https://alfa.me/fJyqho — детская + взрослая карта",
+            "https://alfa.me/ToNJF3 — детская карта",
+            "https://alfa.me/InYEy3 — Альфа онли",
+            "https://alfa.me/vG70Ya — Альфа стикер"
+        ]
+    },
+    {
+        category: "💚 СБЕР",
+        links: [
+            "https://s.sber.ru/8BPcF5 — сбер карта"
+        ]
+    },
+    {
+        category: "🔵 ВТБ",
+        links: [
+            "https://vtb.ru/l/25147ac9 — выбор продукта",
+            "https://vtb.ru/l/636ambm0 — дебетовая карта ВТБ",
+            "https://vtb.ru/l/e9k4kkb6 — зарплатная ВТБ карта (промокод: e9k4kkb6)",
+            "https://vtb.ru/l/p4k9pbt1 — накопительный счёт ВТБ (промокод: p4k9pbt1)",
+            "https://vtb.ru/l/52h2axc7 — молодежная карта (бесплатный Яндекс плюс)",
+            "https://vtb.ru/l/2pemkm14 — пенсия (промокод: 2pemkm14)",
+            "https://vtb.ru/l/b6e4tab3 — пакет услуг \"Привилегия\"",
+            "https://vtb.ru/l/9c0123b7 — пакет услуг \"Прайм плюс\""
+        ]
+    },
+    {
+        category: "🍔 ВКУСНО И ТОЧКА",
+        links: [
+            "https://vkusnoitochka.ru/app-benefits — кофе за 29 руб (промокод: R3W5HJWFRQVPW)"
+        ]
+    },
+    {
+        category: "🟣 ОЗОН",
+        links: [
+            "https://clck.ru/3UR9w5 — Озон карта",
+            "https://clck.ru/3UR9x6 — зарплата Озон",
+            "https://clck.ru/3UR9xr — Озон премиум"
+        ]
+    }
+];
+
+function renderLinks() {
+    const container = document.getElementById('linksContainer');
+    let html = '';
+    let total = 0;
+
+    linksData.forEach((cat, idx) => {
+        const count = cat.links.length;
+        total += count;
+        const collapsed = true;
+
+        html += `
+            <div class="category">
+                <div class="category-header" onclick="toggleCategory(this)">
+                    <span class="emoji">${cat.category.match(/^.{1,2}/)?.[0] || '📌'}</span>
+                    <span class="title">${cat.category.replace(/^.{1,2}\s/, '')}</span>
+                    <span class="count">${count}</span>
+                    <span class="arrow ${collapsed ? '' : 'open'}">▼</span>
+                </div>
+                <div class="links-list ${collapsed ? 'collapsed' : ''}">
+                    ${cat.links.map(link => {
+                        const isPromo = link.includes('—');
+                        const displayText = isPromo ? link : link;
+                        const href = isPromo ? link.split(' — ')[0] : link;
+                        const promoText = isPromo ? link.split(' — ')[1] : '';
+                        return `
+                            <a href="${href}" target="_blank" class="link-item" rel="noopener noreferrer">
+                                <span>${displayText}</span>
+                                ${promoText ? `<span class="badge-link">${promoText}</span>` : ''}
+                                <span class="copy-btn" onclick="event.preventDefault();copyLink('${href}')">📋</span>
+                            </a>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+    document.getElementById('totalCount').textContent = total;
+}
+
+function toggleCategory(header) {
+    const list = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
+    list.classList.toggle('collapsed');
+    arrow.classList.toggle('open');
+}
+
+function copyLink(url) {
+    navigator.clipboard.writeText(url).then(() => {
+        const toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.textContent = '✅ Ссылка скопирована!';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2800);
+    }).catch(() => {
+        const toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.textContent = '⚠️ Не удалось скопировать';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2800);
+    });
+}
+
+renderLinks();
+</script>
+</body>
+</html>
