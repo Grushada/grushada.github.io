@@ -100,6 +100,37 @@
         .history-item{background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);padding:8px 0;font-size:.8rem}
         .history-item:last-child{border-bottom:none}
         @media(max-width:768px){.toolbar>*{min-width:100%}.stats{grid-template-columns:repeat(2,1fr)}}
+
+        /* ===== СТИЛИ ДЛЯ ПОЛЕЙ В ОТЗЫВАХ ===== */
+        .feedback-item textarea,
+        .feedback-item select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,.04);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            font-size: .9rem;
+            outline: none;
+            font-family: inherit;
+            transition: all var(--transition);
+            box-sizing: border-box;
+        }
+        .feedback-item textarea:focus,
+        .feedback-item select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(139,92,246,.2);
+            background: rgba(255,255,255,.07);
+        }
+        .feedback-item textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .feedback-item select option {
+            background: #1a1a2e;
+            color: var(--text);
+        }
+        /* ===== КОНЕЦ ===== */
     </style>
 </head>
 <body>
