@@ -244,6 +244,7 @@ let selectedPlan=null, userSubscription='free';
 async function checkUserSubscription(){if(!userNick)return;try{const r=await fetch(`${API_BASE}/api/check-subscription`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nick:userNick})});const d=await r.json();userSubscription=d.plan||'free';updateSubscriptionBadge()}catch(e){}}
 function updateSubscriptionBadge(){const badge=document.getElementById('userBadge');if(userSubscription!=='free')badge.innerHTML='👤 '+userNick+' <span style="color:var(--gold);">👑</span>';else badge.textContent='👤 '+userNick}
 
+  /*
 function updateFrameIndicator() {
     const selectedCard = document.querySelector('.plan-card.selected');
     const frame = document.getElementById('frameIndicator');
@@ -253,6 +254,28 @@ function updateFrameIndicator() {
         const cardRect = selectedCard.getBoundingClientRect();
         const left = cardRect.left - parentRect.left;
         frame.style.width = cardRect.width + 'px';
+        frame.style.left = left + 'px';
+    }
+}
+
+*/
+
+function updateFrameIndicator() {
+    const selectedCard = document.querySelector('.plan-card.selected');
+    const frame = document.getElementById('frameIndicator');
+    if (selectedCard && frame) {
+        const parent = document.getElementById('planSelector');
+        const parentRect = parent.getBoundingClientRect();
+        const cardRect = selectedCard.getBoundingClientRect();
+        // Вычисляем позицию с учётом gap и padding
+        const parentStyle = getComputedStyle(parent);
+        const gap = parseFloat(parentStyle.gap) || 12;
+        const paddingLeft = parseFloat(parentStyle.paddingLeft) || 0;
+        // Смещаем рамку так, чтобы она точно обводила одну карточку
+        const left = cardRect.left - parentRect.left - paddingLeft;
+        // Ширина = ширина карточки + gap (чтобы не обрезало)
+        const width = cardRect.width + gap;
+        frame.style.width = width + 'px';
         frame.style.left = left + 'px';
     }
 }
