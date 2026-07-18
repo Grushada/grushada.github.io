@@ -339,6 +339,7 @@ function getOrders(){try{return JSON.parse(localStorage.getItem('px_orders_'+(us
 function saveOrder(o){const key='px_orders_'+(userNick||'guest');const orders=getOrders();orders.push(o);localStorage.setItem(key,JSON.stringify(orders))}
 function deleteOrderById(orderId){customConfirm('Вы уверены, что хотите удалить этот заказ?',confirmed=>{if(!confirmed)return;const key='px_orders_'+(userNick||'guest');let orders=getOrders();orders=orders.filter(o=>o.id!==orderId);localStorage.setItem(key,JSON.stringify(orders));toast('🗑 Заказ удалён');showMyOrdersOverlay(!0)})}
 
+  /*
 function getMediaHTML(base, productId, source, file_url, show_image) {
     let html = '';
     if (show_image) {
@@ -386,6 +387,64 @@ function getMediaHTML(base, productId, source, file_url, show_image) {
     return html;
 }
 
+*/
+
+function getMediaHTML(base, productId, source, file_url, show_image, image_url) {
+    let html = '';
+    if (show_image) {
+        // Если есть image_url — используем его
+        if (image_url && image_url.trim() !== '') {
+            html += `<img src="${image_url}" class="card-image" onerror="this.src='https://picsum.photos/400/200?random=${productId}';this.style.display='block';" alt="">`;
+        }
+        // Иначе если source === 'yandex' и есть file_url — picsum (заглушка)
+        else if (source === 'yandex' && file_url) {
+            html += `<img src="https://picsum.photos/400/200?random=${productId}" class="card-image" alt="">`;
+        }
+        // Иначе генерируем из base
+        else {
+            let baseName = base || '';
+            if (baseName.includes('.')) {
+                const parts = baseName.split('.');
+                baseName = parts.slice(0, -1).join('.');
+            }
+            const imgSrc = baseName + '.jpg';
+            html += `<img src="${imgSrc}" class="card-image" onerror="this.src='https://picsum.photos/400/200?random=${productId}';this.style.display='block';" alt="">`;
+        }
+    }
+    // Медиа-плеер (без изменений)
+    if (source === 'yandex' && file_url) {
+        html += `
+            <div class="media-wrap">
+                <audio controls controlsList="nodownload" preload="metadata" style="width:100%;" ontimeupdate="checkWatermark(this, ${productId})">
+                    <source src="${file_url}" type="audio/mpeg">
+                </audio>
+                <div class="watermark">🔊 Демо с водяным знаком «Rettero»</div>
+            </div>
+        `;
+    } else {
+        let baseName = base || '';
+        let ext = '';
+        if (baseName.includes('.')) {
+            const parts = baseName.split('.');
+            ext = '.' + parts.pop();
+            baseName = parts.join('.');
+        }
+        const videoSrc = baseName + (ext || '.mp4');
+        const audioSrc = baseName + (ext || '.mp3');
+        html += `
+            <div class="media-wrap">
+                <video src="${videoSrc}" controls controlsList="nodownload" preload="metadata" style="max-height:180px;width:100%;border-radius:14px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" ontimeupdate="checkWatermark(this, ${productId})"></video>
+                <audio controls controlsList="nodownload" preload="metadata" style="width:100%;display:none;" ontimeupdate="checkWatermark(this, ${productId})">
+                    <source src="${audioSrc}" type="audio/mpeg">
+                </audio>
+                <div class="watermark">🔊 Демо с водяным знаком «Rettero»</div>
+            </div>
+        `;
+    }
+    return html;
+}
+
+  
 function checkWatermark(mediaElement, productId) {
     if (!mediaElement || mediaElement.dataset.watermarked) return;
     const currentTime = mediaElement.currentTime;
@@ -522,7 +581,7 @@ async function loadCatalogFromServer(){
 }
 function render(){
     const f=currentTab==='all'?catalog:catalog.filter(p=>p.category===currentTab);
-    document.getElementById('catalog').innerHTML=f.map((p,index)=>'<div class="card" onclick="showDetails('+p.id+')" style="animation-delay:'+(index*.05)+'s">'+getMediaHTML(p.base,p.id,p.source,p.file_url,p.show_image)+'<div class="emoji">'+(p.emoji||'🎵')+'</div><div class="title">'+p.title+'</div><div class="price">'+Number(p.price).toLocaleString()+' ₽</div><div class="desc">'+(p.desc||'')+'</div><div class="tags">'+(p.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('')+'</div></div>').join('');
+    document.getElementById('catalog').innerHTML=f.map((p,index)=>'<div class="card" onclick="showDetails('+p.id+')" style="animation-delay:'+(index*.05)+'s">'+getMediaHTML(p.base,p.id,p.source,p.file_url,p.show_image,p.image_url)+'<div class="emoji">'+(p.emoji||'🎵')+'</div><div class="title">'+p.title+'</div><div class="price">'+Number(p.price).toLocaleString()+' ₽</div><div class="desc">'+(p.desc||'')+'</div><div class="tags">'+(p.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('')+'</div></div>').join('');
 }
 document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.closest('.tab');if(!tab)return;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentTab=tab.dataset.tab;render()});
 
