@@ -487,6 +487,53 @@ function getMediaHTML(base, productId, source, file_url, show_image) {
 function getMediaHTML(base, productId, source, file_url, show_image, image_url) {
     let html = '';
     if (show_image) {
+        if (image_url && image_url.trim() !== '') {
+            html += `<img src="${image_url}" class="card-image" onerror="this.src='https://picsum.photos/400/200?random=${productId}';this.style.display='block';" alt="">`;
+        } else if (source === 'yandex' && file_url) {
+            html += `<img src="https://picsum.photos/400/200?random=${productId}" class="card-image" alt="">`;
+        } else {
+            let baseName = base || '';
+            if (baseName.includes('.')) {
+                const parts = baseName.split('.');
+                baseName = parts.slice(0, -1).join('.');
+            }
+            const imgSrc = baseName + '.jpg';
+            html += `<img src="${imgSrc}" class="card-image" onerror="this.src='https://picsum.photos/400/200?random=${productId}';this.style.display='block';" alt="">`;
+        }
+    }
+    // Определяем расширение файла
+    let baseName = base || '';
+    let ext = '';
+    let fileName = baseName;
+    if (baseName.includes('.')) {
+        const parts = baseName.split('.');
+        ext = '.' + parts.pop();
+        baseName = parts.join('.');
+    }
+    // Видео или аудио?
+    const isVideo = ext === '.mp4' || ext === '.mov' || ext === '.webm' || ext === '.avi';
+    const mediaHeight = isVideo ? '180px' : '50px'; // <-- главное изменение
+    
+    const videoSrc = baseName + (ext || '.mp4');
+    const audioSrc = baseName + (ext || '.mp3');
+    const videoStyle = `max-height:${mediaHeight};width:100%;border-radius:14px;`;
+    const audioStyle = `max-height:50px;width:100%;display:none;`;
+    
+    html += `
+        <div class="media-wrap">
+            <video src="${videoSrc}" controls controlsList="nodownload" preload="metadata" style="${videoStyle}" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" ontimeupdate="checkWatermark(this, ${productId})"></video>
+            <audio controls controlsList="nodownload" preload="metadata" style="${audioStyle}" ontimeupdate="checkWatermark(this, ${productId})">
+                <source src="${audioSrc}" type="audio/mpeg">
+            </audio>
+            <div class="watermark">🔊 Демо с водяным знаком «Rettero»</div>
+        </div>
+    `;
+    return html;
+}
+    /*
+function getMediaHTML(base, productId, source, file_url, show_image, image_url) {
+    let html = '';
+    if (show_image) {
         // Если есть image_url — используем его
         if (image_url && image_url.trim() !== '') {
             html += `<img src="${image_url}" class="card-image" onerror="this.src='https://picsum.photos/400/200?random=${productId}';this.style.display='block';" alt="">`;
@@ -538,6 +585,8 @@ function getMediaHTML(base, productId, source, file_url, show_image, image_url) 
     }
     return html;
 }
+
+    */
 
   /*
 function checkWatermark(mediaElement, productId) {
