@@ -596,11 +596,28 @@ function checkWatermark(mediaElement, productId) {
             fallbackAudio.volume = 0.3;
             fallbackAudio.play();
         };
-        
+        /*
         window.speechSynthesis.speak(utterance);
         utterance.onend = () => {
             mediaElement.volume = originalVolume;
         };
+        */
+        // Пробуем синтез речи
+        try {
+            window.speechSynthesis.speak(utterance);
+            utterance.onend = () => {
+                mediaElement.volume = originalVolume;
+            };
+        } catch(e) {
+            // Если синтез не работает – проигрываем заранее записанный файл
+            const fallbackAudio = new Audio('media/watermark.mp3');
+            fallbackAudio.volume = 0.3;
+            fallbackAudio.play();
+            // Восстанавливаем громкость через 2 секунды
+            setTimeout(() => {
+                mediaElement.volume = originalVolume;
+            }, 2000);
+        }
         
         setTimeout(() => {
             mediaElement.dataset.watermarked = '';
