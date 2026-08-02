@@ -232,6 +232,11 @@
 
 <script>
 const API_BASE='https://Rettero.pythonanywhere.com';
+// Принудительно активируем Speech Synthesis при первом касании/клике
+document.addEventListener('click', function initSpeech() {
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+    document.removeEventListener('click', initSpeech);
+}, { once: true });
 let catalog=[], userNick=localStorage.getItem('px_nick')||'';
 let currentTab='all', selectedProduct=null, isCustom=!1, uploadedFile=null;
 let settings=JSON.parse(localStorage.getItem('px_settings_ui')||'{"particles":true,"cursor":true,"animations":true}');
@@ -532,12 +537,12 @@ function getMediaHTML(base, productId, source, file_url, show_image, image_url) 
     return html;
 }
 
-  
+  /*
 function checkWatermark(mediaElement, productId) {
     if (!mediaElement || mediaElement.dataset.watermarked) return;
     const currentTime = mediaElement.currentTime;
     const duration = mediaElement.duration;
-    if (duration > 0 && currentTime > 0 && currentTime % 3 < 0.5) {
+    if (duration > 0 && currentTime > 0 && currentTime % 15 < 0.5) {
         mediaElement.dataset.watermarked = 'true';
         const originalVolume = mediaElement.volume;
         mediaElement.volume = Math.min(originalVolume * 0.5, 0.3);
@@ -556,6 +561,52 @@ function checkWatermark(mediaElement, productId) {
     }
 }
 
+*/
+
+function checkWatermark(mediaElement, productId) {
+    if (!mediaElement || mediaElement.dataset.watermarked) return;
+    const currentTime = mediaElement.currentTime;
+    const duration = mediaElement.duration;
+    if (duration > 0 && currentTime > 0 && currentTime % 15 < 0.5) { // каждые 3 секунды
+        mediaElement.dataset.watermarked = 'true';
+        const originalVolume = mediaElement.volume;
+        mediaElement.volume = Math.min(originalVolume * 0.5, 0.3);
+        
+        // Принудительно пробуждаем Speech Synthesis
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+        
+        const utterance = new SpeechSynthesisUtterance('Песня защищена авторским правом Иван Кузьмин, Реттеро');
+        utterance.lang = 'ru-RU';
+        utterance.rate = 0.9;
+        utterance.pitch = 1.1;
+        utterance.volume = 1;
+        
+        // Пробуем разные голоса, если русский не доступен
+        utterance.onstart = function() {
+            console.log('Водяной знак воспроизводится');
+        };
+        utterance.onerror = function(e) {
+            console.warn('Speech Synthesis ошибка:', e);
+            // Если Speech Synthesis не работает, можно использовать запасной вариант
+            // Например, проиграть предзаписанный аудиофайл
+            const fallbackAudio = document.createElement('audio');
+            fallbackAudio.src = 'watermark.mp3'; // положи такой файл в media
+            fallbackAudio.volume = 0.3;
+            fallbackAudio.play();
+        };
+        
+        window.speechSynthesis.speak(utterance);
+        utterance.onend = () => {
+            mediaElement.volume = originalVolume;
+        };
+        
+        setTimeout(() => {
+            mediaElement.dataset.watermarked = '';
+        }, 1000); // сбрасываем через секунду, чтобы звук повторялся чаще
+    }
+}
 function updateUI(){
     if(userNick){
         document.getElementById('userBadge').textContent='👤 '+userNick;
