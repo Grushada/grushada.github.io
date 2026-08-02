@@ -537,7 +537,7 @@ function checkWatermark(mediaElement, productId) {
     if (!mediaElement || mediaElement.dataset.watermarked) return;
     const currentTime = mediaElement.currentTime;
     const duration = mediaElement.duration;
-    if (duration > 0 && currentTime > 0 && currentTime % 15 < 0.5) {
+    if (duration > 0 && currentTime > 0 && currentTime % 3 < 0.5) {
         mediaElement.dataset.watermarked = 'true';
         const originalVolume = mediaElement.volume;
         mediaElement.volume = Math.min(originalVolume * 0.5, 0.3);
