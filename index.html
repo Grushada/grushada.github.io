@@ -232,11 +232,13 @@
 
 <script>
 const API_BASE='https://Rettero.pythonanywhere.com';
+    /*
 // Принудительно активируем Speech Synthesis при первом касании/клике
 document.addEventListener('click', function initSpeech() {
     window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
     document.removeEventListener('click', initSpeech);
 }, { once: true });
+    */
 let catalog=[], userNick=localStorage.getItem('px_nick')||'';
 let currentTab='all', selectedProduct=null, isCustom=!1, uploadedFile=null;
 let settings=JSON.parse(localStorage.getItem('px_settings_ui')||'{"particles":true,"cursor":true,"animations":true}');
@@ -562,7 +564,7 @@ function checkWatermark(mediaElement, productId) {
 }
 
 */
-
+/*
 function checkWatermark(mediaElement, productId) {
     if (!mediaElement || mediaElement.dataset.watermarked) return;
     const currentTime = mediaElement.currentTime;
@@ -596,6 +598,7 @@ function checkWatermark(mediaElement, productId) {
             fallbackAudio.volume = 0.3;
             fallbackAudio.play();
         };
+        */
         /*
         window.speechSynthesis.speak(utterance);
         utterance.onend = () => {
@@ -603,6 +606,7 @@ function checkWatermark(mediaElement, productId) {
         };
         */
         // Пробуем синтез речи
+    /*
         try {
             window.speechSynthesis.speak(utterance);
             utterance.onend = () => {
@@ -622,6 +626,31 @@ function checkWatermark(mediaElement, productId) {
         setTimeout(() => {
             mediaElement.dataset.watermarked = '';
         }, 1000); // сбрасываем через секунду, чтобы звук повторялся чаще
+    }
+}
+*/
+
+function checkWatermark(mediaElement, productId) {
+    if (!mediaElement || mediaElement.dataset.watermarked) return;
+    const currentTime = mediaElement.currentTime;
+    const duration = mediaElement.duration;
+    // Каждые 20 секунд
+    if (duration > 0 && currentTime > 0 && currentTime % 20 < 0.5) {
+        mediaElement.dataset.watermarked = 'true';
+        const originalVolume = mediaElement.volume;
+        mediaElement.volume = Math.min(originalVolume * 0.5, 0.3);
+        
+        const audio = new Audio('media/watermark.mp3');
+        audio.volume = 0.3;
+        audio.play().catch(err => console.warn('Водяной знак не проигрался:', err));
+        
+        setTimeout(() => {
+            mediaElement.volume = originalVolume;
+        }, 1500);
+        
+        setTimeout(() => {
+            mediaElement.dataset.watermarked = '';
+        }, 2000);
     }
 }
 function updateUI(){
