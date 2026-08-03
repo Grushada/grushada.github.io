@@ -247,7 +247,10 @@ document.addEventListener('click', function initSpeech() {
 }, { once: true });
     */
 let catalog=[], userNick=localStorage.getItem('px_nick')||'';
+/*
 let currentTab='all', selectedProduct=null, isCustom=!1, uploadedFile=null;
+*/
+let currentTab='all', selectedProduct=null, isCustom=!1, uploadedFile=null, currentPaymentMethod='', pointsToApply=0, finalPrice=0;
 let settings=JSON.parse(localStorage.getItem('px_settings_ui')||'{"particles":true,"cursor":true,"animations":true}');
 document.getElementById('toggleParticles').checked=settings.particles;
 document.getElementById('toggleCursor').checked=settings.cursor;
