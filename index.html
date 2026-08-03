@@ -103,9 +103,16 @@
     <div><label style="font-weight:600;font-size:.7rem;color:var(--text-dim);text-transform:uppercase;">Выбранное</label><input class="form-input" id="selectedDisplay" readonly></div>
     <div class="hidden" id="customGroup"><label style="font-weight:600;font-size:.7rem;color:var(--text-dim);text-transform:uppercase;">Опишите идею</label><textarea class="form-input" id="customDescInput" placeholder="Жанр, настроение, тема..."></textarea></div>
     <div><label style="font-weight:600;font-size:.7rem;color:var(--text-dim);text-transform:uppercase;">Ваш контакт</label><input class="form-input" id="contactTg" placeholder="Telegram, ВКонтакте или телефон"></div>
+    <!--
     <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
       <button class="btn btn-ym btn-full" onclick="payByYooMoney()">💛 ЮMoney</button>
       <button class="btn btn-gold btn-full" onclick="showTransferSection()">📱 Перевод на карту</button>
+    </div>
+    -->
+
+    <div class="payment-buttons" style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-ym btn-full" onclick="payByYooMoney()">💛 ЮMoney</button>
+        <button class="btn btn-gold btn-full" onclick="showTransferSection()">📱 Перевод на карту</button>
     </div>
     <div id="transferSection" class="hidden" style="margin-top:20px;">
       <div class="payment-box">
@@ -822,7 +829,14 @@ document.getElementById('tabs').addEventListener('click',e=>{const tab=e.target.
 function openOrderForm(){if(!selectedProduct&&!isCustom)return;document.getElementById('selectedDisplay').value=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');document.getElementById('customGroup').classList.toggle('hidden',!isCustom);showOverlay('orderOverlay');document.getElementById('transferSection').classList.add('hidden');uploadedFile=null;document.getElementById('fileName').textContent=''}
 function selectCustom(){isCustom=!0;selectedProduct=null;document.getElementById('selectedDisplay').value='🎤 Песня под заказ';document.getElementById('customGroup').classList.remove('hidden');showOverlay('orderOverlay');document.getElementById('transferSection').classList.add('hidden');uploadedFile=null;document.getElementById('fileName').textContent=''}
 function showDetails(id){const p=catalog.find(x=>x.id===id);if(!p)return;selectedProduct=p;isCustom=!1;openOrderForm()}
-function showTransferSection(){document.getElementById('transferSection').classList.remove('hidden')}
+/* 
+function showTransferSection(){document.getElementById('transferSection').classList.remove('hidden')} 
+*/
+function showTransferSection() {
+    currentPaymentMethod = 'Перевод на карту';
+    document.getElementById('transferSection').classList.remove('hidden');
+    document.getElementById('nickHint').textContent = userNick || '—';
+}
 async function sendOrderToServer(title,paymentMethod, product_id, source, file_url){
     const contact=document.getElementById('contactTg').value.trim();
     const fd=new FormData();
@@ -835,6 +849,7 @@ async function sendOrderToServer(title,paymentMethod, product_id, source, file_u
     fd.append('file_url', file_url);
     try{await fetch(`${API_BASE}/api/send-order`,{method:'POST',body:fd})}catch(e){}
 }
+/*
 function payByYooMoney(){
     if(!selectedProduct&&!isCustom)return showToast('Ошибка','Выберите песню!');
     const price=isCustom?0:selectedProduct.price;
@@ -852,7 +867,26 @@ function payByYooMoney(){
         selectedProduct=null;isCustom=!1
     },3000)
 }
+*/
+function payByYooMoney() {
+    if (!selectedProduct && !isCustom) return showToast('Ошибка', 'Выберите песню!');
+    const price = isCustom ? 0 : selectedProduct.price;
+    const title = isCustom ? '🎤 Песня под заказ' : (selectedProduct?.title || '');
+    const product_id = isCustom ? 0 : selectedProduct.id;
+    const source = isCustom ? '' : (selectedProduct.source || 'github');
+    const file_url = isCustom ? '' : (selectedProduct.file_url || '');
+    saveOrder({ id: Date.now(), product: title, status: 'pending', time: new Date().toLocaleString('ru-RU'), nick: userNick, paymentMethod: 'ЮMoney', product_id, source, file_url });
+    sendOrderToServer(title, 'ЮMoney', product_id, source, file_url);
+    window.open('https://yoomoney.ru/to/4100117765240041/' + price, '_blank');
+    currentPaymentMethod = 'ЮMoney';
+    document.getElementById('transferSection').classList.remove('hidden');
+    document.getElementById('nickHint').textContent = userNick || '—';
+    document.querySelector('.payment-buttons').style.display = 'none';
+    toast('💳 Оплата через ЮMoney. После оплаты нажмите "Я оплатил(а)"');
+}
 function handleFile(e){processFile(e.target.files[0])}function processFile(file){if(!file)return;if(file.size>10*1024*1024){showToast('Ошибка','Файл слишком большой!');return}uploadedFile=file;document.getElementById('dropzone').style.borderColor='var(--success)';document.getElementById('fileName').textContent='📎 '+file.name}
+
+ /*   
 async function submitTransfer(){
     if(!uploadedFile)return showToast('Ошибка','Прикрепите скриншот!');
     const title=isCustom?'🎤 Песня под заказ':(selectedProduct?.title||'');
@@ -864,9 +898,47 @@ async function submitTransfer(){
     showModal('successModal');
     uploadedFile=null;closeOverlay('orderOverlay');selectedProduct=null;isCustom=!1
 }
+*/
+async function submitTransfer() {
+    if (currentPaymentMethod !== 'ЮMoney' && !uploadedFile) {
+        return showToast('Ошибка', 'Прикрепите скриншот!');
+    }
+    const originalPrice = isCustom ? 0 : Number(selectedProduct.price);
+    const price = finalPrice > 0 ? finalPrice : originalPrice;
+    const title = isCustom ? '🎤 Песня под заказ' : (selectedProduct?.title || '');
+    const product_id = isCustom ? 0 : selectedProduct.id;
+    const source = isCustom ? '' : (selectedProduct.source || 'github');
+    const file_url = isCustom ? '' : (selectedProduct.file_url || '');
+    saveOrder({ id: Date.now(), product: title, status: 'pending', time: new Date().toLocaleString('ru-RU'), nick: userNick, paymentMethod: currentPaymentMethod, product_id, source, file_url });
+    await sendOrderToServer(title, currentPaymentMethod, product_id, source, file_url);
+    if (pointsToApply > 0) {
+        await fetch(`${API_BASE}/api/apply-points`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nick: userNick, amount: pointsToApply })
+        }).then(r => r.json()).then(data => {
+            if (data.ok) {
+                userPoints = data.new_balance;
+                localStorage.setItem('px_points_' + userNick, userPoints);
+                updatePointsDisplay();
+            }
+        });
+    }
+    showModal('successModal');
+    uploadedFile = null;
+    closeOverlay('orderOverlay');
+    selectedProduct = null;
+    isCustom = false;
+    pointsToApply = 0;
+    finalPrice = 0;
+    currentPaymentMethod = '';
+    document.querySelector('.payment-buttons').style.display = 'flex';
+    document.getElementById('transferSection').classList.add('hidden');
+}
 
 async function showMyOrdersOverlay(forceRefresh=!1){showOverlay('ordersOverlay');await loadOrdersFromServer();renderOrders();setTimeout(()=>{const container=document.getElementById('ordersContainer');if(container)container.scrollTop=container.scrollHeight},200)}
 async function loadOrdersFromServer(){if(!userNick)return;try{const r=await fetch(`${API_BASE}/api/orders-list`);const d=await r.json();const serverOrders=(d.orders||[]).filter(o=>o.guest===userNick);const localOrders=getOrders();serverOrders.forEach(so=>{const localOrder=localOrders.find(lo=>lo.id===so.id||lo.product===so.title);if(localOrder&&so.status!==localOrder.status){localOrder.status=so.status}if(so.file_link){localOrder.file_link=so.file_link}});localStorage.setItem('px_orders_'+(userNick||'guest'),JSON.stringify(localOrders))}catch(e){console.warn('Ошибка загрузки заказов с сервера')}}
+/*
 function renderOrders(){const orders=getOrders();document.getElementById('myOrders').innerHTML=orders.length===0?'<p style="color:var(--text-dim);text-align:center;">Пока нет заказов</p>':orders.reverse().map(o=>{
     const fileLink = o.file_link ? `<br><a href="${o.file_link}" target="_blank" style="color:var(--accent-light);">🎵 Скачать песню</a>` : '';
     let statusBadge, statusText;
@@ -889,6 +961,32 @@ function renderOrders(){const orders=getOrders();document.getElementById('myOrde
     return `<div class="order-row"><div class="order-info"><strong>#'+(o.id||'—')+' — '+o.product+'</strong><br><small style="color:var(--text-dim);">'+o.time+' | '+(o.paymentMethod||'')+'</small>${fileLink}</div><div class="order-actions"><span class="badge '+statusBadge+'">'+statusText+'</span>${o.status !== 'deleted' ? `<button class="btn btn-xs" style="background:var(--danger);color:#fff;" onclick="deleteOrderById('+o.id+')">🗑</button>` : ''}</div></div>`
 }).join('')}
 
+*/
+
+function renderOrders() {
+    const orders = getOrders();
+    document.getElementById('myOrders').innerHTML = orders.length === 0 ? '<p style="color:var(--text-dim);text-align:center;">Пока нет заказов</p>' : orders.reverse().map(o => {
+        const fileLink = o.file_link ? `<br><a href="${o.file_link}" target="_blank" style="color:var(--accent-light);">🎵 Скачать песню</a>` : '';
+        let statusBadge, statusText;
+        if (o.status === 'pending') {
+            statusText = '⏳ Ожидает';
+            statusBadge = 'badge-pending';
+        } else if (o.status === 'paid') {
+            statusText = '✅ Оплачен';
+            statusBadge = 'badge-paid';
+        } else if (o.status === 'rejected') {
+            statusText = '❌ Отклонён';
+            statusBadge = 'badge-rejected';
+        } else if (o.status === 'deleted') {
+            statusText = '🗑 Удален администратором. Не подлежит аппеляции';
+            statusBadge = 'badge-deleted';
+        } else {
+            statusText = '❓ Неизвестно';
+            statusBadge = '';
+        }
+        return `<div class="order-row"><div class="order-info"><strong>#' + (o.id || '—') + ' — ' + o.product + '</strong><br><small style="color:var(--text-dim);">' + o.time + ' | ' + (o.paymentMethod || '') + '</small>' + fileLink + '</div><div class="order-actions"><span class="badge ' + statusBadge + '">' + statusText + '</span>' + (o.status !== 'deleted' ? `<button class="btn btn-xs" style="background:var(--danger);color:#fff;" onclick="deleteOrderById(' + o.id + ')">🗑</button>` : '') + '</div></div>`;
+    }).join('');
+}
 async function showMyFeedbackOverlay() {
     if (!userNick) { toast('Сначала войдите в аккаунт'); return; }
     showOverlay('myFeedbackOverlay');
