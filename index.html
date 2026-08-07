@@ -533,7 +533,7 @@ function getMediaHTML(base, productId, source, file_url, show_image, image_url) 
             <audio controls controlsList="nodownload" preload="metadata" style="${audioStyle}" ontimeupdate="checkWatermark(this, ${productId})">
                 <source src="${audioSrc}" type="audio/mpeg">
             </audio>
-            <div class="watermark">🔊 Демо с водяным знаком «Rettero»</div>
+            <div class="watermark">🔊 Демо с водяным знаком «Журбин Игорь Александрович»</div>
         </div>
     `;
     return html;
@@ -703,11 +703,11 @@ function checkWatermark(mediaElement, productId) {
         
         setTimeout(() => {
             mediaElement.volume = originalVolume;
-        }, 1500);
+        }, 3000);
         
         setTimeout(() => {
             mediaElement.dataset.watermarked = '';
-        }, 2000);
+        }, 3500);
     }
 }
 function updateUI(){
