@@ -236,8 +236,8 @@
             padding: 32px 28px;
             max-width: 700px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-height: 95vh;          /* увеличенная высота */
+            overflow-y: auto;          /* прокрутка внутри модалки, если нужно */
             box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 50px rgba(139,92,246,0.2);
             animation: modalIn 0.4s ease;
         }
@@ -265,19 +265,23 @@
         }
         .btn-close:hover { color: #fff; }
 
-        /* Яндекс Форма */
+        /* Контейнер для Яндекс Формы — здесь будет прокрутка */
         .ya-form-wrap {
             margin: 16px 0;
-            display: flex;
-            justify-content: center;
+            width: 100%;
+            max-height: 520px;          /* ограничиваем высоту */
+            overflow-y: auto;           /* включаем вертикальную прокрутку */
+            border-radius: 18px;
+            background: rgba(0,0,0,0.2);
+            padding: 4px 0;
         }
         .ya-form-wrap iframe {
+            display: block;
             width: 100%;
-            max-width: 650px;
+            height: 1000px;             /* большая высота, чтобы форма помещалась */
             min-height: 500px;
             border: none;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.03);
+            background: transparent;
         }
 
         /* Блок оплаты */
@@ -391,7 +395,7 @@
         @media (max-width: 600px) {
             .catalog { grid-template-columns: 1fr; }
             .modal-box { padding: 24px 18px; }
-            .ya-form-wrap iframe { min-height: 400px; }
+            .ya-form-wrap { max-height: 400px; }
         }
     </style>
 </head>
@@ -425,9 +429,9 @@
                 <h2 id="modalTitle">Оформление заказа</h2>
                 <p style="color:var(--text-dim); margin-bottom: 10px;">Заполните форму, выберите способ оплаты и нажмите «Перейти к оплате».</p>
 
-                <!-- Яндекс Форма -->
+                <!-- Яндекс Форма с прокруткой -->
                 <div class="ya-form-wrap">
-                    <iframe src="https://forms.yandex.ru/cloud/6a860fec1f1eb5752b0deb66?iframe=1" frameborder="0" name="ya-form-6a860fec1f1eb5752b0deb66" width="650" style="width:100%; min-height:500px;"></iframe>
+                    <iframe src="https://forms.yandex.ru/cloud/6a860fec1f1eb5752b0deb66?iframe=1" frameborder="0" name="ya-form-6a860fec1f1eb5752b0deb66"></iframe>
                 </div>
 
                 <!-- Блок выбора оплаты -->
@@ -521,7 +525,6 @@
                 document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 selectedMethod = this.dataset.method;
-                // Показать подсказку для карты
                 document.getElementById('cardHint').style.display = (selectedMethod === 'card') ? 'block' : 'none';
             });
         });
@@ -534,9 +537,6 @@
                 alert('Ошибка: песня не выбрана.');
                 return;
             }
-
-            // Здесь можно проверить, заполнена ли форма (но мы не можем проверить iframe)
-            // Просто перенаправляем
             const amount = currentProduct.price;
             const title = currentProduct.title;
 
@@ -554,13 +554,10 @@
                     break;
 
                 case 'card':
-                    // Просто показываем номер, копируем и говорим оплатить
                     copyPhone();
                     alert(`Оплатите переводом на карту:\n+7 904 862 83 27\nСумма: ${amount} ₽\nВ комментарии укажите: ${title}\nПосле оплаты прикрепите скриншот в форме выше.`);
                     break;
             }
-            // Можно закрыть модалку, но лучше оставить открытой, чтобы пользователь мог заполнить форму
-            // closeModal();
         });
 
         // =============================================================
@@ -571,7 +568,6 @@
             navigator.clipboard.writeText(phone).then(() => {
                 alert('Номер скопирован: ' + phone);
             }).catch(() => {
-                // fallback
                 const input = document.createElement('input');
                 input.value = phone;
                 document.body.appendChild(input);
