@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- ========== МЕТРИКИ И РЕКЛАМА (из предоставленного кода) ========== -->
+    <!-- Top.Mail.Ru counter -->
+    <script type="text/javascript">
+        var _tmr = window._tmr || (window._tmr = []);
+        _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
+        (function (d, w, id) {
+            if (d.getElementById(id)) return;
+            var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+            ts.src = "https://top-fwz1.mail.ru/js/code.js";
+            var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+            if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+        })(document, window, "tmr-code");
+    </script>
+    <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+    <!-- /Top.Mail.Ru -->
+
+    <!-- Yandex.Metrika -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=110413717", "ym");
+        ym(110413717, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-GYRZDGVW3V');
+    </script>
+
+    <!-- Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "xn0ggpvg0m");
+    </script>
+
+    <!-- Yandex Ads (контекстная реклама) -->
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+    <script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
+
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-4228536607258228">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
+    <!-- ========== /МЕТРИКИ ========== -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог песен — Купить авторскую песню</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #060610;
+            --card: rgba(12,12,28,0.6);
+            --border: rgba(255,255,255,0.06);
+            --glass: blur(30px);
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --gold: #d4a853;
+            --gold-light: #f0d078;
+            --text: #e8e4f0;
+            --text-dim: #8a84a0;
+            --radius: 24px;
+            --transition: 0.3s ease;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.15) 0%, transparent 60%),
+                              radial-gradient(ellipse at 80% 50%, rgba(255,45,149,0.08) 0%, transparent 60%);
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        header {
+            text-align: center;
+            padding: 30px 0 10px;
+        }
+        .logo {
+            font-size: 60px;
+            display: inline-block;
+            filter: drop-shadow(0 0 30px rgba(139,92,246,0.4));
+        }
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4ff, #a78bfa, #ff2d95);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 10px 0 5px;
+        }
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        /* Каталог */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            margin: 20px 0;
+        }
+        .card {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px rgba(139,92,246,0.2);
+            border-color: rgba(139,92,246,0.3);
+        }
+        .card .emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        .card .title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .card .price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-family: 'Unbounded', sans-serif;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 6px 0;
+        }
+        .card .desc {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin: 8px 0 14px;
+            flex-grow: 1;
+        }
+        .card .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .card .tag {
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(139,92,246,0.2);
+            color: var(--accent-light);
+            font-weight: 600;
+            border: 1px solid rgba(139,92,246,0.15);
+        }
+        .btn-buy {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
+            color: #fff;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+        }
+        .btn-buy:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(139,92,246,0.5);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4,4,12,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 999;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-box {
+            background: rgba(20,20,45,0.8);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 36px;
+            padding: 32px 28px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 50px rgba(139,92,246,0.2);
+            animation: modalIn 0.4s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-box h2 {
+            font-family: 'Unbounded', sans-serif;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #00d4ff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            cursor: pointer;
+            float: right;
+            transition: 0.2s;
+        }
+        .btn-close:hover { color: #fff; }
+
+        /* Яндекс Форма */
+        .ya-form-wrap {
+            margin: 16px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .ya-form-wrap iframe {
+            width: 100%;
+            max-width: 650px;
+            min-height: 500px;
+            border: none;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Блок оплаты */
+        .payment-block {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 20px;
+        }
+        .payment-block label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .payment-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .payment-options button {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 16px;
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 40px;
+            background: rgba(255,255,255,0.02);
+            color: var(--text-dim);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .payment-options button.active {
+            border-color: var(--accent);
+            background: rgba(139,92,246,0.15);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(139,92,246,0.3);
+        }
+        .payment-options button:hover {
+            border-color: var(--accent-light);
+            color: #fff;
+        }
+        .payment-options button .sub {
+            font-size: 0.65rem;
+            display: block;
+            color: var(--text-dim);
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .btn-pay:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(212,168,83,0.4);
+        }
+
+        .card-hint {
+            background: rgba(0,212,255,0.05);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 18px;
+            padding: 16px;
+            margin: 12px 0;
+            text-align: center;
+        }
+        .card-hint .phone {
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-family: 'Unbounded', sans-serif;
+            color: #00d4ff;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .card-hint .phone:hover {
+            text-shadow: 0 0 20px rgba(0,212,255,0.6);
+        }
+        .card-hint .comment {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            margin-top: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px 10px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 40px;
+            width: 100%;
+        }
+        footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+        footer a:hover { color: #00d4ff; }
+
+        @media (max-width: 600px) {
+            .catalog { grid-template-columns: 1fr; }
+            .modal-box { padding: 24px 18px; }
+            .ya-form-wrap iframe { min-height: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🎵</div>
+            <h1>PieSenia</h1>
+            <p class="subtitle">Авторские песни с полной передачей прав после выкупа</p>
+        </header>
+
+        <!-- Рекламный блок Yandex (можно удалить, если не нужно) -->
+        <div id="yandex_rtb_R-A-19547505-1" style="margin-bottom: 20px;"></div>
+        <script>
+            window.yaContextCb = window.yaContextCb || [];
+            window.yaContextCb.push(() => {
+                Ya.Context.AdvManager.render({
+                    blockId: "R-A-19547505-1",
+                    renderTo: "yandex_rtb_R-A-19547505-1"
+                });
+            });
+        </script>
+
+        <!-- КАТАЛОГ -->
+        <div class="catalog" id="catalog"></div>
+
+        <!-- МОДАЛЬНОЕ ОКНО с Яндекс Формой и выбором оплаты -->
+        <div class="modal" id="orderModal">
+            <div class="modal-box">
+                <button class="btn-close" onclick="closeModal()">✕</button>
+                <h2 id="modalTitle">Оформление заказа</h2>
+                <p style="color:var(--text-dim); margin-bottom: 10px;">Заполните форму, выберите способ оплаты и нажмите «Перейти к оплате».</p>
+
+                <!-- Яндекс Форма -->
+                <div class="ya-form-wrap">
+                    <iframe src="https://forms.yandex.ru/cloud/6a860fec1f1eb5752b0deb66?iframe=1" frameborder="0" name="ya-form-6a860fec1f1eb5752b0deb66" width="650" style="width:100%; min-height:500px;"></iframe>
+                </div>
+
+                <!-- Блок выбора оплаты -->
+                <div class="payment-block">
+                    <label>Выберите способ оплаты</label>
+                    <div class="payment-options" id="paymentOptions">
+                        <button type="button" data-method="yoomoney" class="active">💛 ЮMoney</button>
+                        <button type="button" data-method="ozon">📦 Озон</button>
+                        <button type="button" data-method="card">💳 Карта</button>
+                    </div>
+
+                    <!-- Подсказка для карты (показывается только при выборе карты) -->
+                    <div id="cardHint" style="display: none;">
+                        <div class="card-hint">
+                            <p style="color:var(--text-dim);">Оплатите переводом на карту:</p>
+                            <div class="phone" onclick="copyPhone()">+7 904 862 83 27</div>
+                            <p style="color:var(--text-dim);font-size:0.75rem;">Альфа-банк • Иван Максимович К.</p>
+                            <p class="comment">⚠️ В комментарии укажите название песни и ваш ник</p>
+                            <p style="font-size:0.75rem;color:var(--text-dim);margin-top:8px;">Скриншот оплаты прикрепите в форме выше.</p>
+                        </div>
+                    </div>
+
+                    <button class="btn-pay" id="goToPayBtn">💳 Перейти к оплате</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 Журбин Игорь Александрович. Все права защищены.</p>
+            <p>Контакты: <a href="mailto:love_cute_cats@mail.ru">love_cute_cats@mail.ru</a> | <a href="https://t.me/Rettero">@Rettero</a></p>
+            <p><a href="/privacy">Политика конфиденциальности</a> | <a href="/terms">Пользовательское соглашение</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // =============================================================
+        // 1. КАТАЛОГ ПЕСЕН (редактируйте этот массив)
+        // =============================================================
+        const products = [
+            { id: 1, title: "Ты и я", emoji: "❤️", price: 2000, desc: "Романтичная баллада о вечной любви", tags: ["Love", "Romantic"] },
+            { id: 2, title: "Осенний дождь", emoji: "🌧️", price: 1500, desc: "Грустная мелодия под шум дождя", tags: ["Sad", "Autumn"] },
+            { id: 3, title: "В ритме солнца", emoji: "☀️", price: 1800, desc: "Зажигательный летний хит", tags: ["Happy", "Summer"] },
+            { id: 4, title: "Детская мечта", emoji: "🧸", price: 1200, desc: "Добрая песенка для самых маленьких", tags: ["Kids", "Fairy"] },
+            { id: 5, title: "Звёздная ночь", emoji: "🌙", price: 2200, desc: "Таинственная композиция под звёздами", tags: ["Mystic", "Night"] },
+            { id: 6, title: "Взрослый разговор", emoji: "🔞", price: 2500, desc: "Глубокая лирика для взрослых", tags: ["Adult", "Deep"] }
+        ];
+
+        // =============================================================
+        // 2. РЕНДЕРИНГ КАТАЛОГА
+        // =============================================================
+        function renderCatalog() {
+            const container = document.getElementById('catalog');
+            container.innerHTML = products.map(p => `
+                <div class="card">
+                    <div class="emoji">${p.emoji}</div>
+                    <div class="title">${p.title}</div>
+                    <div class="price">${p.price.toLocaleString()} ₽</div>
+                    <div class="desc">${p.desc}</div>
+                    <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                    <button class="btn-buy" onclick="openOrder(${p.id})">🎵 Купить</button>
+                </div>
+            `).join('');
+        }
+
+        // =============================================================
+        // 3. МОДАЛЬНОЕ ОКНО
+        // =============================================================
+        let currentProduct = null;
+        let selectedMethod = 'yoomoney';
+
+        function openOrder(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            currentProduct = product;
+            document.getElementById('modalTitle').textContent = `Заказ: ${product.title}`;
+            // Сброс выбора способа
+            document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
+            document.querySelector('#paymentOptions button[data-method="yoomoney"]').classList.add('active');
+            selectedMethod = 'yoomoney';
+            document.getElementById('cardHint').style.display = 'none';
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+        }
+
+        // Выбор способа оплаты
+        document.querySelectorAll('#paymentOptions button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedMethod = this.dataset.method;
+                // Показать подсказку для карты
+                document.getElementById('cardHint').style.display = (selectedMethod === 'card') ? 'block' : 'none';
+            });
+        });
+
+        // =============================================================
+        // 4. КНОПКА "ПЕРЕЙТИ К ОПЛАТЕ"
+        // =============================================================
+        document.getElementById('goToPayBtn').addEventListener('click', function() {
+            if (!currentProduct) {
+                alert('Ошибка: песня не выбрана.');
+                return;
+            }
+
+            // Здесь можно проверить, заполнена ли форма (но мы не можем проверить iframe)
+            // Просто перенаправляем
+            const amount = currentProduct.price;
+            const title = currentProduct.title;
+
+            switch (selectedMethod) {
+                case 'yoomoney':
+                    const yooUrl = `https://yoomoney.ru/to/4100117765240041/${amount}`;
+                    window.open(yooUrl, '_blank');
+                    alert(`Вы переходите на оплату через ЮMoney.\nПесня: ${title}\nСумма: ${amount} ₽\nНе забудьте вернуться и подтвердить оплату в форме.`);
+                    break;
+
+                case 'ozon':
+                    const ozonUrl = 'https://finance.ozon.ru/apps/sbp/ozonbankpay/01a0160a-48e9-7349-95c9-c1ec91232e3b';
+                    window.open(ozonUrl, '_blank');
+                    alert(`Вы переходите на оплату через Озон.\nПесня: ${title}\nСумма: ${amount} ₽\nНе забудьте вернуться и подтвердить оплату в форме.`);
+                    break;
+
+                case 'card':
+                    // Просто показываем номер, копируем и говорим оплатить
+                    copyPhone();
+                    alert(`Оплатите переводом на карту:\n+7 904 862 83 27\nСумма: ${amount} ₽\nВ комментарии укажите: ${title}\nПосле оплаты прикрепите скриншот в форме выше.`);
+                    break;
+            }
+            // Можно закрыть модалку, но лучше оставить открытой, чтобы пользователь мог заполнить форму
+            // closeModal();
+        });
+
+        // =============================================================
+        // 5. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // =============================================================
+        function copyPhone() {
+            const phone = '+7 904 862 83 27';
+            navigator.clipboard.writeText(phone).then(() => {
+                alert('Номер скопирован: ' + phone);
+            }).catch(() => {
+                // fallback
+                const input = document.createElement('input');
+                input.value = phone;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                input.remove();
+                alert('Номер скопирован: ' + phone);
+            });
+        }
+
+        // Закрытие модалки по клику вне окна
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // =============================================================
+        // 6. ИНИЦИАЛИЗАЦИЯ
+        // =============================================================
+        renderCatalog();
+    </script>
+
+    <!-- ========== ДОПОЛНИТЕЛЬНЫЕ СКРИПТЫ РЕКЛАМЫ ========== -->
+    <!-- Yandex Ads autoplacement (может дублироваться, но безопасно) -->
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+    <script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
+    <!-- Top.Mail.Ru counter (повтор, но не помешает) -->
+    <script type="text/javascript">
+        var _tmr = window._tmr || (window._tmr = []);
+        _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
+        (function (d, w, id) {
+            if (d.getElementById(id)) return;
+            var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+            ts.src = "https://top-fwz1.mail.ru/js/code.js";
+            var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+            if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+        })(document, window, "tmr-code");
+    </script>
+    <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
+</body>
+</html>
