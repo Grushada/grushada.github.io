@@ -434,18 +434,32 @@
                 </div>
 
                 <!-- Блок выбора оплаты -->
-                <div class="payment-block">
-                    <label>Выберите способ оплаты</label>
+                <div class="card-hint">
+                    <p class="card-hint">Выберите способ оплаты</p>
                     <div class="payment-options" id="paymentOptions">
-                        <button type="button" data-method="yoomoney" class="active">💛 ЮMoney</button>
-                        <button type="button" data-method="ozon">📦 Озон</button>
-                        <button type="button" data-method="card">💳 Карта</button>
+                        <button type="button" data-method="yoomoney" class="">💛 ЮMoney</button>
+                        <button type="button" data-method="ozon" class="">📦 Озон</button>
+                        <button type="button" data-method="card" class="active">💳 Карта</button>
                     </div>
-                    <label>Необходимо выбрать вариант ответа схожий с тем, что Вы выбрали в Форме выше. Это необходимо для того, чтобы нам было проще найти Ваш платеж.
+                    <p class="card-hint">Необходимо выбрать вариант ответа схожий с тем, что Вы выбрали в Форме выше. Это необходимо для того, чтобы нам было проще найти Ваш платеж.
                         В случае, если вариант оплаты на Сайте будет различен с вариантом, выбранном в Форме, платеж будет отклонен.
                         Возврат средств не предусмотрен.
                         Внимание, необходимо так же необходимо добавить комментарий с данными мессенджеров или контактов связи, а так же с названием песни, которую Вы приобретаете.
-                    </label>
+                    </p>
+
+                    <!-- Подсказка для карты -->
+                    <div id="cardHint" style="display: block;">
+                        <div class="card-hint">
+                            <p style="color:var(--text-dim);">Оплатите переводом на карту:</p>
+                            <div class="phone" onclick="copyPhone()">+7 904 862 83 27</div>
+                            <p style="color:var(--text-dim);font-size:0.75rem;">Альфа-банк • Иван Максимович К.</p>
+                            <p class="comment">⚠️ В комментарии укажите название песни и ваш ник</p>
+                            <p style="font-size:0.75rem;color:var(--text-dim);margin-top:8px;">Скриншот оплаты прикрепите в форме выше.</p>
+                        </div>
+                    </div>
+
+                    <button class="btn-pay" id="goToPayBtn">💳 Перейти к оплате</button>
+                </div>
 
                     <!-- Подсказка для карты -->
                     <div id="cardHint" style="display: none;">
