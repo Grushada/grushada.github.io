@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- ========== МЕТРИКИ И РЕКЛАМА ========== -->
+    
     <!-- Top.Mail.Ru counter -->
     <script type="text/javascript">
         var _tmr = window._tmr || (window._tmr = []);
@@ -59,7 +59,7 @@
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-4228536607258228">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
-    <!-- ========== /МЕТРИКИ ========== -->
+    
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -484,17 +484,17 @@
             <p>Контакты: <a href="mailto:love_cute_cats@mail.ru">love_cute_cats@mail.ru</a> | <a href="https://t.me/Rettero">@Rettero</a></p>
             <!-- <p><a href="/privacy">Политика конфиденциальности</a> | <a href="/terms">Пользовательское соглашение</a></p> -->
             <p>
-                <a href="/privacy.html">Политика конфиденциальности</a> |
-                <a href="/terms.html">Пользовательское соглашение</a> |
-                <a href="/cookies.html">Использование cookie</a> |
-                <a href="/copyright.html">Авторские права</a> |
-                <a href="/links.html">Полезные ссылки</a>
+                <a href="/privacy">Политика конфиденциальности</a> |
+                <a href="/terms">Пользовательское соглашение</a> |
+                <a href="/cookies">Использование cookie</a> |
+                <a href="/copyright">Авторские права</a> |
+                <a href="/links">Полезные ссылки</a>
             </p>
         </footer>
     </div>
 
     <script>
-        // ========== КАТАЛОГ ==========
+        
         const products = [
             { id: 1, title: "Ты и я", emoji: "❤️", price: 2000, desc: "Романтичная баллада о вечной любви", tags: ["Love", "Romantic"] },
             { id: 2, title: "Осенний дождь", emoji: "🌧️", price: 1500, desc: "Грустная мелодия под шум дождя", tags: ["Sad", "Autumn"] },
@@ -518,7 +518,7 @@
             `).join('');
         }
 
-        // ========== МОДАЛЬНОЕ ОКНО ==========
+       
         let currentProduct = null;
         let selectedMethod = 'yoomoney';
 
@@ -547,7 +547,7 @@
             });
         });
 
-        // ========== КНОПКА ОПЛАТЫ ==========
+        
         document.getElementById('goToPayBtn').addEventListener('click', function() {
             if (!currentProduct) {
                 alert('Ошибка: песня не выбрана.');
@@ -576,7 +576,7 @@
             }
         });
 
-        // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+       
         function copyPhone() {
             const phone = '+7 904 862 83 27';
             navigator.clipboard.writeText(phone).then(() => {
@@ -596,7 +596,7 @@
             if (e.target === this) closeModal();
         });
 
-        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        
         renderCatalog();
     </script>
 
