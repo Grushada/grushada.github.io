@@ -211,7 +211,7 @@
             box-shadow: 0 8px 30px rgba(139,92,246,0.5);
         }
 
-        /* Модальное окно */
+        /* Модальное окно — теперь прокрутка только у него */
         .modal {
             display: none;
             position: fixed;
@@ -237,7 +237,7 @@
             max-width: 700px;
             width: 100%;
             max-height: 95vh;
-            /* overflow-y: auto;  теперь прокрутка только у формы */
+            overflow-y: auto;       /* единственная прокрутка здесь */
             box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 50px rgba(139,92,246,0.2);
             animation: modalIn 0.4s ease;
         }
@@ -265,12 +265,10 @@
         }
         .btn-close:hover { color: #fff; }
 
-        /* Контейнер для Яндекс Формы – с прокруткой */
+        /* Контейнер для iframe — без прокрутки, пусть модалка сама крутится */
         .ya-form-wrap {
             margin: 16px 0;
             width: 100%;
-            max-height: 520px;
-            overflow-y: auto;
             border-radius: 18px;
             background: rgba(0,0,0,0.2);
             padding: 4px 0;
@@ -278,7 +276,7 @@
         .ya-form-wrap iframe {
             display: block;
             width: 100%;
-            height: 1800px;
+            height: 1200px;      /* достаточно для всей формы, подстрой под свою */
             border: none;
             background: transparent;
         }
@@ -367,6 +365,18 @@
             text-shadow: 0 0 20px rgba(0,212,255,0.6);
         }
 
+        /* Стиль для предупреждения — ярко-жёлтый */
+        .warning-text {
+            color: #fbbf24;      /* ярко-жёлтый */
+            font-size: 0.85rem;
+            margin: 12px 0;
+            padding: 10px 12px;
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 3px solid #fbbf24;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
         footer {
             text-align: center;
             padding: 30px 20px 10px;
@@ -385,7 +395,7 @@
         @media (max-width: 600px) {
             .catalog { grid-template-columns: 1fr; }
             .modal-box { padding: 24px 18px; }
-            .ya-form-wrap { max-height: 380px; }
+            .ya-form-wrap iframe { height: 900px; }  /* чуть меньше на телефонах */
         }
     </style>
 </head>
@@ -419,7 +429,7 @@
                 <h2 id="modalTitle">Оформление заказа</h2>
                 <p style="color:var(--text-dim); margin-bottom: 10px;">Заполните форму, выберите способ оплаты и нажмите «Перейти к оплате».</p>
 
-                <!-- Яндекс Форма -->
+                <!-- Яндекс Форма (без ?iframe=1, чтобы не было лишних скроллов) -->
                 <div class="ya-form-wrap">
                     <iframe src="https://forms.yandex.ru/cloud/6a860fec1f1eb5752b0deb66" frameborder="0" name="ya-form-6a860fec1f1eb5752b0deb66"></iframe>
                 </div>
@@ -436,11 +446,12 @@
                         <button type="button" data-method="boosty">🚀 Boosty</button>
                     </div>
 
-                    <p style="color:var(--text-dim); font-size:0.8rem; margin:12px 0;">
-                        ⚠️ Выберите способ оплаты, соответствующий тому, что вы указали в форме выше.
-                        В случае расхождения платёж будет отклонён. Возврат средств не предусмотрен.
+                    <!-- Предупреждение – теперь ярко-жёлтое -->
+                    <div class="warning-text">
+                        ⚠️ Выберите способ оплаты, соответствующий тому, что вы указали в форме выше.<br>
+                        В случае расхождения платёж будет отклонён. Возврат средств не предусмотрен.<br>
                         В комментарии к платежу укажите название песни и контакт для связи.
-                    </p>
+                    </div>
 
                     <!-- Подсказка для карты (показывается только при выборе карты) -->
                     <div id="cardHint" style="display: none;">
