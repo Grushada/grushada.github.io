@@ -440,6 +440,9 @@
                         <button type="button" data-method="yoomoney" class="">💛 ЮMoney</button>
                         <button type="button" data-method="ozon" class="">📦 Озон</button>
                         <button type="button" data-method="card" class="active">💳 Карта</button>
+                        <button type="button" data-method="dalink">🔗 Dalink</button>
+                        <button type="button" data-method="sponsr">👑 Sponsr</button>
+                        <button type="button" data-method="boosty">🚀 Boosty</button>
                     </div>
                     <p class="card-hint">Необходимо выбрать вариант ответа схожий с тем, что Вы выбрали в Форме выше. Это необходимо для того, чтобы нам было проще найти Ваш платеж.
                         В случае, если вариант оплаты на Сайте будет различен с вариантом, выбранном в Форме, платеж будет отклонен.
@@ -572,6 +575,23 @@
                 case 'card':
                     copyPhone();
                     alert(`Оплатите переводом на карту:\n+7 904 862 83 27\nСумма: ${amount} ₽\nВ комментарии укажите: ${title}\nПосле оплаты прикрепите скриншот в форме выше.`);
+                    break;
+                case 'dalink':
+                    window.open('https://dalink.to/rettero_love', '_blank');
+                    alert('Вы переходите на Dalink для оплаты.\nНе забудьте вернуться и подтвердить заказ.');
+                    closeModal();
+                    break;
+                
+                case 'sponsr':
+                    window.open('https://sponsr.ru/rettero/subscribe/', '_blank');
+                    alert('Вы переходите на Sponsr для оформления подписки.\nНе забудьте вернуться и подтвердить заказ.');
+                    closeModal();
+                    break;
+                
+                case 'boosty':
+                    window.open('https://boosty.to/rettero/donate', '_blank');
+                    alert('Вы переходите на Boosty для доната.\nНе забудьте вернуться и подтвердить заказ.');
+                    closeModal();
                     break;
             }
         });
