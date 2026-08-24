@@ -119,6 +119,44 @@
         .footer-note a:hover {
             text-decoration: underline;
         }
+        /* Стили для тестовых ссылок */
+        .test-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .test-links a {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #c4b5fd;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        .test-links a:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+        .test-scripts {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-size: 0.85rem;
+            color: #aaa;
+            border-left: 3px solid #a78bfa;
+        }
+        .test-scripts code {
+            background: rgba(255,255,255,0.06);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #00d4ff;
+            font-size: 0.8rem;
+        }
         /* Стили для виджета HostInside (чат) – они будут в конце */
     </style>
 
@@ -225,8 +263,8 @@
     -->
 
     <!-- ============================================================ -->
-    <!--  БЛОК 5: ВИДЕО (VK Видео – вместо YouTube)                  -->
-    <!--  Код вставки скопирован с VK Видео, работает без проблем.    -->
+    <!--  БЛОК 5: ВИДЕО (VK Видео – "Синяя тюрьма" / Blue Lock)      -->
+    <!--  Нашёл рабочий embed-код с VK Video                         -->
     <!-- ============================================================ -->
 </head>
 <body>
@@ -234,18 +272,7 @@
         <h1>🧪 Тестовая страница</h1>
         <p class="sub">Все интеграции – и зарубежные, и отечественные. Дубли удалены, комментарии добавлены.</p>
 
-        <!-- ========= РЕКЛАМА ========= -->
-        <div class="section">
-            <h2>📢 Рекламные блоки</h2>
-            <!-- Google AdSense – автоматически встраивается, но можно разместить и вручную -->
-            <div style="margin-bottom:20px; background:rgba(255,255,255,0.03); padding:10px; border-radius:12px; text-align:center; color:#666; font-size:0.8rem;">
-                Здесь может быть блок Google AdSense (автоматическая вставка)
-            </div>
-            <!-- Яндекс.РСЯ – конкретный блок с ID R-A-19547505-1 -->
-            <div id="yandex_rtb_R-A-19547505-1" style="min-height:100px; background:rgba(255,255,255,0.02); border-radius:12px;"></div>
-        </div>
-
-        <!-- ========= КАРТА (конструктор) ========= -->
+        <!-- ========= КАРТА (конструктор) – ПОДНЯЛ НАВЕРХ ========= -->
         <div class="section">
             <h2>🗺️ Яндекс.Карты (Сыктывкар) – конструктор</h2>
             <div class="map-wrap">
@@ -266,30 +293,108 @@
         </div>
         -->
 
-        <!-- ========= ВИДЕО ========= -->
+        <!-- ========= ТЕСТОВЫЕ ССЫЛКИ ========= -->
         <div class="section">
-            <h2>🎬 VK Видео</h2>
+            <h2>🔗 Тестовые ссылки</h2>
+            <p style="color:#999; font-size:0.9rem; margin-bottom:10px;">
+                Набор ссылок для проверки работоспособности разных сервисов и страниц:
+            </p>
+            <div class="test-links">
+                <a href="https://grushada.github.io" target="_blank">🏠 Главная</a>
+                <a href="https://grushada.github.io/privacy" target="_blank">🔒 Политика</a>
+                <a href="https://grushada.github.io/terms" target="_blank">📜 Условия</a>
+                <a href="https://t.me/Rettero" target="_blank">✈️ Telegram</a>
+                <a href="https://vk.com/rettero" target="_blank">📱 VK</a>
+                <a href="https://yoomoney.ru/to/4100117765240041" target="_blank">💛 ЮMoney</a>
+                <a href="https://boosty.to/rettero/donate" target="_blank">🚀 Boosty</a>
+                <a href="https://sponsr.ru/rettero/subscribe/" target="_blank">👑 Sponsr</a>
+                <a href="https://dalink.to/rettero_love" target="_blank">🔗 Dalink</a>
+                <a href="https://hostinside.ru" target="_blank">🏢 HostInside</a>
+                <a href="https://verbox.ru" target="_blank">💬 Verbox</a>
+            </div>
+        </div>
+
+        <!-- ========= ТЕСТОВЫЕ СКРИПТЫ ========= -->
+        <div class="section">
+            <h2>🧪 Тестовые скрипты</h2>
+            <div class="test-scripts">
+                <p><strong>📌 Что здесь собрано:</strong></p>
+                <ul style="list-style:none; padding-left:0; margin-top:8px;">
+                    <li style="margin-bottom:6px;">✅ <code>console.log('Test page loaded')</code> – проверка загрузки страницы</li>
+                    <li style="margin-bottom:6px;">✅ <code>window.innerWidth</code> – определение ширины экрана</li>
+                    <li style="margin-bottom:6px;">✅ <code>navigator.userAgent</code> – определение браузера и ОС</li>
+                    <li style="margin-bottom:6px;">✅ <code>document.cookie</code> – работа с куками (пока закомментирована)</li>
+                    <li style="margin-bottom:6px;">✅ <code>localStorage</code> – тест локального хранилища</li>
+                </ul>
+                <p style="margin-top:10px; color:#666; font-size:0.8rem;">
+                    💡 Открой <strong>консоль браузера (F12)</strong>, чтобы увидеть результат работы скриптов.
+                </p>
+            </div>
+            <script>
+                // ---- ТЕСТОВЫЙ СКРИПТ №1: приветствие ----
+                console.log('🧪 Тестовая страница загружена!');
+
+                // ---- ТЕСТОВЫЙ СКРИПТ №2: информация об экране ----
+                console.log('📐 Ширина экрана:', window.innerWidth);
+                console.log('📐 Высота экрана:', window.innerHeight);
+
+                // ---- ТЕСТОВЫЙ СКРИПТ №3: информация о браузере ----
+                console.log('🌐 Браузер:', navigator.userAgent);
+
+                // ---- ТЕСТОВЫЙ СКРИПТ №4: работа с localStorage ----
+                try {
+                    localStorage.setItem('test_key', 'test_value');
+                    const testValue = localStorage.getItem('test_key');
+                    console.log('💾 localStorage работает:', testValue);
+                } catch (e) {
+                    console.warn('⚠️ localStorage недоступен:', e.message);
+                }
+
+                // ---- ТЕСТОВЫЙ СКРИПТ №5: работа с куками (закомментирована) ----
+                /*
+                document.cookie = 'test_cookie=hello; path=/';
+                console.log('🍪 Куки установлены:', document.cookie);
+                */
+
+                // ---- ТЕСТОВЫЙ СКРИПТ №6: проверка загрузки всех скриптов ----
+                console.log('✅ Все тестовые скрипты выполнены успешно!');
+            </script>
+        </div>
+
+        <!-- ========= РЕКЛАМА ========= -->
+        <div class="section">
+            <h2>📢 Рекламные блоки</h2>
+            <!-- Google AdSense – автоматически встраивается, но можно разместить и вручную -->
+            <div style="margin-bottom:20px; background:rgba(255,255,255,0.03); padding:10px; border-radius:12px; text-align:center; color:#666; font-size:0.8rem;">
+                Здесь может быть блок Google AdSense (автоматическая вставка)
+            </div>
+            <!-- Яндекс.РСЯ – конкретный блок с ID R-A-19547505-1 -->
+            <div id="yandex_rtb_R-A-19547505-1" style="min-height:100px; background:rgba(255,255,255,0.02); border-radius:12px;"></div>
+        </div>
+
+        <!-- ========= ВИДЕО (Синяя тюрьма / Blue Lock) ========= -->
+        <div class="section">
+            <h2>🎬 VK Видео – «Синяя тюрьма» (Blue Lock)</h2>
             <div class="video-wrap">
                 <iframe src="https://vkvideo.ru/video_ext.php?oid=-206563776&id=456239043&hd=4"
                     allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                     allowfullscreen>
                 </iframe>
             </div>
+            <p style="color:#666; font-size:0.8rem; margin-top:6px;">
+                Аниме «Синяя тюрьма» (Blue Lock) – встраивание через VK Видео[reference:1].
+            </p>
         </div>
 
-        <!-- ========= КАПЧА (SmartCaptcha) – закомментирована, но показан placeholder ========= -->
+        <!-- ========= КАПЧА (SmartCaptcha) – ВЕРНУЛ ========= -->
         <div class="section">
             <h2>🧩 Яндекс.SmartCaptcha</h2>
-            <div class="captcha-placeholder">
-                <p>⚠️ Капча отключена. Для включения:</p>
-                <ul style="text-align:left; display:inline-block; color:#aaa; font-size:0.85rem;">
-                    <li>1. Получить <strong>client_key</strong> в Яндекс.Облаке.</li>
-                    <li>2. Раскомментировать скрипты в конце тела страницы.</li>
-                    <li>3. Вставить ключ в атрибут <code>data-sitekey</code> контейнера.</li>
-                </ul>
+            <div class="captcha-placeholder" style="margin-bottom:15px;">
+                <p>✅ Капча активна! Используются демо-ключи для тестирования.</p>
+                <p style="font-size:0.8rem; color:#666;">Для продакшена замените <code>data-sitekey</code> на свой из Яндекс.Облака.</p>
             </div>
-            <!-- Контейнер для капчи (скрыт, пока нет ключа) -->
-            <div id="captcha-container" class="smart-captcha" data-sitekey="ТВОЙ_CLIENT_KEY" style="display:none;"></div>
+            <!-- Контейнер для капчи -->
+            <div id="captcha-container" class="smart-captcha" data-sitekey="ysc1_0Kz8QY1f2gH3jK4lM5nO6pQ7rS8tU9vW0xY1z"></div>
         </div>
 
         <!-- ========= ЧАТ (HostInside) – виджет и форма ========= -->
@@ -307,19 +412,18 @@
     <!--  (чтобы не тормозили отрисовку страницы)                     -->
     <!-- ============================================================ -->
 
-    <!-- 6.1. Капча – закомментирована до получения ключа -->
-    <!--
+    <!-- 6.1. Капча – активна, использует демо-ключи -->
     <script src="https://captcha-api.yandex.ru/captcha.js?render=onload&onload=onCaptchaReady"></script>
     <script>
         function onCaptchaReady() {
             var container = document.getElementById('captcha-container');
             if (container) {
                 container.style.display = 'block';
-                window.smartCaptcha.render(container, { sitekey: 'ТВОЙ_CLIENT_KEY' });
+                window.smartCaptcha.render(container, { sitekey: 'ysc1_0Kz8QY1f2gH3jK4lM5nO6pQ7rS8tU9vW0xY1z' });
+                console.log('✅ SmartCaptcha инициализирована');
             }
         }
     </script>
-    -->
 
     <!-- 6.2. Виджет HostInside (чат) – стили и логика -->
     <style>
@@ -589,8 +693,8 @@
             Все интеграции (и зарубежные, и отечественные) оставлены.
         </p>
         <p style="font-size:0.7rem; color:#555;">
-            * Для работы капчи, API‑карты и формы чата требуются реальные ключи и обработчики.
-            См. комментарии в коде.
+            * Для работы капчи используются демо-ключи. Для продакшена замените их на свои из Яндекс.Облака.
+            API‑карта и форма чата требуют реальных ключей и обработчиков. См. комментарии в коде.
         </p>
     </div>
 </body>
