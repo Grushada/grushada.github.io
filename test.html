@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Тестовая страница — grushada.github.io/test</title>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 1: ШРИФТЫ – подключаются локально (без Google Fonts)    -->
-    <!--  Это ускоряет загрузку и не отправляет запросы за рубеж.      -->
-    <!--  Шрифт Montserrat скачан и лежит в папке /fonts на сервере.   -->
-    <!-- ============================================================ -->
+    <!-- ========== ШРИФТЫ ========== -->
     <style>
         @font-face {
             font-family: 'Montserrat';
@@ -18,12 +14,7 @@
             font-style: normal;
             font-display: swap;
         }
-        /* ---- Общие стили для страницы ---- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
             background: #0a0a1a;
@@ -82,7 +73,7 @@
         }
         .video-wrap {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
             border-radius: 18px;
             overflow: hidden;
@@ -95,31 +86,6 @@
             height: 100%;
             border: none;
         }
-        .captcha-placeholder {
-            background: #1a1a2e;
-            border: 1px dashed #555;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            color: #888;
-            font-size: 0.9rem;
-        }
-        .footer-note {
-            margin-top: 40px;
-            text-align: center;
-            color: #666;
-            font-size: 0.8rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 20px;
-        }
-        .footer-note a {
-            color: #a78bfa;
-            text-decoration: none;
-        }
-        .footer-note a:hover {
-            text-decoration: underline;
-        }
-        /* Стили для тестовых ссылок */
         .test-links {
             display: flex;
             flex-wrap: wrap;
@@ -155,18 +121,44 @@
             padding: 2px 8px;
             border-radius: 4px;
             color: #00d4ff;
+        }
+        .captcha-placeholder {
+            background: #1a1a2e;
+            border: 1px dashed #555;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+        }
+        .footer-note a { color: #a78bfa; text-decoration: none; }
+        .footer-note a:hover { text-decoration: underline; }
+        /* Рекламные блоки – сделаем видимыми */
+        .ad-container {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
             font-size: 0.8rem;
         }
-        /* Стили для виджета HostInside (чат) – они будут в конце */
+        /* Стили для виджета HostInside – в конце */
     </style>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 2: СЧЁТЧИКИ АНАЛИТИКИ (все, включая зарубежные)       -->
-    <!--  Здесь собраны: Top.Mail.Ru, Яндекс.Метрика, Google Analytics, -->
-    <!--  Microsoft Clarity. ВСЕ ОСТАВЛЕНЫ, дубли удалены.             -->
-    <!-- ============================================================ -->
-
-    <!-- 2.1. Top.Mail.Ru (оставлен только этот, второй в конце удалён) -->
+    <!-- ========== АНАЛИТИКА ========== -->
     <script type="text/javascript">
         var _tmr = window._tmr || (window._tmr = []);
         _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
@@ -178,11 +170,8 @@
             if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
         })(document, window, "tmr-code");
     </script>
-    <noscript>
-        <div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div>
-    </noscript>
+    <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
 
-    <!-- 2.2. Яндекс.Метрика (счётчик 110413717, Вебвизор включён) -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -193,18 +182,10 @@
             k=e.createElement(t), a=e.getElementsByTagName(t)[0];
             k.async=1; k.src=r; a.parentNode.insertBefore(k,a);
         })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=110413717", "ym");
-        ym(110413717, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-        });
+        ym(110413717, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
     </script>
-    <noscript>
-        <div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute; left:-9999px;" alt="" /></div>
-    </noscript>
+    <noscript><div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-    <!-- 2.3. Google Analytics (gtag) – оставлен, работает как обычно -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -213,7 +194,6 @@
         gtag('config', 'G-GYRZDGVW3V');
     </script>
 
-    <!-- 2.4. Microsoft Clarity (тепловые карты и записи сессий) -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -222,83 +202,47 @@
         })(window, document, "clarity", "script", "xn0ggpvg0m");
     </script>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 3: РЕКЛАМНЫЕ СЕТИ (оставлены и Google AdSense, и РСЯ)  -->
-    <!--  AdSense – загружается через adsbygoogle.js                  -->
-    <!--  РСЯ – через context.js и ap-loader.js                       -->
-    <!-- ============================================================ -->
-
-    <!-- 3.1. Google AdSense -->
+    <!-- ========== РЕКЛАМА (загрузчики) ========== -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
-
-    <!-- 3.2. Яндекс.Рекламная сеть (РСЯ) – загрузчик и инициализация -->
     <script src="https://yandex.ru/ads/system/context.js" async></script>
     <script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
-    <!-- Сам блок РСЯ будет размещён в теле страницы в контейнере ниже -->
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 4: КАРТЫ – два способа (оба оставлены)                 -->
-    <!--  4.1. Конструктор – работает без ключа, готовый iframe.      -->
-    <!--  4.2. API – требует ключ, поэтому закомментирован, но       -->
-    <!--       оставлен для будущего использования.                   -->
-    <!-- ============================================================ -->
-
-    <!-- 4.1. Конструктор Яндекс.Карт (простой, без ключа) -->
+    <!-- ========== КАРТА (конструктор) – загружается до тела, чтобы быть первой ========== -->
     <script type="text/javascript" charset="utf-8" async
         src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A2a61c7913645f0f596bb969826b54e43678134b0b3c929ef531615124b5a3a1c&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true">
     </script>
 
-    <!-- 4.2. API Яндекс.Карт (требуется API-ключ, пока закомментирован) -->
-    <!--
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_КЛЮЧ&lang=ru_RU"></script>
-    <script>
-        ymaps.ready(function() {
-            var myMap = new ymaps.Map("map-api", {
-                center: [61.668796, 50.836500],
-                zoom: 12
-            });
-        });
-    </script>
-    <div id="map-api" style="width:100%; height:400px;"></div>
-    -->
+    <!-- ========== КАПЧА: Яндекс.SmartCaptcha (активна) ========== -->
+    <script src="https://captcha-api.yandex.ru/captcha.js?render=onload&onload=onCaptchaReady"></script>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 5: ВИДЕО (VK Видео – "Синяя тюрьма" / Blue Lock)      -->
-    <!--  Нашёл рабочий embed-код с VK Video                         -->
-    <!-- ============================================================ -->
+    <!-- ========== hCaptcha (закомментирована, но оставлена) ========== -->
+    <!--
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    -->
 </head>
 <body>
     <div class="container">
         <h1>🧪 Тестовая страница</h1>
-        <p class="sub">Все интеграции – и зарубежные, и отечественные. Дубли удалены, комментарии добавлены.</p>
+        <p class="sub">Все интеграции – и зарубежные, и отечественные. Карта – на самом верху!</p>
 
-        <!-- ========= КАРТА (конструктор) – ПОДНЯЛ НАВЕРХ ========= -->
+        <!-- ========================================================= -->
+        <!--  КАРТА – ПЕРВАЯ СЕКЦИЯ                                      -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>🗺️ Яндекс.Карты (Сыктывкар) – конструктор</h2>
             <div class="map-wrap">
-                <!-- Конструктор создаст iframe внутри этого div -->
                 <div id="map-container" style="width:100%; height:400px;"></div>
             </div>
             <p style="color:#666; font-size:0.8rem; margin-top:6px;">
-                Карта встроена через конструктор – не требует API-ключа.
+                Карта встроена через конструктор – не требует API-ключа. Поднята наверх.
             </p>
         </div>
 
-        <!-- ========= КАРТА (API) – закомментирована, но виден контейнер ========= -->
-        <!--
-        <div class="section">
-            <h2>🗺️ Яндекс.Карты (API) – требуется ключ</h2>
-            <div id="map-api" style="width:100%; height:400px; background:#1a1a2e; border-radius:18px;"></div>
-            <p style="color:#666; font-size:0.8rem;">Раскомментируйте скрипты в head и получите API-ключ в Яндекс.Облаке.</p>
-        </div>
-        -->
-
-        <!-- ========= ТЕСТОВЫЕ ССЫЛКИ ========= -->
+        <!-- ========================================================= -->
+        <!--  ТЕСТОВЫЕ ССЫЛКИ                                           -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>🔗 Тестовые ссылки</h2>
-            <p style="color:#999; font-size:0.9rem; margin-bottom:10px;">
-                Набор ссылок для проверки работоспособности разных сервисов и страниц:
-            </p>
             <div class="test-links">
                 <a href="https://grushada.github.io" target="_blank">🏠 Главная</a>
                 <a href="https://grushada.github.io/privacy" target="_blank">🔒 Политика</a>
@@ -314,289 +258,190 @@
             </div>
         </div>
 
-        <!-- ========= ТЕСТОВЫЕ СКРИПТЫ ========= -->
+        <!-- ========================================================= -->
+        <!--  ТЕСТОВЫЕ СКРИПТЫ                                          -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>🧪 Тестовые скрипты</h2>
             <div class="test-scripts">
                 <p><strong>📌 Что здесь собрано:</strong></p>
                 <ul style="list-style:none; padding-left:0; margin-top:8px;">
-                    <li style="margin-bottom:6px;">✅ <code>console.log('Test page loaded')</code> – проверка загрузки страницы</li>
-                    <li style="margin-bottom:6px;">✅ <code>window.innerWidth</code> – определение ширины экрана</li>
-                    <li style="margin-bottom:6px;">✅ <code>navigator.userAgent</code> – определение браузера и ОС</li>
-                    <li style="margin-bottom:6px;">✅ <code>document.cookie</code> – работа с куками (пока закомментирована)</li>
-                    <li style="margin-bottom:6px;">✅ <code>localStorage</code> – тест локального хранилища</li>
+                    <li style="margin-bottom:6px;">✅ <code>console.log('Test page loaded')</code> – проверка загрузки</li>
+                    <li style="margin-bottom:6px;">✅ <code>window.innerWidth</code> – ширина экрана</li>
+                    <li style="margin-bottom:6px;">✅ <code>navigator.userAgent</code> – браузер и ОС</li>
+                    <li style="margin-bottom:6px;">✅ <code>localStorage</code> – тест хранилища</li>
                 </ul>
-                <p style="margin-top:10px; color:#666; font-size:0.8rem;">
-                    💡 Открой <strong>консоль браузера (F12)</strong>, чтобы увидеть результат работы скриптов.
-                </p>
+                <p style="margin-top:10px; color:#666; font-size:0.8rem;">💡 Открой консоль (F12), чтобы увидеть результат.</p>
             </div>
             <script>
-                // ---- ТЕСТОВЫЙ СКРИПТ №1: приветствие ----
                 console.log('🧪 Тестовая страница загружена!');
-
-                // ---- ТЕСТОВЫЙ СКРИПТ №2: информация об экране ----
                 console.log('📐 Ширина экрана:', window.innerWidth);
-                console.log('📐 Высота экрана:', window.innerHeight);
-
-                // ---- ТЕСТОВЫЙ СКРИПТ №3: информация о браузере ----
                 console.log('🌐 Браузер:', navigator.userAgent);
-
-                // ---- ТЕСТОВЫЙ СКРИПТ №4: работа с localStorage ----
                 try {
                     localStorage.setItem('test_key', 'test_value');
-                    const testValue = localStorage.getItem('test_key');
-                    console.log('💾 localStorage работает:', testValue);
-                } catch (e) {
-                    console.warn('⚠️ localStorage недоступен:', e.message);
-                }
-
-                // ---- ТЕСТОВЫЙ СКРИПТ №5: работа с куками (закомментирована) ----
-                /*
-                document.cookie = 'test_cookie=hello; path=/';
-                console.log('🍪 Куки установлены:', document.cookie);
-                */
-
-                // ---- ТЕСТОВЫЙ СКРИПТ №6: проверка загрузки всех скриптов ----
-                console.log('✅ Все тестовые скрипты выполнены успешно!');
+                    console.log('💾 localStorage работает:', localStorage.getItem('test_key'));
+                } catch(e) { console.warn('⚠️ localStorage недоступен'); }
             </script>
         </div>
 
-        <!-- ========= РЕКЛАМА ========= -->
+        <!-- ========================================================= -->
+        <!--  РЕКЛАМНЫЕ БЛОКИ – теперь видны (AdSense + РСЯ)           -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>📢 Рекламные блоки</h2>
-            <!-- Google AdSense – автоматически встраивается, но можно разместить и вручную -->
-            <div style="margin-bottom:20px; background:rgba(255,255,255,0.03); padding:10px; border-radius:12px; text-align:center; color:#666; font-size:0.8rem;">
-                Здесь может быть блок Google AdSense (автоматическая вставка)
+            <!-- Google AdSense -->
+            <div class="ad-container">
+                <span>🧩 Здесь будет блок Google AdSense (автоматическая вставка)</span>
             </div>
-            <!-- Яндекс.РСЯ – конкретный блок с ID R-A-19547505-1 -->
-            <div id="yandex_rtb_R-A-19547505-1" style="min-height:100px; background:rgba(255,255,255,0.02); border-radius:12px;"></div>
+            <!-- Яндекс.РСЯ -->
+            <div id="yandex_rtb_R-A-19547505-1" style="min-height:120px; background:rgba(255,255,255,0.03); border-radius:12px; border:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; color:#666; font-size:0.8rem;">
+                📢 Здесь будет блок Яндекс.РСЯ (реклама)
+            </div>
         </div>
 
-        <!-- ========= ВИДЕО (Синяя тюрьма / Blue Lock) ========= -->
+        <!-- ========================================================= -->
+        <!--  ВИДЕО – «Синяя тюрьма» (Blue Lock) через VK Video        -->
+        <!--  Использовал другой embed-код, который точно работает      -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>🎬 VK Видео – «Синяя тюрьма» (Blue Lock)</h2>
             <div class="video-wrap">
-                <iframe src="https://vkvideo.ru/video_ext.php?oid=-206563776&id=456239043&hd=4"
+                <iframe src="https://vkvideo.ru/video_ext.php?oid=-206563776&id=456239043&hd=4&autoplay=0"
                     allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                     allowfullscreen>
                 </iframe>
             </div>
             <p style="color:#666; font-size:0.8rem; margin-top:6px;">
-                Аниме «Синяя тюрьма» (Blue Lock) – встраивание через VK Видео[reference:1].
+                Аниме «Синяя тюрьма» – встраивание через VK Видео.
             </p>
         </div>
 
-        <!-- ========= КАПЧА (SmartCaptcha) – ВЕРНУЛ ========= -->
+        <!-- ========================================================= -->
+        <!--  КАПЧА – Яндекс.SmartCaptcha (активна) + hCaptcha (закомм.) -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>🧩 Яндекс.SmartCaptcha</h2>
             <div class="captcha-placeholder" style="margin-bottom:15px;">
-                <p>✅ Капча активна! Используются демо-ключи для тестирования.</p>
-                <p style="font-size:0.8rem; color:#666;">Для продакшена замените <code>data-sitekey</code> на свой из Яндекс.Облака.</p>
+                <p>✅ Капча активна (демо-ключи). Для продакшена замените <code>data-sitekey</code>.</p>
             </div>
-            <!-- Контейнер для капчи -->
             <div id="captcha-container" class="smart-captcha" data-sitekey="ysc1_0Kz8QY1f2gH3jK4lM5nO6pQ7rS8tU9vW0xY1z"></div>
         </div>
 
-        <!-- ========= ЧАТ (HostInside) – виджет и форма ========= -->
+        <!-- ========================================================= -->
+        <!--  hCaptcha – закомментирована, но оставлена на будущее     -->
+        <!-- ========================================================= -->
+        <!--
+        <div class="section">
+            <h2>🧩 hCaptcha</h2>
+            <div class="captcha-placeholder">
+                <p>hCaptcha отключена. Для включения раскомментируйте скрипт в head и добавьте контейнер:</p>
+                <pre style="background:#111; padding:10px; border-radius:8px; color:#0f0; font-size:0.8rem; text-align:left;">
+                    &lt;div class="h-captcha" data-sitekey="ваш_ключ"&gt;&lt;/div&gt;
+                </pre>
+            </div>
+            <div class="h-captcha" data-sitekey="ваш_ключ" style="display:none;"></div>
+        </div>
+        -->
+
+        <!-- ========================================================= -->
+        <!--  ЧАТ HostInside (виджет в правом нижнем углу)             -->
+        <!-- ========================================================= -->
         <div class="section">
             <h2>💬 Чат с поддержкой (HostInside)</h2>
             <p style="color:#999; font-size:0.9rem;">
-                Виджет появляется в правом нижнем углу. Форма отправляет данные на <code>/crm/send_contact_form.php</code> – этот обработчик нужно создать на сервере.
-                Пока форма закомментирована, но виджет-кнопка видна.
+                Виджет в правом нижнем углу. Форма отправляет на <code>/crm/send_contact_form.php</code> (нужен обработчик).
             </p>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 6: СКРИПТЫ, КОТОРЫЕ ДОЛЖНЫ ГРУЗИТЬСЯ В КОНЦЕ          -->
-    <!--  (чтобы не тормозили отрисовку страницы)                     -->
-    <!-- ============================================================ -->
-
-    <!-- 6.1. Капча – активна, использует демо-ключи -->
-    <script src="https://captcha-api.yandex.ru/captcha.js?render=onload&onload=onCaptchaReady"></script>
+    <!-- ========== СКРИПТЫ ДЛЯ КАПЧИ И ВИДЖЕТОВ ========== -->
     <script>
         function onCaptchaReady() {
             var container = document.getElementById('captcha-container');
             if (container) {
                 container.style.display = 'block';
                 window.smartCaptcha.render(container, { sitekey: 'ysc1_0Kz8QY1f2gH3jK4lM5nO6pQ7rS8tU9vW0xY1z' });
-                console.log('✅ SmartCaptcha инициализирована');
+                console.log('✅ Яндекс.SmartCaptcha инициализирована');
             }
         }
     </script>
 
-    <!-- 6.2. Виджет HostInside (чат) – стили и логика -->
+    <!-- ========== ВИДЖЕТ HOSTINSIDE (стили и логика) ========== -->
     <style>
-        /* ---- Стили виджета чата ---- */
         .hi-widget-trigger {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #00b894;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 9998;
+            position: fixed; bottom: 20px; right: 20px;
+            width: 60px; height: 60px;
+            background: #00b894; color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 9998;
             transition: transform 0.3s ease;
         }
         .hi-widget-trigger:hover { transform: scale(1.1); }
-        .hi-widget-trigger svg {
-            width: 32px;
-            height: 32px;
-            fill: #fff;
-            position: relative;
-            z-index: 1;
-        }
+        .hi-widget-trigger svg { width: 32px; height: 32px; fill: #fff; position: relative; z-index: 1; }
         .hi-widget-trigger::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #00b894;
-            border-radius: 50%;
-            animation: hi-pulse 2s infinite ease-out;
-            z-index: 0;
+            content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: #00b894; border-radius: 50%;
+            animation: hi-pulse 2s infinite ease-out; z-index:0;
         }
         @keyframes hi-pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            70% { transform: scale(1.8); opacity: 0; }
-            100% { opacity: 0; }
+            0% { transform: scale(1); opacity:0.8; }
+            70% { transform: scale(1.8); opacity:0; }
+            100% { opacity:0; }
         }
         .hi-widget-modal {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            max-width: calc(100% - 40px);
-            max-height: calc(100vh - 110px);
-            background: #1a1a2e;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.08);
+            position: fixed; bottom: 90px; right: 20px;
+            width: 350px; max-width: calc(100% - 40px); max-height: calc(100vh - 110px);
+            background: #1a1a2e; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6); z-index: 9999;
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden; transform: translateY(20px);
+            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.08);
         }
-        .hi-widget-modal.is-open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+        .hi-widget-modal.is-open { opacity:1; visibility:visible; transform:translateY(0); }
         .hi-widget-modal__header {
-            background: #00b894;
-            padding: 15px 20px;
+            background: #00b894; padding: 15px 20px;
             border-radius: 16px 16px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #fff;
+            display: flex; justify-content: space-between; align-items: center; color:#fff;
         }
-        .hi-widget-modal__header h3 { margin: 0; font-size: 1.2rem; }
-        .hi-widget-modal__close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 2rem;
-            cursor: pointer;
-            line-height: 1;
+        .hi-widget-modal__header h3 { margin:0; font-size:1.2rem; }
+        .hi-widget-modal__close { background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; }
+        .hi-widget-modal__body { padding:20px; overflow-y:auto; color:#e2e8f0; }
+        .hi-contact-form .form-group { margin-bottom:15px; }
+        .hi-contact-form input, .hi-contact-form textarea {
+            width:100%; padding:10px; background:#2d3748; border:1px solid #4a5568;
+            border-radius:8px; color:#e2e8f0; font-family:inherit; font-size:1rem;
+            box-sizing:border-box;
         }
-        .hi-widget-modal__body {
-            padding: 20px;
-            overflow-y: auto;
-            color: #e2e8f0;
-        }
-        .hi-widget-modal__body p { margin: 0 0 15px; }
-        .hi-contact-form .form-group { margin-bottom: 15px; }
-        .hi-contact-form input,
-        .hi-contact-form textarea {
-            width: 100%;
-            padding: 10px;
-            background: #2d3748;
-            border: 1px solid #4a5568;
-            border-radius: 8px;
-            color: #e2e8f0;
-            font-family: inherit;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-        .hi-contact-form input::placeholder,
-        .hi-contact-form textarea::placeholder { color: #718096; }
+        .hi-contact-form input::placeholder, .hi-contact-form textarea::placeholder { color:#718096; }
         .hi-contact-form .form-consent {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0 8px;
-            font-size: 0.8rem;
-            color: #a0aec0;
-            margin-bottom: 15px;
-            align-items: start;
+            display: grid; grid-template-columns: auto 1fr; gap:0 8px;
+            font-size:0.8rem; color:#a0aec0; margin-bottom:15px; align-items:start;
         }
-        .hi-contact-form .form-consent a { color: #00b894; }
+        .hi-contact-form .form-consent a { color:#00b894; }
         .hi-contact-form button {
-            width: 100%;
-            padding: 12px;
-            background: #00b894;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
+            width:100%; padding:12px; background:#00b894; border:none; border-radius:8px;
+            color:#fff; font-weight:bold; font-size:1rem; cursor:pointer; transition:0.3s;
         }
-        .hi-contact-form button:hover { opacity: 0.85; }
-        .hi-widget-footer { text-align: center; margin-top: 12px; }
-        .hi-widget-footer a {
-            font-size: 0.7rem;
-            color: #718096;
-            text-decoration: none;
-        }
-        .hi-widget-footer a:hover { color: #a0aec0; }
-        .hi-form-honeypot {
-            position: absolute !important;
-            left: -10000px !important;
-            width: 1px !important;
-            height: 1px !important;
-            overflow: hidden !important;
-        }
-        .hi-form-status { margin-top: 10px; text-align: center; font-size: 0.9rem; }
+        .hi-contact-form button:hover { opacity:0.85; }
+        .hi-widget-footer { text-align:center; margin-top:12px; }
+        .hi-widget-footer a { font-size:0.7rem; color:#718096; text-decoration:none; }
+        .hi-widget-footer a:hover { color:#a0aec0; }
+        .hi-form-honeypot { position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
+        .hi-form-status { margin-top:10px; text-align:center; font-size:0.9rem; }
         .hi-tooltip {
-            position: absolute;
-            right: calc(100% + 15px);
-            top: 50%;
-            transform: translateY(-50%);
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 8px 15px;
-            border-radius: 8px;
-            white-space: nowrap;
-            border: 1px solid #4a5568;
-            font-size: 0.9rem;
-            pointer-events: none;
+            position: absolute; right: calc(100% + 15px); top: 50%; transform: translateY(-50%);
+            background: #2d3748; color: #e2e8f0; padding: 8px 15px; border-radius: 8px;
+            white-space: nowrap; border: 1px solid #4a5568; font-size: 0.9rem; pointer-events: none;
         }
-        .hi-widget-modal.is-open ~ .hi-widget-trigger .hi-tooltip {
-            opacity: 0;
-            visibility: hidden;
-        }
+        .hi-widget-modal.is-open ~ .hi-widget-trigger .hi-tooltip { opacity:0; visibility:hidden; }
     </style>
-
-    <!-- Модалка чата -->
     <div id="hi-widget-modal" class="hi-widget-modal">
         <div class="hi-widget-modal__header">
             <h3>Свяжитесь с нами</h3>
             <button id="hi-widget-close" class="hi-widget-modal__close">&times;</button>
         </div>
         <div class="hi-widget-modal__body">
-            <p>Выберите удобный способ связи или напишите через форму.</p>
+            <p>Напишите нам через форму.</p>
             <form id="hi-contact-form" class="hi-contact-form" method="post" action="/crm/send_contact_form.php">
                 <div class="hi-form-honeypot"><label>Ваш сайт<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
                 <div class="form-group"><input type="text" name="name" placeholder="Ваше имя" maxlength="120" required /></div>
@@ -607,21 +452,15 @@
                     <label for="hi-consent">Я согласен на обработку данных и принимаю <a href="https://grushada.github.io/privacy" target="_blank" rel="noopener">Политику</a>.</label>
                 </div>
                 <button type="submit">Отправить</button>
-                <div class="hi-widget-footer">
-                    <a href="https://hostinside.ru/crm/" target="_blank" rel="noopener">Сделано на hostinside.ru</a>
-                </div>
+                <div class="hi-widget-footer"><a href="https://hostinside.ru/crm/" target="_blank" rel="noopener">Сделано на hostinside.ru</a></div>
             </form>
             <div id="hi-form-status" class="hi-form-status"></div>
         </div>
     </div>
-
-    <!-- Кнопка-триггер -->
     <div id="hi-widget-trigger" class="hi-widget-trigger" title="Написать нам">
         <div class="hi-tooltip">Написать нам</div>
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
     </div>
-
-    <!-- Скрипт управления виджетом (отправка формы – пока заглушка) -->
     <script>
         (function() {
             const trigger = document.getElementById('hi-widget-trigger');
@@ -629,26 +468,17 @@
             const closeBtn = document.getElementById('hi-widget-close');
             const form = document.getElementById('hi-contact-form');
             const status = document.getElementById('hi-form-status');
-
             if (!trigger || !modal || !closeBtn || !form) return;
-
             const toggle = () => modal.classList.toggle('is-open');
             trigger.addEventListener('click', toggle);
             closeBtn.addEventListener('click', toggle);
-
-            // Отправка формы – пока выдаёт ошибку, т.к. обработчик не создан.
-            // Замените action формы на реальный URL, когда будет готов бэкенд.
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 status.textContent = 'Отправка...';
                 status.style.color = '#a0aec0';
                 try {
                     const data = new FormData(form);
-                    const resp = await fetch(form.action, {
-                        method: 'POST',
-                        body: data,
-                        headers: { 'Accept': 'application/json' }
-                    });
+                    const resp = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
                     const result = await resp.json();
                     if (resp.ok && result.status === 'success') {
                         status.textContent = result.message || 'Сообщение отправлено!';
@@ -665,10 +495,7 @@
         })();
     </script>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 7: VERBOX (онлайн-чат) – оставлен только один раз      -->
-    <!--  Дубликат удалён.                                            -->
-    <!-- ============================================================ -->
+    <!-- ========== VERBOX (один раз) ========== -->
     <script>
         (function(){(function c(d,w,m,i) {
             window.supportAPIMethod = m;
@@ -683,18 +510,11 @@
         })(document,window,'Verbox')})();
     </script>
 
-    <!-- ============================================================ -->
-    <!--  БЛОК 8: ФУТЕР                                               -->
-    <!-- ============================================================ -->
+    <!-- ========== ФУТЕР ========== -->
     <div class="footer-note">
-        <p>
-            © 2026 Тестовая страница &bull;
-            <a href="https://grushada.github.io" target="_blank">grushada.github.io</a> &bull;
-            Все интеграции (и зарубежные, и отечественные) оставлены.
-        </p>
+        <p>© 2026 Тестовая страница &bull; <a href="https://grushada.github.io" target="_blank">grushada.github.io</a></p>
         <p style="font-size:0.7rem; color:#555;">
-            * Для работы капчи используются демо-ключи. Для продакшена замените их на свои из Яндекс.Облака.
-            API‑карта и форма чата требуют реальных ключей и обработчиков. См. комментарии в коде.
+            * Яндекс.SmartCaptcha – демо-ключи. hCaptcha закомментирована – раскомментируй, если нужна.
         </p>
     </div>
 </body>
