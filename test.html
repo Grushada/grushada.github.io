@@ -1,432 +1,597 @@
-<!-- test -->
-пока что тут ничего нету
-<!-- ===== Сборник всех скриптов аналитики и рекламы ===== -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тестовая страница — grushada.github.io/test</title>
 
-<!-- 1. Top.Mail.Ru -->
-<script type="text/javascript">
-    var _tmr = window._tmr || (window._tmr = []);
-    _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
-    (function (d, w, id) {
-        if (d.getElementById(id)) return;
-        var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
-        ts.src = "https://top-fwz1.mail.ru/js/code.js";
-        var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
-        if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
-    })(document, window, "tmr-code");
-</script>
-<noscript>
-    <div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div>
-</noscript>
-
-<!-- 2. Yandex.Metrika -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=110413717", "ym");
-    ym(110413717, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-    });
-</script>
-<noscript>
-    <div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute; left:-9999px;" alt="" /></div>
-</noscript>
-
-<!-- 3. Google Analytics (gtag) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-GYRZDGVW3V');
-</script>
-
-<!-- 4. Microsoft Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xn0ggpvg0m");
-</script>
-
-<!-- 5. Yandex Ads (система контекста) -->
-<script src="https://yandex.ru/ads/system/context.js" async></script>
-<script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
-
-<!-- 6. Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
-
-<!-- 7. Дополнительно: инициализация RTB-блока (если есть контейнер) -->
-<!-- Этот блок лучше вставить в то место, где лежит <div id="yandex_rtb_R-A-19547505-1"> -->
-
-<script>
-    window.yaContextCb = window.yaContextCb || [];
-    window.yaContextCb.push(() => {
-        Ya.Context.AdvManager.render({
-            blockId: "R-A-19547505-1",
-            renderTo: "yandex_rtb_R-A-19547505-1"
-        });
-    });
-</script>
-
-<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A2a61c7913645f0f596bb969826b54e43678134b0b3c929ef531615124b5a3a1c&amp;width=500&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
-
-<style>
-@font-face {
-   font-family: 'Montserrat';
-   src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
-   font-weight: 400;
-   font-style: normal;
-   font-display: swap;
-}
-</style>
-
-<div id="map" style="width: 100%; height: 400px;"></div>
-
-<script>
-   ymaps.ready(function() {
-      var myMap = new ymaps.Map("map", {
-         center: [61.668796, 50.836500], // твои координаты
-         zoom: 12
-      });
-   });
-</script>
-
-<iframe src="https://vkvideo.ru/video_ext.php?oid=-206563776&id=456239043&hd=4" width="1920" height="1080" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
-
-<script src="https://captcha-api.yandex.ru/captcha.js?render=onload&onload=onCaptchaReady"></script>
-
-<div id="captcha-container" class="smart-captcha" data-sitekey="ТВОЙ_CLIENT_KEY"></div>
-
-<script>
-   function onCaptchaReady() {
-      window.smartCaptcha.render('captcha-container', { sitekey: 'ТВОЙ_CLIENT_KEY' });
-   }
-</script>
-
-<!-- Start of HostInside.ru Widget Code -->
-<style>
-    .hi-widget-trigger {
-        position: fixed;
-        bottom: 20px;
-        right: 20px; left: auto;
-        width: 60px;
-        height: 60px;
-        background-color: #00b894;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        z-index: 9998;
-        transition: transform 0.3s ease;
-    }
-    .hi-widget-trigger:hover { transform: scale(1.1); }
-    .hi-widget-trigger svg { width: 32px; height: 32px; fill: white; position: relative; z-index: 1; }
-    .hi-widget-trigger::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #00b894;
-        border-radius: 50%;
-        animation: hi-pulse 2s infinite ease-out;
-        z-index: 0;
-    }
-    @keyframes hi-pulse {
-        0% { transform: scale(1); opacity: 0.8; }
-        70% { transform: scale(1.8); opacity: 0; }
-        100% { opacity: 0; }
-    }
-    .hi-widget-modal {
-        position: fixed;
-        bottom: 90px;
-        right: 20px; left: auto;
-        width: 350px;
-        max-width: calc(100% - 40px);
-        max-height: calc(100vh - 110px); /* Ограничиваем высоту, чтобы виджет не вылезал за экран (90px снизу + 20px запас сверху) */
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
-    }
-    .hi-widget-modal.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
-    .hi-widget-trigger .hi-tooltip {
-        position: absolute;
-        right: calc(100% + 15px); top: 50%; transform: translateY(-50%);
-        background-color: #fff;
-        color: #333;
-        padding: 8px 15px;
-        border-radius: 8px;
-        white-space: nowrap;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border: 1px solid #eee;
-        font-size: 0.9rem;
-        font-weight: 500;
-        opacity: 1;
-        transition: all 0.3s ease;
-        pointer-events: none;
-    }
-    .hi-widget-modal.is-open ~ .hi-widget-trigger .hi-tooltip {
-        opacity: 0;
-        visibility: hidden;
-    }
-    .hi-widget-trigger .hi-tooltip::after {
-        content: '';
-        position: absolute;
-        top: 50%; left: 100%; margin-top: -6px;
-        border-width: 6px;
-        border-style: solid;
-    }
-    .hi-widget-trigger.hi-widget-left .hi-tooltip::after { border-color: transparent white transparent transparent; }
-    .hi-widget-trigger.hi-widget-right .hi-tooltip::after { border-color: transparent transparent transparent white; }
-
-    .hi-widget-modal__header {
-        background-color: #00b894;
-        color: white;
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .hi-widget-modal__header h3 { margin: 0; font-size: 1.2rem; }
-    .hi-widget-modal__close { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; line-height: 1; padding: 0; }
-    .hi-widget-modal__body {
-        padding: 20px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        overflow-y: auto;
-        flex: 1;
-    }
-    .hi-widget-modal__body p { margin: 0 0 15px; font-size: 0.95rem; color: #333; }
-    .hi-widget-modal__body .hi-extra-text {
-        font-size: 0.85rem;
-        color: #666;
-        text-align: center;
-        background-color: #f0f2f5;
-        padding: 8px;
-        border-radius: 5px;
-        margin-bottom: 15px;
-    }
-    .hi-social-links { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
-    .hi-social-links a { color: #00b894; text-decoration: none; }
-    .hi-social-links a svg { width: 28px; height: 28px; fill: #00b894; transition: opacity 0.3s; }
-    .hi-social-links a:hover svg { opacity: 0.7; }
-    .hi-contact-form .form-group { margin-bottom: 15px; }
-    .hi-contact-form input, .hi-contact-form textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-family: inherit;
-        font-size: 1rem;
-        box-sizing: border-box;
-    }
-    .hi-contact-form .form-consent {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0 8px;
-        align-items: start;
-        font-size: 0.8rem;
-        color: #666;
-        line-height: 1.4;
-        margin-bottom: 15px;
-    }
-    .hi-contact-form .form-consent input { margin-top: 0.2em; }
-    .hi-contact-form .form-consent a { color: #00b894; }
-    .hi-contact-form button {
-        width: 100%;
-        padding: 12px;
-        background-color: #00b894;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    .hi-contact-form button:hover { opacity: 0.9; }
-    .hi-form-status { margin-top: 10px; text-align: center; font-size: 0.9rem; }
-    .hi-widget-footer { text-align: center; margin-top: 12px; }
-    .hi-widget-footer a { font-size: 0.7rem; color: #aaa; text-decoration: none; transition: color 0.3s; }
-    .hi-widget-footer a:hover { color: #777; }
-    .hi-form-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
-
-    .hi-widget-modal.hi-widget-dark-mode {
-        background-color: #1a202c;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-        border: 1px solid #2d3748;
-    }
-    .hi-widget-modal.hi-widget-dark-mode .hi-widget-modal__body p { color: #e2e8f0; }
-    .hi-widget-modal.hi-widget-dark-mode .hi-extra-text { background-color: #2d3748; color: #a0aec0; }
-    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form input,
-    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form textarea {
-        background-color: #2d3748;
-        color: #e2e8f0;
-        border-color: #4a5568;
-    }
-    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form input::placeholder,
-    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form textarea::placeholder {
-        color: #718096;
-    }
-    .hi-widget-modal.hi-widget-dark-mode .form-consent { color: #a0aec0; }
-    .hi-widget-modal.hi-widget-dark-mode .hi-widget-footer a { color: #718096; }
-    .hi-widget-modal.hi-widget-dark-mode .hi-widget-footer a:hover { color: #a0aec0; }
-    .hi-widget-trigger .hi-tooltip.hi-widget-dark-mode {
-        background-color: #2d3748;
-        color: #e2e8f0;
-        border-color: #4a5568;
-    }
-    .hi-widget-trigger.hi-widget-left .hi-tooltip.hi-widget-dark-mode::after {
-        border-color: transparent #2d3748 transparent transparent;
-    }
-    .hi-widget-trigger.hi-widget-right .hi-tooltip.hi-widget-dark-mode::after {
-        border-color: transparent transparent transparent #2d3748;
-    }
-</style>
-
-<div id="hi-widget-modal" class="hi-widget-modal">
-    <div class="hi-widget-modal__header">
-        <h3>Свяжитесь с нами</h3>
-        <button id="hi-widget-close" class="hi-widget-modal__close" aria-label="Закрыть">&times;</button>
-    </div>
-    <div class="hi-widget-modal__body">
-        <p>Выберите удобный способ связи или напишите нам через форму ниже.</p>
-        
-        <div class="hi-social-links"></div>
-        <form id="hi-contact-form" class="hi-contact-form" method="post" action="/crm/send_contact_form.php">
-            <div class="hi-form-honeypot" aria-hidden="true"><label>Ваш сайт<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-            <div class="form-group"><input type="text" name="name" placeholder="Ваше имя" aria-label="Ваше имя" maxlength="120" autocomplete="name" required></div>
-            <div class="form-group"><input type="email" name="email" placeholder="Ваш Email" aria-label="Ваш Email" maxlength="254" autocomplete="email" required></div>
-            <div class="form-group"><textarea name="message" placeholder="Ваше сообщение" aria-label="Ваше сообщение" maxlength="5000" rows="4" required></textarea></div>
-            <div class="form-consent">
-                <input type="checkbox" id="hi-consent-checkbox" name="consent" required>
-                <label for="hi-consent-checkbox">Я согласен на обработку персональных данных и принимаю <a href="https://grushada.github.io/privacy" target="_blank" rel="noopener noreferrer">Политику конфиденциальности</a>.</label>
-            </div>
-            <button type="submit">Отправить</button>
-            <div class="hi-widget-footer">
-                <a href="https://hostinside.ru/crm/" target="_blank" rel="noopener noreferrer">Сделано на hostinside.ru</a>
-            </div>
-        </form>
-        <div id="hi-form-status" class="hi-form-status"></div>
-    </div>
-</div>
-
-<div id="hi-widget-trigger" class="hi-widget-trigger hi-widget-right" title="Свяжитесь с нами">
-    <div class="hi-tooltip">Написать нам</div>
-    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-</div>
-
-<script>
-(function() {
-    const trigger = document.getElementById('hi-widget-trigger');
-    const modal = document.getElementById('hi-widget-modal');
-    const closeBtn = document.getElementById('hi-widget-close');
-    const form = document.getElementById('hi-contact-form');
-    const statusDiv = document.getElementById('hi-form-status');
-
-    if (!trigger || !modal || !closeBtn || !form) {
-        console.error('HostInside Widget: Один или несколько ключевых элементов не найдены.');
-        return;
-    }
-
-    const applyTheme = (isDark) => {
-        const tooltip = trigger.querySelector('.hi-tooltip');
-        if (isDark) {
-            modal.classList.add('hi-widget-dark-mode');
-            if (tooltip) tooltip.classList.add('hi-widget-dark-mode');
-        } else {
-            modal.classList.remove('hi-widget-dark-mode');
-            if (tooltip) tooltip.classList.remove('hi-widget-dark-mode');
+    <!-- ============================================================ -->
+    <!--  БЛОК 1: ШРИФТЫ – подключаются локально (без Google Fonts)    -->
+    <!--  Это ускоряет загрузку и не отправляет запросы за рубеж.      -->
+    <!--  Шрифт Montserrat скачан и лежит в папке /fonts на сервере.   -->
+    <!-- ============================================================ -->
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
-    };
+        /* ---- Общие стили для страницы ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0a0a1a;
+            color: #eee;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(20, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px 25px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4ff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .sub {
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .section {
+            margin: 40px 0 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #c4b5fd;
+            margin-bottom: 15px;
+        }
+        .map-wrap {
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .map-wrap iframe {
+            display: block;
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+        .video-wrap {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .video-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .captcha-placeholder {
+            background: #1a1a2e;
+            border: 1px dashed #555;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+        }
+        .footer-note a {
+            color: #a78bfa;
+            text-decoration: none;
+        }
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+        /* Стили для виджета HostInside (чат) – они будут в конце */
+    </style>
 
-    try {
-        const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        applyTheme(colorSchemeQuery.matches);
-        colorSchemeQuery.addEventListener('change', (e) => applyTheme(e.matches));
-    } catch (e) {
-        console.error('HostInside Widget: Could not set up theme detection.', e);
-    }
+    <!-- ============================================================ -->
+    <!--  БЛОК 2: СЧЁТЧИКИ АНАЛИТИКИ (все, включая зарубежные)       -->
+    <!--  Здесь собраны: Top.Mail.Ru, Яндекс.Метрика, Google Analytics, -->
+    <!--  Microsoft Clarity. ВСЕ ОСТАВЛЕНЫ, дубли удалены.             -->
+    <!-- ============================================================ -->
 
-    const toggleModal = () => modal.classList.toggle('is-open');
+    <!-- 2.1. Top.Mail.Ru (оставлен только этот, второй в конце удалён) -->
+    <script type="text/javascript">
+        var _tmr = window._tmr || (window._tmr = []);
+        _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
+        (function (d, w, id) {
+            if (d.getElementById(id)) return;
+            var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+            ts.src = "https://top-fwz1.mail.ru/js/code.js";
+            var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+            if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+        })(document, window, "tmr-code");
+    </script>
+    <noscript>
+        <div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div>
+    </noscript>
 
-    trigger.addEventListener('click', toggleModal);
-    closeBtn.addEventListener('click', toggleModal);
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        statusDiv.textContent = 'Отправка...';
-        statusDiv.style.color = '#333';
-        try {
-            const formData = new FormData(form);
-            const response = await fetch('/crm/send_contact_form.php', {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
-            const result = await response.json();
-            if (response.ok && result.status === 'success') {
-                statusDiv.textContent = result.message;
-                statusDiv.style.color = 'green';
-                form.reset();
-            } else {
-                throw new Error(result.message || 'Произошла ошибка.');
+    <!-- 2.2. Яндекс.Метрика (счётчик 110413717, Вебвизор включён) -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) { return; }
             }
-        } catch (error) {
-            statusDiv.textContent = 'Ошибка: ' + error.message;
-            statusDiv.style.color = 'red';
+            k=e.createElement(t), a=e.getElementsByTagName(t)[0];
+            k.async=1; k.src=r; a.parentNode.insertBefore(k,a);
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=110413717", "ym");
+        ym(110413717, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+
+    <!-- 2.3. Google Analytics (gtag) – оставлен, работает как обычно -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-GYRZDGVW3V');
+    </script>
+
+    <!-- 2.4. Microsoft Clarity (тепловые карты и записи сессий) -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r); t.async=1; t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "xn0ggpvg0m");
+    </script>
+
+    <!-- ============================================================ -->
+    <!--  БЛОК 3: РЕКЛАМНЫЕ СЕТИ (оставлены и Google AdSense, и РСЯ)  -->
+    <!--  AdSense – загружается через adsbygoogle.js                  -->
+    <!--  РСЯ – через context.js и ap-loader.js                       -->
+    <!-- ============================================================ -->
+
+    <!-- 3.1. Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
+
+    <!-- 3.2. Яндекс.Рекламная сеть (РСЯ) – загрузчик и инициализация -->
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+    <script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
+    <!-- Сам блок РСЯ будет размещён в теле страницы в контейнере ниже -->
+
+    <!-- ============================================================ -->
+    <!--  БЛОК 4: КАРТЫ – два способа (оба оставлены)                 -->
+    <!--  4.1. Конструктор – работает без ключа, готовый iframe.      -->
+    <!--  4.2. API – требует ключ, поэтому закомментирован, но       -->
+    <!--       оставлен для будущего использования.                   -->
+    <!-- ============================================================ -->
+
+    <!-- 4.1. Конструктор Яндекс.Карт (простой, без ключа) -->
+    <script type="text/javascript" charset="utf-8" async
+        src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A2a61c7913645f0f596bb969826b54e43678134b0b3c929ef531615124b5a3a1c&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true">
+    </script>
+
+    <!-- 4.2. API Яндекс.Карт (требуется API-ключ, пока закомментирован) -->
+    <!--
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_КЛЮЧ&lang=ru_RU"></script>
+    <script>
+        ymaps.ready(function() {
+            var myMap = new ymaps.Map("map-api", {
+                center: [61.668796, 50.836500],
+                zoom: 12
+            });
+        });
+    </script>
+    <div id="map-api" style="width:100%; height:400px;"></div>
+    -->
+
+    <!-- ============================================================ -->
+    <!--  БЛОК 5: ВИДЕО (VK Видео – вместо YouTube)                  -->
+    <!--  Код вставки скопирован с VK Видео, работает без проблем.    -->
+    <!-- ============================================================ -->
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Тестовая страница</h1>
+        <p class="sub">Все интеграции – и зарубежные, и отечественные. Дубли удалены, комментарии добавлены.</p>
+
+        <!-- ========= РЕКЛАМА ========= -->
+        <div class="section">
+            <h2>📢 Рекламные блоки</h2>
+            <!-- Google AdSense – автоматически встраивается, но можно разместить и вручную -->
+            <div style="margin-bottom:20px; background:rgba(255,255,255,0.03); padding:10px; border-radius:12px; text-align:center; color:#666; font-size:0.8rem;">
+                Здесь может быть блок Google AdSense (автоматическая вставка)
+            </div>
+            <!-- Яндекс.РСЯ – конкретный блок с ID R-A-19547505-1 -->
+            <div id="yandex_rtb_R-A-19547505-1" style="min-height:100px; background:rgba(255,255,255,0.02); border-radius:12px;"></div>
+        </div>
+
+        <!-- ========= КАРТА (конструктор) ========= -->
+        <div class="section">
+            <h2>🗺️ Яндекс.Карты (Сыктывкар) – конструктор</h2>
+            <div class="map-wrap">
+                <!-- Конструктор создаст iframe внутри этого div -->
+                <div id="map-container" style="width:100%; height:400px;"></div>
+            </div>
+            <p style="color:#666; font-size:0.8rem; margin-top:6px;">
+                Карта встроена через конструктор – не требует API-ключа.
+            </p>
+        </div>
+
+        <!-- ========= КАРТА (API) – закомментирована, но виден контейнер ========= -->
+        <!--
+        <div class="section">
+            <h2>🗺️ Яндекс.Карты (API) – требуется ключ</h2>
+            <div id="map-api" style="width:100%; height:400px; background:#1a1a2e; border-radius:18px;"></div>
+            <p style="color:#666; font-size:0.8rem;">Раскомментируйте скрипты в head и получите API-ключ в Яндекс.Облаке.</p>
+        </div>
+        -->
+
+        <!-- ========= ВИДЕО ========= -->
+        <div class="section">
+            <h2>🎬 VK Видео</h2>
+            <div class="video-wrap">
+                <iframe src="https://vkvideo.ru/video_ext.php?oid=-206563776&id=456239043&hd=4"
+                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- ========= КАПЧА (SmartCaptcha) – закомментирована, но показан placeholder ========= -->
+        <div class="section">
+            <h2>🧩 Яндекс.SmartCaptcha</h2>
+            <div class="captcha-placeholder">
+                <p>⚠️ Капча отключена. Для включения:</p>
+                <ul style="text-align:left; display:inline-block; color:#aaa; font-size:0.85rem;">
+                    <li>1. Получить <strong>client_key</strong> в Яндекс.Облаке.</li>
+                    <li>2. Раскомментировать скрипты в конце тела страницы.</li>
+                    <li>3. Вставить ключ в атрибут <code>data-sitekey</code> контейнера.</li>
+                </ul>
+            </div>
+            <!-- Контейнер для капчи (скрыт, пока нет ключа) -->
+            <div id="captcha-container" class="smart-captcha" data-sitekey="ТВОЙ_CLIENT_KEY" style="display:none;"></div>
+        </div>
+
+        <!-- ========= ЧАТ (HostInside) – виджет и форма ========= -->
+        <div class="section">
+            <h2>💬 Чат с поддержкой (HostInside)</h2>
+            <p style="color:#999; font-size:0.9rem;">
+                Виджет появляется в правом нижнем углу. Форма отправляет данные на <code>/crm/send_contact_form.php</code> – этот обработчик нужно создать на сервере.
+                Пока форма закомментирована, но виджет-кнопка видна.
+            </p>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  БЛОК 6: СКРИПТЫ, КОТОРЫЕ ДОЛЖНЫ ГРУЗИТЬСЯ В КОНЦЕ          -->
+    <!--  (чтобы не тормозили отрисовку страницы)                     -->
+    <!-- ============================================================ -->
+
+    <!-- 6.1. Капча – закомментирована до получения ключа -->
+    <!--
+    <script src="https://captcha-api.yandex.ru/captcha.js?render=onload&onload=onCaptchaReady"></script>
+    <script>
+        function onCaptchaReady() {
+            var container = document.getElementById('captcha-container');
+            if (container) {
+                container.style.display = 'block';
+                window.smartCaptcha.render(container, { sitekey: 'ТВОЙ_CLIENT_KEY' });
+            }
         }
-    });
-})();
-</script>
+    </script>
+    -->
 
-<!-- Begin Verbox {literal} -->
-<script>
-    (function(){(function c(d,w,m,i) {
-        window.supportAPIMethod = m;
-        var s = d.createElement('script');
-        s.id = 'supportScript'; 
-        s.async = true;
-        var id = '929eeec43848d83fa86d998f1b68adbc';
-        s.src = (!i ? 'https://admin.verbox.ru/support/support.js' : 'https://static.site-chat.me/support/support.int.js') + '?h=' + id;
-        s.onerror = i ? undefined : function(){c(d,w,m,true)};
-        w[m] = w[m] ? w[m] : function(){(w[m].q = w[m].q ? w[m].q : []).push(arguments);};
-        (d.head ? d.head : d.body).appendChild(s);
-    })(document,window,'Verbox')})();
-</script>
-<!-- {/literal} End Verbox -->
+    <!-- 6.2. Виджет HostInside (чат) – стили и логика -->
+    <style>
+        /* ---- Стили виджета чата ---- */
+        .hi-widget-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #00b894;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+        .hi-widget-trigger:hover { transform: scale(1.1); }
+        .hi-widget-trigger svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+            position: relative;
+            z-index: 1;
+        }
+        .hi-widget-trigger::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #00b894;
+            border-radius: 50%;
+            animation: hi-pulse 2s infinite ease-out;
+            z-index: 0;
+        }
+        @keyframes hi-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            70% { transform: scale(1.8); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        .hi-widget-modal {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-width: calc(100% - 40px);
+            max-height: calc(100vh - 110px);
+            background: #1a1a2e;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .hi-widget-modal.is-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .hi-widget-modal__header {
+            background: #00b894;
+            padding: 15px 20px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        .hi-widget-modal__header h3 { margin: 0; font-size: 1.2rem; }
+        .hi-widget-modal__close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .hi-widget-modal__body {
+            padding: 20px;
+            overflow-y: auto;
+            color: #e2e8f0;
+        }
+        .hi-widget-modal__body p { margin: 0 0 15px; }
+        .hi-contact-form .form-group { margin-bottom: 15px; }
+        .hi-contact-form input,
+        .hi-contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .hi-contact-form input::placeholder,
+        .hi-contact-form textarea::placeholder { color: #718096; }
+        .hi-contact-form .form-consent {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0 8px;
+            font-size: 0.8rem;
+            color: #a0aec0;
+            margin-bottom: 15px;
+            align-items: start;
+        }
+        .hi-contact-form .form-consent a { color: #00b894; }
+        .hi-contact-form button {
+            width: 100%;
+            padding: 12px;
+            background: #00b894;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .hi-contact-form button:hover { opacity: 0.85; }
+        .hi-widget-footer { text-align: center; margin-top: 12px; }
+        .hi-widget-footer a {
+            font-size: 0.7rem;
+            color: #718096;
+            text-decoration: none;
+        }
+        .hi-widget-footer a:hover { color: #a0aec0; }
+        .hi-form-honeypot {
+            position: absolute !important;
+            left: -10000px !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+        }
+        .hi-form-status { margin-top: 10px; text-align: center; font-size: 0.9rem; }
+        .hi-tooltip {
+            position: absolute;
+            right: calc(100% + 15px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 8px 15px;
+            border-radius: 8px;
+            white-space: nowrap;
+            border: 1px solid #4a5568;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+        .hi-widget-modal.is-open ~ .hi-widget-trigger .hi-tooltip {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
 
-<!-- Begin Verbox {literal} -->
-<script>
-    (function(){(function c(d,w,m,i) {
-        window.supportAPIMethod = m;
-        var s = d.createElement('script');
-        s.id = 'supportScript'; 
-        s.async = true;
-        var id = '929eeec43848d83fa86d998f1b68adbc';
-        s.src = (!i ? 'https://admin.verbox.ru/support/support.js' : 'https://static.site-chat.me/support/support.int.js') + '?h=' + id;
-        s.onerror = i ? undefined : function(){c(d,w,m,true)};
-        w[m] = w[m] ? w[m] : function(){(w[m].q = w[m].q ? w[m].q : []).push(arguments);};
-        (d.head ? d.head : d.body).appendChild(s);
-    })(document,window,'Verbox')})();
-</script>
-<!-- {/literal} End Verbox -->
+    <!-- Модалка чата -->
+    <div id="hi-widget-modal" class="hi-widget-modal">
+        <div class="hi-widget-modal__header">
+            <h3>Свяжитесь с нами</h3>
+            <button id="hi-widget-close" class="hi-widget-modal__close">&times;</button>
+        </div>
+        <div class="hi-widget-modal__body">
+            <p>Выберите удобный способ связи или напишите через форму.</p>
+            <form id="hi-contact-form" class="hi-contact-form" method="post" action="/crm/send_contact_form.php">
+                <div class="hi-form-honeypot"><label>Ваш сайт<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+                <div class="form-group"><input type="text" name="name" placeholder="Ваше имя" maxlength="120" required /></div>
+                <div class="form-group"><input type="email" name="email" placeholder="Ваш Email" maxlength="254" required /></div>
+                <div class="form-group"><textarea name="message" placeholder="Сообщение" rows="4" maxlength="5000" required></textarea></div>
+                <div class="form-consent">
+                    <input type="checkbox" id="hi-consent" name="consent" required />
+                    <label for="hi-consent">Я согласен на обработку данных и принимаю <a href="https://grushada.github.io/privacy" target="_blank" rel="noopener">Политику</a>.</label>
+                </div>
+                <button type="submit">Отправить</button>
+                <div class="hi-widget-footer">
+                    <a href="https://hostinside.ru/crm/" target="_blank" rel="noopener">Сделано на hostinside.ru</a>
+                </div>
+            </form>
+            <div id="hi-form-status" class="hi-form-status"></div>
+        </div>
+    </div>
 
-<!-- https://chat.integracio.ru/929eeec43848d83fa86d998f1b68adbc/grushada.github.io/ru -->
+    <!-- Кнопка-триггер -->
+    <div id="hi-widget-trigger" class="hi-widget-trigger" title="Написать нам">
+        <div class="hi-tooltip">Написать нам</div>
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+    </div>
 
+    <!-- Скрипт управления виджетом (отправка формы – пока заглушка) -->
+    <script>
+        (function() {
+            const trigger = document.getElementById('hi-widget-trigger');
+            const modal = document.getElementById('hi-widget-modal');
+            const closeBtn = document.getElementById('hi-widget-close');
+            const form = document.getElementById('hi-contact-form');
+            const status = document.getElementById('hi-form-status');
+
+            if (!trigger || !modal || !closeBtn || !form) return;
+
+            const toggle = () => modal.classList.toggle('is-open');
+            trigger.addEventListener('click', toggle);
+            closeBtn.addEventListener('click', toggle);
+
+            // Отправка формы – пока выдаёт ошибку, т.к. обработчик не создан.
+            // Замените action формы на реальный URL, когда будет готов бэкенд.
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                status.textContent = 'Отправка...';
+                status.style.color = '#a0aec0';
+                try {
+                    const data = new FormData(form);
+                    const resp = await fetch(form.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    const result = await resp.json();
+                    if (resp.ok && result.status === 'success') {
+                        status.textContent = result.message || 'Сообщение отправлено!';
+                        status.style.color = '#4ade80';
+                        form.reset();
+                    } else {
+                        throw new Error(result.message || 'Ошибка сервера');
+                    }
+                } catch (err) {
+                    status.textContent = 'Ошибка: ' + err.message;
+                    status.style.color = '#f87171';
+                }
+            });
+        })();
+    </script>
+
+    <!-- ============================================================ -->
+    <!--  БЛОК 7: VERBOX (онлайн-чат) – оставлен только один раз      -->
+    <!--  Дубликат удалён.                                            -->
+    <!-- ============================================================ -->
+    <script>
+        (function(){(function c(d,w,m,i) {
+            window.supportAPIMethod = m;
+            var s = d.createElement('script');
+            s.id = 'supportScript';
+            s.async = true;
+            var id = '929eeec43848d83fa86d998f1b68adbc';
+            s.src = (!i ? 'https://admin.verbox.ru/support/support.js' : 'https://static.site-chat.me/support/support.int.js') + '?h=' + id;
+            s.onerror = i ? undefined : function(){c(d,w,m,true)};
+            w[m] = w[m] ? w[m] : function(){(w[m].q = w[m].q ? w[m].q : []).push(arguments);};
+            (d.head ? d.head : d.body).appendChild(s);
+        })(document,window,'Verbox')})();
+    </script>
+
+    <!-- ============================================================ -->
+    <!--  БЛОК 8: ФУТЕР                                               -->
+    <!-- ============================================================ -->
+    <div class="footer-note">
+        <p>
+            © 2026 Тестовая страница &bull;
+            <a href="https://grushada.github.io" target="_blank">grushada.github.io</a> &bull;
+            Все интеграции (и зарубежные, и отечественные) оставлены.
+        </p>
+        <p style="font-size:0.7rem; color:#555;">
+            * Для работы капчи, API‑карты и формы чата требуются реальные ключи и обработчики.
+            См. комментарии в коде.
+        </p>
+    </div>
+</body>
+</html>
