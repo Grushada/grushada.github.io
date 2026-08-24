@@ -99,4 +99,300 @@
 
 <iframe src="https://vkvideo.ru/video_ext.php?oid=-206563776&id=456239043&hd=4" width="1920" height="1080" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
 
+<script src="https://captcha-api.yandex.ru/captcha.js?render=onload&onload=onCaptchaReady"></script>
+
+<div id="captcha-container" class="smart-captcha" data-sitekey="ТВОЙ_CLIENT_KEY"></div>
+
+<script>
+   function onCaptchaReady() {
+      window.smartCaptcha.render('captcha-container', { sitekey: 'ТВОЙ_CLIENT_KEY' });
+   }
+</script>
+
+<!-- Start of HostInside.ru Widget Code -->
+<style>
+    .hi-widget-trigger {
+        position: fixed;
+        bottom: 20px;
+        right: 20px; left: auto;
+        width: 60px;
+        height: 60px;
+        background-color: #00b894;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 9998;
+        transition: transform 0.3s ease;
+    }
+    .hi-widget-trigger:hover { transform: scale(1.1); }
+    .hi-widget-trigger svg { width: 32px; height: 32px; fill: white; position: relative; z-index: 1; }
+    .hi-widget-trigger::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #00b894;
+        border-radius: 50%;
+        animation: hi-pulse 2s infinite ease-out;
+        z-index: 0;
+    }
+    @keyframes hi-pulse {
+        0% { transform: scale(1); opacity: 0.8; }
+        70% { transform: scale(1.8); opacity: 0; }
+        100% { opacity: 0; }
+    }
+    .hi-widget-modal {
+        position: fixed;
+        bottom: 90px;
+        right: 20px; left: auto;
+        width: 350px;
+        max-width: calc(100% - 40px);
+        max-height: calc(100vh - 110px); /* Ограничиваем высоту, чтобы виджет не вылезал за экран (90px снизу + 20px запас сверху) */
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+    .hi-widget-modal.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .hi-widget-trigger .hi-tooltip {
+        position: absolute;
+        right: calc(100% + 15px); top: 50%; transform: translateY(-50%);
+        background-color: #fff;
+        color: #333;
+        padding: 8px 15px;
+        border-radius: 8px;
+        white-space: nowrap;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border: 1px solid #eee;
+        font-size: 0.9rem;
+        font-weight: 500;
+        opacity: 1;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+    .hi-widget-modal.is-open ~ .hi-widget-trigger .hi-tooltip {
+        opacity: 0;
+        visibility: hidden;
+    }
+    .hi-widget-trigger .hi-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 100%; margin-top: -6px;
+        border-width: 6px;
+        border-style: solid;
+    }
+    .hi-widget-trigger.hi-widget-left .hi-tooltip::after { border-color: transparent white transparent transparent; }
+    .hi-widget-trigger.hi-widget-right .hi-tooltip::after { border-color: transparent transparent transparent white; }
+
+    .hi-widget-modal__header {
+        background-color: #00b894;
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .hi-widget-modal__header h3 { margin: 0; font-size: 1.2rem; }
+    .hi-widget-modal__close { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; line-height: 1; padding: 0; }
+    .hi-widget-modal__body {
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        overflow-y: auto;
+        flex: 1;
+    }
+    .hi-widget-modal__body p { margin: 0 0 15px; font-size: 0.95rem; color: #333; }
+    .hi-widget-modal__body .hi-extra-text {
+        font-size: 0.85rem;
+        color: #666;
+        text-align: center;
+        background-color: #f0f2f5;
+        padding: 8px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+    .hi-social-links { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
+    .hi-social-links a { color: #00b894; text-decoration: none; }
+    .hi-social-links a svg { width: 28px; height: 28px; fill: #00b894; transition: opacity 0.3s; }
+    .hi-social-links a:hover svg { opacity: 0.7; }
+    .hi-contact-form .form-group { margin-bottom: 15px; }
+    .hi-contact-form input, .hi-contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+    .hi-contact-form .form-consent {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0 8px;
+        align-items: start;
+        font-size: 0.8rem;
+        color: #666;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+    .hi-contact-form .form-consent input { margin-top: 0.2em; }
+    .hi-contact-form .form-consent a { color: #00b894; }
+    .hi-contact-form button {
+        width: 100%;
+        padding: 12px;
+        background-color: #00b894;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .hi-contact-form button:hover { opacity: 0.9; }
+    .hi-form-status { margin-top: 10px; text-align: center; font-size: 0.9rem; }
+    .hi-widget-footer { text-align: center; margin-top: 12px; }
+    .hi-widget-footer a { font-size: 0.7rem; color: #aaa; text-decoration: none; transition: color 0.3s; }
+    .hi-widget-footer a:hover { color: #777; }
+    .hi-form-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+
+    .hi-widget-modal.hi-widget-dark-mode {
+        background-color: #1a202c;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        border: 1px solid #2d3748;
+    }
+    .hi-widget-modal.hi-widget-dark-mode .hi-widget-modal__body p { color: #e2e8f0; }
+    .hi-widget-modal.hi-widget-dark-mode .hi-extra-text { background-color: #2d3748; color: #a0aec0; }
+    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form input,
+    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form textarea {
+        background-color: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form input::placeholder,
+    .hi-widget-modal.hi-widget-dark-mode .hi-contact-form textarea::placeholder {
+        color: #718096;
+    }
+    .hi-widget-modal.hi-widget-dark-mode .form-consent { color: #a0aec0; }
+    .hi-widget-modal.hi-widget-dark-mode .hi-widget-footer a { color: #718096; }
+    .hi-widget-modal.hi-widget-dark-mode .hi-widget-footer a:hover { color: #a0aec0; }
+    .hi-widget-trigger .hi-tooltip.hi-widget-dark-mode {
+        background-color: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+    .hi-widget-trigger.hi-widget-left .hi-tooltip.hi-widget-dark-mode::after {
+        border-color: transparent #2d3748 transparent transparent;
+    }
+    .hi-widget-trigger.hi-widget-right .hi-tooltip.hi-widget-dark-mode::after {
+        border-color: transparent transparent transparent #2d3748;
+    }
+</style>
+
+<div id="hi-widget-modal" class="hi-widget-modal">
+    <div class="hi-widget-modal__header">
+        <h3>Свяжитесь с нами</h3>
+        <button id="hi-widget-close" class="hi-widget-modal__close" aria-label="Закрыть">&times;</button>
+    </div>
+    <div class="hi-widget-modal__body">
+        <p>Выберите удобный способ связи или напишите нам через форму ниже.</p>
+        
+        <div class="hi-social-links"></div>
+        <form id="hi-contact-form" class="hi-contact-form" method="post" action="/crm/send_contact_form.php">
+            <div class="hi-form-honeypot" aria-hidden="true"><label>Ваш сайт<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="form-group"><input type="text" name="name" placeholder="Ваше имя" aria-label="Ваше имя" maxlength="120" autocomplete="name" required></div>
+            <div class="form-group"><input type="email" name="email" placeholder="Ваш Email" aria-label="Ваш Email" maxlength="254" autocomplete="email" required></div>
+            <div class="form-group"><textarea name="message" placeholder="Ваше сообщение" aria-label="Ваше сообщение" maxlength="5000" rows="4" required></textarea></div>
+            <div class="form-consent">
+                <input type="checkbox" id="hi-consent-checkbox" name="consent" required>
+                <label for="hi-consent-checkbox">Я согласен на обработку персональных данных и принимаю <a href="https://grushada.github.io/privacy" target="_blank" rel="noopener noreferrer">Политику конфиденциальности</a>.</label>
+            </div>
+            <button type="submit">Отправить</button>
+            <div class="hi-widget-footer">
+                <a href="https://hostinside.ru/crm/" target="_blank" rel="noopener noreferrer">Сделано на hostinside.ru</a>
+            </div>
+        </form>
+        <div id="hi-form-status" class="hi-form-status"></div>
+    </div>
+</div>
+
+<div id="hi-widget-trigger" class="hi-widget-trigger hi-widget-right" title="Свяжитесь с нами">
+    <div class="hi-tooltip">Написать нам</div>
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+</div>
+
+<script>
+(function() {
+    const trigger = document.getElementById('hi-widget-trigger');
+    const modal = document.getElementById('hi-widget-modal');
+    const closeBtn = document.getElementById('hi-widget-close');
+    const form = document.getElementById('hi-contact-form');
+    const statusDiv = document.getElementById('hi-form-status');
+
+    if (!trigger || !modal || !closeBtn || !form) {
+        console.error('HostInside Widget: Один или несколько ключевых элементов не найдены.');
+        return;
+    }
+
+    const applyTheme = (isDark) => {
+        const tooltip = trigger.querySelector('.hi-tooltip');
+        if (isDark) {
+            modal.classList.add('hi-widget-dark-mode');
+            if (tooltip) tooltip.classList.add('hi-widget-dark-mode');
+        } else {
+            modal.classList.remove('hi-widget-dark-mode');
+            if (tooltip) tooltip.classList.remove('hi-widget-dark-mode');
+        }
+    };
+
+    try {
+        const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        applyTheme(colorSchemeQuery.matches);
+        colorSchemeQuery.addEventListener('change', (e) => applyTheme(e.matches));
+    } catch (e) {
+        console.error('HostInside Widget: Could not set up theme detection.', e);
+    }
+
+    const toggleModal = () => modal.classList.toggle('is-open');
+
+    trigger.addEventListener('click', toggleModal);
+    closeBtn.addEventListener('click', toggleModal);
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        statusDiv.textContent = 'Отправка...';
+        statusDiv.style.color = '#333';
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/crm/send_contact_form.php', {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+            const result = await response.json();
+            if (response.ok && result.status === 'success') {
+                statusDiv.textContent = result.message;
+                statusDiv.style.color = 'green';
+                form.reset();
+            } else {
+                throw new Error(result.message || 'Произошла ошибка.');
+            }
+        } catch (error) {
+            statusDiv.textContent = 'Ошибка: ' + error.message;
+            statusDiv.style.color = 'red';
+        }
+    });
+})();
+</script>
 
