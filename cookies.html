@@ -1,18 +1,209 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Использование cookie — PieSenia</title>
-<style>body{background:#060610;color:#e8e4f0;font-family:'Montserrat',sans-serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.8}h1{color:#f0d078;font-family:'Unbounded',sans-serif}h2{color:#a78bfa;margin-top:24px}a{color:#02c1b3}</style></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Политика использования файлов cookie — PieSenia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #060610;
+            color: #e8e4f0;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 860px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 50px 45px;
+            border-radius: 24px;
+            border: 1px solid rgba(167, 139, 250, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            color: #f0d078;
+            font-family: 'Unbounded', 'Montserrat', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .meta {
+            color: #8888aa;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(167, 139, 250, 0.15);
+        }
+        .meta span {
+            color: #a78bfa;
+        }
+        h2 {
+            color: #a78bfa;
+            font-family: 'Unbounded', 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+        p {
+            line-height: 1.8;
+            margin-bottom: 16px;
+            color: #d4d0e0;
+        }
+        ul {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+        ul li {
+            line-height: 1.8;
+            margin-bottom: 6px;
+            color: #d4d0e0;
+        }
+        ul li strong {
+            color: #f0d078;
+        }
+        a {
+            color: #02c1b3;
+            text-decoration: none;
+            transition: color 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        a:hover {
+            color: #f0d078;
+            border-bottom-color: #f0d078;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 14px 32px;
+            border: 1px solid #a78bfa;
+            border-radius: 50px;
+            color: #a78bfa;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: none;
+        }
+        .back-link:hover {
+            background: #a78bfa;
+            color: #060610;
+            border-bottom: none;
+        }
+        .cookie-types {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 16px 0 24px;
+        }
+        .cookie-type {
+            background: rgba(167, 139, 250, 0.06);
+            padding: 16px 20px;
+            border-radius: 12px;
+            border-left: 3px solid #f0d078;
+        }
+        .cookie-type strong {
+            color: #f0d078;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .cookie-type span {
+            color: #d4d0e0;
+            font-size: 0.95rem;
+        }
+        .browser-links {
+            background: rgba(167, 139, 250, 0.06);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin: 12px 0 20px;
+        }
+        .browser-links a {
+            display: inline-block;
+            margin-right: 16px;
+            margin-bottom: 6px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.1rem;
+            }
+            body {
+                padding: 20px 12px;
+            }
+            .browser-links a {
+                display: block;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
 <body>
-<h1>Использование cookie</h1>
-<p>Сайт <strong>PieSenia</strong> использует файлы cookie.</p>
-<h2>Что такое cookie</h2>
-<p>Cookie — это небольшие текстовые файлы, сохраняемые в браузере Пользователя.</p>
-<h2>Какие cookie мы используем</h2>
-<p><strong>Технические:</strong> для хранения гостевого кода и истории заказов.</p>
-<p><strong>Аналитические:</strong> Яндекс.Метрика и Google Analytics для анализа посещаемости.</p>
-<p><strong>Рекламные:</strong> Google AdSense и Яндекс.РСЯ для показа рекламы.</p>
-<h2>Как отключить</h2>
-<p>Вы можете отключить cookie в настройках браузера, но это может повлиять на работу сайта.</p>
-<p><a href="/">← Вернуться на сайт</a></p>
+
+    <div class="container">
+
+        <h1>Политика использования файлов cookie</h1>
+        <div class="meta">Актуальная версия: <span>28 августа 2026 г.</span></div>
+
+        <h2>1. Общие положения</h2>
+        <p>1.1. Настоящая Политика использования файлов cookie (далее — «Политика») разъясняет, какие типы файлов cookie и аналогичных технологий могут использоваться на сайте Сервиса <strong>PieSenia</strong> (grushada.github.io) и в соответствующем Telegram-боте (далее — «Сервис»), а также с какой целью и как Пользователь может управлять своими предпочтениями.</p>
+
+        <h2>2. Что такое файлы cookie?</h2>
+        <p>2.1. Файлы cookie — это небольшие текстовые файлы, которые веб-сайт сохраняет на устройстве Пользователя (компьютере, смартфоне, планшете) при его посещении. Они позволяют сайту запоминать действия и предпочтения Пользователя (например, язык, информацию для входа) на определённый период времени, чтобы Пользователю не приходилось заново вводить эти данные при повторном посещении сайта или переходе с одной страницы на другую.</p>
+
+        <h2>3. Какие файлы cookie мы используем?</h2>
+        <p>3.1. Наш Сервис может использовать следующие категории файлов cookie:</p>
+
+        <div class="cookie-types">
+            <div class="cookie-type">
+                <strong>🍪 Строго необходимые (технические) cookie</strong>
+                <span>Эти файлы cookie необходимы для работы сайта и обеспечения его основных функций. Они позволяют, например, осуществлять навигацию по страницам и доступ к защищённым разделам сайта. Без этих файлов cookie Сервис не может функционировать должным образом.</span>
+            </div>
+            <div class="cookie-type">
+                <strong>⚙️ Функциональные cookie</strong>
+                <span>Эти файлы cookie позволяют запоминать выбор Пользователя (например, язык, регион) и предоставлять более персонализированные функции.</span>
+            </div>
+            <div class="cookie-type">
+                <strong>📊 Аналитические/статистические cookie</strong>
+                <span>Эти файлы cookie помогают нам понять, как Пользователи взаимодействуют с Сервисом, собирая и анализируя информацию анонимно. Это позволяет нам улучшать работу Сервиса и делать его более удобным. Мы используем эти данные только в обобщённом виде.</span>
+            </div>
+        </div>
+
+        <h2>4. Управление файлами cookie</h2>
+        <p>4.1. Большинство веб-браузеров позволяют Пользователю контролировать файлы cookie через свои настройки. Пользователь может настроить браузер таким образом, чтобы он блокировал все файлы cookie или уведомлял об их отправке. Однако следует учитывать, что отключение строго необходимых файлов cookie может сделать невозможным использование некоторых функций Сервиса.</p>
+        <p>4.2. Для управления файлами cookie в вашем браузере вы можете обратиться к справочной информации вашего браузера:</p>
+
+        <div class="browser-links">
+            <a href="https://support.google.com/chrome/answer/95647?hl=ru" target="_blank">🌐 Google Chrome</a>
+            <a href="https://support.mozilla.org/ru/kb/udalenie-kukov-dlya-udaleniya-informacii-kotoryu-s" target="_blank">🦊 Mozilla Firefox</a>
+            <a href="https://support.apple.com/ru-ru/guide/safari/sfri11471/mac" target="_blank">🧭 Apple Safari</a>
+            <a href="https://support.microsoft.com/ru-ru/microsoft-edge/удаление-файлов-cookie-в-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank">🌍 Microsoft Edge</a>
+        </div>
+
+        <p>4.3. Используя Сервис, Пользователь соглашается на использование файлов cookie в соответствии с настоящей Политикой. Если Пользователь не согласен, он должен прекратить использование Сервиса или отключить файлы cookie в настройках браузера.</p>
+
+        <h2>5. Изменения в Политике</h2>
+        <p>5.1. Администрация оставляет за собой право вносить изменения в настоящую Политику. Актуальная версия Политики всегда доступна по адресу <a href="https://grushada.github.io/cookies">https://grushada.github.io/cookies</a>.</p>
+        <p>5.2. Продолжение использования Сервиса после внесения изменений означает согласие Пользователя с новой редакцией Политики.</p>
+
+        <h2>6. Контактная информация</h2>
+        <p>6.1. По всем вопросам, связанным с использованием файлов cookie, Пользователь может обратиться в службу поддержки через форму в боте или по адресу электронной почты: <a href="mailto:love_cute_cats@mail.ru">love_cute_cats@mail.ru</a>.</p>
+
+        <a href="/" class="back-link">← Вернуться на сайт</a>
+
+    </div>
+
 </body>
 </html>
