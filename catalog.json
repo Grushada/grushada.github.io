@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "Ты и я",
+    "emoji": "❤️",
+    "price": 2000,
+    "desc": "Романтичная баллада о вечной любви",
+    "tags": ["Love", "Romantic"],
+    "image": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/big_void.png",
+    "audio": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/big_void.mp3"
+  },
+  {
+    "id": 2,
+    "title": "Осенний дождь",
+    "emoji": "🌧️",
+    "price": 1500,
+    "desc": "Грустная мелодия под шум дождя",
+    "tags": ["Sad", "Autumn"],
+    "image": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song2.jpg",
+    "audio": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song2.mp3"
+  },
+  {
+    "id": 3,
+    "title": "В ритме солнца",
+    "emoji": "☀️",
+    "price": 1800,
+    "desc": "Зажигательный летний хит",
+    "tags": ["Happy", "Summer"],
+    "image": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song3.jpg",
+    "audio": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song3.mp3"
+  },
+  {
+    "id": 4,
+    "title": "Детская мечта",
+    "emoji": "🧸",
+    "price": 1200,
+    "desc": "Добрая песенка для самых маленьких",
+    "tags": ["Kids", "Fairy"],
+    "image": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song4.jpg",
+    "audio": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song4.mp3"
+  },
+  {
+    "id": 5,
+    "title": "Звёздная ночь",
+    "emoji": "🌙",
+    "price": 2200,
+    "desc": "Таинственная композиция под звёздами",
+    "tags": ["Mystic", "Night"],
+    "image": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song5.jpg",
+    "audio": "https://raw.githubusercontent.com/Grushada/grushada.github.io/main/media/song5.mp3"
+  }
+]
