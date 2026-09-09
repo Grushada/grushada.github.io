@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>День Эжвы · Эжва лун</title>
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.35);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --radius: 35px;
+      --radius-sm: 25px;
+      --accent: #ff914d;
+      --accent2: #ff7e5f;
+      --text: #2c3e50;
+      --correct: #2ecc71;
+      --wrong: #e74c3c;
+      --font-title: 'Fredoka', 'Nunito', sans-serif;
+      --font-body: 'Nunito', 'Segoe UI', sans-serif;
+      --glow-accent: 0 0 20px rgba(255, 145, 77, 0.7);
+      --glow-card: 0 10px 35px rgba(0,0,0,0.1), 0 0 20px rgba(255,255,255,0.4);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #ffd6b0 0%, #f9b282 30%, #a2d6f9 80%, #c4e8ff 100%);
+      background-attachment: fixed;
+      background-size: 200% 200%;
+      animation: bgShift 20s ease-in-out infinite;
+      transition: background 0.8s;
+    }
+    @keyframes bgShift {
+      0%,100%{background-position:0% 50%;}
+      25%{background-position:100% 0%;}
+      50%{background-position:100% 100%;}
+      75%{background-position:0% 100%;}
+    }
+
+    /* Парящие элементы */
+    .floaties {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      pointer-events: none; z-index:0;
+    }
+    .floaty-up, .floaty-down {
+	  will-change: transform;
+      position: absolute;
+      font-size: 2.5rem;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      opacity: 0.6;
+      filter: blur(0.3px);
+      user-select: none;
+    }
+    .floaty-up {
+      animation-name: floatUp;
+    }
+    .floaty-down {
+      animation-name: floatDown;
+    }
+    @keyframes floatUp {
+      0%{ transform: translateY(105vh) rotate(0deg) scale(0.5); opacity:0; }
+      10%{ opacity:0.6; }
+      90%{ opacity:0.5; }
+      100%{ transform: translateY(-15vh) rotate(360deg) scale(1.2); opacity:0; }
+    }
+    @keyframes floatDown {
+      0%{ transform: translateY(-15vh) rotate(0deg) scale(0.6); opacity:0; }
+      10%{ opacity:0.6; }
+      90%{ opacity:0.5; }
+      100%{ transform: translateY(105vh) rotate(-360deg) scale(1.3); opacity:0; }
+    }
+
+    /* Основная обёртка */
+    #game-wrapper {
+      position: relative; z-index:10;
+      width:100%; max-width:720px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 45px;
+      border:2px solid var(--glass-border);
+      box-shadow: var(--glow-card), inset 0 0 40px rgba(255,255,255,0.4);
+      padding:22px 28px 28px;
+      display:flex; flex-direction:column; gap:18px;
+      animation: floatIn 0.7s cubic-bezier(0.23,1,0.32,1);
+      transition: box-shadow 0.3s;
+    }
+    #game-wrapper:hover {
+      box-shadow: var(--glow-card), 0 0 40px rgba(255,145,77,0.5);
+    }
+    @keyframes floatIn {
+      from{ opacity:0; transform:translateY(35px) scale(0.94); }
+      to{ opacity:1; transform:translateY(0) scale(1); }
+    }
+
+    .top-panel {
+      display:flex; justify-content:space-between; align-items:center;
+      background: rgba(255,255,255,0.4); backdrop-filter: blur(12px);
+      border-radius:40px; padding:10px 22px;
+      border:1px solid rgba(255,255,255,0.65);
+      gap:12px; flex-wrap:wrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .game-title {
+      font-family: var(--font-title); font-size:1.8rem; font-weight:700;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b, #ff914d);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing:1px;
+      text-shadow: 0 0 15px rgba(255,145,77,0.6);
+      animation: titleGlow 2s infinite alternate;
+    }
+    @keyframes titleGlow {
+      0%{ text-shadow: 0 0 10px rgba(255,145,77,0.5); }
+      100%{ text-shadow: 0 0 25px rgba(255,200,100,0.9); }
+    }
+	
+	/* Основной контейнер слайдера */
+	.volume-slider {
+	  width: 100%;
+	  height: 8px;
+	  border-radius: 10px;
+	  background: rgba(255, 255, 255, 0.35);
+	  backdrop-filter: blur(8px);
+	  border: 1px solid rgba(255, 255, 255, 0.6);
+	  box-shadow: 0 2px 10px rgba(0,0,0,0.08), inset 0 1px 4px rgba(255,255,255,0.5);
+	  appearance: none;
+	  -webkit-appearance: none;
+	  outline: none;
+	  cursor: pointer;
+	  transition: all 0.2s ease;
+	}
+
+	/* Ползунок (бегунок) для WebKit (Chrome, Safari) */
+	.volume-slider::-webkit-slider-thumb {
+	  appearance: none;
+	  -webkit-appearance: none;
+	  width: 22px;
+	  height: 22px;
+	  border-radius: 50%;
+	  background: linear-gradient(135deg, #ff914d, #ff7b2b);
+	  border: 2px solid #fff;
+	  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.5), 0 0 12px rgba(255, 145, 77, 0.6);
+	  cursor: pointer;
+	  transition: transform 0.15s, box-shadow 0.2s;
+	  margin-top: -7px;   /* 👈 ВОТ ЭТА СТРОЧКА — выравнивает бегунок по центру дорожки */
+	}
+
+	/* Ползунок для Firefox */
+	.volume-slider::-moz-range-thumb {
+	  width: 22px;
+	  height: 22px;
+	  border-radius: 50%;
+	  background: linear-gradient(135deg, #ff914d, #ff7b2b);
+	  border: 2px solid #fff;
+	  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.5);
+	  cursor: pointer;
+	  /* для Firefox можно margin-top не добавлять, но если надо: */
+	  /* margin-top: -7px; */
+	}
+
+	/* Ползунок для IE */
+	.volume-slider::-ms-thumb {
+	  width: 22px;
+	  height: 22px;
+	  border-radius: 50%;
+	  background: linear-gradient(135deg, #ff914d, #ff7b2b);
+	  border: 2px solid #fff;
+	  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.5);
+	  cursor: pointer;
+	}
+
+	/* Дорожка (track) для WebKit */
+	.volume-slider::-webkit-slider-runnable-track {
+	  height: 8px;
+	  border-radius: 10px;
+	  background: transparent;
+	}
+
+	/* Дорожка для Firefox */
+	.volume-slider::-moz-range-track {
+	  height: 8px;
+	  border-radius: 10px;
+	  background: transparent;
+	  border: none;
+	}
+
+	/* При наведении на бегунок */
+	.volume-slider:hover::-webkit-slider-thumb {
+	  transform: scale(1.15);
+	  box-shadow: 0 6px 18px rgba(255, 140, 0, 0.6), 0 0 18px rgba(255, 180, 100, 0.8);
+	}
+	.volume-slider:hover::-moz-range-thumb {
+	  transform: scale(1.15);
+	  box-shadow: 0 6px 18px rgba(255, 140, 0, 0.6), 0 0 18px rgba(255, 180, 100, 0.8);
+	}
+
+	/* Активное состояние (при клике) */
+	.volume-slider:active::-webkit-slider-thumb {
+	  transform: scale(0.95);
+	  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.5);
+	}
+	.volume-slider:active::-moz-range-thumb {
+	  transform: scale(0.95);
+	  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.5);
+	}
+	
+    .top-controls { display:flex; align-items:center; gap:10px; }
+    .timer-badge {
+      background: rgba(255,255,255,0.7); backdrop-filter:blur(10px);
+      border-radius:35px; padding:10px 20px; font-size:1.8rem;
+      font-weight:700; color:#2d3436;
+      border:1px solid rgba(255,255,255,0.85);
+      font-family:var(--font-title); transition:0.3s;
+      min-width:95px; text-align:center;
+    }
+    .timer-badge.warning {
+      background: rgba(255,180,180,0.85); color:#c0392b;
+      animation: pulse 0.8s infinite; border-color:#e74c3c;
+    }
+    @keyframes pulse {
+      0%,100%{ transform:scale(1); }
+      50%{ transform:scale(1.04); background:rgba(255,150,150,0.9); }
+    }
+
+    .settings-btn {
+      background: rgba(255,255,255,0.55); border:1px solid rgba(255,255,255,0.7);
+      border-radius:50%; width:44px; height:44px; font-size:1.4rem;
+      cursor:pointer; backdrop-filter:blur(8px); transition:0.2s;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .settings-btn:hover {
+      background: rgba(255,255,255,0.8); transform: rotate(60deg);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15), 0 0 15px rgba(255,145,77,0.6);
+    }
+
+    .tabs { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .tab-btn {
+      background: rgba(255,255,255,0.4); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.6); border-radius:35px;
+      padding:12px 22px; font-weight:700; font-size:1rem;
+      color:var(--text); cursor:pointer; transition:0.2s;
+      font-family:var(--font-title); letter-spacing:0.4px;
+      white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    }
+    .tab-btn.active {
+      background: var(--accent); border-color:var(--accent); color:#fff;
+      box-shadow: 0 8px 22px rgba(255,140,0,0.4), 0 0 20px rgba(255,140,0,0.6);
+      transform:translateY(-2px);
+    }
+    .tab-btn:hover:not(.active) {
+      background: rgba(255,255,255,0.65); transform:translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1), 0 0 15px rgba(255,200,100,0.4);
+    }
+
+    .game-container { display:none; flex-direction:column; gap:15px; }
+    .game-container.active { display:flex; animation: fadeSlide 0.4s; }
+    @keyframes fadeSlide {
+      from{ opacity:0; transform:translateY(12px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.48); backdrop-filter:blur(14px);
+      border-radius:var(--radius); padding:22px 25px;
+      border:1px solid rgba(255,255,255,0.65);
+      box-shadow:0 8px 25px rgba(0,0,0,0.06), 0 0 15px rgba(255,255,255,0.3);
+      font-size:1.05rem; line-height:1.65; color:var(--text);
+      transition: box-shadow 0.3s;
+    }
+    .card:hover {
+      box-shadow:0 12px 30px rgba(0,0,0,0.12), 0 0 25px rgba(255,200,150,0.5);
+    }
+
+    .choices-grid { display:flex; flex-direction:column; gap:10px; }
+    .choice-btn {
+      background: rgba(255,255,255,0.5); backdrop-filter:blur(7px);
+      border:1px solid rgba(255,255,255,0.7); border-radius:50px;
+      padding:15px 22px; font-weight:600; color:var(--text);
+      text-align:left; cursor:pointer; transition:0.2s;
+      box-shadow:0 3px 10px rgba(0,0,0,0.03);
+      display:flex; align-items:center; gap:10px; font-size:1rem;
+    }
+    .choice-btn:hover {
+      background: rgba(255,255,255,0.78); border-color:#ffb347;
+      transform:translateY(-2px); padding-left:28px;
+      box-shadow:0 8px 20px rgba(255,140,0,0.2), 0 0 20px rgba(255,180,100,0.5);
+    }
+
+    .quiz-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; text-align:center; }
+    .quiz-header {
+      font-weight:700; background:rgba(255,255,255,0.4); backdrop-filter:blur(6px);
+      border-radius:22px; padding:13px 4px; font-size:0.9rem;
+      border:1px solid rgba(255,255,255,0.55);
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    }
+    .quiz-cell {
+      background: rgba(255,255,255,0.55); backdrop-filter:blur(6px);
+      border-radius:28px; padding:16px 4px; font-weight:700; font-size:1.4rem;
+      color:var(--text); cursor:pointer; transition:0.2s;
+      border:1px solid rgba(255,255,255,0.65);
+      box-shadow:0 3px 10px rgba(0,0,0,0.04);
+      font-family:var(--font-title);
+    }
+    .quiz-cell:hover:not(.used) {
+      background:#ffb347; color:#fff; border-color:#ffb347;
+      transform:scale(1.04);
+      box-shadow:0 8px 22px rgba(255,140,0,0.3), 0 0 25px rgba(255,180,0,0.6);
+    }
+    .quiz-cell.used {
+      background:rgba(190,190,190,0.45); color:#999;
+      pointer-events:none; text-decoration:line-through;
+      border-color:rgba(200,200,200,0.5);
+    }
+    .score-display {
+      font-weight:700; font-size:1.15rem; color:var(--text);
+      background:rgba(255,255,255,0.4); border-radius:28px; padding:8px 18px;
+      display:inline-block; box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Модалки */
+    .modal-overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.35); backdrop-filter:blur(7px);
+      display:flex; justify-content:center; align-items:center; z-index:200;
+    }
+    .modal-box {
+      background: rgba(255,255,255,0.72); backdrop-filter:blur(22px);
+      border-radius:40px; padding:28px; max-width:460px; width:92%;
+      border:2px solid rgba(255,255,255,0.75);
+      box-shadow:0 20px 50px rgba(0,0,0,0.18), 0 0 30px rgba(255,200,150,0.5);
+      animation:pop 0.3s;
+    }
+    @keyframes pop {
+      from{ transform:scale(0.88); opacity:0; }
+      to{ transform:scale(1); opacity:1; }
+    }
+    .modal-answers { display:flex; flex-direction:column; gap:10px; margin-top:18px; }
+    .modal-answer-btn {
+      background: rgba(255,255,255,0.55); border-radius:30px;
+      padding:14px 18px; border:1px solid rgba(255,255,255,0.7);
+      font-weight:600; cursor:pointer; transition:0.2s; font-size:1rem;
+      color:var(--text);
+    }
+    .modal-answer-btn:hover {
+      background:#ffe0b2; border-color:#ff9800;
+      box-shadow:0 0 15px rgba(255,150,0,0.4);
+    }
+    .modal-answer-btn.correct-flash {
+      background:#2ecc71!important; color:#fff!important;
+      border-color:#27ae60!important; animation:flashGreen 0.5s;
+    }
+    .modal-answer-btn.wrong-flash {
+      background:#e74c3c!important; color:#fff!important;
+      border-color:#c0392b!important; animation:shake 0.5s;
+    }
+    @keyframes flashGreen {
+      0%,100%{box-shadow:0 0 0 rgba(46,204,113,0);}
+      50%{box-shadow:0 0 30px rgba(46,204,113,0.7);}
+    }
+    @keyframes shake {
+      0%,100%{transform:translateX(0);}
+      25%{transform:translateX(-6px);}
+      75%{transform:translateX(6px);}
+    }
+
+    /* Настройки */
+    .settings-overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.4); backdrop-filter:blur(8px);
+      display:flex; justify-content:center; align-items:center; z-index:300;
+    }
+    .settings-panel {
+      background: rgba(255,255,255,0.65); backdrop-filter:blur(24px);
+      border-radius:40px; padding:28px 25px; max-width:440px; width:92%;
+      border:2px solid rgba(255,255,255,0.7);
+      box-shadow:0 20px 50px rgba(0,0,0,0.2), 0 0 30px rgba(255,200,150,0.4);
+      display:flex; flex-direction:column; gap:16px;
+      animation:pop 0.3s;
+    }
+    .settings-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+    .settings-label { font-weight:700; color:var(--text); font-size:0.95rem; }
+    .settings-btn-group { display:inline-flex; gap:5px; align-items:center; }
+    .settings-btn-sm {
+      background:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.7);
+      border-radius:25px; padding:8px 16px; cursor:pointer; font-weight:600;
+      transition:0.2s; font-size:0.9rem; color:var(--text);
+      display:inline-flex; align-items:center; justify-content:center;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    }
+    .settings-btn-sm:hover {
+      background:rgba(255,255,255,0.8);
+      box-shadow:0 4px 15px rgba(0,0,0,0.15);
+      transform: scale(1.03);
+    }
+    .settings-btn-sm.active-setting {
+      background:var(--accent); color:#fff; border-color:var(--accent);
+      box-shadow:0 0 15px rgba(255,140,0,0.5);
+    }
+    .btn-close {
+      background:#e74c3c; color:#fff; border:none; border-radius:25px;
+      padding:10px 22px; cursor:pointer; font-weight:700; align-self:center;
+      transition:0.2s; font-size:0.95rem;
+      box-shadow:0 4px 10px rgba(231,76,60,0.3);
+    }
+    .btn-close:hover {
+      background:#c0392b;
+      box-shadow:0 6px 15px rgba(231,76,60,0.5);
+      transform: scale(1.03);
+    }
+
+    /* Кнопка "Выйти" в аркаде */
+    .btn-quit {
+      background: #95a5a6; color:#fff; border:none; border-radius:25px;
+      padding:10px 22px; cursor:pointer; font-weight:600; transition:0.2s;
+      font-size:0.95rem; margin-top:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    }
+    .btn-quit:hover {
+      background: #7f8c8d;
+      box-shadow:0 6px 15px rgba(0,0,0,0.3);
+      transform: scale(1.03);
+    }
+
+    #catcherCanvas {
+      border-radius:30px;
+      background:rgba(255,255,255,0.4); backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,0.5);
+      width:100%; height:320px; display:block; cursor:pointer; touch-action:none;
+      box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    #endScreen { display:none; flex-direction:column; gap:16px; align-items:center; }
+    .btn-restart {
+      background:var(--accent); border:none; border-radius:50px;
+      padding:16px 35px; font-weight:700; color:#fff; cursor:pointer;
+      box-shadow:0 10px 22px rgba(255,140,0,0.35), 0 0 25px rgba(255,145,77,0.6);
+      font-family:var(--font-title); font-size:1.15rem; transition:0.2s;
+    }
+    .btn-restart:hover { background:#ff7b2b; transform:scale(1.03); }
+
+    @media (max-width:520px) {
+      #game-wrapper { padding:15px 14px 20px; border-radius:32px; }
+      .game-title { font-size:1.3rem; }
+      .timer-badge { font-size:1.3rem; padding:8px 14px; }
+      .tab-btn { padding:10px 15px; font-size:0.85rem; }
+      .quiz-grid { grid-template-columns:repeat(4,1fr); gap:6px; }
+      .quiz-cell { font-size:1.1rem; padding:12px 2px; }
+      .quiz-header { font-size:0.7rem; padding:10px 2px; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="floaties" id="floatiesContainer"></div>
+
+<div id="game-wrapper">
+  <div class="top-panel">
+    <span class="game-title" id="mainTitle">🎪 День Эжвы</span>
+    <div class="top-controls">
+      <div class="timer-badge" id="timerDisplay">15:00</div>
+      <button class="settings-btn" id="settingsBtn" title="Настройки">⚙️</button>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabsRow">
+    <button class="tab-btn active" data-tab="adventure">🎭 Приключение</button>
+    <button class="tab-btn" data-tab="quiz">🧠 Викторина</button>
+    <button class="tab-btn" data-tab="catcher">🎯 Лови удачу</button>
+  </div>
+
+  <div id="adventureContainer" class="game-container active">
+    <div class="card" id="adventureScene"></div>
+    <div id="adventureChoices" class="choices-grid"></div>
+  </div>
+
+  <div id="quizContainer" class="game-container">
+    <div class="card" style="text-align:center;">
+      <span class="score-display" id="quizScoreLabel">⭐ Очки: <span id="quizScore">0</span></span>
+    </div>
+    <div class="quiz-grid" id="quizGrid"></div>
+  </div>
+
+  <div id="catcherContainer" class="game-container">
+    <div class="card" style="text-align:center;">
+      <span class="score-display" id="catcherScoreLabel">🎁 Поймано: <span id="catcherScore">0</span></span>
+      <span style="margin-left:15px;">❤️ <span id="catcherLives">3</span></span>
+    </div>
+    <canvas id="catcherCanvas"></canvas>
+    <p style="text-align:center;color:#555;font-size:0.9rem;" id="catcherHint">Двигай мышкой / пальцем, лови подарки!</p>
+  </div>
+
+  <div id="endScreen"></div>
+</div>
+
+<!-- Модалка викторины -->
+<div id="quizModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <div id="modalQuestion" style="font-size:1.2rem;font-weight:700;color:var(--text);"></div>
+    <div id="modalAnswers" class="modal-answers"></div>
+  </div>
+</div>
+
+<!-- Модалка проигрыша в аркаде -->
+<div id="catcherGameOverModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box" style="text-align:center;">
+    <h3 style="color:var(--text);">Ты проиграл 😢</h3>
+    <p style="margin:15px 0;">Попробуем снова?</p>
+    <button class="btn-restart" id="catcherRetryBtn">Да, попробовать!</button>
+    <button class="btn-restart" id="catcherQuitBtn">Выйти</button>
+  </div>
+</div>
+
+<!-- Модалка настроек -->
+<div id="settingsOverlay" class="settings-overlay" style="display:none;">
+  <div class="settings-panel" id="settingsPanel">
+    <h3 style="font-family:var(--font-title);color:var(--text);text-align:center;">⚙️ Настройки</h3>
+    <div class="settings-row">
+      <span class="settings-label">🌐 Язык / Кыв</span>
+      <div class="settings-btn-group">
+        <button class="settings-btn-sm active-setting" id="langRu" onclick="setLanguage('ru')">Русский</button>
+        <button class="settings-btn-sm" id="langKomi" onclick="setLanguage('komi')">Коми</button>
+      </div>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">🎵 Музыка</span>
+      <div class="settings-btn-group">
+        <button class="settings-btn-sm" id="btnPrevTrack" onclick="prevTrack()">⏮</button>
+        <button class="settings-btn-sm" id="btnPlayPause" onclick="toggleMusic()">⏯</button>
+        <button class="settings-btn-sm" id="btnNextTrack" onclick="nextTrack()">⏭</button>
+      </div>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">🔊 Громкость</span>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30" oninput="setVolume(this.value)">
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">✨ Анимации фона</span>
+      <div class="settings-btn-group">
+        <button class="settings-btn-sm active-setting" id="btnAnimOn" onclick="toggleAnimations(true)">Вкл</button>
+        <button class="settings-btn-sm" id="btnAnimOff" onclick="toggleAnimations(false)">Выкл</button>
+      </div>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">🔔 Звуки интерфейса</span>
+      <div class="settings-btn-group">
+        <button class="settings-btn-sm active-setting" id="btnUISoundOn" onclick="toggleUISound(true)">Вкл</button>
+        <button class="settings-btn-sm" id="btnUISoundOff" onclick="toggleUISound(false)">Выкл</button>
+      </div>
+    </div>
+    <button class="btn-close" onclick="window.closeSettings()">✕ Закрыть</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  // ==================== ГЛОБАЛЬНОЕ СОСТОЯНИЕ ====================
+  const MAX_TIME = 900;
+  let timeLeft = MAX_TIME;
+  let timerInterval = null;
+  let gameActive = true;
+  let totalScore = 0;
+  let quizPoints = 0;
+  let catcherPoints = 0;
+  let currentLanguage = 'ru';
+  let animationsOn = true;
+  let uiSoundOn = true;
+  let currentTrackIndex = 0;
+  let musicPlaying = false;
+  let musicVolume = 0.3;
+  let audioCtx = null;
+  let musicGain = null;
+  let musicInterval = null;
+  let currentNoteIndex = 0;
+  let floatyInterval = null;
+
+  // Состояние квеста
+  const adventureState = {
+    decorationsDone: false,
+    helpedGrandma: false,
+    foundDog: false,
+    friendsGathered: false,
+    lemonadeReady: false,
+    currentScene: 'morning'
+  };
+
+  const quizUsed = new Set();
+  let quizModalOpen = false;
+  let catcherLives = 3;
+  let catcherActive = false;
+  let catcherRAF = null;
+  let basketX = 0;
+  let fallingItems = [];
+  let catcherScoreLocal = 0;
+
+  // DOM элементы
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+
+  const timerDisplay = $('#timerDisplay');
+  const mainTitle = $('#mainTitle');
+  const adventureContainer = $('#adventureContainer');
+  const quizContainer = $('#quizContainer');
+  const catcherContainer = $('#catcherContainer');
+  const adventureScene = $('#adventureScene');
+  const adventureChoices = $('#adventureChoices');
+  const quizGrid = $('#quizGrid');
+  const quizScoreSpan = $('#quizScore');
+  const quizScoreLabel = $('#quizScoreLabel');
+  const catcherScoreSpan = $('#catcherScore');
+  const catcherScoreLabel = $('#catcherScoreLabel');
+  const catcherLivesSpan = $('#catcherLives');
+  const catcherHint = $('#catcherHint');
+  const catcherCanvas = $('#catcherCanvas');
+  const endScreen = $('#endScreen');
+  const quizModal = $('#quizModal');
+  const modalQuestion = $('#modalQuestion');
+  const modalAnswers = $('#modalAnswers');
+  const settingsOverlay = $('#settingsOverlay');
+  const floatiesContainer = $('#floatiesContainer');
+  const catcherGameOverModal = $('#catcherGameOverModal');
+  const catcherRetryBtn = $('#catcherRetryBtn');
+  const catcherQuitBtn = $('#catcherQuitBtn');
+  const tabsRow = $('#tabsRow');
+  const tabBtns = $$('.tab-btn');
+
+  // ==================== I18N ====================
+  const i18n = {
+    ru: {
+      title: '🎪 День Эжвы', adventure: '🎭 Приключение', quiz: '🧠 Викторина', catcher: '🎯 Лови удачу',
+      quizScore: '⭐ Очки: ', catcherScore: '🎁 Поймано: ', catcherHint: 'Двигай мышкой / пальцем, лови подарки!',
+      settings: '⚙️ Настройки', language: '🌐 Язык / Кыв', music: '🎵 Музыка', volume: '🔊 Громкость',
+      animations: '✨ Анимации фона', close: '✕ Закрыть', on: 'Вкл', off: 'Выкл',
+      timeoutTitle: '⏰ Время вышло!', timeoutMsg: 'Праздник уже начался, но ты успел сделать много хорошего!',
+      endTitle: '🎉 Игра завершена!', endMsg: 'Ты отлично подготовился ко Дню Эжвы.',
+      totalScore: 'Общий счёт: ', restart: '🔄 Играть снова',
+      quizCategories: ['История', 'Природа', 'Культура', 'Разное'],
+    },
+    komi: {
+      title: '🎪 Эжва лун', adventure: '🎭 Лоöмтор', quiz: '🧠 Викторина', catcher: '🎯 Шуд кут',
+      quizScore: '⭐ Чут: ', catcherScore: '🎁 Кутӧма: ', catcherHint: 'Вӧрӧд мышӧн / чуньӧн, кут козинъяс!',
+      settings: '⚙️ Ладмӧдӧм', language: '🌐 Кыв', music: '🎵 Сьылан', volume: '🔊 Гора',
+      animations: '✨ Анимация', close: '✕ Пӧдлавны', on: 'Пыр', off: 'Кус',
+      timeoutTitle: '⏰ Кадыс помасис!', timeoutMsg: 'Гажӧйс нин заводитчис, но тэ удитін вӧчны уна буртор!',
+      endTitle: '🎉 Ворсӧм помасис!', endMsg: 'Тэ бура дасьтісян Эжва лун кежлӧ.',
+      totalScore: 'Став чут: ', restart: '🔄 Бара ворсны',
+      quizCategories: ['История', 'Вӧр-ва', 'Культура', 'Унапӧлӧс'],
+    }
+  };
+
+  function t(key) { return (i18n[currentLanguage] && i18n[currentLanguage][key]) || i18n['ru'][key] || key; }
+
+  function updateAllUI() {
+    mainTitle.textContent = t('title');
+    tabBtns.forEach(b => {
+      const tab = b.dataset.tab;
+      if (tab === 'adventure') b.textContent = t('adventure');
+      else if (tab === 'quiz') b.textContent = t('quiz');
+      else if (tab === 'catcher') b.textContent = t('catcher');
+    });
+    quizScoreLabel.innerHTML = t('quizScore') + '<span id="quizScore">' + quizPoints + '</span>';
+    catcherScoreLabel.innerHTML = t('catcherScore') + '<span id="catcherScore">' + catcherPoints + '</span>';
+    catcherHint.textContent = t('catcherHint');
+    document.getElementById('quizScore') && (document.getElementById('quizScore').textContent = quizPoints);
+    document.getElementById('catcherScore') && (document.getElementById('catcherScore').textContent = catcherPoints);
+    buildQuizGrid();
+    renderAdventureScene(adventureState.currentScene);
+  }
+
+  window.setLanguage = function(lang) {
+    currentLanguage = lang;
+    updateAllUI();
+    updateSettingsUI();
+    playUISound();
+  };
+
+  window.toggleAnimations = function(on) {
+    animationsOn = on;
+    if (on) {
+      startFloaties();
+    } else {
+      stopFloaties();
+    }
+    updateSettingsUI();
+    playUISound();
+  };
+
+  window.toggleUISound = function(on) {
+    uiSoundOn = on;
+    updateSettingsUI();
+  };
+
+  // ==================== ТАЙМЕР ====================
+  function formatTime(sec) {
+    const m = Math.floor(Math.max(0, sec) / 60);
+    const s = Math.floor(Math.max(0, sec) % 60);
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+  function updateTimerUI() {
+    timerDisplay.textContent = formatTime(timeLeft);
+    timerDisplay.classList.toggle('warning', timeLeft <= 120);
+  }
+  function startTimer() {
+    stopTimer();
+    timeLeft = MAX_TIME;
+    updateTimerUI();
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimerUI();
+      if (timeLeft <= 0) { stopTimer(); if(gameActive) endGame('timeout'); }
+    }, 1000);
+  }
+  function stopTimer() { if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+
+  // ==================== СЧЁТ ====================
+  function addScore(points, type) {
+    totalScore += points;
+    if (type === 'quiz') { quizPoints += points; const el = document.getElementById('quizScore'); if(el) el.textContent = quizPoints; }
+    if (type === 'catcher') { catcherPoints += points; const el = document.getElementById('catcherScore'); if(el) el.textContent = catcherPoints; }
+  }
+
+  // ==================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ====================
+  function switchTab(tabName) {
+    if(!gameActive && tabName!=='adventure') return;
+    adventureContainer.classList.remove('active');
+    quizContainer.classList.remove('active');
+    catcherContainer.classList.remove('active');
+    tabBtns.forEach(b => b.classList.remove('active'));
+    if(tabName==='adventure') { adventureContainer.classList.add('active'); tabBtns[0].classList.add('active'); stopCatcher(); }
+    else if(tabName==='quiz') { quizContainer.classList.add('active'); tabBtns[1].classList.add('active'); stopCatcher(); buildQuizGrid(); }
+    else if(tabName==='catcher') { catcherContainer.classList.add('active'); tabBtns[2].classList.add('active'); startCatcher(); }
+    playUISound();
+  }
+  tabBtns.forEach(b => b.addEventListener('click', ()=> switchTab(b.dataset.tab)));
+
+  // ==================== НАСТРОЙКИ ====================
+  function openSettings() { settingsOverlay.style.display='flex'; updateSettingsUI(); }
+  window.closeSettings = function() { settingsOverlay.style.display='none'; }
+  document.getElementById('settingsBtn').addEventListener('click', ()=>{ openSettings(); playUISound(); });
+  settingsOverlay.addEventListener('click', e => { if(e.target === settingsOverlay) window.closeSettings(); });
+
+  function updateSettingsUI() {
+    document.getElementById('langRu').classList.toggle('active-setting', currentLanguage==='ru');
+    document.getElementById('langKomi').classList.toggle('active-setting', currentLanguage==='komi');
+    document.getElementById('btnAnimOn').classList.toggle('active-setting', animationsOn);
+    document.getElementById('btnAnimOff').classList.toggle('active-setting', !animationsOn);
+    document.getElementById('btnUISoundOn').classList.toggle('active-setting', uiSoundOn);
+    document.getElementById('btnUISoundOff').classList.toggle('active-setting', !uiSoundOn);
+    document.getElementById('volumeSlider').value = Math.round(musicVolume*100);
+    document.getElementById('btnPlayPause').textContent = musicPlaying ? '⏸' : '▶';
+  }
+
+  // ==================== МУЗЫКА (спокойные детские мелодии с разными тембрами) ====================
+  const tracks = [
+    { name: 'Колыбельная', notes: [262,294,330,349,392,349,330,294,262,294,330,349,392,440,392,349,330,294,262,247,262,294], durations: [0.5,0.4,0.5,0.4,0.6,0.3,0.3,0.5,0.5,0.4,0.5,0.4,0.6,0.5,0.3,0.4,0.3,0.5,0.6,0.4,0.3,0.7], type: 'sine' },
+    { name: 'Смешарики', notes: [330,392,440,494,440,392,330,294,330,392,440,494,523,494,440,392,349,330,294,262,294,330], durations: [0.3,0.3,0.4,0.4,0.3,0.3,0.4,0.3,0.3,0.4,0.4,0.3,0.5,0.3,0.3,0.4,0.3,0.3,0.4,0.5,0.3,0.5], type: 'triangle' },
+    { name: 'Облака', notes: [262,294,330,349,330,294,262,247,262,294,330,349,392,440,392,349,330,294,262,220,262,294,330,294,262], durations: [0.6,0.4,0.5,0.4,0.4,0.4,0.5,0.5,0.4,0.5,0.4,0.4,0.5,0.4,0.4,0.4,0.3,0.5,0.6,0.5,0.4,0.4,0.5,0.4,0.7], type: 'sawtooth' }
+  ];
+
+  function initAudio() {
+    try {
+      if(!audioCtx) { audioCtx = new (window.AudioContext||window.webkitAudioContext)(); musicGain = audioCtx.createGain(); musicGain.gain.value=musicVolume; musicGain.connect(audioCtx.destination); }
+    } catch(e) { console.warn('Аудио не поддерживается'); }
+  }
+
+  function playNote(freq, duration, type='sine') {
+    if(!audioCtx || !musicPlaying) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      g.gain.value = 0.12;
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(g);
+      g.connect(musicGain);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + duration);
+    } catch(e) {}
+  }
+
+  function musicLoop() {
+    if(!musicPlaying || !audioCtx) return;
+    const track = tracks[currentTrackIndex];
+    const dur = track.durations[currentNoteIndex] || 0.5;
+    playNote(track.notes[currentNoteIndex], dur, track.type || 'sine');
+    currentNoteIndex++;
+    if(currentNoteIndex >= track.notes.length) currentNoteIndex = 0;
+    musicInterval = setTimeout(musicLoop, dur * 1000 * 0.9);
+  }
+
+  function startMusic() {
+    initAudio();
+    if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    musicPlaying = true;
+    currentNoteIndex = 0;
+    musicLoop();
+    updateSettingsUI();
+  }
+  function stopMusic() {
+    musicPlaying = false;
+    if(musicInterval) clearTimeout(musicInterval);
+    musicInterval = null;
+    updateSettingsUI();
+  }
+  window.toggleMusic = function() {
+    if(musicPlaying) stopMusic(); else startMusic();
+    playUISound();
+  };
+  window.nextTrack = function() {
+    currentTrackIndex = (currentTrackIndex+1)%tracks.length;
+    if(musicPlaying) { if(musicInterval) clearTimeout(musicInterval); currentNoteIndex=0; musicLoop(); }
+    updateSettingsUI();
+    playUISound();
+  };
+  window.prevTrack = function() {
+    currentTrackIndex = (currentTrackIndex-1+tracks.length)%tracks.length;
+    if(musicPlaying) { if(musicInterval) clearTimeout(musicInterval); currentNoteIndex=0; musicLoop(); }
+    updateSettingsUI();
+    playUISound();
+  };
+  window.setVolume = function(val) {
+    musicVolume = val/100;
+    if(musicGain) musicGain.gain.value = musicVolume;
+    updateSettingsUI();
+  };
+
+  // ==================== ЗВУКИ UI ====================
+  let uiAudioCtx = null;
+  function playUISound() {
+    if(!uiSoundOn) return;
+    try {
+      if(!uiAudioCtx) uiAudioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const osc = uiAudioCtx.createOscillator();
+      const g = uiAudioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = 880;
+      g.gain.value = 0.2;
+      g.gain.exponentialRampToValueAtTime(0.001, uiAudioCtx.currentTime + 0.15);
+      osc.connect(g);
+      g.connect(uiAudioCtx.destination);
+      osc.start(uiAudioCtx.currentTime);
+      osc.stop(uiAudioCtx.currentTime + 0.15);
+    } catch(e) {}
+  }
+
+  // ==================== ФОН: ПАРЯЩИЕ ЭЛЕМЕНТЫ ====================
+  const floatyEmojis = ['🎈','🎉','⭐','🌟','🎊','🎀','🍬','🧁','🎂','💫','✨','🎁','🌸','🦋','🍭','🎪'];
+
+  function createFloaty() {
+    if (floatiesContainer.children.length > 20) {
+    floatiesContainer.firstChild.remove(); // убираем самый старый
+	}
+	setTimeout(() => { if(el.parentNode) el.remove(); }, 15000);
+    if(!animationsOn) return;
+    const el = document.createElement('span');
+    const isUp = Math.random() < 0.5;
+    el.className = isUp ? 'floaty-up' : 'floaty-down';
+    el.textContent = floatyEmojis[Math.floor(Math.random()*floatyEmojis.length)];
+    el.style.left = Math.random()*90+'%';
+    el.style.fontSize = (1.8+Math.random()*3.5)+'rem';
+    el.style.animationDuration = (8+Math.random()*18)+'s';
+    el.style.animationDelay = Math.random()*2+'s';
+    if(!isUp) el.style.animationDuration = (10+Math.random()*15)+'s';
+    floatiesContainer.appendChild(el);
+    setTimeout(()=> { if(el.parentNode) el.remove(); }, 22000);
+  }
+
+  function startFloaties() {
+    stopFloaties();
+    if(!animationsOn) return;
+    floatiesContainer.style.display = 'block';
+    floatyInterval = setInterval(() => {
+      if(animationsOn && floatiesContainer.children.length < 25) createFloaty();
+    }, 1800);
+    for(let i=0; i<12; i++) setTimeout(createFloaty, i*400);
+  }
+
+  function stopFloaties() {
+    if(floatyInterval) clearInterval(floatyInterval);
+    floatyInterval = null;
+    floatiesContainer.innerHTML = '';
+    floatiesContainer.style.display = 'none';
+  }
+
+  // ==================== ПРИКЛЮЧЕНИЕ ====================
+  const scenesData = {
+    morning: {
+      text_ru: `☀️ <strong>Эжва, солнечное утро.</strong> Воздух пахнет свежей выпечкой и летом. Сегодня — <strong>День Эжвы</strong>! До начала 15 минут. Что сделаешь в первую очередь?`,
+      text_komi: `☀️ <strong>Эжва, шондіа асыв.</strong> Сынӧдсӧ кылӧ свежӧй пӧжасӧн да гожӧмӧн. Талун — <strong>Эжва лун</strong>! Гажӧдз 15 минут. Мый вӧчан медводз?`,
+      choices: [ {text_ru:'🎨 Помочь украсить сцену в парке', text_komi:'🎨 Отсавны мичмӧдны сцена паркын', next:'decorate'}, {text_ru:'🥧 Зайти к бабушке Зое — помочь с пирогами', text_komi:'🥧 Пырны бабушка Зоя дінӧ — отсавны пирӧгъясӧн', next:'grandma'}, {text_ru:'🐕 Поискать друзей и собрать команду', text_komi:'🐕 Корсьны ёртъясӧс да чукӧртны команда', next:'friends'} ]
+    },
+    decorate: {
+      text_ru: `Ты бежишь в парк. Там развешивают гирлянды. Тебе дают коробку с украшениями.`,
+      text_komi: `Тэ котӧртан паркӧ. Сэні ӧшӧдӧны гирляндаяс. Тэныд сетӧны мичмӧданторъясӧн коробка.`,
+      choices: [ {text_ru:'🎈 Надуть и развесить шары', text_komi:'🎈 Пӧльтны да ӧшӧдны шаръяс', next:'decorate_done', action:()=>{adventureState.decorationsDone=true;addScore(200,'adventure');}}, {text_ru:'✨ Разложить блестящие ленты', text_komi:'✨ Пуктны югъялан лентаяс', next:'decorate_done', action:()=>{adventureState.decorationsDone=true;addScore(200,'adventure');}} ]
+    },
+    decorate_done: {
+      text_ru: `Сцена стала нарядной! Что дальше?`, text_komi: `Сценаыс лои мича! Мый водзӧ?`,
+      choices: [ {text_ru:'🧺 К бабушке за пирогами', text_komi:'🧺 Бабушка дінӧ пирӧгъясла', next:'grandma'}, {text_ru:'🐶 Поискать друзей', text_komi:'🐶 Корсьны ёртъясӧс', next:'friends'}, {text_ru:'🍋 Узнать про лимонад', text_komi:'🍋 Тӧдмавны лимонад йылысь', next:'lemonade'} ]
+    },
+    grandma: {
+      text_ru: `Бабушка Зоя просит помочь раскатать тесто для пирогов.`, text_komi: `Бабушка Зоя корис отсавны шӧйны пирӧг тесто.`,
+      choices: [ {text_ru:'👩‍🍳 Помочь (получишь пироги)', text_komi:'👩‍🍳 Отсавны (босьтан пирӧгъяс)', next:'grandma_done', action:()=>{adventureState.helpedGrandma=true;addScore(200,'adventure');}}, {text_ru:'⏩ Извиниться и пойти дальше', text_komi:'⏩ Корам прощение да мунам водзӧ', next:'after_grandma_skip'} ]
+    },
+    grandma_done: {
+      text_ru: `Пироги готовы! Бабушка даёт корзинку с угощением.`, text_komi: `Пирӧгъясыс дась! Бабушка сетӧ козинӧн корзина.`,
+      choices: [ {text_ru:'🎪 Украсить сцену', text_komi:'🎪 Мичмӧдны сцена', next:'decorate'}, {text_ru:'🐕 Искать друзей', text_komi:'🐕 Корсьны ёртъяс', next:'friends'}, {text_ru:'🍋 Лимонад', text_komi:'🍋 Лимонад', next:'lemonade'} ]
+    },
+    after_grandma_skip: {
+      text_ru: `Ты обещаешь зайти позже.`, text_komi: `Тэ кӧсъян пырны сёрӧнджык.`,
+      choices: [ {text_ru:'🎨 Украсить сцену', text_komi:'🎨 Мичмӧдны сцена', next:'decorate'}, {text_ru:'👥 Собрать друзей', text_komi:'👥 Чукӧртны ёртъяс', next:'friends'} ]
+    },
+    friends: {
+      text_ru: `Катя и Артём играют во дворе.`, text_komi: `Катя да Артём ворсӧны дворын.`,
+      choices: [ {text_ru:'🤝 Позвать их помогать', text_komi:'🤝 Корны найӧс отсавны', next:'friends_done', action:()=>{adventureState.friendsGathered=true;addScore(200,'adventure');}}, {text_ru:'⏱ Встретимся позже', text_komi:'⏱ Паныдасям сёрӧн', next:'after_friends_skip'} ]
+    },
+    friends_done: {
+      text_ru: `Команда собрана!`, text_komi: `Команда чукӧртӧма!`,
+      choices: [ {text_ru:'🎨 Украсить сцену', text_komi:'🎨 Мичмӧдны сцена', next:'decorate'}, {text_ru:'🥧 К бабушке', text_komi:'🥧 Бабушка дінӧ', next:'grandma'}, {text_ru:'🍋 Лимонад', text_komi:'🍋 Лимонад', next:'lemonade'}, {text_ru:'🐕 Осмотреть парк', text_komi:'🐕 Видзӧдны паркӧ', next:'lost_dog'} ]
+    },
+    after_friends_skip: {
+      text_ru: `Ты продолжаешь один.`, text_komi: `Тэ водзӧ мунан ӧтнам.`,
+      choices: [ {text_ru:'🎨 Украсить сцену', text_komi:'🎨 Мичмӧдны сцена', next:'decorate'}, {text_ru:'🥧 К бабушке', text_komi:'🥧 Бабушка дінӧ', next:'grandma'} ]
+    },
+    lemonade: {
+      text_ru: `Киоск с лимонадом «Эжвинский». Нужно помочь доставить его к сцене.`, text_komi: `«Эжваса» лимонад киоск. Колӧ отсавны вайны сцена дорӧ.`,
+      choices: [ {text_ru:'🍋 Организовать доставку', text_komi:'🍋 Лӧсьӧдны вайӧм', next:'lemonade_done', action:()=>{adventureState.lemonadeReady=true;addScore(200,'adventure');}}, {text_ru:'🙅 Не сейчас', text_komi:'🙅 Абу ӧні', next:'lemonade_skip'} ]
+    },
+    lemonade_done: {
+      text_ru: `Лимонад готов!`, text_komi: `Лимонад дась!`,
+      choices: [ {text_ru:'🎨 Украсить сцену', text_komi:'🎨 Мичмӧдны сцена', next:'decorate'}, {text_ru:'🐕 Поискать в парке', text_komi:'🐕 Корсьны паркын', next:'lost_dog'} ]
+    },
+    lemonade_skip: {
+      text_ru: `Ладно, позже.`, text_komi: `Ладно, сёрӧн.`,
+      choices: [ {text_ru:'🎨 Украсить сцену', text_komi:'🎨 Мичмӧдны сцена', next:'decorate'}, {text_ru:'👥 Собрать друзей', text_komi:'👥 Чукӧртны ёртъяс', next:'friends'} ]
+    },
+    lost_dog: {
+      text_ru: `Под кустом скулит щенок!`, text_komi: `Куст улын скулитӧ кутян!`,
+      choices: [ {text_ru:'🐶 Помочь найти хозяина', text_komi:'🐶 Отсавны корсьны хозяинӧс', next:'dog_found', action:()=>{adventureState.foundDog=true;addScore(200,'adventure');}}, {text_ru:'⏩ Оставить (позже помогут)', text_komi:'⏩ Кольны (сёрӧн отсаласны)', next:'after_dog_skip'} ]
+    },
+    dog_found: {
+      text_ru: `Хозяин нашёлся! Тебе дарят шарик.`, text_komi: `Хозяин корсис! Тэныд сетӧны шар.`,
+      choices: [ {text_ru:'🎈 Продолжить', text_komi:'🎈 Водзӧ', next:'final_prep'} ]
+    },
+    after_dog_skip: {
+      text_ru: `Щенок, надеюсь, найдётся.`, text_komi: `Кутян, надеюсь, корсяс.`,
+      choices: [ {text_ru:'🔜 Дальше', text_komi:'🔜 Водзӧ', next:'final_prep'} ]
+    },
+    final_prep: {
+      text_ru: `Время поджимает. Можно ещё успеть.`, text_komi: `Кадыс дзебсьӧ. Позьӧ на удитны.`,
+      choices: function() {
+        let opts = [];
+        if(!adventureState.decorationsDone) opts.push({text_ru:'🎨 Украсить сцену', text_komi:'🎨 Мичмӧдны сцена', next:'decorate'});
+        if(!adventureState.helpedGrandma) opts.push({text_ru:'🥧 Помочь бабушке', text_komi:'🥧 Отсавны бабушкалы', next:'grandma'});
+        if(!adventureState.friendsGathered) opts.push({text_ru:'👥 Собрать друзей', text_komi:'👥 Чукӧртны ёртъяс', next:'friends'});
+        if(!adventureState.lemonadeReady) opts.push({text_ru:'🍋 Лимонад', text_komi:'🍋 Лимонад', next:'lemonade'});
+        if(!adventureState.foundDog) opts.push({text_ru:'🐕 Поискать в парке', text_komi:'🐕 Корсьны паркын', next:'lost_dog'});
+        opts.push({text_ru:'🎉 Пора начинать праздник!', text_komi:'🎉 Кад заводитны гаж!', next:'start_celebration'});
+        return opts;
+      }
+    },
+    start_celebration: {
+      text_ru: `Ты выходишь на площадь. Музыка, шары, все радуются!`, text_komi: `Тэ петан площадь вылӧ. Сьылан, шаръяс, ставныс радӧны!`,
+      choices: [ {text_ru:'🥳 Завершить приключение', text_komi:'🥳 Помавны лоӧмтор', next:'end_adventure'} ]
+    },
+    end_adventure: { text_ru:'', text_komi:'', choices:[], auto:true }
+  };
+
+  function getSceneText(scene) { const key = 'text_'+currentLanguage; return scene[key] || scene.text_ru || ''; }
+  function getChoiceText(choice) { const key = 'text_'+currentLanguage; return choice[key] || choice.text_ru || ''; }
+
+  function renderAdventureScene(sceneId) {
+    if(!gameActive && sceneId!=='end_adventure') return;
+    const scene = scenesData[sceneId]; if(!scene) return;
+    if(scene.auto) { endGame('manual'); return; }
+    adventureScene.innerHTML = getSceneText(scene).replace(/\n/g,'<br>');
+    adventureChoices.innerHTML = '';
+    let choices = typeof scene.choices === 'function' ? scene.choices() : scene.choices;
+    choices.forEach(ch => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = getChoiceText(ch);
+      btn.onclick = () => {
+        playUISound();
+        if(ch.action) ch.action();
+        if(ch.next) { adventureState.currentScene = ch.next; renderAdventureScene(ch.next); }
+      };
+      adventureChoices.appendChild(btn);
+    });
+  }
+
+  // ==================== ВИКТОРИНА (со случайным порядком ответов) ====================
+  const quizData = {
+    categories_ru: ['История','Природа','Культура','Разное'],
+    categories_komi: ['История','Вӧр-ва','Культура','Унапӧлӧс'],
+    questions: {
+      '0-100': { q_ru:'На какой реке стоит Сыктывкар?', q_komi:'Кутшӧм ю вылын сулалӧ Сыктывкар?', answers_ru:['Сысола','Вычегда','Печора','Волга'], answers_komi:['Сысола','Эжва','Печора','Волга'], correct:0 },
+      '0-200': { q_ru:'В каком году основан Сыктывкар?', q_komi:'Кутшӧм воӧ лӧсьӧдӧма Сыктывкар?', answers_ru:['1586','1780','1921','1703'], answers_komi:['1586','1780','1921','1703'], correct:1 },
+      '0-300': { q_ru:'Как раньше назывался Сыктывкар?', q_komi:'Кыдзи водзын шусис Сыктывкар?', answers_ru:['Усть-Сысольск','Эжва','Коми-город','Северный'], answers_komi:['Усть-Сысольск','Эжва','Коми-кар','Северный'], correct:0 },
+      '0-400': { q_ru:'Какое здание самое старое в Сыктывкаре?', q_komi:'Кутшӧм керка медваж Сыктывкарын?', answers_ru:['Пожарная каланча','Дом купца Оплеснина','Стефановская церковь','Торговые ряды'], answers_komi:['Пожарнӧй каланча','Купеч Оплеснин керка','Стефановскӧй вичко','Торгӧвӧй рядъяс'], correct:1 },
+      '1-100': { q_ru:'Какое животное символ Коми края?', q_komi:'Кутшӧм пемӧс Коми мулӧн символ?', answers_ru:['Медведь','Лось','Северный олень','Рысь'], answers_komi:['Ош','Йӧра','Вӧр кӧр','Рысь'], correct:2 },
+      '1-200': { q_ru:'Какая ягода самая популярная в Коми лесах?', q_komi:'Кутшӧм вотӧс медся радейтана Коми вӧрын?', answers_ru:['Клюква','Морошка','Черника','Брусника'], answers_komi:['Турипув','Мырпом','Чӧд','Пув'], correct:3 },
+      '1-300': { q_ru:'Как называется знаменитый заповедник в Коми?', q_komi:'Кыдзи шусьӧ нималана заповедник Комиын?', answers_ru:['Печоро-Илычский','Коми-Пермяцкий','Сыктывкарский','Эжвинский'], answers_komi:['Печоро-Илычскӧй','Коми-Пермяцкӧй','Сыктывкарскӧй','Эжваса'], correct:0 },
+      '1-400': { q_ru:'Какое озеро в Коми самое глубокое?', q_komi:'Кутшӧм ты медся пыдын Комиын?', answers_ru:['Синдорское','Донты','Кадомское','Вадыб'], answers_komi:['Синдор','Донты','Кадом','Вадыб'], correct:0 },
+      '2-100': { q_ru:'Какой праздник отмечают в Эжве летом?', q_komi:'Кутшӧм гаж пасйӧны Эжваын гожӧмын?', answers_ru:['День Эжвы','Сабантуй','Иван Купала','День города'], answers_komi:['Эжва лун','Сабантуй','Иван Купала','Кар лун'], correct:0 },
+      '2-200': { q_ru:'Как называется народный коми ансамбль?', q_komi:'Кыдзи шусьӧ коми йӧзкостса ансамбль?', answers_ru:['Асъя кыа','Зарни ань','Шондiбан','Коми сьылан'], answers_komi:['Асъя кыа','Зарни ань','Шондiбан','Коми сьылан'], correct:0 },
+      '2-300': { q_ru:'Какое блюдо традиционное коми?', q_komi:'Кутшӧм сёян комилӧн традиционнӧй?', answers_ru:['Шаньги','Пельмени','Борщ','Плов'], answers_komi:['Шаньга','Пельмень','Борщ','Плов'], correct:0 },
+      '2-400': { q_ru:'Какой музыкальный инструмент коми народа?', q_komi:'Кутшӧм шылад инструмент коми войтырлӧн?', answers_ru:['Сигудöк','Гусли','Баян','Домбра'], answers_komi:['Сигудӧк','Гусли','Баян','Домбра'], correct:0 },
+      '3-100': { q_ru:'Сколько районов в Сыктывкаре?', q_komi:'Кымын район Сыктывкарын?', answers_ru:['3','5','7','9'], answers_komi:['3','5','7','9'], correct:0 },
+      '3-200': { q_ru:'Как называется аэропорт Сыктывкара?', q_komi:'Кыдзи шусьӧ Сыктывкарса аэропорт?', answers_ru:['Сыктывкар','Эжва','Комиавиа','Северный'], answers_komi:['Сыктывкар','Эжва','Комиавиа','Северный'], correct:0 },
+      '3-300': { q_ru:'Какая команда представляет Сыктывкар в хоккее?', q_komi:'Кутшӧм команда петкӧдлӧ Сыктывкар хоккейын?', answers_ru:['Строитель','Динамо','Коми','Север'], answers_komi:['Строитель','Динамо','Коми','Север'], correct:0 },
+      '3-400': { q_ru:'Какой известный человек родился в Сыктывкаре?', q_komi:'Кутшӧм нималана морт чужис Сыктывкарын?', answers_ru:['Иван Куратов','Питирим Сорокин','Юрий Спиридонов','Василий Лыткин'], answers_komi:['Иван Куратов','Питирим Сорокин','Юрий Спиридонов','Василий Лыткин'], correct:0 },
+    }
+  };
+
+  function getQuizCategories() { return currentLanguage==='komi' ? quizData.categories_komi : quizData.categories_ru; }
+
+  function buildQuizGrid() {
+    quizGrid.innerHTML = '';
+    const cats = getQuizCategories();
+    cats.forEach(cat => { const h=document.createElement('div'); h.className='quiz-header'; h.textContent=cat; quizGrid.appendChild(h); });
+    [100,200,300,400].forEach(points => {
+      cats.forEach((_,ci) => {
+        const cellId = `${ci}-${points}`;
+        const cell = document.createElement('div');
+        cell.className = 'quiz-cell';
+        cell.textContent = points;
+        cell.dataset.id = cellId;
+        if(quizUsed.has(cellId)) cell.classList.add('used');
+        else cell.onclick = () => { playUISound(); openQuiz(cellId, points, cell); };
+        quizGrid.appendChild(cell);
+      });
+    });
+    const el = document.getElementById('quizScore'); if(el) el.textContent = quizPoints;
+    quizScoreLabel.innerHTML = t('quizScore')+'<span id="quizScore">'+quizPoints+'</span>';
+  }
+
+  function openQuiz(cellId, points, cellEl) {
+    if(!gameActive || quizModalOpen) return;
+    quizModalOpen = true;
+    const q = quizData.questions[cellId]; if(!q) return;
+    const qKey = 'q_'+currentLanguage;
+    const aKey = 'answers_'+currentLanguage;
+    modalQuestion.textContent = q[qKey] || q.q_ru;
+    const answers = q[aKey] || q.answers_ru;
+    const correctAnswerText = answers[q.correct];
+    const indices = [0,1,2,3];
+    for(let i=indices.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [indices[i], indices[j]] = [indices[j], indices[i]]; }
+    modalAnswers.innerHTML = '';
+    indices.forEach(origIdx => {
+      const btn = document.createElement('button');
+      btn.className = 'modal-answer-btn';
+      btn.textContent = answers[origIdx];
+      btn.onclick = () => {
+        playUISound();
+        const allBtns = modalAnswers.querySelectorAll('.modal-answer-btn');
+        allBtns.forEach(b => b.style.pointerEvents = 'none');
+        if(answers[origIdx] === correctAnswerText) {
+          btn.classList.add('correct-flash');
+          addScore(points, 'quiz');
+        } else {
+          btn.classList.add('wrong-flash');
+          allBtns.forEach(b => { if(b.textContent === correctAnswerText) b.classList.add('correct-flash'); });
+        }
+        quizUsed.add(cellId);
+        if(cellEl) cellEl.classList.add('used');
+        const el = document.getElementById('quizScore'); if(el) el.textContent = quizPoints;
+        quizScoreLabel.innerHTML = t('quizScore')+'<span id="quizScore">'+quizPoints+'</span>';
+        setTimeout(() => { closeQuizModal(); buildQuizGrid(); }, 5555);
+      };
+      modalAnswers.appendChild(btn);
+    });
+    quizModal.style.display = 'flex';
+  }
+
+  function closeQuizModal() { quizModal.style.display='none'; quizModalOpen=false; }
+  quizModal.addEventListener('click', e => { if(e.target===quizModal) closeQuizModal(); });
+
+  // ==================== АРКАДА: ЛОВИ УДАЧУ ====================
+  function startCatcher() {
+    if(catcherActive) return;
+    catcherActive = true;
+    catcherScoreLocal = 0; catcherLives = 3; catcherPoints = 0;
+    fallingItems = [];
+    basketX = catcherCanvas.width/2;
+    updateCatcherUI();
+    catcherCanvas.width = catcherCanvas.clientWidth;
+    catcherCanvas.height = catcherCanvas.clientHeight || 320;
+    basketX = catcherCanvas.width/2;
+    if(catcherRAF) cancelAnimationFrame(catcherRAF);
+    catcherLoop();
+    spawnCatcherItems();
+  }
+  function stopCatcher() { catcherActive=false; if(catcherRAF) cancelAnimationFrame(catcherRAF); catcherRAF=null; }
+
+  function updateCatcherUI() {
+    catcherScoreSpan.textContent = catcherPoints;
+    catcherLivesSpan.textContent = catcherLives;
+    catcherScoreLabel.innerHTML = t('catcherScore')+'<span id="catcherScore">'+catcherPoints+'</span>';
+  }
+
+  function spawnCatcherItems() {
+    if(!catcherActive) return;
+    const types = [
+      {emoji:'🎁', good:true, points:50}, {emoji:'🎈', good:true, points:30}, {emoji:'⭐', good:true, points:40},
+      {emoji:'🧁', good:true, points:35}, {emoji:'💣', good:false, points:-80}, {emoji:'🪨', good:false, points:-40}
+    ];
+    const t = types[Math.floor(Math.random()*types.length)];
+    fallingItems.push({x:Math.random()*(catcherCanvas.width-40)+20, y:-40, emoji:t.emoji, good:t.good, points:t.points, speed:1.2+Math.random()*2.5, size:28+Math.random()*16});
+    if(catcherActive) setTimeout(spawnCatcherItems, 600+Math.random()*900);
+  }
+
+  function catcherLoop() {
+    if(!catcherActive) return;
+    const ctx = catcherCanvas.getContext('2d');
+    const w=catcherCanvas.width, h=catcherCanvas.height;
+    ctx.clearRect(0,0,w,h);
+    const bw=80, bh=50, by=h-55;
+    ctx.fillStyle='#ff914d'; ctx.beginPath(); ctx.arc(basketX,by,bw/2,Math.PI,0); ctx.fill();
+    ctx.fillStyle='#ff7b2b'; ctx.fillRect(basketX-bw/2,by,bw,bh/2);
+    ctx.fillStyle='#fff'; ctx.font='30px sans-serif'; ctx.fillText('🧺',basketX-20,by+10);
+    fallingItems.forEach((item,i)=>{
+      item.y += item.speed;
+      ctx.font = item.size+'px sans-serif';
+      ctx.fillText(item.emoji, item.x-item.size/2, item.y);
+      if(item.y > by-10 && item.y < by+bh+10 && Math.abs(item.x-basketX) < bw/2+item.size/2) {
+        if(item.good) { catcherScoreLocal+=item.points; addScore(item.points,'catcher'); }
+        else { catcherLives--; if(catcherLives<=0) { stopCatcher(); showCatcherGameOver(); return; } }
+        fallingItems.splice(i,1); updateCatcherUI();
+      } else if(item.y > h+50) {
+        if(item.good) { catcherLives--; if(catcherLives<=0) { stopCatcher(); showCatcherGameOver(); return; } }
+        fallingItems.splice(i,1); updateCatcherUI();
+      }
+    });
+    catcherRAF = requestAnimationFrame(catcherLoop);
+  }
+
+  function showCatcherGameOver() {
+    catcherGameOverModal.style.display = 'flex';
+  }
+  catcherRetryBtn.addEventListener('click', ()=>{
+    playUISound();
+    catcherGameOverModal.style.display = 'none';
+    startCatcher();
+  });
+  catcherQuitBtn.addEventListener('click', ()=>{
+    playUISound();
+    catcherGameOverModal.style.display = 'none';
+    switchTab('adventure');
+  });
+  catcherCanvas.addEventListener('mousemove', e=>{ if(!catcherActive) return; const rect=catcherCanvas.getBoundingClientRect(); basketX=e.clientX-rect.left; basketX=Math.max(40,Math.min(catcherCanvas.width-40,basketX)); });
+  catcherCanvas.addEventListener('touchmove', e=>{ if(!catcherActive) return; e.preventDefault(); const rect=catcherCanvas.getBoundingClientRect(); basketX=e.touches[0].clientX-rect.left; basketX=Math.max(40,Math.min(catcherCanvas.width-40,basketX)); }, {passive:false});
+  catcherCanvas.addEventListener('touchstart', e=>{ if(!catcherActive) return; const rect=catcherCanvas.getBoundingClientRect(); basketX=e.touches[0].clientX-rect.left; basketX=Math.max(40,Math.min(catcherCanvas.width-40,basketX)); });
+
+  // ==================== ЗАВЕРШЕНИЕ ====================
+  function endGame(reason) {
+    if(!gameActive) return;
+    gameActive = false;
+    stopTimer(); stopMusic(); stopCatcher(); stopFloaties();
+    adventureContainer.classList.remove('active'); quizContainer.classList.remove('active'); catcherContainer.classList.remove('active');
+    endScreen.style.display = 'flex';
+    const starRating = totalScore>=1500?'🌟🌟🌟':(totalScore>=800?'🌟🌟':'🌟');
+    const title = reason==='timeout'?t('timeoutTitle'):t('endTitle');
+    const msg = reason==='timeout'?t('timeoutMsg'):t('endMsg');
+    endScreen.innerHTML = `
+      <div class="card" style="text-align:center;width:100%;">
+        <h2 style="font-family:var(--font-title);color:var(--text);">${title}</h2>
+        <p style="font-size:1.2rem;margin:12px 0;">${msg}</p>
+        <p style="font-size:1.7rem;font-weight:700;">${t('totalScore')}${totalScore} ${starRating}</p>
+        <button class="btn-restart" onclick="restartGame()">${t('restart')}</button>
+      </div>
+    `;
+  }
+
+  window.restartGame = function() {
+    stopTimer(); stopMusic(); stopCatcher(); stopFloaties();
+    gameActive = true;
+    totalScore=0; quizPoints=0; catcherPoints=0; catcherScoreLocal=0; catcherLives=3;
+    quizUsed.clear();
+    adventureState.decorationsDone=false; adventureState.helpedGrandma=false; adventureState.foundDog=false; adventureState.friendsGathered=false; adventureState.lemonadeReady=false;
+    adventureState.currentScene='morning';
+    fallingItems=[];
+    endScreen.style.display='none';
+    adventureContainer.classList.add('active'); quizContainer.classList.remove('active'); catcherContainer.classList.remove('active');
+    tabBtns.forEach(b=>b.classList.remove('active')); tabBtns[0].classList.add('active');
+    timeLeft=MAX_TIME; updateTimerUI(); timerDisplay.classList.remove('warning');
+    buildQuizGrid(); renderAdventureScene('morning'); updateCatcherUI(); updateAllUI();
+    startTimer();
+    if(animationsOn) startFloaties();
+    if(musicPlaying) startMusic();
+  };
+
+  // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+  function init() {
+    startFloaties();
+    buildQuizGrid();
+    renderAdventureScene('morning');
+    updateCatcherUI();
+    updateAllUI();
+    startTimer();
+    updateSettingsUI();
+    window.addEventListener('resize', ()=>{
+      if(catcherActive && catcherCanvas) {
+        catcherCanvas.width = catcherCanvas.clientWidth;
+        catcherCanvas.height = catcherCanvas.clientHeight || 320;
+        basketX = catcherCanvas.width/2;
+      }
+    });
+    catcherCanvas.width = catcherCanvas.clientWidth;
+    catcherCanvas.height = catcherCanvas.clientHeight || 320;
+    basketX = catcherCanvas.width/2;
+    document.addEventListener('click', function initAudioOnce(){ initAudio(); }, {once:true});
+  }
+  window.addEventListener('load', init);
+})();
+</script>
+</body>
+</html>

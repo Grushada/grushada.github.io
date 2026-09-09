@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Для Кирочки 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #FFF0F2;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.10);
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Конверт ===== */
+        .cover-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: #FFF0F2;
+            padding-bottom: 20px;
+        }
+        .cover-envelope {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: linear-gradient(145deg, #fce4ec, #f8d7e0);
+            border-radius: 0 0 32px 32px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .cover-envelope::before {
+            content: '';
+            position: absolute;
+            inset: 8%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 30px rgba(232,74,127,0.15);
+        }
+        .cover-envelope .seal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 26%;
+            aspect-ratio: 1;
+            background: radial-gradient(circle, #e84a7f, #c2185b);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(232,74,127,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            transition: 0.3s;
+            z-index: 5;
+        }
+        .cover-envelope .seal:after {
+            content: '✉';
+            font-size: 32px;
+        }
+        .cover-envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(to bottom, #fce4ec, transparent);
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            transition: all 0.8s cubic-bezier(0.2, 0.85, 0.25, 1.05);
+            transform-origin: top;
+            transform: rotateX(0deg);
+            z-index: 2;
+        }
+        .cover-envelope .flap.open {
+            transform: rotateX(180deg);
+        }
+        .cover-envelope .photos {
+            position: absolute;
+            inset: 12%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            z-index: 1;
+        }
+        .cover-envelope .photos div {
+            flex: 1 0 calc(50% - 6px);
+            background: #e0d6d9;
+            border-radius: 12px;
+            min-height: 70px;
+            background-size: cover;
+            background-position: center;
+        }
+        .cover-hint {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #6B4A54;
+            margin-top: 12px;
+            animation: float 2.6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* ===== Общие экраны ===== */
+        .screen {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            animation: fadeSlide 0.5s ease;
+        }
+        .screen.active {
+            display: flex;
+        }
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateX(30px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .screen-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #f8f0f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            border-radius: 0 0 32px 32px;
+            overflow: hidden;
+            color: #E84A7F;
+        }
+        .screen-content {
+            padding: 24px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
+        .screen-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #1f2937;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .screen-sub {
+            font-size: 15px;
+            color: #6B7280;
+            text-align: center;
+            line-height: 1.5;
+            margin-top: -4px;
+        }
+        .btn-primary {
+            width: 100%;
+            min-height: 50px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #E84A7F, #FF6BA0);
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: 0 6px 20px rgba(232,74,127,0.35);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary:disabled { opacity: 0.5; pointer-events: none; }
+
+        .btn-secondary {
+            border: 2px solid #f3c0d0;
+            background: white;
+            color: #E84A7F;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 1;
+        }
+        .btn-secondary:active { transform: scale(0.97); }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .btn-no-run {
+            position: relative;
+            transition: all 0.15s ease;
+        }
+
+        .btn-yes {
+            background: #E84A7F;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 20px;
+            min-width: 130px;
+            box-shadow: 0 6px 20px rgba(232,74,127,0.35);
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 1;
+        }
+        .btn-yes:active { transform: scale(0.96); }
+
+        /* Вопросы */
+        .question-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 4px 0 8px;
+        }
+        .question-item {
+            background: #faf0f2;
+            border-radius: 16px;
+            padding: 12px 14px;
+        }
+        .question-item .q {
+            font-weight: 800;
+            font-size: 15px;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .question-item .options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .question-item .options button {
+            flex: 1;
+            min-width: 60px;
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 2px solid #f3c0d0;
+            background: white;
+            font-weight: 700;
+            font-size: 14px;
+            color: #4a2c33;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .question-item .options button.selected {
+            border-color: #E84A7F;
+            background: #fce8ed;
+            color: #E84A7F;
+        }
+
+        /* Финальный экран */
+        .final-heart {
+            font-size: 80px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .final-text {
+            font-size: 26px;
+            font-weight: 900;
+            color: #E84A7F;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .final-sub {
+            font-size: 16px;
+            color: #4a2c33;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* ===== АНИМАЦИИ ===== */
+
+        /* Падающие сердечки (стикеры) */
+        .sticker-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .sticker {
+            position: absolute;
+            font-size: 30px;
+            animation: fall linear forwards;
+            opacity: 0.9;
+            color: #E84A7F;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Хлопушка (burst) — только сердечки */
+        .burst-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            overflow: hidden;
+        }
+        .burst-particle {
+            position: absolute;
+            font-size: 30px;
+            animation: burstAnim 0.8s ease-out forwards;
+            color: #E84A7F;
+        }
+        @keyframes burstAnim {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 0; }
+        }
+
+        /* Световая вспышка при открытии конверта */
+        .flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9997;
+            pointer-events: none;
+            opacity: 0;
+            animation: flashAnim 0.6s ease-out;
+        }
+        @keyframes flashAnim {
+            0% { opacity: 0.8; }
+            100% { opacity: 0; }
+        }
+
+        /* Прочее */
+        .mt-auto { margin-top: auto; }
+        .text-center { text-align: center; }
+        .text-sm { font-size: 14px; }
+        .text-xs { font-size: 12px; }
+        .text-gray { color: #6B7280; }
+        .text-pink { color: #E84A7F; }
+        .font-bold { font-weight: 700; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .gap-2 { gap: 8px; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+
+        @media (max-width: 420px) {
+            .container { border-radius: 0; min-height: 100dvh; }
+            .screen-image { border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+
+    <!-- ===== КОНВЕРТ ===== -->
+    <div class="cover-screen screen active" id="screen-cover">
+        <div class="cover-envelope" id="envelope">
+            <div class="flap" id="flap"></div>
+            <div class="seal" id="seal">✉</div>
+            <div class="photos">
+                <div style="background:#f8d7da;"></div>
+                <div style="background:#d4edda;"></div>
+                <div style="background:#cce5ff;"></div>
+                <div style="background:#fff3cd;"></div>
+            </div>
+        </div>
+        <div class="cover-hint">👆 Нажми на печать, чтобы открыть послание</div>
+        <div class="screen-content" style="padding-top:12px;">
+            <button class="btn-primary" id="openEnvelopeBtn">Открыть для Кирочки ♥</button>
+        </div>
+    </div>
+
+    <!-- ===== ЭКРАН 1: Кто сильнее? ===== -->
+    <div class="screen" id="screen1">
+        <div class="screen-image" style="background:linear-gradient(135deg, #ffe2ec, #ffd6e0); font-size:80px;">♥</div>
+        <div class="screen-content">
+            <div class="screen-title">Кто любит сильнее?</div>
+            <div class="btn-group" style="margin-top:8px;">
+                <button class="btn-yes" id="btnYes1">Ты ♥</button>
+                <button class="btn-secondary btn-no-run" id="btnNo1">Я ;)</button>
+            </div>
+            <div style="margin-top:auto; text-align:center; font-size:12px; color:#ccc; padding-top:12px;"></div>
+        </div>
+    </div>
+
+    <!-- ===== ЭКРАН 2: Признание ===== -->
+    <div class="screen" id="screen2">
+        <div class="screen-image" style="background:linear-gradient(135deg, #ffe2ec, #ffd6e0); font-size:70px;">❤ :> ❤</div>
+        <div class="screen-content">
+            <div class="screen-title">Я сильнее. Признаю.</div>
+            <div class="screen-sub">И это так приятно осознавать, что я тебя очень сильно люблю ♥❤</div>
+            <button class="btn-primary" id="btnConfirm2">Ладно, ты прав</button>
+        </div>
+    </div>
+
+    <!-- ===== ЭКРАН 3: Вопросы ===== -->
+    <div class="screen" id="screen3">
+        <div class="screen-image" style="background:linear-gradient(135deg, #fff3cd, #ffe5b4); font-size:70px;">❤</div>
+        <div class="screen-content">
+            <div class="screen-title">Ответь на несколько вопросов</div>
+            <div class="screen-sub">Это поможет мне понять, насколько ты сильна</div>
+            <div class="question-grid" id="questionGrid"></div>
+            <button class="btn-primary" id="btnNext3" disabled>Узнать результат</button>
+        </div>
+    </div>
+
+    <!-- ===== ЭКРАН 4: ФИНАЛ ===== -->
+    <div class="screen" id="screen4">
+        <div class="screen-image" style="background:linear-gradient(135deg, #fce4ec, #f8d7e0); font-size:80px;">♥❤</div>
+        <div class="screen-content">
+            <div class="final-heart">❤♥</div>
+            <div class="final-text">❤Ты – моя любовь навсегда ♥❤</div>
+            <div class="final-sub">
+                Я тебя люблю сильнее, чем ты можешь представить.<br />
+                Но ты – сильнее, потому что ты у меня есть.
+            </div>
+            <button class="btn-primary" id="btnShare" style="margin-top:8px;">Поделиться ✉</button>
+            <button class="btn-secondary" id="btnReplay" style="margin-top:4px;">Пройти ещё раз</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">но ты ведь понимаешь, что я сильнее?)))</div>
+</div>
+
+<script>
+    // ============================================================
+    // ВСПОМОГАТЕЛЬНЫЕ АНИМАЦИИ
+    // ============================================================
+
+    // 1. Хлопушка (burst) — взрыв сердечек из точки
+    function createBurst(x, y, count = 40) {
+        const container = document.createElement('div');
+        container.className = 'burst-container';
+        document.body.appendChild(container);
+
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('span');
+            el.className = 'burst-particle';
+            el.textContent = '♥'; // только сердечко
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = 80 + Math.random() * 180;
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance - 50;
+            el.style.left = (x - 15) + 'px';
+            el.style.top = (y - 15) + 'px';
+            el.style.setProperty('--dx', dx + 'px');
+            el.style.setProperty('--dy', dy + 'px');
+            el.style.fontSize = (20 + Math.random() * 30) + 'px';
+            el.style.animationDuration = (0.6 + Math.random() * 0.6) + 's';
+            container.appendChild(el);
+        }
+        setTimeout(() => container.remove(), 1500);
+    }
+
+    // Обёртка для burst в центре экрана
+    function burstCenter(count = 50) {
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+        createBurst(x, y, count);
+    }
+
+    // 2. Падающие сердечки (запускаются и продолжают падать)
+    let stickerInterval = null;
+    function startHearts(interval = 200) { // частота появления
+        if (stickerInterval) return;
+        const container = document.createElement('div');
+        container.className = 'sticker-container';
+        container.id = 'sticker-container';
+        document.body.appendChild(container);
+
+        stickerInterval = setInterval(() => {
+            const el = document.createElement('div');
+            el.className = 'sticker';
+            el.textContent = '♥';
+            el.style.left = Math.random() * 100 + '%';
+            el.style.fontSize = (20 + Math.random() * 35) + 'px';
+            el.style.animationDuration = (4 + Math.random() * 5) + 's';
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 10000);
+        }, interval);
+    }
+
+    function stopHearts() {
+        if (stickerInterval) {
+            clearInterval(stickerInterval);
+            stickerInterval = null;
+        }
+        const container = document.getElementById('sticker-container');
+        if (container) container.remove();
+    }
+
+    // 3. Вспышка при открытии конверта
+    function flashScreen() {
+        const flash = document.createElement('div');
+        flash.className = 'flash';
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 700);
+    }
+
+    // ============================================================
+    // Вопросы
+    // ============================================================
+    const QUESTIONS = [
+        {
+            id: 'q1',
+            text: 'Как сильно ты меня любишь?',
+            options: ['бесконечно', 'очень сильно', 'сильно']
+        },
+        {
+            id: 'q2',
+            text: 'Сколько раз в день ты обо мне думаешь?',
+            options: ['каждую минуту', 'часто', 'иногда']
+        },
+        {
+            id: 'q3',
+            text: 'Что ты чувствуешь, когда видишь меня?',
+            options: ['бабочки', 'тепло', 'счастье']
+        }
+    ];
+
+    let answers = {};
+    let currentScreen = 'cover';
+
+    // DOM
+    const screens = {
+        cover: document.getElementById('screen-cover'),
+        screen1: document.getElementById('screen1'),
+        screen2: document.getElementById('screen2'),
+        screen3: document.getElementById('screen3'),
+        screen4: document.getElementById('screen4'),
+    };
+    const envelope = document.getElementById('envelope');
+    const flap = document.getElementById('flap');
+    const seal = document.getElementById('seal');
+    const openEnvelopeBtn = document.getElementById('openEnvelopeBtn');
+    const btnYes1 = document.getElementById('btnYes1');
+    const btnNo1 = document.getElementById('btnNo1');
+    const btnConfirm2 = document.getElementById('btnConfirm2');
+    const questionGrid = document.getElementById('questionGrid');
+    const btnNext3 = document.getElementById('btnNext3');
+    const btnShare = document.getElementById('btnShare');
+    const btnReplay = document.getElementById('btnReplay');
+    const toast = document.getElementById('toast');
+
+    // ============================================================
+    // Переключение экранов
+    // ============================================================
+    function showScreen(name) {
+        Object.values(screens).forEach(el => el.classList.remove('active'));
+        if (screens[name]) screens[name].classList.add('active');
+        currentScreen = name;
+        document.querySelector('.container').scrollTop = 0;
+    }
+
+    // ============================================================
+    // Конверт с анимацией
+    // ============================================================
+    let envelopeOpened = false;
+    function openEnvelope() {
+        if (envelopeOpened) return;
+        envelopeOpened = true;
+        flap.classList.add('open');
+        seal.style.transform = 'translate(-50%, -50%) scale(0)';
+        seal.style.opacity = '0';
+        flashScreen();
+        setTimeout(() => burstCenter(60), 200);
+        setTimeout(() => showScreen('screen1'), 800);
+    }
+    openEnvelopeBtn.addEventListener('click', openEnvelope);
+    envelope.addEventListener('click', openEnvelope);
+
+    // ============================================================
+    // Экран 1
+    // ============================================================
+    btnYes1.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        createBurst(rect.left + rect.width/2, rect.top + rect.height/2, 45);
+        showScreen('screen2');
+    });
+
+    btnNo1.addEventListener('mouseenter', function(e) {
+        const parent = this.parentElement;
+        const maxX = parent.clientWidth - this.offsetWidth - 10;
+        const maxY = 60;
+        const x = Math.floor(Math.random() * maxX);
+        const y = Math.floor(Math.random() * maxY);
+        this.style.transform = `translate(${x}px, ${y}px)`;
+        this.style.transition = 'all 0.15s ease';
+    });
+
+    btnNo1.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+        const rect = this.getBoundingClientRect();
+        createBurst(rect.left + rect.width/2, rect.top + rect.height/2, 35);
+        this.style.transform = 'translate(0,0)';
+    });
+
+    // ============================================================
+    // Экран 2
+    // ============================================================
+    btnConfirm2.addEventListener('click', function() {
+        renderQuestions();
+        showScreen('screen3');
+        burstCenter(40);
+    });
+
+    // ============================================================
+    // Экран 3 — Вопросы
+    // ============================================================
+    function renderQuestions() {
+        questionGrid.innerHTML = '';
+        QUESTIONS.forEach(q => {
+            const div = document.createElement('div');
+            div.className = 'question-item';
+            div.innerHTML = `<div class="q">${q.text}</div><div class="options" id="options-${q.id}"></div>`;
+            questionGrid.appendChild(div);
+            const optsDiv = div.querySelector('.options');
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.dataset.qid = q.id;
+                btn.dataset.value = opt;
+                btn.addEventListener('click', function() {
+                    const parent = this.parentElement;
+                    parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    answers[q.id] = opt;
+                    const allAnswered = QUESTIONS.every(q => answers[q.id] !== undefined);
+                    btnNext3.disabled = !allAnswered;
+                    const rect = this.getBoundingClientRect();
+                    createBurst(rect.left + rect.width/2, rect.top + rect.height/2, 20);
+                });
+                optsDiv.appendChild(btn);
+            });
+        });
+        btnNext3.disabled = true;
+    }
+
+    btnNext3.addEventListener('click', function() {
+        burstCenter(70);
+        // Запускаем падение сердечек с высокой частотой
+        startHearts(150); // каждые 150 мс – много сердечек
+        showScreen('screen4');
+    });
+
+    // ============================================================
+    // Экран 4 — Финал
+    // ============================================================
+    btnShare.addEventListener('click', function() {
+        burstCenter(50);
+        if (navigator.share) {
+            navigator.share({
+                title: 'Для Кирочки ♥',
+                text: 'Я тебя люблю сильнее! ♥',
+                url: window.location.href,
+            }).catch(() => {});
+        } else {
+            alert('Скопируй ссылку на эту страницу и отправь Кирочке!');
+        }
+    });
+
+    btnReplay.addEventListener('click', function() {
+        answers = {};
+        document.querySelectorAll('.question-item .options button').forEach(b => b.classList.remove('selected'));
+        btnNext3.disabled = true;
+        envelopeOpened = false;
+        flap.classList.remove('open');
+        seal.style.transform = 'translate(-50%, -50%) scale(1)';
+        seal.style.opacity = '1';
+        stopHearts();
+        showScreen('cover');
+    });
+
+    // ============================================================
+    // Старт
+    // ============================================================
+    showScreen('cover');
+</script>
+</body>
+</html>
