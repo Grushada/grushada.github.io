@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- Cloudflare -->
     <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ebec1141d45447b877532dd1a142113"}'></script>
-
-    <!-- Top.Mail.Ru counter -->
     <script type="text/javascript">
         var _tmr = window._tmr || (window._tmr = []);
         _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
@@ -18,23 +15,16 @@
     </script>
     <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3787033;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div></noscript>
 
-    <!-- Yandex.Metrika -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=110413717", "ym");
-        ym(110413717, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-        });
+        ym(110413717, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/110413717" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-    <!-- Google tag -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYRZDGVW3V"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -43,7 +33,6 @@
         gtag('config', 'G-GYRZDGVW3V');
     </script>
 
-    <!-- Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -52,11 +41,9 @@
         })(window, document, "clarity", "script", "xn0ggpvg0m");
     </script>
 
-    <!-- Yandex Ads -->
     <script src="https://yandex.ru/ads/system/context.js" async></script>
     <script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
 
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-4228536607258228">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4228536607258228" crossorigin="anonymous"></script>
 
@@ -184,13 +171,13 @@
         }
         .modal.active { display: flex; }
         .modal-box {
-            background: rgba(20,20,45,0.8);
+            background: rgba(20,20,45,0.85);
             backdrop-filter: var(--glass);
             -webkit-backdrop-filter: var(--glass);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 36px;
             padding: 32px 28px;
-            max-width: 700px;
+            max-width: 720px;
             width: 100%;
             max-height: 95vh;
             overflow-y: auto;
@@ -221,23 +208,40 @@
         }
         .btn-close:hover { color: #fff; }
 
+        /* ====== ЯНДЕКС ФОРМА — стилизуем под тёмную тему ====== */
         .ya-form-wrap {
             margin: 16px 0;
             width: 100%;
-            border-radius: 18px;
-            background: rgba(0,0,0,0.2);
-            padding: 4px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #0e0e20;
+            border: 1px solid rgba(139,92,246,0.2);
+            position: relative;
         }
+        /* Инверсия цвета формы: белый → тёмный */
         .ya-form-wrap iframe {
             display: block;
             width: 100%;
             height: 1200px;
             border: none;
             background: transparent;
+            /* Магия: инвертируем и крутим оттенок, чтобы форма стала тёмной */
+            filter: invert(0.92) hue-rotate(180deg) saturate(0.85) brightness(1.05) contrast(1.05);
+            color-scheme: dark;
+        }
+        /* Лёгкое затемнение поверх для мягкости */
+        .ya-form-wrap::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(139,92,246,0.04), transparent 30%);
+            border-radius: 20px;
         }
 
+        /* ====== БЛОК ОПЛАТЫ ====== */
         .payment-block {
-            margin-top: 20px;
+            margin-top: 24px;
             border-top: 1px solid rgba(255,255,255,0.08);
             padding-top: 20px;
         }
@@ -247,24 +251,25 @@
             font-size: 0.8rem;
             color: var(--text-dim);
             text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 10px;
         }
         .payment-options {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 16px;
         }
         .payment-options button {
-            flex: 1;
+            flex: 1 1 calc(33% - 10px);
             min-width: 100px;
-            padding: 12px 16px;
+            padding: 12px 14px;
             border: 2px solid rgba(255,255,255,0.08);
             border-radius: 40px;
             background: rgba(255,255,255,0.02);
             color: var(--text-dim);
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: all 0.3s;
             font-family: inherit;
@@ -280,58 +285,109 @@
             color: #fff;
         }
 
-        .btn-pay {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 40px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: #000;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: inherit;
-            margin-top: 16px;
-        }
-        .btn-pay:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(212,168,83,0.4); }
-
-        .card-hint {
-            background: rgba(0,212,255,0.05);
-            border: 1px solid rgba(0,212,255,0.15);
-            border-radius: 18px;
-            padding: 16px;
-            margin: 12px 0;
-            text-align: center;
-        }
-        .card-hint .phone {
-            font-size: 1.4rem;
-            font-weight: 800;
-            font-family: 'Unbounded', sans-serif;
-            color: #00d4ff;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .card-hint .phone:hover { text-shadow: 0 0 20px rgba(0,212,255,0.6); }
-
         .warning-text {
             color: #fbbf24;
-            font-size: 0.85rem;
-            margin: 12px 0;
+            font-size: 0.82rem;
+            margin: 12px 0 16px;
             padding: 10px 12px;
-            background: rgba(251, 191, 36, 0.1);
+            background: rgba(251, 191, 36, 0.08);
             border-left: 3px solid #fbbf24;
             border-radius: 8px;
             line-height: 1.5;
         }
 
-        .donatepay-wrap {
-            margin-top: 16px;
-            border-radius: 18px;
-            overflow: hidden;
-            background: rgba(0,0,0,0.2);
+        /* ====== ПАНЕЛИ ОПЛАТЫ (встроенные) ====== */
+        .pay-panel {
+            display: none;
+            margin-top: 8px;
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(20,20,45,0.6);
+            border: 1px solid rgba(139,92,246,0.2);
+            animation: panelIn 0.35s ease;
         }
-        .donatepay-wrap iframe { display: block; width: 100%; border: none; }
+        .pay-panel.active { display: block; }
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pay-panel h3 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pay-panel .info {
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+        .pay-panel .amount {
+            display: inline-block;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #00d4ff;
+            margin-bottom: 12px;
+        }
+        .pay-panel .card-number {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #00d4ff;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            padding: 12px;
+            border-radius: 14px;
+            background: rgba(0,212,255,0.06);
+            border: 1px dashed rgba(0,212,255,0.3);
+            margin: 8px 0;
+        }
+        .pay-panel .card-number:hover {
+            text-shadow: 0 0 20px rgba(0,212,255,0.6);
+            background: rgba(0,212,255,0.1);
+        }
+
+        .btn-pay-inline {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+        .btn-pay-inline:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(139,92,246,0.5);
+        }
+        .btn-pay-gold {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #000;
+        }
+        .btn-pay-gold:hover { box-shadow: 0 8px 30px rgba(212,168,83,0.45); }
+
+        .pay-panel iframe {
+            display: block;
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            background: transparent;
+        }
 
         footer {
             text-align: center;
@@ -349,6 +405,7 @@
             .catalog { grid-template-columns: 1fr; }
             .modal-box { padding: 24px 18px; }
             .ya-form-wrap iframe { height: 900px; }
+            .payment-options button { flex: 1 1 calc(50% - 10px); }
         }
     </style>
 </head>
@@ -360,19 +417,14 @@
             <p class="subtitle">Авторские песни с полной передачей прав после выкупа</p>
         </header>
 
-        <!-- Рекламный блок Yandex -->
         <div id="yandex_rtb_R-A-19547505-1" style="margin-bottom: 20px;"></div>
         <script>
             window.yaContextCb = window.yaContextCb || [];
             window.yaContextCb.push(() => {
-                Ya.Context.AdvManager.render({
-                    blockId: "R-A-19547505-1",
-                    renderTo: "yandex_rtb_R-A-19547505-1"
-                });
+                Ya.Context.AdvManager.render({ blockId: "R-A-19547505-1", renderTo: "yandex_rtb_R-A-19547505-1" });
             });
         </script>
 
-        <!-- КАТАЛОГ -->
         <div class="catalog" id="catalog"></div>
 
         <!-- МОДАЛЬНОЕ ОКНО -->
@@ -380,8 +432,9 @@
             <div class="modal-box">
                 <button class="btn-close" onclick="closeModal()">✕</button>
                 <h2 id="modalTitle">Оформление заказа</h2>
-                <p style="color:var(--text-dim); margin-bottom: 10px;">Заполните форму, выберите способ оплаты и нажмите «Перейти к оплате».</p>
+                <p style="color:var(--text-dim); margin-bottom: 10px;">Заполните форму, выберите способ оплаты и оплатите через встроенный виджет.</p>
 
+                <!-- Яндекс Форма (стилизована фильтром) -->
                 <div class="ya-form-wrap">
                     <iframe src="https://forms.yandex.ru/cloud/6a860fec1f1eb5752b0deb66" frameborder="0" name="ya-form-6a860fec1f1eb5752b0deb66"></iframe>
                 </div>
@@ -404,30 +457,85 @@
                         В комментарии к платежу укажите название песни и контакт для связи.
                     </div>
 
-                    <!-- Подсказка для карты -->
-                    <div id="cardHint" style="display: none;">
-                        <div class="card-hint">
-                            <p style="color:var(--text-dim);">Оплатите переводом на карту:</p>
-                            <div class="phone" onclick="copyPhone()">+7 904 862 83 27</div>
-                            <p style="color:var(--text-dim); font-size:0.75rem;">Альфа-банк • Иван Максимович К.</p>
-                            <p style="color:var(--text-dim); font-size:0.75rem;">⚠️ В комментарии укажите название песни и ваш ник</p>
-                            <p style="color:var(--text-dim); font-size:0.75rem;">Скриншот оплаты прикрепите в форме выше.</p>
-                        </div>
+                    <!-- ПАНЕЛЬ: ЮMoney -->
+                    <div class="pay-panel" id="panel-yoomoney">
+                        <h3>💛 Оплата через ЮMoney</h3>
+                        <p class="info">Сумма к оплате:</p>
+                        <div class="amount" id="amount-yoomoney">0 ₽</div>
+                        <a class="btn-pay-inline" id="link-yoomoney" href="#" target="_blank" rel="noopener">
+                            Перейти к оплате в ЮMoney →
+                        </a>
+                        <p class="info" style="margin-top:12px;">После оплаты вернитесь и прикрепите чек в форме выше.</p>
                     </div>
 
-                    <!-- Скрытый блок DonatePay -->
-                    <div id="donatepayHint" class="donatepay-wrap" style="display: none;">
+                    <!-- ПАНЕЛЬ: Озон -->
+                    <div class="pay-panel" id="panel-ozon">
+                        <h3>📦 Оплата через Озон Банк</h3>
+                        <p class="info">Сумма к оплате:</p>
+                        <div class="amount" id="amount-ozon">0 ₽</div>
+                        <a class="btn-pay-inline" href="https://finance.ozon.ru/apps/sbp/ozonbankpay/01a0160a-48e9-7349-95c9-c1ec91232e3b" target="_blank" rel="noopener">
+                            Открыть Озон Банк →
+                        </a>
+                        <p class="info" style="margin-top:12px;">После оплаты вернитесь и прикрепите чек в форме выше.</p>
+                    </div>
+
+                    <!-- ПАНЕЛЬ: Карта -->
+                    <div class="pay-panel" id="panel-card">
+                        <h3>💳 Перевод на карту</h3>
+                        <p class="info">Сумма к оплате:</p>
+                        <div class="amount" id="amount-card">0 ₽</div>
+                        <p class="info">Нажмите на номер, чтобы скопировать:</p>
+                        <div class="card-number" onclick="copyPhone()">+7 904 862 83 27</div>
+                        <p class="info">Альфа-банк • Иван Максимович К.</p>
+                        <p class="info">⚠️ В комментарии укажите название песни и ваш ник. Скриншот оплаты прикрепите в форме выше.</p>
+                    </div>
+
+                    <!-- ПАНЕЛЬ: Dalink -->
+                    <div class="pay-panel" id="panel-dalink">
+                        <h3>🔗 Оплата через Dalink</h3>
+                        <p class="info">Сумма к оплате:</p>
+                        <div class="amount" id="amount-dalink">0 ₽</div>
+                        <a class="btn-pay-inline" href="https://dalink.to/rettero_love" target="_blank" rel="noopener">
+                            Открыть Dalink →
+                        </a>
+                        <p class="info" style="margin-top:12px;">После оплаты вернитесь и прикрепите чек в форме выше.</p>
+                    </div>
+
+                    <!-- ПАНЕЛЬ: Sponsr -->
+                    <div class="pay-panel" id="panel-sponsr">
+                        <h3>👑 Sponsr — подписка</h3>
+                        <p class="info">Оформление подписки через Sponsr. Сумма зависит от выбранного тарифа на площадке.</p>
+                        <a class="btn-pay-inline" href="https://sponsr.ru/rettero/subscribe/" target="_blank" rel="noopener">
+                            Оформить подписку →
+                        </a>
+                        <p class="info" style="margin-top:12px;">После оформления вернитесь и прикрепите подтверждение в форме выше.</p>
+                    </div>
+
+                    <!-- ПАНЕЛЬ: Boosty -->
+                    <div class="pay-panel" id="panel-boosty">
+                        <h3>🚀 Boosty — донат</h3>
+                        <p class="info">Сумма к оплате:</p>
+                        <div class="amount" id="amount-boosty">0 ₽</div>
+                        <a class="btn-pay-inline" href="https://boosty.to/rettero/donate" target="_blank" rel="noopener">
+                            Открыть Boosty →
+                        </a>
+                        <p class="info" style="margin-top:12px;">После оплаты вернитесь и прикрепите чек в форме выше.</p>
+                    </div>
+
+                    <!-- ПАНЕЛЬ: DonatePay (встроенный iframe виджет) -->
+                    <div class="pay-panel" id="panel-donatepay">
+                        <h3>💰 DonatePay — встроенный виджет</h3>
+                        <p class="info">Оплата прямо здесь, без перехода на другие сайты:</p>
                         <iframe src="https://widget.donatepay.ru/widgets/page/0ed5eb1917789121b1aa62717ddcbdb86f51ddc3e2a98e5612d56c6091ea2623?widget_id=7900395&sum=300"
                                 height="312" frameborder="0"></iframe>
+                        <p class="info" style="margin-top:12px;">Сумму можно изменить в виджете. После оплаты прикрепите чек в форме выше.</p>
                     </div>
 
-                    <button class="btn-pay" id="goToPayBtn">💳 Перейти к оплате</button>
                 </div>
             </div>
         </div>
 
         <footer>
-            <!-- <p>© 2026 Журбин Игорь Александрович. Все права защищены.</p> -->
             <p>Контакты: <a href="mailto:love_cute_cats@mail.ru">love_cute_cats@mail.ru</a> | <a href="https://t.me/Rettero">@Rettero</a></p>
             <p>
                 <a href="/privacy">Политика конфиденциальности</a> |
@@ -475,18 +583,34 @@
         }
 
         let currentProduct = null;
-        let selectedMethod = 'yoomoney';
+        let selectedMethod = 'card';
 
         function openOrder(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
             currentProduct = product;
             document.getElementById('modalTitle').textContent = `Заказ: ${product.title}`;
+
+            // Сброс кнопок
             document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
-            document.querySelector('#paymentOptions button[data-method="yoomoney"]').classList.add('active');
-            selectedMethod = 'yoomoney';
-            document.getElementById('cardHint').style.display = 'none';
-            document.getElementById('donatepayHint').style.display = 'none';
+            document.querySelector('#paymentOptions button[data-method="card"]').classList.add('active');
+            selectedMethod = 'card';
+
+            // Заполняем суммы во всех панелях
+            const amountStr = product.price.toLocaleString() + ' ₽';
+            ['yoomoney','ozon','card','dalink','boosty'].forEach(m => {
+                const el = document.getElementById('amount-' + m);
+                if (el) el.textContent = amountStr;
+            });
+
+            // Настраиваем ссылку ЮMoney с суммой
+            const yooLink = document.getElementById('link-yoomoney');
+            if (yooLink) yooLink.href = `https://yoomoney.ru/to/4100117765240041/${product.price}`;
+
+            // Показываем только карту
+            document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-card').classList.add('active');
+
             document.getElementById('orderModal').classList.add('active');
         }
 
@@ -494,67 +618,17 @@
             document.getElementById('orderModal').classList.remove('active');
         }
 
+        // Переключение методов оплаты — показываем соответствующую панель
         document.querySelectorAll('#paymentOptions button').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 selectedMethod = this.dataset.method;
-                document.getElementById('cardHint').style.display = (selectedMethod === 'card') ? 'block' : 'none';
-                document.getElementById('donatepayHint').style.display = (selectedMethod === 'donatepay') ? 'block' : 'none';
+
+                document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
+                const panel = document.getElementById('panel-' + selectedMethod);
+                if (panel) panel.classList.add('active');
             });
-        });
-
-        document.getElementById('goToPayBtn').addEventListener('click', function() {
-            if (!currentProduct) {
-                alert('Ошибка: песня не выбрана.');
-                return;
-            }
-            const amount = currentProduct.price;
-            const title = currentProduct.title;
-
-            switch (selectedMethod) {
-                case 'yoomoney': {
-                    const yooUrl = `https://yoomoney.ru/to/4100117765240041/${amount}`;
-                    window.open(yooUrl, '_blank');
-                    alert(`Вы переходите на оплату через ЮMoney.\nПесня: ${title}\nСумма: ${amount} ₽\nНе забудьте вернуться и подтвердить оплату в форме.`);
-                    break;
-                }
-                case 'ozon': {
-                    const ozonUrl = 'https://finance.ozon.ru/apps/sbp/ozonbankpay/01a0160a-48e9-7349-95c9-c1ec91232e3b';
-                    window.open(ozonUrl, '_blank');
-                    alert(`Вы переходите на оплату через Озон.\nПесня: ${title}\nСумма: ${amount} ₽\nНе забудьте вернуться и подтвердить оплату в форме.`);
-                    break;
-                }
-                case 'card': {
-                    copyPhone();
-                    alert(`Оплатите переводом на карту:\n+7 904 862 83 27\nСумма: ${amount} ₽\nВ комментарии укажите: ${title}\nПосле оплаты прикрепите скриншот в форме выше.`);
-                    break;
-                }
-                case 'dalink': {
-                    window.open('https://dalink.to/rettero_love', '_blank');
-                    alert('Вы переходите на Dalink для оплаты.\nНе забудьте вернуться и подтвердить заказ.');
-                    closeModal();
-                    break;
-                }
-                case 'sponsr': {
-                    window.open('https://sponsr.ru/rettero/subscribe/', '_blank');
-                    alert('Вы переходите на Sponsr для оформления подписки.\nНе забудьте вернуться и подтвердить заказ.');
-                    closeModal();
-                    break;
-                }
-                case 'boosty': {
-                    window.open('https://boosty.to/rettero/donate', '_blank');
-                    alert('Вы переходите на Boosty для доната.\nНе забудьте вернуться и подтвердить заказ.');
-                    closeModal();
-                    break;
-                }
-                case 'donatepay': {
-                    const hint = document.getElementById('donatepayHint');
-                    hint.style.display = 'block';
-                    hint.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    break;
-                }
-            }
         });
 
         function copyPhone() {
@@ -579,11 +653,8 @@
         loadCatalog();
     </script>
 
-    <!-- Дополнительные скрипты рекламы -->
     <script src="https://yandex.ru/ads/system/context.js" async></script>
     <script data-page-id="19726090" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
-
-    <!-- Top.Mail.Ru counter (повтор) -->
     <script type="text/javascript">
         var _tmr = window._tmr || (window._tmr = []);
         _tmr.push({id: "3787033", type: "pageView", start: (new Date()).getTime()});
