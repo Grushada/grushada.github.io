@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обо мне — PieSenia</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#060610;--card:rgba(12,12,28,0.6);--border:rgba(255,255,255,0.06);--accent:#8b5cf6;--accent-light:#a78bfa;--gold:#d4a853;--gold-light:#f0d078;--text:#e8e4f0;--text-dim:#8a84a0;--radius:24px;--cyan:#00d4ff}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px;display:flex;flex-direction:column;align-items:center;background-image:radial-gradient(ellipse at 20% 50%,rgba(139,92,246,0.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(255,45,149,0.08) 0%,transparent 60%)}
+.container{max-width:900px;width:100%}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:50px 20px 30px;
+  position:relative;
+}
+.hero-avatar{
+  width:140px;height:140px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold),#ff2d95);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:5rem;
+  box-shadow:0 0 60px rgba(139,92,246,0.6),0 0 100px rgba(240,208,120,0.4);
+  animation:float 4s ease-in-out infinite;
+  margin-bottom:20px;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(2rem,5vw,3rem);
+  font-weight:800;
+  background:linear-gradient(135deg,#00d4ff,#a78bfa,#ff2d95,#f0d078);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:8px;
+}
+.hero .slogan{color:var(--text-dim);font-size:1.05rem;font-weight:600;margin-bottom:24px}
+.hero .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{
+  background:rgba(139,92,246,0.15);
+  border:1px solid rgba(139,92,246,0.3);
+  color:var(--accent-light);
+  font-size:0.78rem;font-weight:700;
+  padding:6px 14px;border-radius:20px;
+}
+
+/* SECTIONS */
+.section{
+  background:var(--card);
+  backdrop-filter:blur(30px);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:32px 28px;
+  margin-bottom:20px;
+  animation:fadeUp 0.6s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.section-title{
+  font-family:'Unbounded',sans-serif;
+  font-size:1.25rem;
+  color:var(--gold-light);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section p{color:var(--text);font-size:0.95rem;line-height:1.8;margin-bottom:12px}
+.section p strong{color:var(--gold-light)}
+
+/* SKILLS */
+.skills{display:flex;flex-wrap:wrap;gap:10px}
+.skill{
+  background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(212,168,83,0.1));
+  border:1px solid rgba(139,92,246,0.3);
+  padding:8px 18px;
+  border-radius:30px;
+  font-size:0.85rem;
+  font-weight:700;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* PROJECTS */
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.project{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:18px;
+  padding:18px;
+  transition:all 0.3s;
+  text-decoration:none;
+  color:var(--text);
+  display:block;
+}
+.project:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 10px 30px rgba(139,92,246,0.25);text-decoration:none}
+.project .p-icon{font-size:2.5rem;margin-bottom:8px}
+.project .p-name{font-weight:800;font-size:1rem;color:var(--gold-light);margin-bottom:4px}
+.project .p-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.5}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--accent),var(--gold))}
+.timeline-item{position:relative;padding-bottom:22px}
+.timeline-item::before{content:'';position:absolute;left:-26px;top:4px;width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--gold));box-shadow:0 0 15px rgba(139,92,246,0.6)}
+.timeline-item .t-year{font-family:'Unbounded',sans-serif;color:var(--gold-light);font-size:0.85rem;font-weight:800;margin-bottom:4px}
+.timeline-item .t-text{color:var(--text-dim);font-size:0.9rem;line-height:1.5}
+
+/* FACTS */
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.fact{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+}
+.fact .f-icon{font-size:1.8rem;display:block;margin-bottom:6px}
+.fact .f-text{font-size:0.82rem;color:var(--text-dim);line-height:1.4}
+
+/* CONTACT */
+.contact-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.contact-btn{
+  flex:1;min-width:160px;
+  padding:14px 20px;
+  border-radius:30px;
+  border:none;
+  background:linear-gradient(135deg,var(--accent),#6d28d9);
+  color:#fff;
+  font-weight:800;
+  font-size:0.9rem;
+  font-family:inherit;
+  cursor:pointer;
+  text-decoration:none;
+  text-align:center;
+  transition:all 0.3s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.contact-btn:hover{transform:scale(1.03);box-shadow:0 10px 30px rgba(139,92,246,0.5);color:#fff;text-decoration:none}
+.contact-btn.gold{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#1a1a1a}
+.contact-btn.gold:hover{box-shadow:0 10px 30px rgba(212,168,83,0.5)}
+
+footer{text-align:center;padding:30px 20px;color:var(--text-dim);font-size:0.8rem;width:100%;border-top:1px solid rgba(255,255,255,0.05);margin-top:20px}
+footer a{color:var(--accent-light);text-decoration:none}
+footer a:hover{color:var(--cyan)}
+
+@media (max-width:600px){
+  .hero{padding:30px 10px 20px}
+  .hero-avatar{width:110px;height:110px;font-size:4rem}
+  .section{padding:22px 18px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-avatar">🎵</div>
+    <h1>PieSenia</h1>
+    <p class="slogan">Создаю авторские песни и интерактивные игры</p>
+    <div class="badges">
+      <span class="badge">🎼 Музыка</span>
+      <span class="badge">💻 Код</span>
+      <span class="badge">🎨 Дизайн</span>
+      <span class="badge">🎮 Игры</span>
+    </div>
+  </section>
+
+  <!-- КТО Я -->
+  <section class="section">
+    <h2 class="section-title">👋 Кто я</h2>
+    <p>Привет! Меня зовут <strong>Игорь</strong> (творческий псевдоним — <strong>PieSenia</strong>). Я создаю авторские музыкальные произведения, пишу песни под заказ и делаю интерактивные развлечения для души.</p>
+    <p>Мой проект — это сочетание <strong>музыки, кода и творчества</strong>. Здесь ты можешь купить авторскую песню с полной передачей прав, поиграть в рулетку удачи или просто залипнуть в мини-играх.</p>
+    <p>Каждая песня — это маленькая история, которую я вкладываю с душой. Каждая игра — место, где можно отдохнуть и посмеяться.</p>
+  </section>
+
+  <!-- ЧТО Я УМЕЮ -->
+  <section class="section">
+    <h2 class="section-title">🛠 Что я умею</h2>
+    <div class="skills">
+      <span class="skill">🎵 Написание песен</span>
+      <span class="skill">🎤 Вокал</span>
+      <span class="skill">🎹 Аранжировка</span>
+      <span class="skill">💻 Web-разработка</span>
+      <span class="skill">🎨 Дизайн</span>
+      <span class="skill">📱 Telegram-боты</span>
+      <span class="skill">🎮 Геймдизайн</span>
+      <span class="skill">📹 Видеомонтаж</span>
+    </div>
+  </section>
+
+  <!-- ПРОЕКТЫ -->
+  <section class="section">
+    <h2 class="section-title">🚀 Мои проекты</h2>
+    <div class="projects">
+      <a href="/" class="project">
+        <div class="p-icon">🎵</div>
+        <div class="p-name">PieSenia</div>
+        <div class="p-desc">Авторские песни с полной передачей прав после выкупа</div>
+      </a>
+      <a href="/ruletka" class="project">
+        <div class="p-icon">🎰</div>
+        <div class="p-name">Рулетка удачи</div>
+        <div class="p-desc">Игровая платформа с мини-играми и вечериночными режимами</div>
+      </a>
+      <a href="/links" class="project">
+        <div class="p-icon">🔗</div>
+        <div class="p-name">Полезные ссылки</div>
+        <div class="p-desc">Подборка сервисов, промокодов и ботов</div>
+      </a>
+      <a href="/kids" class="project">
+        <div class="p-icon">🧸</div>
+        <div class="p-name">Игровая для малышей</div>
+        <div class="p-desc">Развивающие игры для детей 3-7 лет с озвучкой</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ПУТЬ -->
+  <section class="section">
+    <h2 class="section-title">📈 Мой путь</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="t-year">2023</div>
+        <div class="t-text">Начал писать авторские песни, первые заказы</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2024</div>
+        <div class="t-text">Запустил сайт PieSenia и Telegram-бота</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2025</div>
+        <div class="t-text">Добавил платёжные системы, расширил каталог</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2026</div>
+        <div class="t-text">Запустил «Рулетку удачи» и детский раздел</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФАКТЫ -->
+  <section class="section">
+    <h2 class="section-title">😄 Смешные факты обо мне</h2>
+    <div class="facts">
+      <div class="fact">
+        <span class="f-icon">🎤</span>
+        <div class="f-text">Могу спеть 5 песен подряд, не сбившись</div>
+      </div>
+      <div class="fact">
+        <span class="f-icon">☕</span>
+        <div class="f-text">Пишу тексты только с кофе</div>
+      </div>
+      <div class="fact">
+        <span class="f-icon">🌙</span>
+        <div class="f-text">Самая рабочая ночь — с 23 до 3</div>
+      </div>
+      <div class="fact">
+        <span class="f-icon">🐱</span>
+        <div class="f-text">Люблю котов больше, чем людей</div>
+      </div>
+      <div class="fact">
+        <span class="f-icon">🎧</span>
+        <div class="f-text">Слушаю Lo-Fi во время работы</div>
+      </div>
+      <div class="fact">
+        <span class="f-icon">💎</span>
+        <div class="f-text">Верю, что творчество — это магия</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- КОНТАКТЫ -->
+  <section class="section">
+    <h2 class="section-title">📞 Связаться со мной</h2>
+    <p>Пиши по любому вопросу: заказ песни, идея, сотрудничество или просто поболтать 👇</p>
+    <div class="contact-buttons">
+      <a href="https://t.me/Rettero" target="_blank" class="contact-btn">✈️ Telegram</a>
+      <a href="https://vk.me/rettero" target="_blank" class="contact-btn">💬 ВКонтакте</a>
+      <a href="mailto:love_cute_cats@mail.ru" class="contact-btn gold">📧 Email</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 PieSenia · <a href="/">На главную</a> · <a href="/ruletka">Рулетка</a> · <a href="/kids">Малышам</a></p>
+  </footer>
+
+</div>
+
+<script>
+// Fade-in при скролле
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.1});
+
+document.querySelectorAll('.section').forEach(s=>{
+  s.style.opacity='0';
+  s.style.transform='translateY(20px)';
+  s.style.transition='opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(s);
+});
+</script>
+</body>
+</html>
