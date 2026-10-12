@@ -352,7 +352,7 @@ function copyLink(url) {
 
 renderLinks();
 </script>
-
+<!--
 <script>
     // Считаем клики по ссылкам на странице /links
     document.addEventListener('DOMContentLoaded', function() {
@@ -373,6 +373,26 @@ renderLinks();
                 clicks++;
                 localStorage.setItem('links_clicks', clicks);
                 console.log('Кликов по ссылкам:', clicks);
+            });
+        });
+    });
+</script>
+-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const linkElements = document.querySelectorAll('a[href^="http"], a[href^="/"]');
+        linkElements.forEach(link => {
+            const href = link.getAttribute('href') || '';
+            if (href.includes('privacy') || href.includes('terms') || 
+                href.includes('cookies') || href.includes('copyright') ||
+                href.includes('contacts') || href === '/' || href === '/links' ||
+                href.includes('ruletka')) {
+                return;
+            }
+            link.addEventListener('click', function() {
+                let clicks = parseInt(localStorage.getItem('links_clicks') || '0');
+                clicks++;
+                localStorage.setItem('links_clicks', clicks);
             });
         });
     });
