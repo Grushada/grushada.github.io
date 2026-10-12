@@ -19,7 +19,6 @@
             --text: #e8e4f0;
             --text-dim: #8a84a0;
             --radius: 24px;
-            --transition: 0.3s ease;
             --green: #22c55e;
             --red: #ef4444;
             --cyan: #00d4ff;
@@ -37,7 +36,6 @@
                               radial-gradient(ellipse at 80% 50%, rgba(255,45,149,0.08) 0%, transparent 60%);
         }
         .container { max-width: 1000px; width: 100%; }
-
         header { text-align: center; padding: 30px 0 10px; }
         .logo { font-size: 60px; display: inline-block; filter: drop-shadow(0 0 30px rgba(139,92,246,0.4)); }
         h1 {
@@ -63,7 +61,6 @@
             font-weight: 600;
         }
 
-        /* Баланс */
         .balance-card {
             background: var(--card);
             backdrop-filter: var(--glass);
@@ -78,11 +75,7 @@
             flex-wrap: wrap;
             gap: 16px;
         }
-        .balance-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .balance-item { display: flex; flex-direction: column; gap: 4px; }
         .balance-label {
             font-size: 0.75rem;
             color: var(--text-dim);
@@ -117,12 +110,8 @@
             font-family: inherit;
             transition: all 0.3s;
         }
-        .btn-reset:hover {
-            background: rgba(139,92,246,0.3);
-            color: #fff;
-        }
+        .btn-reset:hover { background: rgba(139,92,246,0.3); color: #fff; }
 
-        /* Колесо */
         .wheel-section {
             background: var(--card);
             backdrop-filter: var(--glass);
@@ -154,33 +143,12 @@
             z-index: 10;
             filter: drop-shadow(0 0 10px rgba(240,208,120,0.8));
         }
-        .wheel {
+        #wheelCanvas {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            position: relative;
-            overflow: hidden;
             box-shadow: 0 0 0 8px rgba(139,92,246,0.3), 0 0 50px rgba(139,92,246,0.4), inset 0 0 60px rgba(0,0,0,0.6);
             transition: transform 5s cubic-bezier(0.17, 0.67, 0.16, 1);
-        }
-        .wheel.spinning {
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.16, 1);
-        }
-        .wheel-segment {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 50%;
-            height: 50%;
-            transform-origin: 0% 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.85rem;
-            color: #fff;
-            font-family: 'Unbounded', sans-serif;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         .wheel-center {
             position: absolute;
@@ -199,11 +167,7 @@
             z-index: 5;
         }
 
-        /* Ставки */
-        .bet-section {
-            width: 100%;
-            max-width: 500px;
-        }
+        .bet-section { width: 100%; max-width: 500px; }
         .bet-label {
             font-size: 0.8rem;
             color: var(--text-dim);
@@ -238,10 +202,7 @@
             color: #fff;
             box-shadow: 0 0 20px rgba(139,92,246,0.3);
         }
-        .bet-btn:hover {
-            border-color: var(--accent-light);
-            color: #fff;
-        }
+        .bet-btn:hover { border-color: var(--accent-light); color: #fff; }
 
         .color-choice {
             display: flex;
@@ -289,16 +250,9 @@
             text-transform: uppercase;
             box-shadow: 0 8px 30px rgba(212,168,83,0.4);
         }
-        .btn-spin:hover:not(:disabled) {
-            transform: scale(1.02);
-            box-shadow: 0 12px 40px rgba(212,168,83,0.6);
-        }
-        .btn-spin:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn-spin:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 12px 40px rgba(212,168,83,0.6); }
+        .btn-spin:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Результат */
         .result {
             margin-top: 20px;
             padding: 20px;
@@ -310,20 +264,65 @@
             animation: resultIn 0.5s ease;
         }
         .result.show { display: block; }
-        .result.win {
+        .result.win { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); color: #4ade80; }
+        .result.lose { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #f87171; }
+        @keyframes resultIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* ===== ЗАДАНИЯ ===== */
+        .tasks-section {
+            background: var(--card);
+            backdrop-filter: var(--glass);
+            -webkit-backdrop-filter: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .tasks-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: var(--gold-light);
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .task-item:hover { border-color: rgba(139,92,246,0.3); }
+        .task-info { flex: 1; min-width: 200px; }
+        .task-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+        .task-desc { font-size: 0.75rem; color: var(--text-dim); }
+        .task-reward { font-family: 'Unbounded', sans-serif; font-size: 0.85rem; color: var(--cyan); font-weight: 800; }
+        .task-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            background: rgba(139,92,246,0.15);
+            color: var(--accent-light);
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .task-btn:hover { background: var(--accent); color: #fff; }
+        .task-btn.done {
+            border-color: var(--green);
             background: rgba(34,197,94,0.15);
-            border: 1px solid rgba(34,197,94,0.4);
             color: #4ade80;
+            cursor: default;
         }
-        .result.lose {
-            background: rgba(239,68,68,0.15);
-            border: 1px solid rgba(239,68,68,0.4);
-            color: #f87171;
-        }
-        @keyframes resultIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        .task-btn.done:hover { background: rgba(34,197,94,0.15); color: #4ade80; }
 
         /* История */
         .history-section {
@@ -378,9 +377,9 @@
         @media (max-width: 600px) {
             .wheel-wrapper { width: 260px; height: 260px; }
             .wheel-center { width: 65px; height: 65px; font-size: 1.6rem; }
-            .wheel-segment { font-size: 0.7rem; }
             .balance-value { font-size: 1.4rem; }
             .color-btn { font-size: 0.85rem; padding: 12px; }
+            .task-item { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -393,7 +392,6 @@
             <span class="disclaimer">⚠️ Игра создана исключительно для развлечения. Не является азартной игрой. Реальные деньги не используются.</span>
         </header>
 
-        <!-- Баланс -->
         <div class="balance-card">
             <div class="balance-item">
                 <span class="balance-label">Твой баланс</span>
@@ -414,7 +412,7 @@
         <div class="wheel-section">
             <div class="wheel-wrapper">
                 <div class="wheel-pointer"></div>
-                <div class="wheel" id="wheel"></div>
+                <canvas id="wheelCanvas" width="640" height="640"></canvas>
                 <div class="wheel-center">💎</div>
             </div>
 
@@ -441,6 +439,12 @@
             </div>
         </div>
 
+        <!-- Задания -->
+        <div class="tasks-section">
+            <div class="tasks-title">📋 Заработай алмазы</div>
+            <div id="tasksList"></div>
+        </div>
+
         <!-- История -->
         <div class="history-section">
             <div class="history-title">📜 История игр</div>
@@ -463,9 +467,10 @@
     </div>
 
     <script>
-        // ===== Конфигурация колеса =====
-        // 18 секторов: 8 красных, 8 чёрных, 2 зелёных
+        // ===== КОНФИГ КОЛЕСА =====
+        // 18 секторов: чётные — красные, нечётные — чёрные, 0 — зелёный (2 шт.)
         const SEGMENTS = [
+            { color: 'green', num: 0 },
             { color: 'red',   num: 1 },
             { color: 'black', num: 2 },
             { color: 'red',   num: 3 },
@@ -474,7 +479,6 @@
             { color: 'black', num: 6 },
             { color: 'red',   num: 7 },
             { color: 'black', num: 8 },
-            { color: 'green', num: 0 },
             { color: 'red',   num: 9 },
             { color: 'black', num: 10 },
             { color: 'red',   num: 11 },
@@ -485,17 +489,16 @@
             { color: 'black', num: 16 },
             { color: 'green', num: 0 }
         ];
-
         const SEGMENT_COUNT = SEGMENTS.length;
         const SEGMENT_ANGLE = 360 / SEGMENT_COUNT;
 
         const COLORS = {
-            red:   'linear-gradient(135deg, #dc2626, #7f1d1d)',
-            black: 'linear-gradient(135deg, #1f2937, #0a0a14)',
-            green: 'linear-gradient(135deg, #16a34a, #14532d)'
+            red:   '#dc2626',
+            black: '#1f2937',
+            green: '#16a34a'
         };
 
-        // ===== Состояние =====
+        // ===== СОСТОЯНИЕ =====
         let state = {
             balance: 1000,
             gamesPlayed: 0,
@@ -503,20 +506,58 @@
             currentBet: 50,
             currentColor: null,
             spinning: false,
-            history: []
+            history: [],
+            completedTasks: []   // id выполненных заданий
         };
 
-        // Загружаем сохранённое состояние
+        // ===== ЗАДАНИЯ =====
+        const TASKS = [
+            {
+                id: 'tg_sub',
+                name: 'Подписаться на Telegram',
+                desc: 'Напиши @Rettero в Telegram',
+                reward: 100,
+                link: 'https://t.me/Rettero'
+            },
+            {
+                id: 'vk_sub',
+                name: 'Подписаться на VK',
+                desc: 'Подай заявку на vk.me/rettero',
+                reward: 100,
+                link: 'https://vk.me/rettero'
+            },
+            {
+                id: 'tiktok_sub',
+                name: 'Подписаться на TikTok',
+                desc: 'Подпишись на @intrr_lvv',
+                reward: 100,
+                link: 'https://tiktok.com/@intrr_lvv'
+            },
+            {
+                id: 'links_5',
+                name: 'Перейти по 5 ссылкам',
+                desc: 'Открой 5 любых ссылок на странице /links',
+                reward: 200,
+                link: '/links',
+                check: () => {
+                    const clicks = parseInt(localStorage.getItem('links_clicks') || '0');
+                    return clicks >= 5;
+                }
+            }
+        ];
+
+        // ===== ЗАГРУЗКА СОСТОЯНИЯ =====
         function loadState() {
             try {
                 const saved = localStorage.getItem('ruletka_state');
                 if (saved) {
-                    const parsed = JSON.parse(saved);
-                    state.balance = parsed.balance ?? 1000;
-                    state.gamesPlayed = parsed.gamesPlayed ?? 0;
-                    state.wins = parsed.wins ?? 0;
-                    state.currentBet = parsed.currentBet ?? 50;
-                    state.history = parsed.history ?? [];
+                    const p = JSON.parse(saved);
+                    state.balance = p.balance ?? 1000;
+                    state.gamesPlayed = p.gamesPlayed ?? 0;
+                    state.wins = p.wins ?? 0;
+                    state.currentBet = p.currentBet ?? 50;
+                    state.history = p.history ?? [];
+                    state.completedTasks = p.completedTasks ?? [];
                 }
             } catch(e) { console.warn('Ошибка загрузки:', e); }
         }
@@ -528,30 +569,66 @@
                     gamesPlayed: state.gamesPlayed,
                     wins: state.wins,
                     currentBet: state.currentBet,
-                    history: state.history.slice(0, 20)
+                    history: state.history.slice(0, 20),
+                    completedTasks: state.completedTasks
                 }));
             } catch(e) { console.warn('Ошибка сохранения:', e); }
         }
 
-        // ===== Рендер колеса =====
-        function buildWheel() {
-            const wheel = document.getElementById('wheel');
-            wheel.innerHTML = '';
+        // ===== РИСОВАНИЕ КОЛЕСА НА CANVAS =====
+        function drawWheel() {
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const radius = Math.min(cx, cy) - 10;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Рисуем сектора
             SEGMENTS.forEach((seg, i) => {
-                const div = document.createElement('div');
-                div.className = 'wheel-segment';
-                // Каждый сектор — повёрнут на свой угол
-                div.style.transform = `rotate(${i * SEGMENT_ANGLE}deg)`;
-                div.style.background = COLORS[seg.color];
-                div.style.clipPath = 'polygon(0 0, 100% 0, 100% 100%)';
-                // Текст внутри сектора
-                const label = document.createElement('span');
-                label.style.transform = `rotate(${SEGMENT_ANGLE / 2}deg)`;
-                label.style.marginLeft = '60px';
-                label.textContent = seg.num === 0 ? '0' : seg.num;
-                div.appendChild(label);
-                wheel.appendChild(div);
+                const startAngle = (i * SEGMENT_ANGLE - 90) * Math.PI / 180;
+                const endAngle = ((i + 1) * SEGMENT_ANGLE - 90) * Math.PI / 180;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = COLORS[seg.color];
+                ctx.fill();
+
+                // Обводка сектора
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Текст (номер)
+                const midAngle = (startAngle + endAngle) / 2;
+                const textRadius = radius * 0.75;
+                const tx = cx + Math.cos(midAngle) * textRadius;
+                const ty = cy + Math.sin(midAngle) * textRadius;
+
+                ctx.save();
+                ctx.translate(tx, ty);
+                ctx.rotate(midAngle + Math.PI / 2);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 28px "Unbounded", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.6)';
+                ctx.shadowBlur = 4;
+                ctx.fillText(seg.num === 0 ? '0' : String(seg.num), 0, 0);
+                ctx.restore();
             });
+
+            // Внутренний круг
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius * 0.35, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(6,6,16,0.9)';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(240,208,120,0.5)';
+            ctx.lineWidth = 4;
+            ctx.stroke();
         }
 
         // ===== UI =====
@@ -560,8 +637,8 @@
             document.getElementById('gamesPlayed').textContent = state.gamesPlayed;
             document.getElementById('winsCount').textContent = state.wins;
             renderHistory();
+            renderTasks();
 
-            // Проверка на банкротство
             const spinBtn = document.getElementById('spinBtn');
             if (state.balance < 10 && !state.spinning) {
                 spinBtn.disabled = true;
@@ -586,11 +663,72 @@
             `).join('');
         }
 
+        function renderTasks() {
+            const list = document.getElementById('tasksList');
+            list.innerHTML = TASKS.map(t => {
+                const done = state.completedTasks.includes(t.id);
+                const canClaim = !done && (!t.check || t.check());
+                return `
+                    <div class="task-item">
+                        <div class="task-info">
+                            <div class="task-name">${t.name}</div>
+                            <div class="task-desc">${t.desc}</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span class="task-reward">+${t.reward} 💎</span>
+                            <button class="task-btn ${done ? 'done' : ''}"
+                                    onclick="handleTask('${t.id}')"
+                                    ${done ? 'disabled' : ''}>
+                                ${done ? '✅ Выполнено' : (canClaim ? '🎁 Получить' : '🔗 Перейти')}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleTask(id) {
+            const task = TASKS.find(t => t.id === id);
+            if (!task) return;
+            if (state.completedTasks.includes(id)) return;
+
+            // Если есть проверка и она не пройдена — открываем ссылку
+            if (task.check && !task.check()) {
+                window.open(task.link, '_blank');
+                return;
+            }
+
+            // Если ссылка и нет проверки — открываем ссылку, но награду даём только после возврата (упрощённо: даём сразу, но с задержкой)
+            if (task.link && !task.check) {
+                window.open(task.link, '_blank');
+                // Даём награду через 3 секунды (имитация "выполнения")
+                setTimeout(() => {
+                    if (!state.completedTasks.includes(id)) {
+                        state.balance += task.reward;
+                        state.completedTasks.push(id);
+                        saveState();
+                        updateUI();
+                        alert(`🎉 Задание "${task.name}" выполнено! +${task.reward} 💎`);
+                    }
+                }, 3000);
+                return;
+            }
+
+            // Если проверка пройдена — сразу награда
+            if (task.check && task.check()) {
+                state.balance += task.reward;
+                state.completedTasks.push(id);
+                saveState();
+                updateUI();
+                alert(`🎉 Задание "${task.name}" выполнено! +${task.reward} 💎`);
+            }
+        }
+
         function colorLabel(c) {
             return c === 'red' ? '🔴' : c === 'green' ? '🟢' : '⚫';
         }
 
-        // ===== Выбор ставки/цвета =====
+        // ===== ВЫБОР СТАВКИ/ЦВЕТА =====
         document.querySelectorAll('#betOptions .bet-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (state.spinning) return;
@@ -609,7 +747,7 @@
             });
         });
 
-        // ===== Кручение =====
+        // ===== КРУЧЕНИЕ =====
         function spin() {
             if (state.spinning) return;
             if (!state.currentColor) {
@@ -627,31 +765,27 @@
             spinBtn.textContent = '🎲 Крутится...';
             document.getElementById('result').classList.remove('show');
 
-            // Списываем ставку
             state.balance -= state.currentBet;
             updateUI();
 
-            // Выбираем случайный сектор
+            // Выбираем выигрышный индекс
             const winningIndex = Math.floor(Math.random() * SEGMENT_COUNT);
             const winningSegment = SEGMENTS[winningIndex];
 
-            // Угол: сектор 0 находится сверху (указатель). Чтобы выигрышный сектор оказался под указателем,
-            // нужно повернуть колесо на (360 - index*SEGMENT_ANGLE) + несколько полных оборотов
-            const spins = 5 + Math.floor(Math.random() * 3); // 5-7 полных оборотов
-            const targetAngle = 360 * spins + (360 - winningIndex * SEGMENT_ANGLE) - SEGMENT_ANGLE / 2;
+            // Угол: чтобы сектор оказался под указателем (указатель сверху, т.е. -90°)
+            const spins = 5 + Math.floor(Math.random() * 3);
+            // Центр выигрышного сектора: (winningIndex + 0.5) * SEGMENT_ANGLE
+            // Чтобы он оказался на -90°, нужно повернуть на: 360*spins - (winningIndex + 0.5) * SEGMENT_ANGLE
+            const targetAngle = 360 * spins - (winningIndex + 0.5) * SEGMENT_ANGLE;
 
-            const wheel = document.getElementById('wheel');
-            wheel.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
-            wheel.style.transform = `rotate(${targetAngle}deg)`;
+            const canvas = document.getElementById('wheelCanvas');
+            canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
+            canvas.style.transform = `rotate(${targetAngle}deg)`;
 
-            // Через 5 секунд — результат
             setTimeout(() => {
-                // Проверяем совпадение
                 const isWin = winningSegment.color === state.currentColor;
-
                 let winAmount = 0;
                 if (isWin) {
-                    // Красное/Чёрное — x2, Зелёное — x14
                     const multiplier = state.currentColor === 'green' ? 14 : 2;
                     winAmount = state.currentBet * multiplier;
                     state.balance += winAmount;
@@ -659,7 +793,6 @@
                 }
                 state.gamesPlayed++;
 
-                // Запись в историю
                 state.history.unshift({
                     win: isWin,
                     bet: state.currentBet,
@@ -669,7 +802,6 @@
                 });
                 if (state.history.length > 20) state.history.pop();
 
-                // Показываем результат
                 if (isWin) {
                     const mult = state.currentColor === 'green' ? 'x14' : 'x2';
                     showResult(`🎉 Победа! Выпало ${colorLabel(winningSegment.color)} ${winningSegment.num}. Ты выиграл ${winAmount} 💎 (${mult})`, 'win');
@@ -684,11 +816,10 @@
 
                 // Сброс transform, чтобы следующее вращение работало от 0
                 setTimeout(() => {
-                    wheel.style.transition = 'none';
-                    wheel.style.transform = `rotate(${targetAngle % 360}deg)`;
-                    // Форсируем reflow, чтобы transition сбросился
-                    void wheel.offsetWidth;
-                    wheel.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
+                    canvas.style.transition = 'none';
+                    canvas.style.transform = `rotate(${targetAngle % 360}deg)`;
+                    void canvas.offsetWidth;
+                    canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
                 }, 100);
             }, 5100);
         }
@@ -708,9 +839,9 @@
                 currentBet: 50,
                 currentColor: null,
                 spinning: false,
-                history: []
+                history: [],
+                completedTasks: []
             };
-            // Сброс UI выбора
             document.querySelectorAll('#betOptions .bet-btn').forEach(b => b.classList.remove('active'));
             document.querySelector('#betOptions .bet-btn[data-bet="50"]').classList.add('active');
             document.querySelectorAll('#colorChoice .color-btn').forEach(b => b.classList.remove('active'));
@@ -719,15 +850,19 @@
             updateUI();
         }
 
-        // ===== Инициализация =====
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
         loadState();
-        buildWheel();
+        drawWheel();
         updateUI();
 
-        // Восстановить активные кнопки
         document.querySelectorAll('#betOptions .bet-btn').forEach(b => {
             if (parseInt(b.dataset.bet) === state.currentBet) b.classList.add('active');
             else b.classList.remove('active');
+        });
+
+        // Проверяем, не выполнено ли задание links_5 (если пользователь вернулся с /links)
+        window.addEventListener('focus', () => {
+            renderTasks();
         });
     </script>
 </body>
