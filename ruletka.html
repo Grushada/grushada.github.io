@@ -67,17 +67,17 @@
             -webkit-backdrop-filter: var(--glass);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 14px;
         }
         .balance-item { display: flex; flex-direction: column; gap: 4px; }
         .balance-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-dim);
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -85,7 +85,7 @@
         }
         .balance-value {
             font-family: 'Unbounded', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--cyan), var(--accent-light));
             -webkit-background-clip: text;
@@ -98,20 +98,62 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .btn-reset {
-            padding: 10px 20px;
-            background: rgba(139,92,246,0.15);
-            border: 1px solid rgba(139,92,246,0.3);
-            color: var(--accent-light);
+        .bonus-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border: none;
+            color: #1a1a1a;
             border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.8rem;
+            font-weight: 800;
+            font-size: 0.78rem;
             cursor: pointer;
             font-family: inherit;
             transition: all 0.3s;
         }
-        .btn-reset:hover { background: rgba(139,92,246,0.3); color: #fff; }
+        .bonus-btn:disabled {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-dim);
+            cursor: not-allowed;
+        }
+        .bonus-btn:not(:disabled):hover { transform: scale(1.05); }
 
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.02);
+            padding: 6px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        .tab-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 24px;
+            color: var(--text-dim);
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(139,92,246,0.4);
+        }
+        .tab-btn:hover:not(.active) { color: #fff; }
+        .tab-content { display: none; animation: tabIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes tabIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* WHEEL */
         .wheel-section {
             background: var(--card);
             backdrop-filter: var(--glass);
@@ -119,24 +161,18 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 40px 24px;
-            margin-bottom: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 24px;
         }
-        .wheel-wrapper {
-            position: relative;
-            width: 320px;
-            height: 320px;
-        }
+        .wheel-wrapper { position: relative; width: 320px; height: 320px; }
         .wheel-pointer {
             position: absolute;
             top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 0;
-            height: 0;
+            width: 0; height: 0;
             border-left: 14px solid transparent;
             border-right: 14px solid transparent;
             border-top: 24px solid var(--gold-light);
@@ -144,29 +180,23 @@
             filter: drop-shadow(0 0 10px rgba(240,208,120,0.8));
         }
         #wheelCanvas {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border-radius: 50%;
-            box-shadow: 0 0 0 8px rgba(139,92,246,0.3), 0 0 50px rgba(139,92,246,0.4), inset 0 0 60px rgba(0,0,0,0.6);
+            box-shadow: 0 0 0 8px rgba(139,92,246,0.3), 0 0 50px rgba(139,92,246,0.4);
             transition: transform 5s cubic-bezier(0.17, 0.67, 0.16, 1);
         }
         .wheel-center {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             background: linear-gradient(135deg, #1a1a35, #0a0a20);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 2rem;
             box-shadow: 0 0 0 4px rgba(240,208,120,0.5), 0 0 30px rgba(240,208,120,0.6);
             z-index: 5;
         }
-
         .bet-section { width: 100%; max-width: 500px; }
         .bet-label {
             font-size: 0.8rem;
@@ -177,13 +207,7 @@
             margin-bottom: 12px;
             text-align: center;
         }
-        .bet-options {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
+        .bet-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
         .bet-btn {
             padding: 12px 24px;
             border: 2px solid rgba(255,255,255,0.08);
@@ -203,16 +227,9 @@
             box-shadow: 0 0 20px rgba(139,92,246,0.3);
         }
         .bet-btn:hover { border-color: var(--accent-light); color: #fff; }
-
-        .color-choice {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
+        .color-choice { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
         .color-btn {
-            flex: 1;
-            max-width: 140px;
+            flex: 1; max-width: 140px;
             padding: 16px;
             border-radius: 16px;
             border: 3px solid transparent;
@@ -228,23 +245,14 @@
         .color-btn.red { background: linear-gradient(135deg, #dc2626, #991b1b); }
         .color-btn.black { background: linear-gradient(135deg, #1f2937, #0a0a14); border: 3px solid rgba(255,255,255,0.15); }
         .color-btn.green { background: linear-gradient(135deg, #16a34a, #14532d); }
-        .color-btn.active {
-            border-color: var(--gold-light);
-            box-shadow: 0 0 25px rgba(240,208,120,0.6);
-            transform: scale(1.05);
-        }
-
+        .color-btn.active { border-color: var(--gold-light); box-shadow: 0 0 25px rgba(240,208,120,0.6); transform: scale(1.05); }
         .btn-spin {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 40px;
+            width: 100%; padding: 18px;
+            border: none; border-radius: 40px;
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
             color: #1a1a1a;
-            font-weight: 800;
-            font-size: 1.05rem;
-            cursor: pointer;
-            transition: all 0.3s;
+            font-weight: 800; font-size: 1.05rem;
+            cursor: pointer; transition: all 0.3s;
             font-family: 'Unbounded', sans-serif;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -252,7 +260,6 @@
         }
         .btn-spin:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 12px 40px rgba(212,168,83,0.6); }
         .btn-spin:disabled { opacity: 0.5; cursor: not-allowed; }
-
         .result {
             margin-top: 20px;
             padding: 20px;
@@ -268,22 +275,161 @@
         .result.lose { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #f87171; }
         @keyframes resultIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-        /* ===== ЗАДАНИЯ ===== */
-        .tasks-section {
+        /* COMMON GAME CARD */
+        .game-card {
             background: var(--card);
             backdrop-filter: var(--glass);
             -webkit-backdrop-filter: var(--glass);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 24px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
-        .tasks-title {
+        .game-title {
             font-family: 'Unbounded', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 16px;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
             color: var(--gold-light);
         }
+        .game-desc { color: var(--text-dim); font-size: 0.82rem; margin-bottom: 16px; line-height: 1.5; }
+
+        /* CROSSWORD */
+        .crossword-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            max-width: 340px;
+            margin: 0 auto 16px;
+        }
+        .cw-cell {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 2px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cw-cell.blocked { background: transparent; border-color: transparent; }
+        .cw-cell input {
+            width: 100%; height: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Unbounded', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-align: center;
+            text-transform: uppercase;
+            outline: none;
+            border-radius: 6px;
+        }
+        .cw-cell input:focus {
+            background: rgba(139,92,246,0.15);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        .cw-cell.correct input { color: #4ade80; background: rgba(34,197,94,0.1); }
+        .cw-cell.wrong input { color: #f87171; background: rgba(239,68,68,0.1); }
+        .cw-hints {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .cw-hints strong { color: var(--gold-light); }
+        .cw-actions { display: flex; gap: 10px; }
+        .btn-action {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--accent);
+            background: rgba(139,92,246,0.15);
+            color: var(--accent-light);
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .btn-action:hover { background: var(--accent); color: #fff; }
+        .btn-action.gold {
+            border-color: var(--gold);
+            background: rgba(212,168,83,0.15);
+            color: var(--gold-light);
+        }
+        .btn-action.gold:hover { background: var(--gold); color: #1a1a1a; }
+        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* QUIZ */
+        .quiz-question {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+        .quiz-option {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            transition: all 0.3s;
+        }
+        .quiz-option:hover { border-color: var(--accent-light); }
+        .quiz-option.correct { border-color: var(--green); background: rgba(34,197,94,0.15); color: #4ade80; }
+        .quiz-option.wrong { border-color: var(--red); background: rgba(239,68,68,0.15); color: #f87171; }
+        .quiz-option:disabled { cursor: default; }
+        .quiz-progress {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+
+        /* CLICKER */
+        .clicker-area { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .clicker-btn {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--gold);
+            background: radial-gradient(circle at 30% 30%, #2a2a55, #0a0a20);
+            color: #fff;
+            font-size: 3.5rem;
+            cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 0 0 40px rgba(240,208,120,0.4), inset 0 0 30px rgba(139,92,246,0.3);
+            user-select: none;
+            font-family: inherit;
+        }
+        .clicker-btn:active { transform: scale(0.95); box-shadow: 0 0 60px rgba(240,208,120,0.8); }
+        .clicker-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .clicker-info { color: var(--text-dim); font-size: 0.85rem; text-align: center; }
+        .clicker-info strong { color: var(--cyan); }
+        .clicker-today {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+        }
+        .clicker-bar {
+            width: 100%; max-width: 320px;
+            height: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .clicker-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--gold-light));
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+
+        /* TASKS */
         .task-item {
             display: flex;
             justify-content: space-between;
@@ -295,9 +441,7 @@
             margin-bottom: 10px;
             flex-wrap: wrap;
             gap: 10px;
-            transition: all 0.3s;
         }
-        .task-item:hover { border-color: rgba(139,92,246,0.3); }
         .task-info { flex: 1; min-width: 200px; }
         .task-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
         .task-desc { font-size: 0.75rem; color: var(--text-dim); }
@@ -316,15 +460,35 @@
             white-space: nowrap;
         }
         .task-btn:hover { background: var(--accent); color: #fff; }
-        .task-btn.done {
-            border-color: var(--green);
-            background: rgba(34,197,94,0.15);
-            color: #4ade80;
-            cursor: default;
-        }
-        .task-btn.done:hover { background: rgba(34,197,94,0.15); color: #4ade80; }
+        .task-btn.done { border-color: var(--green); background: rgba(34,197,94,0.15); color: #4ade80; cursor: default; }
 
-        /* История */
+        /* ACHIEVEMENTS */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .achievement {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .achievement.unlocked {
+            border-color: var(--gold);
+            background: rgba(212,168,83,0.08);
+            box-shadow: 0 0 20px rgba(212,168,83,0.2);
+        }
+        .achievement.locked { opacity: 0.5; }
+        .achievement .icon { font-size: 2rem; margin-bottom: 6px; }
+        .achievement .name { font-weight: 700; font-size: 0.82rem; margin-bottom: 4px; }
+        .achievement .desc { font-size: 0.7rem; color: var(--text-dim); }
+        .achievement .reward { font-family: 'Unbounded', sans-serif; font-size: 0.75rem; color: var(--cyan); margin-top: 8px; font-weight: 800; }
+
+        /* HISTORY */
         .history-section {
             background: var(--card);
             backdrop-filter: var(--glass);
@@ -362,6 +526,27 @@
         .history-item .time { color: var(--text-dim); font-size: 0.75rem; }
         .history-empty { color: var(--text-dim); font-size: 0.85rem; text-align: center; padding: 20px; }
 
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 40px rgba(139,92,246,0.5);
+            z-index: 1000;
+            transition: transform 0.4s ease;
+            pointer-events: none;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.gold { background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #1a1a1a; }
+        .toast.green { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+
         footer {
             text-align: center;
             padding: 30px 20px 10px;
@@ -377,9 +562,10 @@
         @media (max-width: 600px) {
             .wheel-wrapper { width: 260px; height: 260px; }
             .wheel-center { width: 65px; height: 65px; font-size: 1.6rem; }
-            .balance-value { font-size: 1.4rem; }
-            .color-btn { font-size: 0.85rem; padding: 12px; }
-            .task-item { flex-direction: column; align-items: flex-start; }
+            .balance-value { font-size: 1.3rem; }
+            .color-btn { font-size: 0.8rem; padding: 12px 6px; }
+            .tab-btn { font-size: 0.72rem; padding: 10px 8px; min-width: 90px; }
+            .clicker-btn { width: 150px; height: 150px; font-size: 2.8rem; }
         }
     </style>
 </head>
@@ -388,64 +574,134 @@
         <header>
             <div class="logo">🎰</div>
             <h1>Рулетка удачи</h1>
-            <p class="subtitle">Играй на алмазики ради фана — без реальных ставок</p>
-            <span class="disclaimer">⚠️ Игра создана исключительно для развлечения. Не является азартной игрой. Реальные деньги не используются.</span>
+            <p class="subtitle">Играй, зарабатывай алмазы, ставь рекорды</p>
+            <span class="disclaimer">⚠️ Игра для развлечения. Не является азартной игрой. Реальные деньги не используются.</span>
         </header>
 
         <div class="balance-card">
             <div class="balance-item">
-                <span class="balance-label">Твой баланс</span>
+                <span class="balance-label">Баланс</span>
                 <span class="balance-value diamonds" id="balance">💎 1000</span>
             </div>
             <div class="balance-item">
-                <span class="balance-label">Игр сыграно</span>
+                <span class="balance-label">Игр</span>
                 <span class="balance-value" id="gamesPlayed">0</span>
             </div>
             <div class="balance-item">
                 <span class="balance-label">Побед</span>
                 <span class="balance-value" id="winsCount" style="background: linear-gradient(135deg, #4ade80, #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">0</span>
             </div>
-            <button class="btn-reset" onclick="resetGame()">🔄 Сбросить</button>
+            <button class="bonus-btn" id="dailyBonusBtn" onclick="claimDailyBonus()">🎁 Ежедневный бонус</button>
         </div>
 
-        <!-- Колесо -->
-        <div class="wheel-section">
-            <div class="wheel-wrapper">
-                <div class="wheel-pointer"></div>
-                <canvas id="wheelCanvas" width="640" height="640"></canvas>
-                <div class="wheel-center">💎</div>
-            </div>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="wheel" onclick="switchTab('wheel')">🎰 Рулетка</button>
+            <button class="tab-btn" data-tab="games" onclick="switchTab('games')">🎮 Мини-игры</button>
+            <button class="tab-btn" data-tab="tasks" onclick="switchTab('tasks')">📋 Задания</button>
+            <button class="tab-btn" data-tab="achievements" onclick="switchTab('achievements')">🏆 Достижения</button>
+        </div>
 
-            <div class="bet-section">
-                <div class="bet-label">Выбери размер ставки</div>
-                <div class="bet-options" id="betOptions">
-                    <button class="bet-btn" data-bet="10">10 💎</button>
-                    <button class="bet-btn active" data-bet="50">50 💎</button>
-                    <button class="bet-btn" data-bet="100">100 💎</button>
-                    <button class="bet-btn" data-bet="250">250 💎</button>
-                    <button class="bet-btn" data-bet="500">500 💎</button>
+        <!-- TAB: WHEEL -->
+        <div class="tab-content active" id="tab-wheel">
+            <div class="wheel-section">
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheelCanvas" width="640" height="640"></canvas>
+                    <div class="wheel-center">💎</div>
                 </div>
 
-                <div class="bet-label">Выбери цвет</div>
-                <div class="color-choice" id="colorChoice">
-                    <button class="color-btn red" data-color="red">🔴 Красное</button>
-                    <button class="color-btn green" data-color="green">🟢 Зелёное</button>
-                    <button class="color-btn black" data-color="black">⚫ Чёрное</button>
+                <div class="bet-section">
+                    <div class="bet-label">Выбери размер ставки</div>
+                    <div class="bet-options" id="betOptions">
+                        <button class="bet-btn" data-bet="10">10 💎</button>
+                        <button class="bet-btn active" data-bet="50">50 💎</button>
+                        <button class="bet-btn" data-bet="100">100 💎</button>
+                        <button class="bet-btn" data-bet="250">250 💎</button>
+                        <button class="bet-btn" data-bet="500">500 💎</button>
+                    </div>
+
+                    <div class="bet-label">Выбери цвет</div>
+                    <div class="color-choice" id="colorChoice">
+                        <button class="color-btn red" data-color="red">🔴 Красное</button>
+                        <button class="color-btn green" data-color="green">🟢 Зелёное</button>
+                        <button class="color-btn black" data-color="black">⚫ Чёрное</button>
+                    </div>
+
+                    <button class="btn-spin" id="spinBtn" onclick="spin()">🎰 Крутить колесо</button>
+                    <div class="result" id="result"></div>
                 </div>
-
-                <button class="btn-spin" id="spinBtn" onclick="spin()">🎰 Крутить колесо</button>
-
-                <div class="result" id="result"></div>
             </div>
         </div>
 
-        <!-- Задания -->
-        <div class="tasks-section">
-            <div class="tasks-title">📋 Заработай алмазы</div>
-            <div id="tasksList"></div>
+        <!-- TAB: GAMES -->
+        <div class="tab-content" id="tab-games">
+            <!-- CROSSWORD -->
+            <div class="game-card">
+                <div class="game-title">📝 Кроссворд «Музыка»</div>
+                <div class="game-desc">Заполни все клетки правильными буквами. Награда: +300 💎</div>
+                <div class="crossword-grid" id="crosswordGrid"></div>
+                <div class="cw-hints">
+                    <strong>По горизонтали:</strong><br>
+                    1. Музыкальный спектакль, где артисты поют (5)<br>
+                    3. Знак для записи звука (4)<br>
+                    4. Самый низкий мужской голос (3)<br>
+                    <strong>По вертикали:</strong><br>
+                    1. Музыкальный жанр с электрогитарами (3)<br>
+                    2. Американский жанр с импровизацией (4)
+                </div>
+                <div class="cw-actions">
+                    <button class="btn-action gold" id="cwCheckBtn" onclick="checkCrossword()">✅ Проверить</button>
+                    <button class="btn-action" onclick="clearCrossword()">🗑️ Очистить</button>
+                </div>
+            </div>
+
+            <!-- QUIZ -->
+            <div class="game-card">
+                <div class="game-title">🧠 Викторина «Музыка»</div>
+                <div class="game-desc">5 вопросов. За каждый правильный ответ — +20 💎</div>
+                <div id="quizContent"></div>
+            </div>
+
+            <!-- CLICKER -->
+            <div class="game-card">
+                <div class="game-title">👆 Кликер</div>
+                <div class="game-desc">Кликай по кнопке и получай +1 💎. Лимит: 100 кликов в день.</div>
+                <div class="clicker-area">
+                    <button class="clicker-btn" id="clickerBtn" onclick="doClick()">💎</button>
+                    <div class="clicker-today" id="clickerToday">0 / 100</div>
+                    <div class="clicker-bar">
+                        <div class="clicker-bar-fill" id="clickerBar" style="width: 0%"></div>
+                    </div>
+                    <div class="clicker-info">Всего кликов за всё время: <strong id="totalClicks">0</strong></div>
+                </div>
+            </div>
         </div>
 
-        <!-- История -->
+        <!-- TAB: TASKS -->
+        <div class="tab-content" id="tab-tasks">
+            <div class="game-card">
+                <div class="game-title">📋 Задания</div>
+                <div class="game-desc">Выполняй задания и получай алмазы</div>
+                <div id="tasksList"></div>
+            </div>
+
+            <div class="game-card" id="bankruptcyCard" style="display: none;">
+                <div class="game-title">🆘 Помощь новичкам</div>
+                <div class="game-desc">Ты почти банкрот! Получи 100 💎 бесплатно (доступно раз в час)</div>
+                <button class="btn-action gold" id="bankruptcyBtn" onclick="claimBankruptcy()">💎 Получить 100 алмазов</button>
+            </div>
+        </div>
+
+        <!-- TAB: ACHIEVEMENTS -->
+        <div class="tab-content" id="tab-achievements">
+            <div class="game-card">
+                <div class="game-title">🏆 Достижения</div>
+                <div class="game-desc">Открывай достижения и получай +50 💎 за каждое</div>
+                <div class="achievements-grid" id="achievementsGrid"></div>
+            </div>
+        </div>
+
+        <!-- HISTORY -->
         <div class="history-section">
             <div class="history-title">📜 История игр</div>
             <div class="history-list" id="historyList">
@@ -466,9 +722,10 @@
         </footer>
     </div>
 
+    <div class="toast" id="toast"></div>
+
     <script>
-        // ===== КОНФИГ КОЛЕСА =====
-        // 18 секторов: чётные — красные, нечётные — чёрные, 0 — зелёный (2 шт.)
+        // ================== КОНФИГ ==================
         const SEGMENTS = [
             { color: 'green', num: 0 },
             { color: 'red',   num: 1 },
@@ -491,123 +748,142 @@
         ];
         const SEGMENT_COUNT = SEGMENTS.length;
         const SEGMENT_ANGLE = 360 / SEGMENT_COUNT;
+        const COLORS = { red: '#dc2626', black: '#1f2937', green: '#16a34a' };
 
-        const COLORS = {
-            red:   '#dc2626',
-            black: '#1f2937',
-            green: '#16a34a'
-        };
+        // Кроссворд
+        const CW_SOLUTION = [
+            ['О','П','Е','Р','А'],
+            [null,null,null,'О','Д'],
+            [null,null,null,'К','Ж'],
+            [null,'Н','О','Т','А'],
+            ['Б','А','С',null,'З']
+        ];
+        const CW_WORDS = [
+            { num: 1, dir: 'h', row: 0, col: 0, len: 5, text: 'Музыкальный спектакль (ОПЕРА)' },
+            { num: 1, dir: 'v', row: 0, col: 3, len: 3, text: 'Жанр с электрогитарами (РОК)' },
+            { num: 2, dir: 'v', row: 1, col: 4, len: 4, text: 'Американский жанр (ДЖАЗ)' },
+            { num: 3, dir: 'h', row: 3, col: 1, len: 4, text: 'Знак для записи звука (НОТА)' },
+            { num: 4, dir: 'h', row: 4, col: 0, len: 3, text: 'Самый низкий голос (БАС)' }
+        ];
 
-        // ===== СОСТОЯНИЕ =====
+        // Викторина
+        const QUIZ = [
+            { q: 'Сколько нот в октаве?', options: ['5', '7', '8', '12'], correct: 1 },
+            { q: 'Какой инструмент имеет 88 клавиш?', options: ['Гитара', 'Скрипка', 'Фортепиано', 'Арфа'], correct: 2 },
+            { q: 'Кто написал «Лунную сонату»?', options: ['Моцарт', 'Бетховен', 'Бах', 'Шопен'], correct: 1 },
+            { q: 'Как называется ансамбль из 4 музыкантов?', options: ['Трио', 'Квартет', 'Квинтет', 'Дуэт'], correct: 1 },
+            { q: 'Какой инструмент называют «королём инструментов»?', options: ['Рояль', 'Орган', 'Скрипка', 'Труба'], correct: 1 }
+        ];
+
+        // Задания
+        const TASKS = [
+            { id: 'tg_sub', name: 'Подписаться на Telegram', desc: 'Напиши @Rettero в Telegram', reward: 100, link: 'https://t.me/Rettero' },
+            { id: 'vk_sub', name: 'Подписаться на VK', desc: 'Подай заявку на vk.me/rettero', reward: 100, link: 'https://vk.me/rettero' },
+            { id: 'tiktok_sub', name: 'Подписаться на TikTok', desc: 'Подпишись на @intrr_lvv', reward: 100, link: 'https://tiktok.com/@intrr_lvv' },
+            { id: 'links_5', name: 'Перейти по 5 ссылкам', desc: 'Открой 5 любых ссылок на странице /links', reward: 200, link: '/links', check: () => parseInt(localStorage.getItem('links_clicks') || '0') >= 5 }
+        ];
+
+        // Достижения
+        const ACHIEVEMENTS = [
+            { id: 'first_win',   name: 'Первая победа',  desc: 'Выиграй в рулетку',       icon: '🏆', reward: 50, check: s => s.wins >= 1 },
+            { id: 'streak_3',    name: 'Три подряд',      desc: 'Выиграй 3 раза подряд',  icon: '🔥', reward: 50, check: s => s.maxWinsStreak >= 3 },
+            { id: 'rich_5000',   name: 'Богач',           desc: 'Накопи 5000 💎',          icon: '💰', reward: 50, check: s => s.balance >= 5000 },
+            { id: 'clicker_100', name: 'Кликер-мастер',   desc: '100 кликов за день',      icon: '👆', reward: 50, check: s => s.clickCount >= 100 },
+            { id: 'quiz_all',    name: 'Эрудит',          desc: 'Пройди всю викторину',    icon: '🧠', reward: 50, check: s => s.quizCompleted },
+            { id: 'crossword',   name: 'Кроссвордист',    desc: 'Реши кроссворд',          icon: '📝', reward: 50, check: s => s.crosswordSolved },
+            { id: 'spent_1000',  name: 'Щедрый',          desc: 'Потрать 1000 💎 в рулетке', icon: '💸', reward: 50, check: s => s.totalSpent >= 1000 },
+            { id: 'tasks_3',     name: 'Активист',        desc: 'Выполни 3 задания',        icon: '⭐', reward: 50, check: s => s.completedTasks.length >= 3 },
+            { id: 'games_50',    name: 'Азартный',        desc: 'Сыграй 50 партий',         icon: '🎲', reward: 50, check: s => s.gamesPlayed >= 50 }
+        ];
+
+        const DAILY_BONUS = 50;
+        const BANKRUPTCY_AMOUNT = 100;
+        const CLICKS_PER_DAY = 100;
+
+        // ================== СОСТОЯНИЕ ==================
         let state = {
             balance: 1000,
             gamesPlayed: 0,
             wins: 0,
+            winsStreak: 0,
+            maxWinsStreak: 0,
+            totalSpent: 0,
             currentBet: 50,
             currentColor: null,
             spinning: false,
             history: [],
-            completedTasks: []   // id выполненных заданий
+            completedTasks: [],
+            achievements: [],
+            crosswordSolved: false,
+            quizCompleted: false,
+            quizIndex: 0,
+            quizScore: 0,
+            clickCount: 0,
+            totalClicks: 0,
+            lastDailyBonus: 0,
+            lastBankruptcy: 0,
+            lastClickReset: 0
         };
 
-        // ===== ЗАДАНИЯ =====
-        const TASKS = [
-            {
-                id: 'tg_sub',
-                name: 'Подписаться на Telegram',
-                desc: 'Напиши @Rettero в Telegram',
-                reward: 100,
-                link: 'https://t.me/Rettero'
-            },
-            {
-                id: 'vk_sub',
-                name: 'Подписаться на VK',
-                desc: 'Подай заявку на vk.me/rettero',
-                reward: 100,
-                link: 'https://vk.me/rettero'
-            },
-            {
-                id: 'tiktok_sub',
-                name: 'Подписаться на TikTok',
-                desc: 'Подпишись на @intrr_lvv',
-                reward: 100,
-                link: 'https://tiktok.com/@intrr_lvv'
-            },
-            {
-                id: 'links_5',
-                name: 'Перейти по 5 ссылкам',
-                desc: 'Открой 5 любых ссылок на странице /links',
-                reward: 200,
-                link: '/links',
-                check: () => {
-                    const clicks = parseInt(localStorage.getItem('links_clicks') || '0');
-                    return clicks >= 5;
-                }
-            }
-        ];
-
-        // ===== ЗАГРУЗКА СОСТОЯНИЯ =====
+        // ================== LOCALSTORAGE ==================
         function loadState() {
             try {
                 const saved = localStorage.getItem('ruletka_state');
                 if (saved) {
                     const p = JSON.parse(saved);
-                    state.balance = p.balance ?? 1000;
-                    state.gamesPlayed = p.gamesPlayed ?? 0;
-                    state.wins = p.wins ?? 0;
-                    state.currentBet = p.currentBet ?? 50;
-                    state.history = p.history ?? [];
-                    state.completedTasks = p.completedTasks ?? [];
+                    Object.assign(state, p);
+                    state.history = p.history || [];
+                    state.completedTasks = p.completedTasks || [];
+                    state.achievements = p.achievements || [];
                 }
-            } catch(e) { console.warn('Ошибка загрузки:', e); }
+            } catch(e) { console.warn(e); }
         }
-
         function saveState() {
             try {
-                localStorage.setItem('ruletka_state', JSON.stringify({
-                    balance: state.balance,
-                    gamesPlayed: state.gamesPlayed,
-                    wins: state.wins,
-                    currentBet: state.currentBet,
-                    history: state.history.slice(0, 20),
-                    completedTasks: state.completedTasks
-                }));
-            } catch(e) { console.warn('Ошибка сохранения:', e); }
+                localStorage.setItem('ruletka_state', JSON.stringify(state));
+            } catch(e) { console.warn(e); }
         }
 
-        // ===== РИСОВАНИЕ КОЛЕСА НА CANVAS =====
+        // ================== TOAST ==================
+        let toastTimer;
+        function showToast(text, type = '') {
+            const el = document.getElementById('toast');
+            el.textContent = text;
+            el.className = 'toast show ' + type;
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { el.classList.remove('show'); }, 2500);
+        }
+
+        // ================== ТАБЫ ==================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + tab));
+        }
+
+        // ================== КОЛЕСО ==================
         function drawWheel() {
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
+            const cx = canvas.width / 2, cy = canvas.height / 2;
             const radius = Math.min(cx, cy) - 10;
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Рисуем сектора
             SEGMENTS.forEach((seg, i) => {
                 const startAngle = (i * SEGMENT_ANGLE - 90) * Math.PI / 180;
                 const endAngle = ((i + 1) * SEGMENT_ANGLE - 90) * Math.PI / 180;
-
                 ctx.beginPath();
                 ctx.moveTo(cx, cy);
                 ctx.arc(cx, cy, radius, startAngle, endAngle);
                 ctx.closePath();
                 ctx.fillStyle = COLORS[seg.color];
                 ctx.fill();
-
-                // Обводка сектора
                 ctx.strokeStyle = 'rgba(0,0,0,0.3)';
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // Текст (номер)
                 const midAngle = (startAngle + endAngle) / 2;
-                const textRadius = radius * 0.75;
-                const tx = cx + Math.cos(midAngle) * textRadius;
-                const ty = cy + Math.sin(midAngle) * textRadius;
-
+                const tx = cx + Math.cos(midAngle) * radius * 0.75;
+                const ty = cy + Math.sin(midAngle) * radius * 0.75;
                 ctx.save();
                 ctx.translate(tx, ty);
                 ctx.rotate(midAngle + Math.PI / 2);
@@ -621,7 +897,6 @@
                 ctx.restore();
             });
 
-            // Внутренний круг
             ctx.beginPath();
             ctx.arc(cx, cy, radius * 0.35, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(6,6,16,0.9)';
@@ -631,38 +906,174 @@
             ctx.stroke();
         }
 
-        // ===== UI =====
-        function updateUI() {
-            document.getElementById('balance').textContent = '💎 ' + state.balance;
-            document.getElementById('gamesPlayed').textContent = state.gamesPlayed;
-            document.getElementById('winsCount').textContent = state.wins;
-            renderHistory();
-            renderTasks();
+        function colorLabel(c) { return c === 'red' ? '🔴' : c === 'green' ? '🟢' : '⚫'; }
 
+        document.querySelectorAll('#betOptions .bet-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (state.spinning) return;
+                document.querySelectorAll('#betOptions .bet-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.currentBet = parseInt(btn.dataset.bet);
+            });
+        });
+        document.querySelectorAll('#colorChoice .color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (state.spinning) return;
+                document.querySelectorAll('#colorChoice .color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.currentColor = btn.dataset.color;
+            });
+        });
+
+        function spin() {
+            if (state.spinning) return;
+            if (!state.currentColor) { showToast('Сначала выбери цвет!', ''); return; }
+            if (state.balance < state.currentBet) { showToast('Недостаточно алмазов!', ''); return; }
+
+            state.spinning = true;
             const spinBtn = document.getElementById('spinBtn');
-            if (state.balance < 10 && !state.spinning) {
-                spinBtn.disabled = true;
-                spinBtn.textContent = '💔 Недостаточно алмазов';
-            } else if (!state.spinning) {
-                spinBtn.disabled = false;
+            spinBtn.disabled = true;
+            spinBtn.textContent = '🎲 Крутится...';
+            document.getElementById('result').classList.remove('show');
+
+            state.balance -= state.currentBet;
+            state.totalSpent += state.currentBet;
+            updateUI();
+
+            const winningIndex = Math.floor(Math.random() * SEGMENT_COUNT);
+            const winningSegment = SEGMENTS[winningIndex];
+            const spins = 5 + Math.floor(Math.random() * 3);
+            const targetAngle = 360 * spins - (winningIndex + 0.5) * SEGMENT_ANGLE;
+
+            const canvas = document.getElementById('wheelCanvas');
+            canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
+            canvas.style.transform = `rotate(${targetAngle}deg)`;
+
+            setTimeout(() => {
+                const isWin = winningSegment.color === state.currentColor;
+                let winAmount = 0;
+                if (isWin) {
+                    const multiplier = state.currentColor === 'green' ? 14 : 2;
+                    winAmount = state.currentBet * multiplier;
+                    state.balance += winAmount;
+                    state.wins++;
+                    state.winsStreak++;
+                    if (state.winsStreak > state.maxWinsStreak) state.maxWinsStreak = state.winsStreak;
+                } else {
+                    state.winsStreak = 0;
+                }
+                state.gamesPlayed++;
+
+                state.history.unshift({
+                    win: isWin,
+                    bet: state.currentBet,
+                    color: state.currentColor,
+                    result: `${colorLabel(winningSegment.color)} ${winningSegment.num}`,
+                    time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+                });
+                if (state.history.length > 20) state.history.pop();
+
+                if (isWin) {
+                    const mult = state.currentColor === 'green' ? 'x14' : 'x2';
+                    showResult(`🎉 Победа! Выпало ${colorLabel(winningSegment.color)} ${winningSegment.num}. +${winAmount} 💎 (${mult})`, 'win');
+                } else {
+                    showResult(`💀 Увы! Выпало ${colorLabel(winningSegment.color)} ${winningSegment.num}. -${state.currentBet} 💎`, 'lose');
+                }
+
+                state.spinning = false;
                 spinBtn.textContent = '🎰 Крутить колесо';
-            }
+                checkAchievements();
+                updateUI();
+                saveState();
+
+                setTimeout(() => {
+                    canvas.style.transition = 'none';
+                    canvas.style.transform = `rotate(${targetAngle % 360}deg)`;
+                    void canvas.offsetWidth;
+                    canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
+                }, 100);
+            }, 5100);
         }
 
-        function renderHistory() {
-            const list = document.getElementById('historyList');
-            if (!state.history.length) {
-                list.innerHTML = '<div class="history-empty">Пока нет сыгранных партий. Сделай первую ставку!</div>';
+        function showResult(text, type) {
+            const el = document.getElementById('result');
+            el.textContent = text;
+            el.className = 'result show ' + type;
+        }
+
+        // ================== ЕЖЕДНЕВНЫЙ БОНУС ==================
+        function claimDailyBonus() {
+            const now = Date.now();
+            const dayMs = 24 * 60 * 60 * 1000;
+            if (now - state.lastDailyBonus < dayMs) {
+                const remaining = dayMs - (now - state.lastDailyBonus);
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                showToast(`⏰ Бонус будет через ${h}ч ${m}м`, '');
                 return;
             }
-            list.innerHTML = state.history.map(h => `
-                <div class="history-item ${h.win ? 'win' : 'lose'}">
-                    <span>${h.win ? '🏆' : '💀'} Ставка ${h.bet} 💎 на ${colorLabel(h.color)} → выпало ${h.result}</span>
-                    <span class="time">${h.time}</span>
-                </div>
-            `).join('');
+            state.balance += DAILY_BONUS;
+            state.lastDailyBonus = now;
+            saveState();
+            updateUI();
+            showToast(`🎁 +${DAILY_BONUS} 💎 ежедневный бонус!`, 'gold');
         }
 
+        function updateDailyBonusBtn() {
+            const btn = document.getElementById('dailyBonusBtn');
+            const now = Date.now();
+            const dayMs = 24 * 60 * 60 * 1000;
+            if (now - state.lastDailyBonus < dayMs) {
+                const remaining = dayMs - (now - state.lastDailyBonus);
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                btn.disabled = true;
+                btn.textContent = `⏰ ${h}ч ${m}м`;
+            } else {
+                btn.disabled = false;
+                btn.textContent = '🎁 Ежедневный бонус';
+            }
+        }
+
+        // ================== ЗАЩИТА ОТ БАНКРОТСТВА ==================
+        function claimBankruptcy() {
+            const now = Date.now();
+            const hourMs = 60 * 60 * 1000;
+            if (now - state.lastBankruptcy < hourMs) {
+                const remaining = hourMs - (now - state.lastBankruptcy);
+                const m = Math.ceil(remaining / 60000);
+                showToast(`⏰ Помощь будет через ${m} мин`, '');
+                return;
+            }
+            state.balance += BANKRUPTCY_AMOUNT;
+            state.lastBankruptcy = now;
+            saveState();
+            updateUI();
+            showToast(`🆘 +${BANKRUPTCY_AMOUNT} 💎 помощь!`, 'green');
+        }
+
+        function updateBankruptcy() {
+            const card = document.getElementById('bankruptcyCard');
+            if (state.balance < 10) {
+                card.style.display = 'block';
+                const btn = document.getElementById('bankruptcyBtn');
+                const now = Date.now();
+                const hourMs = 60 * 60 * 1000;
+                if (now - state.lastBankruptcy < hourMs) {
+                    const remaining = hourMs - (now - state.lastBankruptcy);
+                    const m = Math.ceil(remaining / 60000);
+                    btn.disabled = true;
+                    btn.textContent = `⏰ Через ${m} мин`;
+                } else {
+                    btn.disabled = false;
+                    btn.textContent = `💎 Получить ${BANKRUPTCY_AMOUNT} алмазов`;
+                }
+            } else {
+                card.style.display = 'none';
+            }
+        }
+
+        // ================== ЗАДАНИЯ ==================
         function renderTasks() {
             const list = document.getElementById('tasksList');
             list.innerHTML = TASKS.map(t => {
@@ -679,7 +1090,7 @@
                             <button class="task-btn ${done ? 'done' : ''}"
                                     onclick="handleTask('${t.id}')"
                                     ${done ? 'disabled' : ''}>
-                                ${done ? '✅ Выполнено' : (canClaim ? '🎁 Получить' : '🔗 Перейти')}
+                                ${done ? '✅ Готово' : (canClaim ? '🎁 Получить' : '🔗 Перейти')}
                             </button>
                         </div>
                     </div>
@@ -689,178 +1100,298 @@
 
         function handleTask(id) {
             const task = TASKS.find(t => t.id === id);
-            if (!task) return;
-            if (state.completedTasks.includes(id)) return;
+            if (!task || state.completedTasks.includes(id)) return;
 
-            // Если есть проверка и она не пройдена — открываем ссылку
             if (task.check && !task.check()) {
                 window.open(task.link, '_blank');
                 return;
             }
 
-            // Если ссылка и нет проверки — открываем ссылку, но награду даём только после возврата (упрощённо: даём сразу, но с задержкой)
             if (task.link && !task.check) {
                 window.open(task.link, '_blank');
-                // Даём награду через 3 секунды (имитация "выполнения")
                 setTimeout(() => {
                     if (!state.completedTasks.includes(id)) {
                         state.balance += task.reward;
                         state.completedTasks.push(id);
                         saveState();
                         updateUI();
-                        alert(`🎉 Задание "${task.name}" выполнено! +${task.reward} 💎`);
+                        showToast(`🎉 +${task.reward} 💎 за "${task.name}"`, 'green');
                     }
                 }, 3000);
                 return;
             }
 
-            // Если проверка пройдена — сразу награда
             if (task.check && task.check()) {
                 state.balance += task.reward;
                 state.completedTasks.push(id);
                 saveState();
                 updateUI();
-                alert(`🎉 Задание "${task.name}" выполнено! +${task.reward} 💎`);
+                showToast(`🎉 +${task.reward} 💎 за "${task.name}"`, 'green');
             }
         }
 
-        function colorLabel(c) {
-            return c === 'red' ? '🔴' : c === 'green' ? '🟢' : '⚫';
+        // ================== ДОСТИЖЕНИЯ ==================
+        function checkAchievements() {
+            ACHIEVEMENTS.forEach(a => {
+                if (!state.achievements.includes(a.id) && a.check(state)) {
+                    state.achievements.push(a.id);
+                    state.balance += a.reward;
+                    showToast(`🏆 Достижение: ${a.name}! +${a.reward} 💎`, 'gold');
+                }
+            });
         }
 
-        // ===== ВЫБОР СТАВКИ/ЦВЕТА =====
-        document.querySelectorAll('#betOptions .bet-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (state.spinning) return;
-                document.querySelectorAll('#betOptions .bet-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                state.currentBet = parseInt(btn.dataset.bet);
-            });
-        });
+        function renderAchievements() {
+            const grid = document.getElementById('achievementsGrid');
+            grid.innerHTML = ACHIEVEMENTS.map(a => {
+                const unlocked = state.achievements.includes(a.id);
+                return `
+                    <div class="achievement ${unlocked ? 'unlocked' : 'locked'}">
+                        <div class="icon">${a.icon}</div>
+                        <div class="name">${a.name}</div>
+                        <div class="desc">${a.desc}</div>
+                        <div class="reward">${unlocked ? '✅ +' + a.reward + ' 💎' : '+' + a.reward + ' 💎'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
 
-        document.querySelectorAll('#colorChoice .color-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (state.spinning) return;
-                document.querySelectorAll('#colorChoice .color-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                state.currentColor = btn.dataset.color;
-            });
-        });
+        // ================== КРОССВОРД ==================
+        function buildCrossword() {
+            const grid = document.getElementById('crosswordGrid');
+            grid.innerHTML = '';
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cw-cell';
+                    if (CW_SOLUTION[r][c] === null) {
+                        cell.classList.add('blocked');
+                    } else {
+                        const input = document.createElement('input');
+                        input.maxLength = 1;
+                        input.dataset.row = r;
+                        input.dataset.col = c;
+                        input.addEventListener('input', e => {
+                            e.target.value = e.target.value.replace(/[^А-ЯЁа-яё]/g, '').toUpperCase();
+                            if (e.target.value) {
+                                const next = e.target.parentElement.nextElementSibling;
+                                if (next && next.querySelector('input')) next.querySelector('input').focus();
+                            }
+                        });
+                        input.addEventListener('keydown', e => {
+                            if (e.key === 'Backspace' && !e.target.value) {
+                                const prev = e.target.parentElement.previousElementSibling;
+                                if (prev && prev.querySelector('input')) prev.querySelector('input').focus();
+                            }
+                        });
+                        cell.appendChild(input);
+                    }
+                    grid.appendChild(cell);
+                }
+            }
+        }
 
-        // ===== КРУЧЕНИЕ =====
-        function spin() {
-            if (state.spinning) return;
-            if (!state.currentColor) {
-                showResult('Сначала выбери цвет!', 'lose');
+        function checkCrossword() {
+            if (state.crosswordSolved) { showToast('Кроссворд уже решён!', ''); return; }
+            const inputs = document.querySelectorAll('#crosswordGrid input');
+            let allCorrect = true;
+            let filled = 0;
+            inputs.forEach(inp => {
+                const r = parseInt(inp.dataset.row);
+                const c = parseInt(inp.dataset.col);
+                const correct = CW_SOLUTION[r][c];
+                const val = inp.value.toUpperCase();
+                const cell = inp.parentElement;
+                cell.classList.remove('correct', 'wrong');
+                if (val) {
+                    filled++;
+                    if (val === correct) cell.classList.add('correct');
+                    else { cell.classList.add('wrong'); allCorrect = false; }
+                } else {
+                    allCorrect = false;
+                }
+            });
+
+            if (allCorrect && filled === 17) {
+                state.crosswordSolved = true;
+                state.balance += 300;
+                saveState();
+                checkAchievements();
+                updateUI();
+                showToast('🎉 Кроссворд решён! +300 💎', 'gold');
+                document.getElementById('cwCheckBtn').disabled = true;
+                document.getElementById('cwCheckBtn').textContent = '✅ Решено';
+            } else if (filled === 17) {
+                showToast('❌ Есть ошибки, попробуй ещё', '');
+            } else {
+                showToast('Заполни все клетки!', '');
+            }
+        }
+
+        function clearCrossword() {
+            if (state.crosswordSolved) return;
+            document.querySelectorAll('#crosswordGrid input').forEach(inp => {
+                inp.value = '';
+                inp.parentElement.classList.remove('correct', 'wrong');
+            });
+        }
+
+        // ================== ВИКТОРИНА ==================
+        function renderQuiz() {
+            const content = document.getElementById('quizContent');
+            if (state.quizCompleted) {
+                content.innerHTML = `
+                    <div style="text-align:center; padding:20px; color:#4ade80;">
+                        ✅ Викторина пройдена! Правильных ответов: ${state.quizScore}/5<br>
+                        <span style="color:var(--text-dim); font-size:0.85rem;">Заработано: ${state.quizScore * 20} 💎</span>
+                    </div>
+                `;
                 return;
             }
-            if (state.balance < state.currentBet) {
-                showResult('Недостаточно алмазов для этой ставки!', 'lose');
-                return;
+            const q = QUIZ[state.quizIndex];
+            content.innerHTML = `
+                <div class="quiz-progress">Вопрос ${state.quizIndex + 1} из ${QUIZ.length}</div>
+                <div class="quiz-question">${q.q}</div>
+                <div class="quiz-options">
+                    ${q.options.map((opt, i) => `
+                        <button class="quiz-option" onclick="answerQuiz(${i})" data-idx="${i}">${opt}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function answerQuiz(idx) {
+            const q = QUIZ[state.quizIndex];
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach(b => b.disabled = true);
+            const isCorrect = idx === q.correct;
+            buttons[idx].classList.add(isCorrect ? 'correct' : 'wrong');
+            if (!isCorrect) buttons[q.correct].classList.add('correct');
+
+            if (isCorrect) {
+                state.balance += 20;
+                state.quizScore++;
+                showToast('✅ Правильно! +20 💎', 'green');
+            } else {
+                showToast('❌ Неправильно', '');
             }
-
-            state.spinning = true;
-            const spinBtn = document.getElementById('spinBtn');
-            spinBtn.disabled = true;
-            spinBtn.textContent = '🎲 Крутится...';
-            document.getElementById('result').classList.remove('show');
-
-            state.balance -= state.currentBet;
-            updateUI();
-
-            // Выбираем выигрышный индекс
-            const winningIndex = Math.floor(Math.random() * SEGMENT_COUNT);
-            const winningSegment = SEGMENTS[winningIndex];
-
-            // Угол: чтобы сектор оказался под указателем (указатель сверху, т.е. -90°)
-            const spins = 5 + Math.floor(Math.random() * 3);
-            // Центр выигрышного сектора: (winningIndex + 0.5) * SEGMENT_ANGLE
-            // Чтобы он оказался на -90°, нужно повернуть на: 360*spins - (winningIndex + 0.5) * SEGMENT_ANGLE
-            const targetAngle = 360 * spins - (winningIndex + 0.5) * SEGMENT_ANGLE;
-
-            const canvas = document.getElementById('wheelCanvas');
-            canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
-            canvas.style.transform = `rotate(${targetAngle}deg)`;
 
             setTimeout(() => {
-                const isWin = winningSegment.color === state.currentColor;
-                let winAmount = 0;
-                if (isWin) {
-                    const multiplier = state.currentColor === 'green' ? 14 : 2;
-                    winAmount = state.currentBet * multiplier;
-                    state.balance += winAmount;
-                    state.wins++;
-                }
-                state.gamesPlayed++;
-
-                state.history.unshift({
-                    win: isWin,
-                    bet: state.currentBet,
-                    color: state.currentColor,
-                    result: `${colorLabel(winningSegment.color)} ${winningSegment.num}`,
-                    time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-                });
-                if (state.history.length > 20) state.history.pop();
-
-                if (isWin) {
-                    const mult = state.currentColor === 'green' ? 'x14' : 'x2';
-                    showResult(`🎉 Победа! Выпало ${colorLabel(winningSegment.color)} ${winningSegment.num}. Ты выиграл ${winAmount} 💎 (${mult})`, 'win');
+                state.quizIndex++;
+                if (state.quizIndex >= QUIZ.length) {
+                    state.quizCompleted = true;
+                    checkAchievements();
+                    saveState();
+                    updateUI();
+                    renderQuiz();
                 } else {
-                    showResult(`💀 Увы! Выпало ${colorLabel(winningSegment.color)} ${winningSegment.num}. Ты потерял ${state.currentBet} 💎`, 'lose');
+                    renderQuiz();
                 }
-
-                state.spinning = false;
-                spinBtn.textContent = '🎰 Крутить колесо';
-                updateUI();
-                saveState();
-
-                // Сброс transform, чтобы следующее вращение работало от 0
-                setTimeout(() => {
-                    canvas.style.transition = 'none';
-                    canvas.style.transform = `rotate(${targetAngle % 360}deg)`;
-                    void canvas.offsetWidth;
-                    canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.16, 1)';
-                }, 100);
-            }, 5100);
+            }, 1200);
         }
 
-        function showResult(text, type) {
-            const el = document.getElementById('result');
-            el.textContent = text;
-            el.className = 'result show ' + type;
-        }
+        // ================== КЛИКЕР ==================
+        function doClick() {
+            const now = Date.now();
+            const dayMs = 24 * 60 * 60 * 1000;
+            if (now - state.lastClickReset >= dayMs) {
+                state.clickCount = 0;
+                state.lastClickReset = now;
+            }
+            if (state.clickCount >= CLICKS_PER_DAY) {
+                showToast('⏰ Лимит на сегодня исчерпан!', '');
+                return;
+            }
+            state.clickCount++;
+            state.totalClicks++;
+            state.balance += 1;
 
-        function resetGame() {
-            if (!confirm('Сбросить весь прогресс и начать заново с 1000 💎?')) return;
-            state = {
-                balance: 1000,
-                gamesPlayed: 0,
-                wins: 0,
-                currentBet: 50,
-                currentColor: null,
-                spinning: false,
-                history: [],
-                completedTasks: []
-            };
-            document.querySelectorAll('#betOptions .bet-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('#betOptions .bet-btn[data-bet="50"]').classList.add('active');
-            document.querySelectorAll('#colorChoice .color-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('result').classList.remove('show');
-            saveState();
+            // Обновляем UI кликера
+            document.getElementById('clickerToday').textContent = `${state.clickCount} / ${CLICKS_PER_DAY}`;
+            document.getElementById('clickerBar').style.width = (state.clickCount / CLICKS_PER_DAY * 100) + '%';
+            document.getElementById('totalClicks').textContent = state.totalClicks;
+
+            if (state.clickCount >= CLICKS_PER_DAY) {
+                document.getElementById('clickerBtn').disabled = true;
+            }
+
+            checkAchievements();
             updateUI();
+            saveState();
         }
 
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        // ================== ОБНОВЛЕНИЕ UI ==================
+        function updateUI() {
+            document.getElementById('balance').textContent = '💎 ' + state.balance;
+            document.getElementById('gamesPlayed').textContent = state.gamesPlayed;
+            document.getElementById('winsCount').textContent = state.wins;
+            renderHistory();
+            renderTasks();
+            renderAchievements();
+            updateDailyBonusBtn();
+            updateBankruptcy();
+
+            // Обновляем кликер
+            document.getElementById('clickerToday').textContent = `${state.clickCount} / ${CLICKS_PER_DAY}`;
+            document.getElementById('clickerBar').style.width = (state.clickCount / CLICKS_PER_DAY * 100) + '%';
+            document.getElementById('totalClicks').textContent = state.totalClicks;
+
+            const clickerBtn = document.getElementById('clickerBtn');
+            if (state.clickCount >= CLICKS_PER_DAY) {
+                clickerBtn.disabled = true;
+            } else {
+                clickerBtn.disabled = false;
+            }
+
+            const spinBtn = document.getElementById('spinBtn');
+            if (state.balance < 10 && !state.spinning) {
+                spinBtn.disabled = true;
+                spinBtn.textContent = '💔 Мало алмазов';
+            } else if (!state.spinning) {
+                spinBtn.disabled = false;
+                spinBtn.textContent = '🎰 Крутить колесо';
+            }
+
+            renderQuiz();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (!state.history.length) {
+                list.innerHTML = '<div class="history-empty">Пока нет сыгранных партий. Сделай первую ставку!</div>';
+                return;
+            }
+            list.innerHTML = state.history.map(h => `
+                <div class="history-item ${h.win ? 'win' : 'lose'}">
+                    <span>${h.win ? '🏆' : '💀'} Ставка ${h.bet} 💎 на ${colorLabel(h.color)} → ${h.result}</span>
+                    <span class="time">${h.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // ================== ИНИЦИАЛИЗАЦИЯ ==================
         loadState();
         drawWheel();
+        buildCrossword();
         updateUI();
 
-        document.querySelectorAll('#betOptions .bet-btn').forEach(b => {
-            if (parseInt(b.dataset.bet) === state.currentBet) b.classList.add('active');
-            else b.classList.remove('active');
-        });
+        // Проверка сброса дневного лимита кликера при загрузке
+        const now = Date.now();
+        const dayMs = 24 * 60 * 60 * 1000;
+        if (now - state.lastClickReset >= dayMs) {
+            state.clickCount = 0;
+            state.lastClickReset = now;
+            saveState();
+        }
+        updateUI();
 
-        // Проверяем, не выполнено ли задание links_5 (если пользователь вернулся с /links)
+        // Обновление таймеров каждую минуту
+        setInterval(() => {
+            updateDailyBonusBtn();
+            updateBankruptcy();
+        }, 60000);
+
+        // Перепроверка заданий при возврате на вкладку
         window.addEventListener('focus', () => {
             renderTasks();
         });
