@@ -778,12 +778,35 @@ function switchTab(tab){document.querySelectorAll('.tab-btn').forEach(b=>b.class
 
 // ================== ДИСКЛЕЙМЕР ==================
 function toggleDisclaimerBtn(){const c=document.getElementById('disclaimerCheck').checked;document.getElementById('disclaimerAccept').disabled=!c}
+/*
 function acceptDisclaimer(){
 state.disclaimerAccepted=true;saveState();
 document.getElementById('disclaimerModal').classList.remove('active');
 claimEntryBonus(true);
 showToast('🎁 Добро пожаловать! +10 💎','gold');
 sCash();
+}
+*/
+function acceptDisclaimer(){
+    state.disclaimerAccepted=true;
+    saveState();
+    document.getElementById('disclaimerModal').classList.remove('active');
+    claimEntryBonus(true);
+    showToast('🎁 Добро пожаловать! +10 💎', 'gold');
+    sCash();
+    // Войс-подсказка
+    setTimeout(()=>{
+        try{
+            const u=new SpeechSynthesisUtterance('Привет! Хочешь перейти в детский режим?');
+            u.lang='ru-RU';u.rate=0.95;u.pitch=1.1;
+            speechSynthesis.speak(u);
+        }catch(e){}
+        setTimeout(()=>{
+            if(confirm('🧸 Хочешь перейти в детский режим?')){
+                window.location.href='/kids';
+            }
+        },2500);
+    },800);
 }
 
 // ================== АКТИВНАЯ ИГРА (античит) ==================
