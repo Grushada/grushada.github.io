@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Моя аналитика — PieSenia</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#060610;--card:rgba(12,12,28,0.6);--border:rgba(255,255,255,0.06);--accent:#8b5cf6;--accent-light:#a78bfa;--gold:#d4a853;--gold-light:#f0d078;--text:#e8e4f0;--text-dim:#8a84a0;--green:#22c55e;--red:#ef4444;--cyan:#00d4ff}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px;background-image:radial-gradient(ellipse at 20% 50%,rgba(139,92,246,0.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(255,45,149,0.08) 0%,transparent 60%)}
+.container{max-width:1100px;margin:0 auto}
+h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);background:linear-gradient(135deg,#00d4ff,#a78bfa,#ff2d95);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.subtitle{color:var(--text-dim);margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:var(--card);backdrop-filter:blur(30px);border:1px solid var(--border);border-radius:20px;padding:18px;transition:all 0.3s}
+.stat:hover{border-color:var(--accent);transform:translateY(-3px)}
+.stat-label{font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:6px}
+.stat-value{font-family:'Unbounded',sans-serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--accent-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section{background:var(--card);backdrop-filter:blur(30px);border:1px solid var(--border);border-radius:20px;padding:22px;margin-bottom:20px}
+.section h2{font-family:'Unbounded',sans-serif;font-size:1.05rem;color:var(--gold-light);margin-bottom:16px}
+.bar{background:rgba(255,255,255,0.03);border-radius:10px;height:32px;overflow:hidden;margin-bottom:8px;position:relative}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold-light));border-radius:10px;display:flex;align-items:center;padding:0 12px;font-weight:700;font-size:0.8rem;color:#fff;min-width:fit-content;transition:width 0.5s}
+.bar-row{display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:var(--text-dim);margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.05)}
+th{color:var(--gold-light);font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px}
+td{color:var(--text)}
+tr:hover td{background:rgba(139,92,246,0.08)}
+.btn{padding:10px 20px;border-radius:30px;border:1px solid var(--accent);background:rgba(139,92,246,0.15);color:var(--accent-light);font-weight:700;font-size:0.82rem;cursor:pointer;font-family:inherit;transition:all 0.3s;margin-right:8px;margin-bottom:8px}
+.btn:hover{background:var(--accent);color:#fff}
+.btn.danger{border-color:var(--red);background:rgba(239,68,68,0.15);color:#f87171}
+.btn.danger:hover{background:var(--red);color:#fff}
+.empty{text-align:center;padding:30px;color:var(--text-dim);font-size:0.9rem}
+.back{display:inline-block;padding:10px 20px;border-radius:30px;border:1px solid var(--accent);color:var(--accent-light);text-decoration:none;font-weight:700;font-size:0.85rem;margin-bottom:20px}
+.back:hover{background:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="/ruletka" class="back">← К рулетке</a>
+<h1>📊 Собственная аналитика</h1>
+<p class="subtitle">Данные только из этого браузера. Обновлено: <span id="updatedAt">—</span></p>
+
+<div class="grid" id="topStats"></div>
+
+<div class="section">
+<h2>📄 Популярные страницы</h2>
+<div id="pagesList"></div>
+</div>
+
+<div class="section">
+<h2>🎮 Статистика игр</h2>
+<div id="gamesList"></div>
+</div>
+
+<div class="section">
+<h2>👥 Источники трафика</h2>
+<div id="referrersList"></div>
+</div>
+
+<div class="section">
+<h2>📱 Устройства</h2>
+<div id="devicesList"></div>
+</div>
+
+<div class="section">
+<h2>🕐 Последние события</h2>
+<div style="max-height:400px;overflow-y:auto">
+<table>
+<thead><tr><th>Время</th><th>Событие</th><th>Страница</th><th>Детали</th></tr></thead>
+<tbody id="eventsList"></tbody>
+</table>
+</div>
+</div>
+
+<div class="section">
+<h2>⚙️ Управление</h2>
+<button class="btn" onclick="exportData()">📥 Экспорт JSON</button>
+<button class="btn" onclick="refresh()">🔄 Обновить</button>
+<button class="btn danger" onclick="clearData()">🗑️ Очистить всё</button>
+</div>
+</div>
+
+<script src="own-analytics.js"></script>
+<script>
+function refresh() {
+    const data = ownAnalytics.getData();
+    document.getElementById('updatedAt').textContent = new Date().toLocaleTimeString('ru-RU');
+
+    // Верхние статы
+    const uniqueSessions = new Set(data.events.map(e => e.sid)).size;
+    const totalEvents = data.events.length;
+    document.getElementById('topStats').innerHTML = `
+        <div class="stat"><div class="stat-label">Всего визитов</div><div class="stat-value">${data.totalVisits}</div></div>
+        <div class="stat"><div class="stat-label">Уникальных сессий</div><div class="stat-value">${uniqueSessions}</div></div>
+        <div class="stat"><div class="stat-label">Событий</div><div class="stat-value">${totalEvents}</div></div>
+        <div class="stat"><div class="stat-label">Первое посещение</div><div class="stat-value" style="font-size:1rem">${new Date(data.firstVisit).toLocaleDateString('ru-RU')}</div></div>
+    `;
+
+    // Страницы
+    const pages = Object.entries(data.pages).sort((a,b) => b[1] - a[1]);
+    const maxPage = pages[0]?.[1] || 1;
+    document.getElementById('pagesList').innerHTML = pages.length
+        ? pages.map(([p, c]) => `
+            <div class="bar-row"><span>${p}</span><span>${c}</span></div>
+            <div class="bar"><div class="bar-fill" style="width:${(c/maxPage*100).toFixed(1)}%"></div></div>
+        `).join('')
+        : '<div class="empty">Нет данных</div>';
+
+    // Игры
+    const games = Object.entries(data.games).sort((a,b) => b[1].starts - a[1].starts);
+    document.getElementById('gamesList').innerHTML = games.length
+        ? `<table>
+            <thead><tr><th>Игра</th><th>Запусков</th><th>Побед</th><th>% побед</th><th>Заработано 💎</th></tr></thead>
+            <tbody>${games.map(([g, s]) => {
+                const winRate = s.starts ? (s.wins / s.starts * 100).toFixed(0) : 0;
+                return `<tr><td>${g}</td><td>${s.starts}</td><td>${s.wins}</td><td>${winRate}%</td><td>${s.totalReward}</td></tr>`;
+            }).join('')}</tbody>
+        </table>`
+        : '<div class="empty">Нет данных</div>';
+
+    // Источники
+    const refs = {};
+    data.sessions.forEach(s => { refs[s.referrer] = (refs[s.referrer] || 0) + 1; });
+    const refArr = Object.entries(refs).sort((a,b) => b[1] - a[1]);
+    const maxRef = refArr[0]?.[1] || 1;
+    document.getElementById('referrersList').innerHTML = refArr.length
+        ? refArr.map(([r, c]) => `
+            <div class="bar-row"><span>${r}</span><span>${c}</span></div>
+            <div class="bar"><div class="bar-fill" style="width:${(c/maxRef*100).toFixed(1)}%"></div></div>
+        `).join('')
+        : '<div class="empty">Нет данных</div>';
+
+    // Устройства
+    const devices = { desktop: 0, mobile: 0, tablet: 0 };
+    const oses = {};
+    data.sessions.forEach(s => {
+        devices[s.device] = (devices[s.device] || 0) + 1;
+        oses[s.os] = (oses[s.os] || 0) + 1;
+    });
+    document.getElementById('devicesList').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div>
+                <div style="color:var(--gold-light);font-weight:700;margin-bottom:8px;font-size:0.85rem">Устройства</div>
+                ${Object.entries(devices).filter(([k,v]) => v > 0).map(([k,v]) => {
+                    const total = data.sessions.length || 1;
+                    return `<div class="bar-row"><span>${k}</span><span>${v} (${(v/total*100).toFixed(0)}%)</span></div>
+                    <div class="bar"><div class="bar-fill" style="width:${(v/total*100).toFixed(1)}%"></div></div>`;
+                }).join('')}
+            </div>
+            <div>
+                <div style="color:var(--gold-light);font-weight:700;margin-bottom:8px;font-size:0.85rem">ОС</div>
+                ${Object.entries(oses).sort((a,b) => b[1]-a[1]).slice(0,5).map(([k,v]) => {
+                    const total = data.sessions.length || 1;
+                    return `<div class="bar-row"><span>${k}</span><span>${v}</span></div>
+                    <div class="bar"><div class="bar-fill" style="width:${(v/total*100).toFixed(1)}%"></div></div>`;
+                }).join('')}
+            </div>
+        </div>
+    `;
+
+    // Последние события
+    const events = data.events.slice(-30).reverse();
+    document.getElementById('eventsList').innerHTML = events.length
+        ? events.map(e => {
+            const time = new Date(e.ts).toLocaleTimeString('ru-RU');
+            const details = Object.entries(e)
+                .filter(([k]) => !['t','sid','ts','url'].includes(k))
+                .map(([k,v]) => `${k}: ${v}`)
+                .join(', ');
+            return `<tr><td>${time}</td><td>${e.t}</td><td>${e.url || '—'}</td><td style="color:var(--text-dim);font-size:0.75rem">${details || '—'}</td></tr>`;
+        }).join('')
+        : '<tr><td colspan="4" class="empty">Нет событий</td></tr>';
+}
+
+function exportData() {
+    const data = ownAnalytics.getData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'piesenia-analytics-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function clearData() {
+    if (!confirm('Очистить всю локальную аналитику?')) return;
+    ownAnalytics.clear();
+    refresh();
+}
+
+refresh();
+setInterval(refresh, 10000);
+</script>
+</body>
+</html>
