@@ -173,9 +173,51 @@
             saveData(data);
         }
     };
+// Автотрекинг
+document.addEventListener('DOMContentLoaded', function() {
+    // Хук на старт игры
+    const origSetActive = window.setActiveGame;
+    if (typeof origSetActive === 'function') {
+        window.setActiveGame = function(name) {
+            window.ownAnalytics.gameStart(name);
+            return origSetActive.apply(this, arguments);
+        };
+    }
 
+    // Хук на победу (если есть showToast)
+    const origWin = window.sWin;
+    if (typeof origWin === 'function') {
+        window.sWin = function() {
+            const game = state && state.activeGame ? state.activeGame.name : 'unknown';
+            window.ownAnalytics.gameWin(game, 0);
+            return origWin.apply(this, arguments);
+        };
+    }
+});
     // Стартуем сессию
     startSession();
 
     console.log('✅ Own analytics loaded');
 })();
+
+// Автотрекинг
+document.addEventListener('DOMContentLoaded', function() {
+    // Хук на старт игры
+    const origSetActive = window.setActiveGame;
+    if (typeof origSetActive === 'function') {
+        window.setActiveGame = function(name) {
+            window.ownAnalytics.gameStart(name);
+            return origSetActive.apply(this, arguments);
+        };
+    }
+
+    // Хук на победу (если есть showToast)
+    const origWin = window.sWin;
+    if (typeof origWin === 'function') {
+        window.sWin = function() {
+            const game = state && state.activeGame ? state.activeGame.name : 'unknown';
+            window.ownAnalytics.gameWin(game, 0);
+            return origWin.apply(this, arguments);
+        };
+    }
+});
